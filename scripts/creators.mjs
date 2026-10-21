@@ -57,7 +57,7 @@ for (let i = 0; i < ids.length; i += 50) {
   }
 }
 const known = Object.values(vmeta), prior = channelPriors(known), kch = koreanChannels(known, []);
-const picked = fresh.filter(f => isKorean(f.meta, kch)).map(f => ({ ...f, cat: classify(f.meta, prior, true, kch) })).filter(f => f.cat);
+const picked = fresh.filter(f => isKorean(f.meta, kch)).map(f => ({ ...f, cat: classify(f.meta, null, true, kch) }))   // judged on the video itself, no channel prior.filter(f => f.cat);
 const good = new Set(), q = picked.map(k => k.id);
 await Promise.all(Array.from({ length: 16 }, async () => { while (q.length) { const id = q.pop(); if (await hasThumb(id, "v")) good.add(id); } }));
 const out = { videos: {}, shorts: {} }, byCat = {};
