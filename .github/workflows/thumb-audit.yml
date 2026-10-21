@@ -1,9 +1,7 @@
 name: Thumbnail audit
 
 on:
-  workflow_dispatch: {}
-  schedule:
-    - cron: "30 18 * * 0"   # Mondays 03:30 KST
+  workflow_dispatch: {}   # manual only; the weekly check now runs inside Monday's 00:00 KST refresh
 
 permissions:
   contents: write

@@ -1,9 +1,13 @@
 name: Nightly refresh (00:00 KST)
 
+# GitHub starts scheduled jobs late (often 10-60 minutes), so the job starts at 23:00 KST, prepares everything,
+# then waits and publishes at exactly 00:00:00 KST. A second start at 00:20 KST is a safety net: it only runs
+# if the 23:00 start never happened, and then publishes at once.
 on:
   schedule:
-    - cron: "0 15 * * *"   # 15:00 UTC = 00:00 KST
-  workflow_dispatch: {}
+    - cron: "0 14 * * *"    # 14:00 UTC = 23:00 KST (prepare, then publish at 00:00 KST)
+    - cron: "20 15 * * *"   # 15:20 UTC = 00:20 KST (safety net only)
+  workflow_dispatch: {}     # manual run: publishes immediately
 
 permissions:
   contents: write
@@ -16,45 +20,82 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 170
     steps:
       - uses: actions/checkout@v4
 
+      - name: Which day is this refresh for?
+        id: day
+        run: |
+          # the KST date this refresh goes live on: tomorrow when started before midnight, today after it
+          BUILD=$(TZ=Asia/Seoul date -d '+90 minutes' +%F)
+          [ "${{ github.event_name }}" = "workflow_dispatch" ] && BUILD=$(TZ=Asia/Seoul date +%F)
+          CUR=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          echo "build=$BUILD" >> "$GITHUB_OUTPUT"
+          echo "weekday=$(date -d "$BUILD" +%u)" >> "$GITHUB_OUTPUT"
+          if [ "$CUR" = "$BUILD" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Already refreshed for $BUILD"; fi
+          echo "Refresh for $BUILD (site currently $CUR)"
+
       - uses: actions/setup-node@v4
+        if: steps.day.outputs.skip != '1'
         with:
           node-version: "20"
 
       - name: Collect from YouTube Data API
+        if: steps.day.outputs.skip != '1'
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/collect.mjs scripts/channels.json daily.json
 
       - name: Merge into site
+        if: steps.day.outputs.skip != '1'
         run: |
-          BUILD=$(TZ=Asia/Seoul date +%F)
-          python3 scripts/daily_merge.py index.html daily.json "$BUILD" index.next.html | tee merge.log
+          python3 scripts/daily_merge.py index.html daily.json "${{ steps.day.outputs.build }}" index.next.html | tee merge.log
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
           node scripts/prio.mjs index.html data/vmeta.json.gz
 
-      - name: Titles in every language
+      - name: Weekly thumbnail check (Monday's refresh)
+        if: steps.day.outputs.skip != '1' && steps.day.outputs.weekday == '1'
         continue-on-error: true
         timeout-minutes: 40
+        run: |
+          node scripts/thumb_audit.mjs index.html bad.json
+          python3 scripts/drop_ids.py index.html bad.json index.next.html && mv index.next.html index.html
+
+      - name: Titles in every language
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        timeout-minutes: 30
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TX_MINUTES: "30"
+          TX_MINUTES: "20"
         run: node scripts/titles.mjs index.html
 
-      - name: Commit and publish
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Commit
+        if: steps.day.outputs.skip != '1'
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html t data
-          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
-          git commit -m "Nightly refresh $(TZ=Asia/Seoul date +%F) $(cat merge.log | head -c 300)"
+          git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
+
+      - name: Wait for 00:00 KST
+        if: steps.day.outputs.skip != '1' && github.event_name == 'schedule'
+        run: |
+          now=$(date +%s); target=$(TZ=Asia/Seoul date -d "${{ steps.day.outputs.build }} 00:00:00" +%s)
+          wait=$(( target - now ))
+          echo "now $(TZ=Asia/Seoul date '+%F %T') KST, waiting ${wait}s"
+          if [ "$wait" -gt 0 ]; then sleep "$wait"; fi
+
+      - name: Publish
+        if: steps.day.outputs.skip != '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git pull --rebase -q
           git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          echo "published at $(TZ=Asia/Seoul date '+%F %T') KST"
