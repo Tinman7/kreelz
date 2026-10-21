@@ -496,6 +496,11 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-in{display:grid;grid-template-columns:auto minmax(0,1fr)}
 .sp-stage{position:relative;height:min(78dvh,720px);aspect-ratio:9/16;background:#000}
 .sp-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.sp-feed{position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sp-feed::-webkit-scrollbar{display:none}
+.sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
+.sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.sp-slide iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}
 .sp-poster{position:absolute;inset:0;display:block}
 .sp-poster img{width:100%;height:100%;object-fit:cover}
 .sp-side{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;min-width:0}
@@ -529,6 +534,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
   .sp h2{font-size:16px}
   .sp-nav{position:absolute;right:12px;top:50%;transform:translateY(-50%);flex-direction:column;z-index:3}
   .sp-nav span{display:none}
+  .sp-nav{display:none}
 }
 
 .upd{margin:-6px 0 14px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
@@ -1877,17 +1883,41 @@ $("#ssort").addEventListener("click",e=>{const b=e.target.closest("button");if(!
 
 /* Shorts player: vertical, with previous / next through the current list */
 const sp=$("#sp"); let spIdx=0;
-function spRender(){
-  const v=sstate.list[spIdx]; if(!v) return;
-  const m=meta[v.id]||{};
-  if(!meta[v.id]){ tq.unshift(v.id); pumpTitles() }
-  $("#spStage").innerHTML = state.embeds
-    ? `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0&loop=1&playlist=${v.id}&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="${esc(m.t||"YouTube Shorts")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`
-    : `<a class="sp-poster" href="https://www.youtube.com/shorts/${v.id}" target="_blank" rel="noopener"><img src="${sThumb(v.id)}" alt="" onerror="this.remove()"><span class="bigplay"><svg viewBox="0 0 16 16"><path d="M3 1.5v13l11-6.5z"/></svg></span></a>`;
-  spInfo();
-  $("#spPrev").disabled = spIdx<=0;
-  $("#spNext").disabled = spIdx>=sstate.cap-1;
+/* Shorts player: a vertical swipe feed. Swipe up/down (or wheel, arrow keys, buttons) for the next/previous short;
+   only the short on screen holds a player, the others show their thumbnail. */
+let spIO=null, spN=0;
+const spMax = () => Math.min(sstate.cap, sstate.list.length);
+function spSlide(i){
+  const v=sstate.list[i];
+  return `<div class="sp-slide" data-i="${i}"><img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onerror="var a=this.getAttribute('data-alt');if(a){this.removeAttribute('data-alt');this.src=a}else this.remove()"></div>`;
 }
+function spFill(upto){
+  const f=$("#spFeed"); if(!f) return;
+  if(upto>sstate.shown-2 && sstate.shown<sstate.cap) renderShorts(false);
+  upto=Math.min(upto, spMax()); let s="";
+  for(; spN<upto; spN++) s+=spSlide(spN);
+  if(!s) return;
+  f.insertAdjacentHTML("beforeend", s);
+  f.querySelectorAll(".sp-slide:not([data-o])").forEach(el=>{ el.dataset.o="1"; spIO.observe(el) });
+}
+function spFrame(v){
+  const m=meta[v.id]||{};
+  return `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0&loop=1&playlist=${v.id}&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="${esc(m.t||"YouTube Shorts")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+}
+function spActivate(i){
+  const f=$("#spFeed"); if(!f) return;
+  const v=sstate.list[i], el=f.querySelector(`[data-i="${i}"]`); if(!v||!el) return;
+  if(i===spIdx && el.querySelector("iframe")) return;
+  spIdx=i;
+  f.querySelectorAll(".sp-slide iframe").forEach(x=>x.remove());
+  el.insertAdjacentHTML("beforeend", spFrame(v));
+  if(!meta[v.id]){ tq.unshift(v.id); pumpTitles() }
+  spInfo();
+  $("#spPrev").disabled = i<=0;
+  $("#spNext").disabled = i>=spMax()-1;
+  if(i>=spN-4) spFill(spN+10);
+}
+function spRender(){ spInfo() }
 function spInfo(){
   const v=sstate.list[spIdx]; if(!v) return;
   const m=meta[v.id]||{}, title=m.t?tx(m.t):"";
@@ -1900,16 +1930,26 @@ function spInfo(){
   $("#spPos").textContent=`${num(spIdx+1)} / ${num(sstate.cap)}`;
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
-function spOpen(k){ spIdx=k; spRender(); if(!sp.open) sp.showModal() }
-function spGo(d){ const n=spIdx+d; if(n<0||n>=sstate.cap) return; spIdx=n; if(n>=sstate.shown-2 && sstate.shown<sstate.cap) renderShorts(false); spRender() }
+function spOpen(k){
+  spIdx=-1; spN=0;
+  $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>';
+  if(spIO) spIO.disconnect();
+  spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
+  if(!sp.open) sp.showModal();
+  spFill(k+10);
+  const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
+  spActivate(k);
+}
+function spGo(d){
+  const n=spIdx+d; if(n<0||n>=spMax()) return;
+  spFill(n+10);
+  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el) $("#spFeed").scrollTo({top:el.offsetTop,behavior:"smooth"});
+}
 $("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; if(!state.embeds) return; e.preventDefault(); spOpen(+a.dataset.sv) });
 $("#spPrev").addEventListener("click",()=>spGo(-1));
 $("#spNext").addEventListener("click",()=>spGo(1));
 sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();spGo(1)} if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();spGo(-1)} });
-let spY=null;
-sp.addEventListener("touchstart",e=>{ if(!e.target.closest("iframe")) spY=e.touches[0].clientY },{passive:true});
-sp.addEventListener("touchend",e=>{ if(spY==null) return; const dy=e.changedTouches[0].clientY-spY; spY=null; if(Math.abs(dy)>60) spGo(dy<0?1:-1) });
-sp.addEventListener("close",()=>{$("#spStage").innerHTML=""});
+sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); $("#spStage").innerHTML=""; spIdx=-1 });
 sp.addEventListener("click",e=>{ if(e.target===sp) sp.close() });
 
 /* Events */
