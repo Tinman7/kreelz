@@ -1,0 +1,1008 @@
+{
+ "_note": "Official channels (music/drama/film/entertainment) + creator channels (beauty/mukbang). Add {id,name,cat} to extend. cat: music|drama|film|entertainment|beauty|mukbang",
+ "channels": [
+  {
+   "id": "UChpjIaEgwtDZtmWEkzFulSA",
+   "name": "KBS Drama",
+   "cat": "drama"
+  },
+  {
+   "id": "UC9w-h_ciMmX64TcLRcb1xPg",
+   "name": "tvN DRAMA",
+   "cat": "drama"
+  },
+  {
+   "id": "UCw0ZKmxFBc9donV317twWeA",
+   "name": "ENA DRAMA",
+   "cat": "drama"
+  },
+  {
+   "id": "UCXmRJfZ3atLVLDiO5Ufycvw",
+   "name": "스튜디오지니",
+   "cat": "drama"
+  },
+  {
+   "id": "UCNIiH_4ArJNd_cDZApZ7AFg",
+   "name": "TVING 티빙",
+   "cat": "film"
+  },
+  {
+   "id": "UC3re3ueOE_6VZK85zlEUWFA",
+   "name": "SBS Catch",
+   "cat": "drama"
+  },
+  {
+   "id": "UCkbJc8jMcTXwhtmN5VMwfXg",
+   "name": "JTBC Drama",
+   "cat": "drama"
+  },
+  {
+   "id": "UC6erIDuvbOaAO-OT5rB2Xew",
+   "name": "SBS 스브스 Drama",
+   "cat": "drama"
+  },
+  {
+   "id": "UCtdz9LWNNQKUg4Xpma_40Ug",
+   "name": "Disney Plus Korea 디즈니 플러스 코리아",
+   "cat": "film"
+  },
+  {
+   "id": "UCcOYEm78CpaZQvPE6LtoSeA",
+   "name": "SBS",
+   "cat": "drama"
+  },
+  {
+   "id": "UC7lb15P-Hux7A5gBuhCxtuQ",
+   "name": "MBCdrama",
+   "cat": "drama"
+  },
+  {
+   "id": "UC-VbFgagk6GJGDJgRQIMpZw",
+   "name": "MBC every1",
+   "cat": "drama"
+  },
+  {
+   "id": "UCRMA_Nb5VF-YoWApSVeXPVA",
+   "name": "디글 클래식 :Diggle Classic",
+   "cat": "drama"
+  },
+  {
+   "id": "UCn0nlepACCBD6rxj-GUwn5A",
+   "name": "KBS Drama Classic",
+   "cat": "drama"
+  },
+  {
+   "id": "UCR9gReM5VhQ_8brqQrBaVCA",
+   "name": "tvN STORY 티비엔 스토리",
+   "cat": "drama"
+  },
+  {
+   "id": "UCLqecwv-NjFSJ4gNwUunhTA",
+   "name": "MBN Drama",
+   "cat": "drama"
+  },
+  {
+   "id": "UCym5538xAEEppbridXozfgw",
+   "name": "wavve 웨이브",
+   "cat": "drama"
+  },
+  {
+   "id": "UCiEEF51uRAeZeCo8CJFhGWw",
+   "name": "Netflix Korea 넷플릭스 코리아",
+   "cat": "film"
+  },
+  {
+   "id": "UCWYzc_p0GgfCepIWDHGFmEg",
+   "name": "디글 :Diggle",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCYyLIlOJyqkAFKlVjzX5img",
+   "name": "MBN Entertainment",
+   "cat": "entertainment"
+  },
+  {
+   "id": "UCsRIHt5FkbGc6cQtCxt-ufA",
+   "name": "tvN D ENT",
+   "cat": "entertainment"
+  },
+  {
+   "id": "UCJPvpHW5yi_ifcLDmudVBjg",
+   "name": "SLL_official",
+   "cat": "drama"
+  },
+  {
+   "id": "UC70u2e8gK14R7QfFs7ehNDw",
+   "name": "MBC WORLD",
+   "cat": "drama"
+  },
+  {
+   "id": "UCpiCK8c6PBktcxq7Az_t4RQ",
+   "name": "Netflix K-Content",
+   "cat": "drama"
+  },
+  {
+   "id": "UCjn-VbcIkAeXQKCmLJV8YwQ",
+   "name": "쿠팡플레이 Coupang Play",
+   "cat": "drama"
+  },
+  {
+   "id": "UCAP8OK0GHFbnL5OkY3j04Xw",
+   "name": "ENA 이엔에이",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCv3fQ4Jt1fTq18Ck5IsqiFA",
+   "name": "STUDIO DRAGON 스튜디오드래곤",
+   "cat": "drama"
+  },
+  {
+   "id": "UCB-ogYCX9Me8nP9gEGpMjUg",
+   "name": "채널에이드: 채널A Drama & Enjoy",
+   "cat": "drama"
+  },
+  {
+   "id": "UCaZS_XwAu1yBMNoQDD1mR7g",
+   "name": "play 채널A",
+   "cat": "drama"
+  },
+  {
+   "id": "UCsLHf-l27Rb4CK-i8cmqEEw",
+   "name": "플러스엠 엔터테인먼트",
+   "cat": "film"
+  },
+  {
+   "id": "UC8AD5KHdsFzp8qoJvS4YSYg",
+   "name": "Warner Bros. Korea",
+   "cat": "film"
+  },
+  {
+   "id": "UCvvsOdnAQH4fl50DY17eV1A",
+   "name": "쇼박스 SHOWBOX",
+   "cat": "film"
+  },
+  {
+   "id": "UCRV0Gb4i99Aj9UiqCE8xlvw",
+   "name": "CJ ENM Movie",
+   "cat": "film"
+  },
+  {
+   "id": "UC2-VHbcGqGxNRUv0YIekMkA",
+   "name": "잇츠뉴 It'sNEW",
+   "cat": "film"
+  },
+  {
+   "id": "UClhcOuj5GDEmUAfg2R6LkGQ",
+   "name": "바이포엠스튜디오 BY4M STUDIO",
+   "cat": "film"
+  },
+  {
+   "id": "UCvErOWxtHKJ_RYxrnFuXpwg",
+   "name": "마인드마크",
+   "cat": "film"
+  },
+  {
+   "id": "UCN_jVT1qiAwxDuKKcrFTU-w",
+   "name": "마노엔터테인먼트",
+   "cat": "film"
+  },
+  {
+   "id": "UCuhvkbjEdKHFiKlz09BIAJQ",
+   "name": "엔케이컨텐츠",
+   "cat": "film"
+  },
+  {
+   "id": "UCKS0pu55wBAEDF3LTZNSqRA",
+   "name": "영화수입배급투자 I POP+OSSAK Entertainment Inc.",
+   "cat": "film"
+  },
+  {
+   "id": "UCMNoLh5vpM13tqVz4FA3mhw",
+   "name": "판씨네마",
+   "cat": "film"
+  },
+  {
+   "id": "UCovh5GVY64WDsSsKX7JxTOQ",
+   "name": "MEGABOX메가박스",
+   "cat": "film"
+  },
+  {
+   "id": "UC_pwIXKXNm5KGhdEVzmY60A",
+   "name": "STONE MUSIC",
+   "cat": "music"
+  },
+  {
+   "id": "UCTQVIXvcHrR9jYoJ6qaBAow",
+   "name": "M2",
+   "cat": "music"
+  },
+  {
+   "id": "UCTv63hdYuhVyORy6r4HdEEw",
+   "name": "유니버설 뮤직 코리아 Universal Music Korea",
+   "cat": "music"
+  },
+  {
+   "id": "UCCVKS8q4PMusGGrhBmKrSIw",
+   "name": "조선힙합",
+   "cat": "music"
+  },
+  {
+   "id": "UCweOkPb1wVVH0Q0Tlj4a5Pw",
+   "name": "1theK (원더케이)",
+   "cat": "music"
+  },
+  {
+   "id": "UCnQRdSArF-aqtycrmMKFQAg",
+   "name": "ifeye 이프아이",
+   "cat": "music"
+  },
+  {
+   "id": "UC7rAkd7Pqe2TInPPdFrZaIA",
+   "name": "Baerious",
+   "cat": "music"
+  },
+  {
+   "id": "UCPZIPuQPrfrUG9Xe_okEmQA",
+   "name": "PLAVE 플레이브",
+   "cat": "music"
+  },
+  {
+   "id": "UC8vm0EzlH9mRHwnTLILpQjQ",
+   "name": "N.Flying (엔플라잉)",
+   "cat": "music"
+  },
+  {
+   "id": "UCLkAepWjdylmXSltofFvsYQ",
+   "name": "BANGTANTV",
+   "cat": "music"
+  },
+  {
+   "id": "UCbD8EppRX3ZwJSou-TVo90A",
+   "name": "Mnet K-POP",
+   "cat": "music"
+  },
+  {
+   "id": "",
+   "name": "A2O WORLD 및 A2O LITE",
+   "cat": "music"
+  },
+  {
+   "id": "UCKKsIRc-1LytrgiPLTKmNDQ",
+   "name": "МОТ",
+   "cat": "music"
+  },
+  {
+   "id": "UCeLPm9yH_a_QH8n6445G-Ow",
+   "name": "KBS Kpop",
+   "cat": "music"
+  },
+  {
+   "id": "UC5BMQOsAB8hKUyHu9KI6yig",
+   "name": "KBS WORLD TV",
+   "cat": "music"
+  },
+  {
+   "id": "UCS_hnpJLQTvBkqALgapi_4g",
+   "name": "SBSKPOP X INKIGAYO",
+   "cat": "music"
+  },
+  {
+   "id": "UCe52oeb7Xv_KaJsEzcKXJJg",
+   "name": "MBCkpop",
+   "cat": "music"
+  },
+  {
+   "id": "UCoRXPcv8XK5fAplLbk9PTww",
+   "name": "THE K-POP",
+   "cat": "music"
+  },
+  {
+   "id": "UCPde4guD9yFBRzkxk2PatoA",
+   "name": "ALL THE K-POP",
+   "cat": "music"
+  },
+  {
+   "id": "UCmZ19AIj_wcpwRcqG7p9L8g",
+   "name": "Again 가요톱10 : KBS KPOP Classic",
+   "cat": "music"
+  },
+  {
+   "id": "UCiZqWVAeChfqlom5ZPR3ZJA",
+   "name": "NCT WISH",
+   "cat": "music"
+  },
+  {
+   "id": "UC6H_3Rv-q8Z23jtMofgPGsw",
+   "name": "82MAJOR",
+   "cat": "music"
+  },
+  {
+   "id": "UCowiwt93gqGlNG4k5VDxO-w",
+   "name": "MEOVV",
+   "cat": "music"
+  },
+  {
+   "id": "UCPo532dDHpbKVhJyJseLVbw",
+   "name": "CLOSE YOUR EYES",
+   "cat": "music"
+  },
+  {
+   "id": "UCnSNrN9e2UlPhLVHS60akuA",
+   "name": "WONHO",
+   "cat": "music"
+  },
+  {
+   "id": "UC4t_pYSKIhLWFgutdzIK66Q",
+   "name": "VERIVERY",
+   "cat": "music"
+  },
+  {
+   "id": "UChhKBlh_wvspTh5n4mL0b5g",
+   "name": "BOYNEXTDOOR",
+   "cat": "music"
+  },
+  {
+   "id": "UCqq-ovGE01ErlXakPihhKDA",
+   "name": "1theK Originals - 원더케이 오리지널",
+   "cat": "music"
+  },
+  {
+   "id": "UCXURHJRGr4-EB3l87kcbElw",
+   "name": "NCT DREAM",
+   "cat": "music"
+  },
+  {
+   "id": "UCArLZtok93cO5R9RI4_Y5Jw",
+   "name": "ENHYPEN",
+   "cat": "music"
+  },
+  {
+   "id": "UCgQ7HPx1qcmH9_lPTlWOnQw",
+   "name": "TUIDE",
+   "cat": "music"
+  },
+  {
+   "id": "UCXbRURMKT3H_w8dT-DWLIxA",
+   "name": "fromis_9",
+   "cat": "music"
+  },
+  {
+   "id": "UCmq9jjpHA69PwAwlA0DwOsg",
+   "name": "KickFlip",
+   "cat": "music"
+  },
+  {
+   "id": "UCritGVo7pLJLUS8wEu32vow",
+   "name": "i-dle (아이들)",
+   "cat": "music"
+  },
+  {
+   "id": "UCnXwXrQ8KIBoV8k1T3xGznw",
+   "name": "LUCY ISLAND",
+   "cat": "music"
+  },
+  {
+   "id": "UCkt5auxw8j76wvEuH4u-JJg",
+   "name": "1theK Live - 원더케이 라이브",
+   "cat": "music"
+  },
+  {
+   "id": "UCjn67ohKcc4Ubdf5e4NDgyA",
+   "name": "21학번",
+   "cat": "music"
+  },
+  {
+   "id": "UC3SyT4_WLHzN7JmHQwKQZww",
+   "name": "이지금 [IU Official]",
+   "cat": "music"
+  },
+  {
+   "id": "UCp-pqXsizklX3ZHvLxXyhxw",
+   "name": "DAY6",
+   "cat": "music"
+  },
+  {
+   "id": "UCkY69-BZf982GHML-nO_T-A",
+   "name": "아이우에오 A I W E O",
+   "cat": "music"
+  },
+  {
+   "id": "UC3WZlO2Zl8NE1yIUgtwUtQw",
+   "name": "임영웅",
+   "cat": "music"
+  },
+  {
+   "id": "UCycx2ChXHC9bPXoyrPr98cg",
+   "name": "창타지오 (LEECHANGSUB OFFICIAL)",
+   "cat": "music"
+  },
+  {
+   "id": "UC2fsxQr6Hcx1enORxXgKpxQ",
+   "name": "Jane ASMR 제인",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC7bRo3yLjtrRV9qU_KsE6nA",
+   "name": "가르마[GARMA]",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCoHirUZkTs1nOtyJTNbNJ5g",
+   "name": "지피티",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCpQTzHvXNjraoVDSCPID04w",
+   "name": "혼술다큐 미짱 lonely mizzang",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCE6e9tjKl3l3nGlAcxH7GQg",
+   "name": "[AmiAmi]아미아미",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCoLQZ4ZClFqVPCvvjuiUSRA",
+   "name": "문복희 Eat with Boki",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCIYzQfZWi059RjaYgQUVLnw",
+   "name": "용용먹방 YongYong",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC4PpFUrfT2Pou7OwpVF0MUQ",
+   "name": "쏘영 Ssoyoung",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCfpaSruWW3S4dibonKXENjA",
+   "name": "tzuyang쯔양",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCA6KBBX8cLwYZNepxlE_7SA",
+   "name": "히밥heebab",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCqGZm-olwtL1i4_1xmeeyXQ",
+   "name": "DDM ASMR 땅규",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC2B5onlYkZ7IaVekR9yIB6w",
+   "name": "GONGSAM TABLE 이공삼",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCIafb9ExBkh4WsCOagZssZA",
+   "name": "설기양SULGI",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCGISU4yWiEf4lB9RzdY8O4w",
+   "name": "ZOEY ASMR 조이",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCukMSPQL4dQBlbeBXar4J3w",
+   "name": "Jimmy ASMR",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCg7xkCKcxA84xSTGgtF9ySA",
+   "name": "JaeYeol ASMR 재열",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCbgDVW4LlDzjdjkMmZFPdeQ",
+   "name": "루시 Lucy ASMR",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCRtoqRleHkDQRVgN9OwV6TA",
+   "name": "SIO ASMR",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCPVENfTGbgD-CUuvrN7rRGQ",
+   "name": "상해기SangHyuk",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCyls5FepyOPvI-fNOELkkeQ",
+   "name": "choa asmr",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCHQnFdxn3kqIzx4yLENS-Iw",
+   "name": "봉길이 Bonggil",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCBIoXzDldCnpbM_7uyG0_Tg",
+   "name": "HONG SOUND",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCE8qPqBND8u4qOmX7weTdOw",
+   "name": "VNM ASMR",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCAxf5Emb2D0T174RoTFji8w",
+   "name": "푸디앨리",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCjdfxCeAhDSWBqdgkkiKITg",
+   "name": "바니 Bunny EATING",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC2PkqKo7GNK0jKt1YfYIH6w",
+   "name": "CME 먹방 ASMR",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCGMsFBPnR2hcrM0xGoFUL-A",
+   "name": "박병진용사",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCysVk8dzvSydsFklSu96HSg",
+   "name": "광마니",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCovVRKbRSpl6VaUbOYuvLAw",
+   "name": "만리 manli",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC4i1qf8CUH93DLSbD9efqig",
+   "name": "어서와 한국은 처음이지",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCrC5IxCbE7BwNkEyDOEGo4g",
+   "name": "루시코기 LucyCorgi",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCv7HX-7ctqTH4cXxT1nfrIg",
+   "name": "채널아하: 채널A Health & Asset",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UChY4PXxJI0aJYsGT1X6INWA",
+   "name": "올끌 (All of MBClassic)",
+   "cat": "entertainment"
+  },
+  {
+   "id": "UCRmm8763aqO0CoeLCA2jNSA",
+   "name": "ootb STUDIO",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC5MZs2casDzHQp--if0etzA",
+   "name": "살찐삼촌 이장우",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCK72hqlUxI_E5VwL4cy8-ww",
+   "name": "웅이woongei",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCDiohkMMUnwCMz8ZCJFT-cg",
+   "name": "감자매 Potato sister",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCAoyR-sL6B0S93AMR-HVTvg",
+   "name": "떡볶퀸 Tteokbokqueen",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCIn1p2ZbhOo8fyZp1S60uGg",
+   "name": "백지영 Baek Z Young",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC3zHBZWes6ZbnnciAekUVCw",
+   "name": "일극장",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCVPkwz7nxd5bbR536ugmiBw",
+   "name": "우니의끼니 UNIII",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC4ZA57iJrf73bJlApKFeLRw",
+   "name": "스튜디오 수제",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCFCtZJTuJhE18k8IXwmXTYQ",
+   "name": "EBSDocumentary (EBS 다큐)",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCDWlQ2AcGlcckdefjtF0goQ",
+   "name": "준밧드",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCvAewWPqooIUgQUsjhTmUVw",
+   "name": "김숙티비kimsookTV",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCgw_dr9Y8mZ4uzJLXDVTBSw",
+   "name": "김복순",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCTXuCSZxMDaneK7t6DVs21g",
+   "name": "sini시니",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC1r112Pr9Ngcg2NtcE946HQ",
+   "name": "맛상무",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCuLHDMXUqV5JR8Qv-FpwF8g",
+   "name": "민경장군",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC3CELODQnl5pGSWyS3OmMOA",
+   "name": "소개팁 IntroTip",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCX1iUx9aO9d57NC3aNU3qlA",
+   "name": "면상호[NoodleFighter]",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCSD0MKMFT0bZP4jj6c5ihMw",
+   "name": "세리티 Serity",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCbFzvzDu17eDZ3RIeaLRswQ",
+   "name": "감스트GAMST",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCZBszxxc9phhdw_KXkPfbig",
+   "name": "마빡",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCUcIUXAGcXpnu8gH1HKL6Tw",
+   "name": "신별 ShinByul",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCQ_21lZoPVNWiW2_MSzGxcg",
+   "name": "잡솨",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC5jHGolFUNHe0HsCJEKbb3g",
+   "name": "효닝 Hyoning",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCfTAKBeIxcAIXvGLjZGNI3Q",
+   "name": "온화 ONHWA",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCkL84edpNrmASTmaTPuCMAw",
+   "name": "Wooang 우앙",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC5oft5dVf43M2cFmhpJLVGQ",
+   "name": "애주가TV참PD",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC1cWTErb7vw_UmmuB0dYgsQ",
+   "name": "TV-People",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC5XuQ-xiWAB6f-qu6gJMDBQ",
+   "name": "흥삼이네 Heungsam's Family",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCua-PoEDpV3pN8CZhRCZJuw",
+   "name": "대평이 Daepyeong",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCJDDUcBtJYT1yRX9pR4Q0ug",
+   "name": "애정 Aejeong",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCCFLyWRmaMeQ0f4ndIeChOw",
+   "name": "주호다",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC9tS7GAw9w_AnhLbgldCWow",
+   "name": "윤숙희 YunSuki 혼술하는여자",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCHy8o-_zR_vHqpPN4uNUvkg",
+   "name": "푸디랜드 FoodieLand",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCtBt0z5O7Y31JMm4QlcvqZQ",
+   "name": "엄비umbi",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCIYNYv9ddZBg42gvyp8L2Iw",
+   "name": "팀브라더스",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC2wZJuuD_WA9ps2FORco1EQ",
+   "name": "까니짱 [ KANI, 蟹ちゃん]",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCGOYrCwp_ks0b4f6XQwaS4Q",
+   "name": "[Mukgang] 먹갱",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCwX4ljNa8NWObWpK-RUA4HA",
+   "name": "밥슨[Spicyking]",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCLwCHoQ9h7DPXvLwx5XwTQg",
+   "name": "먹보스 쭈엽이",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCiBr0bK06imaMbLc8sAEz0A",
+   "name": "MBCentertainment",
+   "cat": "entertainment"
+  },
+  {
+   "id": "UCTx3aCntDvkq-hGtOjKVSnQ",
+   "name": "먹어볼래TryToEat",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCmJEpV4hLzGWLU5rrdOHMhQ",
+   "name": "더들리",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UC1Wq-BQZblFGbGgDAoCwrmA",
+   "name": "한식푸우 Korean food",
+   "cat": "mukbang"
+  },
+  {
+   "id": "UCC2F35lZ0drUeMJOATXde2g",
+   "name": "롯데엔터테인먼트",
+   "cat": "film"
+  },
+  {
+   "id": "UCBS71K_9Iha_mx7XWrItOzA",
+   "name": "바른손이앤에이",
+   "cat": "film"
+  },
+  {
+   "id": "UCceZ46Ev9_PJ1BfFEBt4qDQ",
+   "name": "hivemedia_corp",
+   "cat": "film"
+  },
+  {
+   "id": "UCfkXDY7vwkcJ8ddFGz8KusA",
+   "name": "SEVENTEEN",
+   "cat": "music"
+  },
+  {
+   "id": "UCnUAyD4t2LkvW68YrDh7fDg",
+   "name": "NMIXX",
+   "cat": "music"
+  },
+  {
+   "id": "UC-Fnix71vRP64WXeo0ikd0Q",
+   "name": "IVE",
+   "cat": "music"
+  },
+  {
+   "id": "UCYDmx2Sfpnaxg488yBpZIGg",
+   "name": "STARSHIP",
+   "cat": "music"
+  },
+  {
+   "id": "UCaO6TYtlC8U5ttz62hTrZgg",
+   "name": "JYP",
+   "cat": "music"
+  },
+  {
+   "id": "UC3IZKseVpdzPSBaWxBxundA",
+   "name": "HYBE",
+   "cat": "music"
+  },
+  {
+   "id": "UCPfy6bHYRud15zu2tmoSB8Q",
+   "name": "EVNNE",
+   "cat": "music"
+  },
+  {
+   "id": "UC6dXhxQtzjlEGauwEGtLuSw",
+   "name": "TVXQ",
+   "cat": "music"
+  },
+  {
+   "id": "UCXVCWwthUVgO4ledMbcKANQ",
+   "name": "ONEW",
+   "cat": "music"
+  },
+  {
+   "id": "UCEf_Bc-KVd7onSeifS3py9g",
+   "name": "SMTOWN",
+   "cat": "music"
+  },
+  {
+   "id": "UCaMhpehN8xNWkVJB3ZQY0qQ",
+   "name": "WOODZ",
+   "cat": "music"
+  },
+  {
+   "id": "UCg3ymxYCmURj5BFtbgMt-Og",
+   "name": "LISAVEVO",
+   "cat": "music"
+  },
+  {
+   "id": "UCoe0BXYv01VCt0JRhX1zSug",
+   "name": "AND2BLE",
+   "cat": "music"
+  },
+  {
+   "id": "UCJnL-TBcsYrF2SLs7tmiC8Q",
+   "name": "TRIPLES",
+   "cat": "music"
+  },
+  {
+   "id": "UCqwUnggBBct-AY2lAdI88jQ",
+   "name": "BABYMONSTER",
+   "cat": "music"
+  },
+  {
+   "id": "UCHWhn9xw7x8NPPnV6eWQDQA",
+   "name": "XLOV",
+   "cat": "music"
+  },
+  {
+   "id": "UC36pAgTYO6M-xFXVhp5paPA",
+   "name": "TOPMEDIA",
+   "cat": "music"
+  },
+  {
+   "id": "UC7Q3HUnJA3nvjZR2JeMn2Cw",
+   "name": "H2H",
+   "cat": "music"
+  },
+  {
+   "id": "UCg8ZzloDPTrOiGztK0C9txQ",
+   "name": "TBL",
+   "cat": "music"
+  },
+  {
+   "id": "UC2FgXEtfiDuQLCaBIAUEB5w",
+   "name": "PRIMESG",
+   "cat": "music"
+  },
+  {
+   "id": "UCCRotc0nGAJgIX_QDABRPaA",
+   "name": "PRIMEPH",
+   "cat": "music"
+  },
+  {
+   "id": "UCEnaoRpbxiSbAhBkuvODGpw",
+   "name": "NFPH",
+   "cat": "music"
+  },
+  {
+   "id": "UCQqQFoECALeV09T7z4nrGZg",
+   "name": "DISPH",
+   "cat": "music"
+  },
+  {
+   "id": "UCI_c_ZmYt6CtFJo4jOQVhiw",
+   "name": "DISID",
+   "cat": "music"
+  },
+  {
+   "id": "UCWOA1ZGywLbqmigxE4Qlvuw",
+   "name": "NETFLIX",
+   "cat": "music"
+  },
+  {
+   "id": "UCZSNzBgFub_WWil6TOTYwAg",
+   "name": "NFIN",
+   "cat": "music"
+  },
+  {
+   "id": "UCmUpllWyvJ2eNCbZcNBJb4Q",
+   "name": "TIFF",
+   "cat": "music"
+  },
+  {
+   "id": "UCvE8nyjdQG0_rgx9u3oqadw",
+   "name": "WELLGO",
+   "cat": "music"
+  },
+  {
+   "id": "UCPKNKldggioffXPkSmjs5lQ",
+   "name": "HAMZY",
+   "cat": "music"
+  },
+  {
+   "id": "UCpBlDSUyOpP1WqWVJxZpGLg",
+   "name": "MELON",
+   "cat": "music"
+  },
+  {
+   "id": "UCAIAn1gmUWEukE2e5BQ0Zew",
+   "name": "KSTAR",
+   "cat": "music"
+  },
+  {
+   "id": "UCIYOI59PWwwOtsXmTnLOp_w",
+   "name": "AAA",
+   "cat": "music"
+  }
+ ],
+ "beautyQ": [
+  "메이크업",
+  "데일리 메이크업",
+  "겟레디윗미",
+  "스킨케어 루틴",
+  "올리브영 추천",
+  "화장품 리뷰",
+  "아이돌 메이크업",
+  "헤어 스타일링",
+  "남자 메이크업",
+  "메이크업 튜토리얼",
+  "퍼스널컬러",
+  "다이소 뷰티"
+ ],
+ "mukbangQ": [
+  "먹방",
+  "먹방 ASMR",
+  "리얼사운드 먹방",
+  "대식가 먹방",
+  "맛집 먹방",
+  "편의점 먹방",
+  "라면 먹방",
+  "시장 먹방",
+  "분식 먹방",
+  "고기 먹방",
+  "디저트 먹방",
+  "집밥 먹방"
+ ]
+}

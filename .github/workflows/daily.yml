@@ -1,0 +1,50 @@
+name: Nightly refresh (00:00 KST)
+
+on:
+  schedule:
+    - cron: "0 15 * * *"   # 15:00 UTC = 00:00 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Collect from YouTube Data API
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/collect.mjs scripts/channels.json daily.json
+
+      - name: Merge into site
+        run: |
+          BUILD=$(TZ=Asia/Seoul date +%F)
+          python3 scripts/daily_merge.py index.html daily.json "$BUILD" index.next.html | tee merge.log
+          grep -q 'const FEED = "' index.next.html
+          grep -q 'const SHORTS = "' index.next.html
+          mv index.next.html index.html
+
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "seoul-signal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "Nightly refresh $(TZ=Asia/Seoul date +%F) $(cat merge.log | head -c 300)"
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
