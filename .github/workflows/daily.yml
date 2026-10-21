@@ -64,6 +64,11 @@ jobs:
           node scripts/thumb_audit.mjs index.html bad.json
           python3 scripts/drop_ids.py index.html bad.json index.next.html && mv index.next.html index.html
 
+      - name: Statistics for the admin page
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        run: node scripts/catalog_stats.mjs index.html daily.json
+
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
@@ -79,7 +84,7 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html t data
+          git add index.html t data stats
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
       - name: Wait for 00:00 KST

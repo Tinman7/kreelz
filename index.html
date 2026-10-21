@@ -2013,7 +2013,7 @@ function spActivate(i){
   const v=sstate.list[i], el=f.querySelector(`[data-i="${i}"]`); if(!v||!el) return;
   if(i===spIdx && spCur===v.id) return;
   spIdx=i;
-  spPlay(v,el);
+  spPlay(v,el); trackPlay(v.id);
   if(!meta[v.id]){ tq.unshift(v.id); pumpTitles() }
   spInfo();
   $("#spPrev").disabled = i<=0;
@@ -2113,6 +2113,19 @@ async function socToggleLike(id){
     if(r.error && r.error.code!=="23505") throw r.error;
   }catch(e){ s.liked=!want; s.likes=Math.max(0,s.likes+(want?-1:1)); socRefresh(id); toast(t("cm_err")) }
 }
+/* Anonymous usage counts for the admin page: one "visit" per browser per KST day, one "play" per video per page view.
+   Only a random id kept in this browser is sent: no name, e-mail or IP address is stored. */
+let VID=""; try{ VID=store.get("kz-vid")||""; if(!VID){ VID=(self.crypto&&crypto.randomUUID)?crypto.randomUUID():("v"+Math.random().toString(36).slice(2)+Date.now().toString(36)); store.set("kz-vid",VID) } }catch(e){}
+const kzPlayed=new Set();
+function track(kind,video){
+  if(!SOC_ON||!VID) return;
+  try{ fetch(SB_URL+"/rest/v1/events",{method:"POST",keepalive:true,headers:{apikey:SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+    body:JSON.stringify({kind,visitor:VID,video_id:video||null})}).catch(()=>{}) }catch(e){}
+}
+function trackPlay(id){ if(!id||kzPlayed.has(id)) return; kzPlayed.add(id); track("play",id) }
+try{ const kday=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date()); if(store.get("kz-visit")!==kday){ store.set("kz-visit",kday); track("visit") } }catch(e){}
+document.addEventListener("click",e=>{ if(state.embeds) return; const a=e.target.closest("[data-sv],[data-fv]"); if(!a) return;
+  const id=a.dataset.fv || (sstate.list[+a.dataset.sv]||{}).id; trackPlay(id) },true);
 /* comments panel */
 const cm=$("#cm"); let cmId="";
 const rtf = () => { try{ return new Intl.RelativeTimeFormat(GTCODE[state.lang]||"en",{numeric:"auto"}) }catch(e){ return null } };
@@ -2225,7 +2238,7 @@ function vTile(v,k){
   </button>`;
 }
 function renderStage(){
-  { const sv=cur&&cur.videos&&cur.videos[sel]; renderSoc("#shSoc", sv ? (sv.p==="yt"?sv.id:sv.p+":"+sv.id) : "") }
+  { const sv=cur&&cur.videos&&cur.videos[sel]; const k=sv ? (sv.p==="yt"?sv.id:sv.p+":"+sv.id) : ""; renderSoc("#shSoc", k); trackPlay(k) }
   const v=cur.videos[sel]; if(!v){$("#stage").innerHTML="";$("#now").innerHTML="";return}
   const tall = v.p==="tt";
   if(state.embeds){

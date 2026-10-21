@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>KREELZ 관리자</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7F9;--card:#FFFFFF;--ink:#111318;--ink2:#3A3F4B;--muted:#6B7180;--line:#E7E9EE;--accent:#6B4EFF;--accent2:#B9AAFF;--good:#16A34A;
+  --c-music:#6B4EFF;--c-screen:#0F766E;--c-ent:#B45309;--c-beauty:#2563EB;--c-kfood:#C2410C}
+@media (prefers-color-scheme:dark){:root{--bg:#0E0F12;--card:#17191E;--ink:#F2F3F5;--ink2:#C9CDD6;--muted:#9097A3;--line:#2A2D35;--accent:#9C88FF;--accent2:#4B3D99;
+  --c-music:#9C88FF;--c-screen:#2DD4BF;--c-ent:#F59E0B;--c-beauty:#60A5FA;--c-kfood:#FB923C}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,-apple-system,sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.brand svg{width:26px;height:26px}
+.brand small{font-weight:500;color:var(--muted);font-size:14px}
+.asof{font-size:13px;color:var(--muted)}
+.asof b{color:var(--ink2)}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+h2{font-size:16px;font-weight:800;margin:28px 0 12px;letter-spacing:-.01em}
+h2 small{font-weight:500;color:var(--muted);font-size:13px;margin-left:6px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi .l{font-size:13px;color:var(--muted);font-weight:500}
+.kpi .v{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12.5px;color:var(--muted);margin-top:4px}
+.kpi .v.new{color:var(--good)}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-size:12.5px;color:var(--muted);font-weight:500}
+th:first-child,td:first-child{text-align:left}
+td .dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:8px;vertical-align:1px}
+tfoot td{font-weight:800;border-bottom:0}
+.plus{color:var(--good);font-weight:700}
+.tw{overflow-x:auto}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-size:11px;font-family:inherit}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;color:var(--ink2);font:inherit;font-size:13px;font-weight:700;padding:6px 12px;border-radius:7px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.top h3{margin:0 0 10px;font-size:14.5px;font-weight:800}
+.top ol{list-style:none;margin:0;padding:0;counter-reset:r}
+.top li{display:grid;grid-template-columns:22px 64px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);counter-increment:r}
+.top li:last-child{border-bottom:0}
+.top li::before{content:counter(r);font-weight:800;color:var(--muted);font-size:13px;text-align:center}
+.top img{width:64px;height:36px;object-fit:cover;border-radius:6px;background:var(--line)}
+.top .t{font-size:13px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.top .t a{text-decoration:none}
+.top .t a:hover{text-decoration:underline}
+.top .n{font-weight:800;font-size:13.5px;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-size:13.5px;padding:14px 0;text-align:center}
+.note{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+.login{max-width:420px;margin:12vh auto 0}
+.login h1{font-size:22px;margin:0 0 6px}
+.login p{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 16px}
+.login input{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--card);color:var(--ink);margin-bottom:10px}
+.msg{font-size:13.5px;margin-top:10px;color:var(--ink2)}
+.err{color:#DC2626}
+.members{border-style:dashed}
+[hidden]{display:none!important}
+@media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="login" class="login card" hidden>
+  <h1>KREELZ 관리자</h1>
+  <p>관리자 메일로 로그인 링크를 보내드립니다. 메일함에서 링크를 누르면 이 페이지로 돌아와 로그인됩니다.</p>
+  <form id="loginForm">
+    <label for="email" class="note">관리자 이메일</label>
+    <input id="email" type="email" value="kreelzkorea@gmail.com" autocomplete="email" required>
+    <button class="btn primary" type="submit" style="width:100%">로그인 링크 보내기</button>
+  </form>
+  <p class="msg" id="loginMsg" role="status"></p>
+</section>
+
+<section id="denied" class="login card" hidden>
+  <h1>접근 권한이 없습니다</h1>
+  <p>관리자 계정(kreelzkorea@gmail.com)으로만 볼 수 있습니다.</p>
+  <button class="btn" id="out2" type="button">로그아웃</button>
+</section>
+
+<main id="app" hidden>
+  <header>
+    <div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="8" y="8" width="24" height="84" rx="3" fill="currentColor"/><polygon points="38,45 69,8 95,8 64,45" fill="#6B4EFF"/><polygon points="38,55 64,55 95,92 69,92" fill="#6B4EFF" fill-opacity=".55"/></svg>KREELZ <small>관리자</small></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <span class="asof" id="asof"></span>
+      <button class="btn" id="out" type="button">로그아웃</button>
+    </div>
+  </header>
+
+  <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
+  <div class="grid kpis">
+    <div class="card kpi"><div class="l">전체 영상</div><div class="v" id="kAll">–</div><div class="s" id="kAllS"></div></div>
+    <div class="card kpi"><div class="l">쇼츠</div><div class="v" id="kShorts">–</div><div class="s" id="kShortsS"></div></div>
+    <div class="card kpi"><div class="l">일반 영상</div><div class="v" id="kVideos">–</div><div class="s" id="kVideosS"></div></div>
+    <div class="card kpi"><div class="l">오늘 새로 올라온 영상</div><div class="v new" id="kNew">–</div><div class="s" id="kNewS"></div></div>
+  </div>
+
+  <div class="grid two" style="margin-top:12px">
+    <div class="card tw">
+      <table>
+        <thead><tr><th>카테고리</th><th>전체</th><th>쇼츠</th><th>일반</th><th>오늘 신규</th></tr></thead>
+        <tbody id="catBody"></tbody>
+        <tfoot id="catFoot"></tfoot>
+      </table>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">카테고리별 신규 영상 추이 <small style="color:var(--muted);font-weight:500">최근 30일</small></div>
+      <div id="newChart"></div>
+      <div class="legend" id="newLegend"></div>
+    </div>
+  </div>
+
+  <h2>방문 · 재생 통계 <small id="dayLabel"></small></h2>
+  <div class="grid kpis">
+    <div class="card kpi"><div class="l">어제 방문자</div><div class="v" id="vY">–</div><div class="s" id="vYS"></div></div>
+    <div class="card kpi"><div class="l">어제 본 영상 수</div><div class="v" id="pY">–</div><div class="s" id="pYS"></div></div>
+    <div class="card kpi"><div class="l">누적 방문자</div><div class="v" id="vAll">–</div><div class="s">브라우저 기준 고유 방문자</div></div>
+    <div class="card kpi"><div class="l">누적 재생 · 좋아요 · 댓글</div><div class="v" id="pAll">–</div><div class="s" id="lcAll"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div style="font-size:14px;font-weight:800;margin-bottom:6px">일별 방문자 · 재생 수 <small style="color:var(--muted);font-weight:500">최근 30일</small></div>
+    <div id="visitChart"></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>방문자</span><span><i style="background:var(--accent2)"></i>재생 수</span></div>
+  </div>
+
+  <h2 style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">인기 영상
+    <span class="seg" id="period" role="group" aria-label="기간"><button type="button" data-p="yesterday" aria-pressed="false">어제</button><button type="button" data-p="all" aria-pressed="true">누적</button></span>
+  </h2>
+  <div class="grid three">
+    <div class="card top"><h3>가장 많이 본 영상</h3><ol id="topPlays"></ol></div>
+    <div class="card top"><h3>좋아요가 가장 많은 영상</h3><ol id="topLikes"></ol></div>
+    <div class="card top"><h3>댓글이 가장 많은 영상</h3><ol id="topComments"></ol></div>
+  </div>
+
+  <h2>회원 통계</h2>
+  <div class="card members">
+    <p class="note" style="margin:0">지금은 회원가입 없이 운영 중이라 비어 있습니다. 회원가입을 켜면 이메일 주소별로 <b>방문 횟수 · 본 영상 수 · 좋아요 · 댓글</b> 순위가 여기에 표시됩니다.</p>
+  </div>
+  <p class="note">방문자는 브라우저마다 한 번씩, 한국 시간 하루 기준으로 셉니다. 이름·이메일·IP 주소는 저장하지 않습니다. 방문 · 재생 · 인기 영상은 어제(00:00~23:59)까지 마감된 수치이고, 자정이 지나면 새 하루가 반영됩니다.</p>
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL="https://fvtvpjsveughnhnfjcef.supabase.co", SB_KEY="sb_publishable_wFuEzcauXuYWkCpgZSWJ3A_5XYvDwQ2", ADMIN="kreelzkorea@gmail.com";
+const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:"kreelz-admin-auth"}});
+const $=s=>document.querySelector(s);
+const nf=n=>new Intl.NumberFormat("ko-KR").format(n||0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CATS=[["music","음악"],["screen","스크린 (드라마·영화)"],["ent","예능 (Shows)"],["beauty","뷰티"],["kfood","K-Food"]];
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const show=id=>["#login","#denied","#app"].forEach(s=>$(s).hidden=(s!==id));
+
+$("#loginForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const m=$("#loginMsg"); m.className="msg"; m.textContent="보내는 중…";
+  const {error}=await sb.auth.signInWithOtp({email:$("#email").value.trim(),options:{emailRedirectTo:location.origin+"/admin/"}});
+  if(error){ m.className="msg err"; m.textContent="보내지 못했습니다: "+error.message } else m.textContent="메일을 보냈습니다. 메일함에서 로그인 링크를 눌러 주세요.";
+});
+const logout=async()=>{ await sb.auth.signOut(); show("#login") };
+$("#out").addEventListener("click",logout); $("#out2").addEventListener("click",logout);
+
+async function start(){
+  const {data}=await sb.auth.getSession(); const u=data.session&&data.session.user;
+  if(!u || u.is_anonymous){ show("#login"); return }
+  if((u.email||"").toLowerCase()!==ADMIN){ show("#denied"); return }
+  show("#app"); load();
+}
+sb.auth.onAuthStateChange((ev)=>{ if(ev==="SIGNED_IN") start() });
+
+/* ---------- content (written at each 00:00 KST refresh) ---------- */
+async function loadCatalog(){
+  const [c,h]=await Promise.all([fetch("/stats/catalog.json?"+Date.now()).then(r=>r.json()),fetch("/stats/history.json?"+Date.now()).then(r=>r.ok?r.json():[]).catch(()=>[])]);
+  $("#asof").innerHTML=`기준 <b>${esc(c.build)} 00:00 (KST)</b> 갱신`;
+  $("#kAll").textContent=nf(c.total.all); $("#kShorts").textContent=nf(c.total.shorts); $("#kVideos").textContent=nf(c.total.videos);
+  $("#kShortsS").textContent=`전체의 ${Math.round(c.total.shorts/c.total.all*100)}%`; $("#kVideosS").textContent=`전체의 ${Math.round(c.total.videos/c.total.all*100)}%`;
+  $("#kNew").textContent="+"+nf(c.new_today.all); $("#kNewS").textContent=`쇼츠 ${nf(c.new_today.shorts)} · 일반 ${nf(c.new_today.videos)}`;
+  const prev=h.length>1?h[h.length-2]:null; $("#kAllS").textContent=prev?`전날 대비 ${c.total.all-prev.total>=0?"+":""}${nf(c.total.all-prev.total)}`:"";
+  $("#catBody").innerHTML=CATS.map(([k,l])=>{const b=c.by_category[k]||{},n=(c.new_today.by_category||{})[k]||{};
+    return `<tr><td><span class="dot" style="background:var(--c-${k})"></span>${l}</td><td>${nf(b.all)}</td><td>${nf(b.shorts)}</td><td>${nf(b.videos)}</td><td class="plus">+${nf(n.all)}<br><small style="color:var(--muted);font-weight:500">쇼츠 ${nf(n.shorts)} · 일반 ${nf(n.videos)}</small></td></tr>`}).join("");
+  $("#catFoot").innerHTML=`<tr><td>합계</td><td>${nf(c.total.all)}</td><td>${nf(c.total.shorts)}</td><td>${nf(c.total.videos)}</td><td class="plus">+${nf(c.new_today.all)}</td></tr>`;
+  const rows=h.slice(-30);
+  $("#newChart").innerHTML = rows.length ? stacked(rows) : `<p class="empty">첫 자정 갱신 이후부터 표시됩니다.</p>`;
+  $("#newLegend").innerHTML=CATS.map(([k,l])=>`<span><i style="background:var(--c-${k})"></i>${l.split(" ")[0]}</span>`).join("");
+}
+function stacked(rows){
+  const W=560,H=200,P=28,bw=Math.max(4,(W-P-8)/rows.length-3), max=Math.max(1,...rows.map(r=>r.new||0));
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H+22}" role="img" aria-label="카테고리별 신규 영상 추이">`;
+  (max<4?[0,1]:[0,.5,1]).forEach(f=>{const y=H-(H-10)*f; s+=`<line x1="${P}" x2="${W}" y1="${y}" y2="${y}" stroke="${css("--line")}"/><text x="${P-4}" y="${y+4}" text-anchor="end">${nf(Math.round(max*f))}</text>`});
+  rows.forEach((r,i)=>{ let y=H; const x=P+6+i*(bw+3);
+    CATS.forEach(([k])=>{ const v=(r.new_by_category||{})[k]||0, hh=(H-10)*v/max; if(hh>0){ y-=hh; s+=`<rect x="${x}" y="${y}" width="${bw}" height="${hh}" fill="${css("--c-"+k)}"><title>${r.day} ${k} +${v}</title></rect>` } });
+    if(i%Math.ceil(rows.length/6)===0||i===rows.length-1) s+=`<text x="${x+bw/2}" y="${H+15}" text-anchor="middle">${r.day.slice(5)}</text>` });
+  return s+"</svg>";
+}
+
+/* ---------- visits / plays / likes / comments (Supabase, finished days only) ---------- */
+async function loadUsage(){
+  const [t,d]=await Promise.all([sb.rpc("admin_totals"),sb.rpc("admin_daily",{n:30})]);
+  if(t.error||d.error){ $("#visitChart").innerHTML=`<p class="empty err">통계를 불러오지 못했습니다. Supabase에 admin.sql을 실행했는지 확인해 주세요.<br>${esc((t.error||d.error).message)}</p>`; return }
+  const T=t.data[0]||{}, D=d.data||[], y=D[D.length-1]||{visitors:0,plays:0,day:""}, y2=D[D.length-2];
+  $("#dayLabel").textContent=y.day?`어제 ${y.day} 마감 기준`:"";
+  $("#vY").textContent=nf(y.visitors); $("#pY").textContent=nf(y.plays);
+  const diff=(a,b)=>b==null?"":`전날 대비 ${a-b>=0?"+":""}${nf(a-b)}`;
+  $("#vYS").textContent=y2?diff(y.visitors,y2.visitors):""; $("#pYS").textContent=y2?diff(y.plays,y2.plays):"";
+  $("#vAll").textContent=nf(T.visitors_all); $("#pAll").textContent=nf(T.plays_all);
+  $("#lcAll").textContent=`좋아요 ${nf(T.likes_all)} · 댓글 ${nf(T.comments_all)}`;
+  $("#visitChart").innerHTML=bars(D);
+}
+function bars(D){
+  const W=1100,H=200,P=40,n=D.length||1,gw=(W-P-8)/n,bw=Math.max(3,gw/2-2),max=Math.max(1,...D.map(r=>Math.max(r.visitors,r.plays)));
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H+22}" role="img" aria-label="일별 방문자와 재생 수">`;
+  (max<4?[0,1]:[0,.5,1]).forEach(f=>{const y=H-(H-10)*f; s+=`<line x1="${P}" x2="${W}" y1="${y}" y2="${y}" stroke="${css("--line")}"/><text x="${P-6}" y="${y+4}" text-anchor="end">${nf(Math.round(max*f))}</text>`});
+  D.forEach((r,i)=>{ const x=P+6+i*gw, hv=(H-10)*r.visitors/max, hp=(H-10)*r.plays/max;
+    s+=`<rect x="${x}" y="${H-hv}" width="${bw}" height="${hv}" rx="2" fill="${css("--accent")}"><title>${r.day} 방문자 ${nf(r.visitors)}</title></rect>`;
+    s+=`<rect x="${x+bw+2}" y="${H-hp}" width="${bw}" height="${hp}" rx="2" fill="${css("--accent2")}"><title>${r.day} 재생 ${nf(r.plays)}</title></rect>`;
+    if(i%5===0||i===n-1) s+=`<text x="${x+bw}" y="${H+15}" text-anchor="middle">${String(r.day).slice(5)}</text>` });
+  return s+"</svg>";
+}
+
+/* ---------- top videos ---------- */
+let period="all"; const titles={};
+async function title(id){
+  if(titles[id]) return titles[id];
+  if(!/^[\w-]{11}$/.test(id)) return titles[id]={t:id,ch:""};
+  try{ const d=await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`).then(r=>r.ok?r.json():null);
+       return titles[id]=d?{t:d.title,ch:d.author_name}:{t:"(삭제되었거나 비공개된 영상)",ch:""} }catch(e){ return titles[id]={t:id,ch:""} }
+}
+async function topList(sel,what,unit){
+  const el=$(sel); el.innerHTML=`<li class="empty" style="display:block">불러오는 중…</li>`;
+  const {data,error}=await sb.rpc("admin_top",{what,period,lim:10});
+  if(error){ el.innerHTML=`<li class="empty" style="display:block">불러오지 못했습니다</li>`; return }
+  if(!data.length){ el.innerHTML=`<li class="empty" style="display:block">아직 데이터가 없습니다</li>`; return }
+  const items=await Promise.all(data.map(async r=>({...r, ...(await title(r.video_id))})));
+  el.innerHTML=items.map(r=>{ const yt=/^[\w-]{11}$/.test(r.video_id);
+    return `<li><img src="${yt?`https://i.ytimg.com/vi/${r.video_id}/mqdefault.jpg`:""}" alt="" loading="lazy"><div class="t"><a href="${yt?`https://www.youtube.com/watch?v=${r.video_id}`:"#"}" target="_blank" rel="noopener">${esc(r.t)}</a><br><small style="color:var(--muted)">${esc(r.ch||"")}</small></div><span class="n">${nf(r.n)}${unit}</span></li>` }).join("");
+}
+function loadTop(){ topList("#topPlays","plays","회"); topList("#topLikes","likes","개"); topList("#topComments","comments","개") }
+$("#period").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; period=b.dataset.p;
+  document.querySelectorAll("#period button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
+
+function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadUsage(); loadTop() }
+/* the page itself switches to the new day at 00:00 KST if left open */
+(function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
+  const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();
+start();
+</script>
+</body>
+</html>

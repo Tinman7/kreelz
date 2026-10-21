@@ -1,0 +1,68 @@
+{
+ "build": "2026-10-21",
+ "generated_at": "2026-10-21T11:55:03.671Z",
+ "total": {
+  "all": 89155,
+  "shorts": 69713,
+  "videos": 19442
+ },
+ "by_category": {
+  "music": {
+   "shorts": 29342,
+   "videos": 10929,
+   "all": 40271
+  },
+  "screen": {
+   "shorts": 13266,
+   "videos": 3877,
+   "all": 17143
+  },
+  "ent": {
+   "shorts": 7511,
+   "videos": 1345,
+   "all": 8856
+  },
+  "beauty": {
+   "shorts": 2960,
+   "videos": 865,
+   "all": 3825
+  },
+  "kfood": {
+   "shorts": 16634,
+   "videos": 2426,
+   "all": 19060
+  }
+ },
+ "new_today": {
+  "all": 0,
+  "shorts": 0,
+  "videos": 0,
+  "by_category": {
+   "music": {
+    "shorts": 0,
+    "videos": 0,
+    "all": 0
+   },
+   "screen": {
+    "shorts": 0,
+    "videos": 0,
+    "all": 0
+   },
+   "ent": {
+    "shorts": 0,
+    "videos": 0,
+    "all": 0
+   },
+   "beauty": {
+    "shorts": 0,
+    "videos": 0,
+    "all": 0
+   },
+   "kfood": {
+    "shorts": 0,
+    "videos": 0,
+    "all": 0
+   }
+  }
+ }
+}
