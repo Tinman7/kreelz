@@ -591,7 +591,6 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
       <div class="seg" id="ssort" role="group" aria-label="Sort shorts">
         <button type="button" data-s="new" data-i18n="sort_new"></button>
         <button type="button" data-s="views" data-i18n="sort_views"></button>
-        <button type="button" data-s="mix" data-i18n="sort_mix"></button>
       </div>
       <p class="ssub" data-i18n="shorts_sub"></p>
     </div>
@@ -1835,7 +1834,7 @@ for(let i=0;i+16<=SHORTS.length;i+=16){
   SBYCAT[cat]=(SBYCAT[cat]||0)+1;
 }
 const GUEST_SHORTS = MEMBERSHIP ? 12 : Infinity;
-const sstate={sort:store.get("ss-ssort")||"new",shown:0,cap:0,list:[]};
+const sstate={sort:(s=>s==="views"?s:"new")(store.get("ss-ssort")),shown:0,cap:0,list:[]};
 const kstDay = () => new Date(Date.now()+9*36e5).toISOString().slice(0,10);   // the site refreshes at 00:00 KST
 const dayHash = id => { let h=2166136261; const s=id+kstDay(); for(let i=0;i<s.length;i++){h^=s.charCodeAt(i); h=Math.imul(h,16777619)} return h>>>0 };
 const SSORTS={ new:(a,b)=>(a.days<0)-(b.days<0)||a.days-b.days||b.views-a.views, views:(a,b)=>b.views-a.views, mix:(a,b)=>dayHash(a.id)-dayHash(b.id) };
