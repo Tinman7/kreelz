@@ -608,8 +608,6 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
       <div class="seg" id="fsort" role="group" aria-label="Sort">
         <button type="button" data-s="new" data-i18n="sort_new"></button>
         <button type="button" data-s="views" data-i18n="sort_views"></button>
-        <button type="button" data-s="hot" data-i18n="sort_hot"></button>
-        <button type="button" data-s="rel" data-i18n="sort_rel"></button>
       </div>
       <label class="chk"><input type="checkbox" id="fOfficial"> <span data-i18n="official_only"></span></label>
     </div>
@@ -1056,7 +1054,7 @@ en:{
   sort_new:"Latest", sort_views:"Most viewed", sort_hot:"Trending", sort_rel:"Top results",
   official_only:"Verified & official channels only",
   showmore:"Show more · {n} left",
-  feednote:"Videos are linked from YouTube and play from the uploader's own channel. View counts and dates are as of the last update. YouTube doesn't publish star ratings, so “Trending” ranks by views per day instead.",
+  feednote:"Videos are linked from YouTube and play from the uploader's own channel. View counts and dates are as of the last update.",
   latestpicks:"Latest picks", catpicks:"{c} picks", titles_count:"{n} titles · {v} official videos",
   views:"{n} views", loading:"Loading title",
   wall_title:"Sign up free to watch all {n} videos",
@@ -1108,7 +1106,7 @@ tl:{
   sort_new:"Pinakabago", sort_views:"Pinakapinanood", sort_hot:"Trending", sort_rel:"Nangungunang resulta",
   official_only:"Verified at opisyal na channel lang",
   showmore:"Ipakita pa · {n} pa",
-  feednote:"Naka-link ang mga video mula sa YouTube at nagpe-play mula sa sariling channel ng nag-upload. Ang views at petsa ay batay sa huling update. Walang star rating ang YouTube, kaya ang “Trending” ay batay sa views bawat araw.",
+  feednote:"Naka-link ang mga video mula sa YouTube at nagpe-play mula sa sariling channel ng nag-upload. Ang views at petsa ay batay sa huling update.",
   latestpicks:"Mga bagong pili", catpicks:"Mga pili sa {c}", titles_count:"{n} titulo · {v} opisyal na video",
   views:"{n} views", loading:"Nilo-load ang pamagat",
   wall_title:"Mag-sign up nang libre para mapanood ang lahat ng {n} video",
@@ -1160,7 +1158,7 @@ th:{
   sort_new:"ล่าสุด", sort_views:"ยอดชมสูงสุด", sort_hot:"มาแรง", sort_rel:"ผลลัพธ์ยอดนิยม",
   official_only:"เฉพาะช่องทางการและช่องที่ยืนยันแล้ว",
   showmore:"ดูเพิ่ม · เหลืออีก {n}",
-  feednote:"วิดีโอทั้งหมดลิงก์มาจาก YouTube และเล่นจากช่องของผู้อัปโหลดเอง ยอดชมและวันที่เป็นข้อมูล ณ การอัปเดตล่าสุด YouTube ไม่เปิดเผยคะแนนดาว เราจึงจัดอันดับ “มาแรง” ตามยอดชมต่อวัน",
+  feednote:"วิดีโอทั้งหมดลิงก์มาจาก YouTube และเล่นจากช่องของผู้อัปโหลดเอง ยอดชมและวันที่เป็นข้อมูล ณ การอัปเดตล่าสุด",
   latestpicks:"คัดสรรล่าสุด", catpicks:"คัดสรร{c}", titles_count:"{n} รายการ · วิดีโอทางการ {v} รายการ",
   views:"ยอดชม {n}", loading:"กำลังโหลดชื่อ",
   wall_title:"สมัครฟรีเพื่อดูวิดีโอทั้งหมด {n} รายการ",
@@ -1212,7 +1210,7 @@ id:{
   sort_new:"Terbaru", sort_views:"Paling banyak ditonton", sort_hot:"Sedang tren", sort_rel:"Hasil teratas",
   official_only:"Hanya kanal resmi & terverifikasi",
   showmore:"Tampilkan lagi · sisa {n}",
-  feednote:"Video ditautkan dari YouTube dan diputar dari kanal pengunggahnya sendiri. Jumlah tayangan dan tanggal sesuai pembaruan terakhir. YouTube tidak menampilkan rating bintang, jadi “Sedang tren” diurutkan berdasarkan tayangan per hari.",
+  feednote:"Video ditautkan dari YouTube dan diputar dari kanal pengunggahnya sendiri. Jumlah tayangan dan tanggal sesuai pembaruan terakhir.",
   latestpicks:"Pilihan terbaru", catpicks:"Pilihan {c}", titles_count:"{n} judul · {v} video resmi",
   views:"{n} x ditonton", loading:"Memuat judul",
   wall_title:"Daftar gratis untuk menonton semua {n} video",
@@ -1264,7 +1262,7 @@ es:{
   sort_new:"Más recientes", sort_views:"Más vistos", sort_hot:"Tendencia", sort_rel:"Mejores resultados",
   official_only:"Solo canales oficiales y verificados",
   showmore:"Ver más · quedan {n}",
-  feednote:"Los videos se enlazan desde YouTube y se reproducen desde el canal de quien los subió. Las visitas y fechas corresponden a la última actualización. YouTube no publica valoraciones con estrellas, así que “Tendencia” ordena por visitas al día.",
+  feednote:"Los videos se enlazan desde YouTube y se reproducen desde el canal de quien los subió. Las visitas y fechas corresponden a la última actualización.",
   latestpicks:"Selección reciente", catpicks:"Selección de {c}", titles_count:"{n} títulos · {v} videos oficiales",
   views:"{n} visualizaciones", loading:"Cargando título",
   wall_title:"Regístrate gratis para ver los {n} videos",
@@ -1729,7 +1727,7 @@ for(let i=0;i+16<=FEED.length;i+=16){
   const v={id:FEED.substr(i,11),cat,ok:c!==c.toLowerCase(),views:vc===4095?-1:Math.round(Math.pow(1.006,vc)-1),days:dc===4095?-1:dc+sinceBuild,r:FV.length};
   FV.push(v); FBYCAT[cat]=(FBYCAT[cat]||0)+1;
 }
-const fstate={sort:store.get("ss-fsort")||"new",official:store.get("ss-fofficial")==="1",shown:0,cap:0,list:[]};
+const fstate={sort:(s=>s==="views"?s:"new")(store.get("ss-fsort")),official:store.get("ss-fofficial")==="1",shown:0,cap:0,list:[]};
 const meta={}; // id -> {t, ch}
 const nfmt=n=>new Intl.NumberFormat(LOCALE[state.lang],{notation:"compact",maximumFractionDigits:1}).format(n);
 function agefmt(d){
