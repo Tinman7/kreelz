@@ -1401,6 +1401,7 @@ function pickLang(){
   if(/^(fil|tl)/.test(n)) return "tl"; if(n.startsWith("th")) return "th"; if(/^(id|in)\b/.test(n)) return "id"; if(n.startsWith("es")) return "es";
   return "en";
 }
+window.ssTh=function(img,err){if(!err&&img.naturalWidth>120)return;var a=img.getAttribute("data-alt");if(a){img.removeAttribute("data-alt");img.src=a;return}var c=img.closest(".sv,.fv");if(c)c.remove();else img.remove()};
 const state = {cat:"all", q:"", tz: (()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"Asia/Seoul"}catch(e){return "Asia/Seoul"}})(), embeds:false, lang:pickLang()};
 function t(k,v){
   let s=I18N[state.lang]&&I18N[state.lang][k]; if(s==null) s=I18N.en[k]; if(s==null) return k;
@@ -1757,7 +1758,7 @@ const viewsLine = v => [v.views>=0?t("views",{n:nfmt(v.views)}):"",agefmt(v.days
 function fcard(v){
   const m=meta[v.id];
   return `<a class="fv" data-cat="${v.cat}" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" data-fv="${v.id}">
-    <span class="fth"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}</span>
+    <span class="fth"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)"><em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}</span>
     <span class="ft${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
     <span class="fm"><span class="fch" data-fc="${v.id}">${m?esc(m.ch):"&nbsp;"}</span><span>${viewsLine(v)}</span></span>
   </a>`;
@@ -1848,7 +1849,7 @@ const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
   const m=meta[v.id];
   return `<a class="sv" data-cat="${v.cat}" href="https://www.youtube.com/shorts/${v.id}" target="_blank" rel="noopener" data-sv="${k}">
-    <span class="sth"><img src="${sThumb(v.id)}" alt="" loading="lazy" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'}else this.remove()">
+    <span class="sth"><img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
     <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>

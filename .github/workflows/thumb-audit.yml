@@ -1,0 +1,43 @@
+name: Thumbnail audit
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "30 18 * * 0"   # Mondays 03:30 KST
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check every thumbnail
+        run: node scripts/thumb_audit.mjs index.html bad.json
+      - name: Remove items without thumbnails
+        run: |
+          python3 scripts/drop_ids.py index.html bad.json index.next.html | tee drop.log
+          grep -q 'const SHORTS = "' index.next.html
+          mv index.next.html index.html
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then echo "nothing to remove"; exit 0; fi
+          git commit -m "Thumbnail audit: $(tr '\n' ' ' < drop.log)"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

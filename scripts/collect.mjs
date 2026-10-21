@@ -31,12 +31,15 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 async function details(ids) {
   const out = {};
   for (let i = 0; i < ids.length; i += 50) {
-    const d = await call("videos", { part: "snippet,statistics,contentDetails", id: ids.slice(i, i + 50).join(","), maxResults: 50 }, 1);
+    const d = await call("videos", { part: "snippet,statistics,contentDetails,status", id: ids.slice(i, i + 50).join(","), maxResults: 50 }, 1);
     for (const v of d.items || []) out[v.id] = {
       views: +((v.statistics || {}).viewCount ?? -1),
       days: Math.max(0, Math.floor((Date.now() - new Date(v.snippet.publishedAt)) / DAY)),
       secs: dur((v.contentDetails || {}).duration),
       ch: v.snippet.channelId,
+      // only finished, public, embeddable, non-live uploads
+      usable: (v.status || {}).uploadStatus === "processed" && (v.status || {}).privacyStatus === "public"
+        && (v.status || {}).embeddable !== false && (v.snippet.liveBroadcastContent || "none") === "none",
     };
   }
   return out;
@@ -70,7 +73,7 @@ const all = [...new Set([...longIds, ...shortIds, ...Object.keys(searchCat)])];
 const info = await details(all);
 const out = { at: new Date().toISOString(), videos: {}, shorts: {}, used: 0 };
 for (const id of all) {
-  const v = info[id]; if (!v) continue;                       // deleted or private
+  const v = info[id]; if (!v || !v.usable) continue;          // deleted, private, processing or live
   const ok = official.has(v.ch) && !creator.has(v.ch);
   const cat = official.has(v.ch) ? catOf[v.ch] : searchCat[id];
   if (!cat) continue;                                         // music/screen/entertainment only from listed official channels
@@ -78,7 +81,15 @@ for (const id of all) {
   if (isShort) { if (v.days <= MAX_AGE) out.shorts[id] = [cat, v.views, ok ? 1 : 0]; }
   else if (v.days <= MAX_AGE) out.videos[id] = [cat, v.views, v.days, ok ? 1 : 0];
 }
+// every item must have a real thumbnail (YouTube answers 404 when none exists yet)
+const { hasThumb } = await import("./thumbs.mjs");
+let dropped = 0;
+const checks = [...Object.keys(out.shorts).map(id => ["s", id]), ...Object.keys(out.videos).map(id => ["v", id])];
+await Promise.all(Array.from({ length: 16 }, async () => {
+  while (checks.length) { const [k, id] = checks.pop();
+    if (!(await hasThumb(id, k))) { delete (k === "s" ? out.shorts : out.videos)[id]; dropped++; } }
+}));
 out.used = used;
 fs.writeFileSync(outPath, JSON.stringify(out));
 console.log(JSON.stringify({ channels: channels.length, empty_channels: failed, candidates: all.length,
-  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, quota_used: used }));
+  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, no_thumbnail_dropped: dropped, quota_used: used }));
