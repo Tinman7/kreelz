@@ -3,7 +3,7 @@
 // stats/catalog.json  — totals now, by category, and what came in with this refresh
 // stats/history.json  — one row per refresh (last 120), for the trend charts
 import fs from "node:fs";
-const [site = "index.html", dailyPath] = process.argv.slice(2);
+const [site = "index.html", ...dailyPaths] = process.argv.slice(2);
 const h = fs.readFileSync(site, "utf8");
 const CAT = { m: "music", d: "screen", f: "screen", e: "ent", b: "beauty", k: "kfood" };
 const empty = () => ({ music: 0, screen: 0, ent: 0, beauty: 0, kfood: 0 });
@@ -14,7 +14,7 @@ for (const [n, k] of [["SHORTS", "shorts"], ["FEED", "videos"]]) {
   for (let i = 0; i + 16 <= s.length; i += 16) { const c = CAT[s[i + 11].toLowerCase()]; if (c) tot[k][c]++; }
 }
 const fresh = { shorts: empty(), videos: empty() };
-if (dailyPath && fs.existsSync(dailyPath)) {
+for (const dailyPath of dailyPaths) if (fs.existsSync(dailyPath)) {
   const d = JSON.parse(fs.readFileSync(dailyPath, "utf8"));
   const onSite = new Set(); for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
   const prev = fs.existsSync("stats/known.txt") ? new Set(fs.readFileSync("stats/known.txt", "utf8").split("\n")) : null;

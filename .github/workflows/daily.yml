@@ -47,6 +47,13 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/collect.mjs scripts/channels.json daily.json
 
+      - name: Fan videos of the priority artists (fancams, dance covers, fan edits)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/fans.mjs fans.json
+
       - name: Merge into site
         if: steps.day.outputs.skip != '1'
         run: |
@@ -54,6 +61,10 @@ jobs:
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
+          if [ -s fans.json ]; then
+            python3 scripts/daily_merge.py index.html fans.json "${{ steps.day.outputs.build }}" index.next.html | tee -a merge.log
+            grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+          fi
           node scripts/prio.mjs index.html data/vmeta.json.gz
 
       - name: Weekly thumbnail check (Monday's refresh)
@@ -67,7 +78,7 @@ jobs:
       - name: Statistics for the admin page
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
-        run: node scripts/catalog_stats.mjs index.html daily.json
+        run: node scripts/catalog_stats.mjs index.html daily.json fans.json
 
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'
