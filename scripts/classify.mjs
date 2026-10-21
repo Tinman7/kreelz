@@ -23,6 +23,7 @@ const KW = {
   ],
   b: [
     [R("메이크업|make ?up|makeup|화장품|화장법|스킨 ?케어|skin ?care|skincare|grwm|겟레디윗미|get ready with me|올리브영|olive ?young|다이소 ?뷰티|쿠션|파운데이션|foundation|립스틱|립 ?(틴트|추천)|lip ?(tint|stick)|아이섀도|eyeshadow|아이라이너|마스카라|블러셔|선크림|sunscreen|토너|세럼|serum|앰플|클렌징|cleansing|팩\\b|마스크팩|피부 ?(관리|과|고민|타입)|여드름|모공|퍼스널 ?컬러|personal ?color|웜톤|쿨톤|뷰티|beauty|cosmetic|코스메틱|헤어 ?(스타일|컬러|펌)|hair ?(style|tutorial)|단발|네일|nail|향수|perfume|성형|시술|다이어트 ?(브이로그)?|룩북|lookbook|코디|ootd|패션|fashion"), 3],
+    [R("기초 ?(화장|케어|루틴)|스킨 ?로션|로션|수분 ?크림|보습|아이 ?크림|나이트 ?크림|세안|이중 ?세안|폼클렌징|홈 ?케어|각질|미백|탄력|주름|안티 ?에이징|anti-?aging|얼굴 ?마사지|페이스 ?마사지|face ?massage|facial ?massage|괄사|gua ?sha|림프 ?(순환|마사지)|lymphatic|붓기|토너 ?패드|toner ?pad|시트 ?마스크|sheet ?mask|수면 ?팩|sleeping ?mask|모델링 ?팩|moisturi[sz]|skin ?routine|glass ?skin|물광|피부 ?(관리|결|톤|장벽|좋아지는|꿀팁)"), 3],
   ],
   k: [
     [R("먹방|mukbang|먹는 ?(소리|방송)|먹어 ?(봤|보|요)|먹었|먹기 ?챌린지|리얼 ?사운드|asmr ?(eating|먹)|eating ?(show|sounds?|asmr)|\\beating\\b|대식가|맛집|맛있|맛탐|food|푸드|요리|레시피|recipe|cooking|cook\\b|\\bchef\\b|셰프|쿡방|라면|ramen|ramyeon|치킨|chicken|떡볶이|tteok|삼겹살|고기|bbq|바베큐|국밥|짜장|짬뽕|피자|pizza|햄버거|burger|초밥|sushi|생선회|모듬회|광어|연어|해산물|seafood|곱창|마라탕|탕후루|디저트|dessert|빵|케이크|cake|편의점|convenience store|분식|김밥|kimbap|kimchi|김치|비빔밥|bibimbap|불닭|buldak|간식|snack|길거리 ?음식|street ?food|시장 ?(먹|음식)|뷔페|buffet|술안주|혼술|혼밥|집밥|도시락|반찬"), 3],

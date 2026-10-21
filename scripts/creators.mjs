@@ -13,7 +13,7 @@ const QUERIES = [
   "kpop dance cover", "케이팝 커버", "kpop reaction", "아이돌 직캠",
   "드라마 리뷰", "드라마 몰아보기", "kdrama reaction", "영화 리뷰 결말",
   "예능 레전드", "korean variety funny", "한국 브이로그", "korea vlog",
-  "메이크업 추천템", "kbeauty", "먹방", "korean food mukbang", "한국 길거리 음식", "편의점 신상",
+  "메이크업 추천템", "kbeauty", "스킨케어 루틴", "얼굴 마사지 방법", "korean skincare routine", "피부관리 꿀팁", "먹방", "korean food mukbang", "한국 길거리 음식", "편의점 신상",
 ];
 const EXCLUDE = /full ?(ver|version|episode|ep|show|movie)|풀버전|풀영상|전편|다시보기|eng ?sub|1080p|4k full|\[?mv\]?\b|m\/v|music video|official (audio|video)|lyrics?|가사|\b1 ?hour|1시간|playlist|nightcore|8d|sped up|slowed|karaoke|노래방/i;
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
