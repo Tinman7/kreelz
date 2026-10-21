@@ -1962,6 +1962,7 @@ function spOpen(k){
   if(spIO) spIO.disconnect();
   spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
   if(!sp.open) sp.showModal();
+  let spT=0; $("#spFeed").addEventListener("scroll",e=>{ clearTimeout(spT); spT=setTimeout(()=>{ const f=e.target, H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); if(Math.abs(f.scrollTop-i*H)<H*0.4) spActivate(i) },140) },{passive:true});
   spFill(k+10);
   const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
   spActivate(k);
