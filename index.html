@@ -1509,6 +1509,24 @@ const GTCODE = {en:"en",tl:"tl",th:"th",id:"id",es:"es"};
 const TX = {api: ("Translator" in self) ? self.Translator : null, cache:{}, q:[], pending:new Set(), active:0, tr:{}, mmOff:false};
 try{ TX.cache = JSON.parse(store.get("ss-tx")||"{}") }catch(e){ TX.cache={} }
 const srcOf = s => HANGUL.test(s) ? "ko" : "en";
+/* Server-prepared titles (t/o = original title + channel, t/<lang> = translation), loaded in 256 small shards */
+const TT = {files:{}, idOf:{}};
+const TT_B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+const ttShard = id => ((TT_B.indexOf(id[0])*64 + TT_B.indexOf(id[1])) % 256).toString(16).padStart(2,"0");
+const ttFile = (dir,sh) => TT.files[dir+sh] || (TT.files[dir+sh] = fetch(`t/${dir}/${sh}.json`).then(r=>r.ok?r.json():null).catch(()=>null));
+async function ttMeta(id){
+  const o=await ttFile("o",ttShard(id)), e=o&&o[id];
+  if(!e||!e[0]) return null;
+  meta[id]={t:e[0],ch:e[1]||""}; TT.idOf[e[0]]=id;
+  await ttLang(id,state.lang);
+  return meta[id];
+}
+async function ttLang(id,lang){
+  const m=meta[id]; if(!m) return null;
+  const f=await ttFile(lang,ttShard(id)), tr=f&&f[id];
+  if(tr) (TX.cache[lang]||(TX.cache[lang]={}))[m.t]=tr;
+  return tr||null;
+}
 /* "Original titles" switch: when on, every title and description is shown exactly as the uploader wrote it */
 state.orig = false;
 const needsTx = s => !state.orig && !!s && !(srcOf(s)==="en" && state.lang==="en");
@@ -1516,6 +1534,8 @@ function tx(text){
   if(!needsTx(text)) return text;
   const c=TX.cache[state.lang], hit=c && c[text];
   if(hit) return hit;
+  const id=TT.idOf[text];
+  if(id){ const lang=state.lang; ttLang(id,lang).then(tr=>{ if(tr) txRefresh(); else if(state.lang===lang) txQueue(text) }); return text }
   txQueue(text);
   return text;
 }
@@ -1608,8 +1628,10 @@ let txRefT; function txRefresh(){ clearTimeout(txRefT); txRefT=setTimeout(()=>{
   if(sheet.open && cur){ fillSheetText(); document.querySelectorAll("#vgrid .vlabel[data-yk]").forEach(el=>{const v=cur.videos[+el.dataset.yk]; if(v&&v.label) el.textContent=tx(v.label)}); renderNow(); renderDesc() }
   if(sp.open) spInfo();
 },250) }
+function ttCurated(lang){ return ttFile("c",lang).then(m=>{ if(m){ Object.assign(TX.cache[lang]||(TX.cache[lang]={}), m); txRefresh() } }) }
 async function txInit(){
   const lang=state.lang; $("#txbar").hidden=true;
+  if(lang!=="ko") ttCurated(lang);
   if(TX.api && !TX.tr["ko>"+lang]){
     let a="unavailable";
     for(const tgt of txPairs("ko",lang)){ try{ a=await TX.api.availability({sourceLanguage:"ko",targetLanguage:tgt}) }catch(e){} if(a!=="unavailable") break }
@@ -1844,8 +1866,9 @@ function pumpTitles(){
   while(tActive<6 && tq.length){
     const id=tq.shift(); if(meta[id]) {fillMeta(id); continue}
     tActive++;
-    fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent("https://www.youtube.com/watch?v="+id)}&format=json`)
-      .then(r=>r.ok?r.json():null).then(d=>{meta[id]=d&&d.title?{t:d.title,ch:d.author_name||""}:{t:"YouTube video",ch:""}; fillMeta(id)})
+    ttMeta(id).then(m=>{ if(m){ fillMeta(id); return }
+      return fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent("https://www.youtube.com/watch?v="+id)}&format=json`)
+        .then(r=>r.ok?r.json():null).then(d=>{meta[id]=d&&d.title?{t:d.title,ch:d.author_name||""}:{t:"YouTube video",ch:""}; fillMeta(id)}) })
       .catch(()=>{}).finally(()=>{tActive--;pumpTitles()});
   }
 }
