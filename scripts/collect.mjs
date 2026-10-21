@@ -1,4 +1,4 @@
-// Seoul Signal — nightly collector over the official YouTube Data API v3.
+// KREELZ — nightly collector over the official YouTube Data API v3.
 // usage: YT_API_KEY=... node scripts/collect.mjs scripts/channels.json daily.json
 // Output: {at, videos:{id:[cat,views,days,ok]}, shorts:{id:[cat,views,ok]}, used} — read by daily_merge.py.
 // Quota (free 10,000 units/day): playlistItems.list 1, videos.list 1 per 50 ids, search.list 100.

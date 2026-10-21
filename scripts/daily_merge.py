@@ -1,4 +1,4 @@
-"""Seoul Signal — merge one night's collection into the site.
+"""KREELZ — merge one night's collection into the site.
 usage: python3 daily_merge.py <site.html> <daily.json> <YYYY-MM-DD build date, KST> <out.html>
 daily.json = {"videos": {id: [cat, views, days, ok]}, "shorts": {id: [cat, views, ok]}}
 - existing items keep their place; their age shifts by the days since the last build
