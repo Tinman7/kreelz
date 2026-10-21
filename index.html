@@ -500,7 +500,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-feed::-webkit-scrollbar{display:none}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
-.sp-slide iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}
+.sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000}
 .sp-poster{position:absolute;inset:0;display:block}
 .sp-poster img{width:100%;height:100%;object-fit:cover}
 .sp-side{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;min-width:0}
@@ -1900,17 +1900,43 @@ function spFill(upto){
   f.insertAdjacentHTML("beforeend", s);
   f.querySelectorAll(".sp-slide:not([data-o])").forEach(el=>{ el.dataset.o="1"; spIO.observe(el) });
 }
-function spFrame(v){
-  const m=meta[v.id]||{};
-  return `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0&loop=1&playlist=${v.id}&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="${esc(m.t||"YouTube Shorts")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+/* One YouTube player for the whole feed: it sits inside the scroller (so swipes over it still scroll) and is moved
+   onto the short in view, which is swapped in with loadVideoById. Reusing one player keeps the browser's play/sound
+   permission from the first tap. Where sound can't start on its own (iPhone), it starts muted; one tap on the
+   player's unmute then holds for every following short. */
+let spPl=null, spCur="", spState=-1, spChk=0;
+function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
+function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
+window.addEventListener("message",e=>{
+  if(!spPl||e.source!==spPl.contentWindow) return;
+  let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
+  if(!d) return;
+  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("playVideo") }
+  const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
+  if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") } }
+});
+function spAutoplayCheck(){
+  clearTimeout(spChk);
+  spChk=setTimeout(()=>{ if(spState!==1 && spState!==3){ spCmd("mute"); spCmd("playVideo") } },1600);
+}
+function spPlace(el){ if(spPl){ spPl.style.top=el.offsetTop+"px"; spPl.style.height=el.offsetHeight+"px" } }
+function spPlay(v,el){
+  const f=$("#spFeed");
+  if(!spPl){
+    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+    spPl=f.querySelector(".sp-player");
+    spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
+    spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
+  }
+  spPlace(el);
+  if(spCur!==v.id){ spCur=v.id; spState=-1; spCmd("loadVideoById",[{videoId:v.id,startSeconds:0}]); spAutoplayCheck() }
 }
 function spActivate(i){
   const f=$("#spFeed"); if(!f) return;
   const v=sstate.list[i], el=f.querySelector(`[data-i="${i}"]`); if(!v||!el) return;
-  if(i===spIdx && el.querySelector("iframe")) return;
+  if(i===spIdx && spCur===v.id) return;
   spIdx=i;
-  f.querySelectorAll(".sp-slide iframe").forEach(x=>x.remove());
-  el.insertAdjacentHTML("beforeend", spFrame(v));
+  spPlay(v,el);
   if(!meta[v.id]){ tq.unshift(v.id); pumpTitles() }
   spInfo();
   $("#spPrev").disabled = i<=0;
@@ -1931,7 +1957,7 @@ function spInfo(){
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
 function spOpen(k){
-  spIdx=-1; spN=0;
+  spIdx=-1; spN=0; spPl=null; spCur=""; spState=-1;
   $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>';
   if(spIO) spIO.disconnect();
   spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
@@ -1949,7 +1975,8 @@ $("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]");
 $("#spPrev").addEventListener("click",()=>spGo(-1));
 $("#spNext").addEventListener("click",()=>spGo(1));
 sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();spGo(1)} if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();spGo(-1)} });
-sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); $("#spStage").innerHTML=""; spIdx=-1 });
+sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); clearTimeout(spChk); $("#spStage").innerHTML=""; spPl=null; spCur=""; spIdx=-1 });
+window.addEventListener("resize",()=>{ const el=$("#spFeed")&&$("#spFeed").querySelector(`[data-i="${spIdx}"]`); if(el) spPlace(el) });
 sp.addEventListener("click",e=>{ if(e.target===sp) sp.close() });
 
 /* Events */
