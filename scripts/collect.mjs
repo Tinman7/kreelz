@@ -3,6 +3,8 @@
 // Output: {at, videos:{id:[cat,views,days,ok]}, shorts:{id:[cat,views,ok]}, used} — read by daily_merge.py.
 // Quota (free 10,000 units/day): playlistItems.list 1, videos.list 1 per 50 ids, search.list 100.
 import fs from "node:fs";
+import zlib from "node:zlib";
+import { classify, channelPriors, koreanChannels } from "./classify.mjs";
 
 const KEY = process.env.YT_API_KEY;
 if (!KEY) { console.error("YT_API_KEY is not set"); process.exit(1); }
@@ -31,12 +33,14 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 async function details(ids) {
   const out = {};
   for (let i = 0; i < ids.length; i += 50) {
-    const d = await call("videos", { part: "snippet,statistics,contentDetails,status", id: ids.slice(i, i + 50).join(","), maxResults: 50 }, 1);
+    const d = await call("videos", { part: "snippet,statistics,contentDetails,status,topicDetails", id: ids.slice(i, i + 50).join(","), maxResults: 50 }, 1);
     for (const v of d.items || []) out[v.id] = {
       views: +((v.statistics || {}).viewCount ?? -1),
       days: Math.max(0, Math.floor((Date.now() - new Date(v.snippet.publishedAt)) / DAY)),
       secs: dur((v.contentDetails || {}).duration),
       ch: v.snippet.channelId,
+      meta: [v.snippet.title || "", v.snippet.channelId || "", v.snippet.channelTitle || "", v.snippet.categoryId || "",
+        ((v.topicDetails || {}).topicCategories || []).map(u => u.split("/").pop()), (v.snippet.tags || []).slice(0, 12), dur((v.contentDetails || {}).duration)],
       // only finished, public, embeddable, non-live uploads
       usable: (v.status || {}).uploadStatus === "processed" && (v.status || {}).privacyStatus === "public"
         && (v.status || {}).embeddable !== false && (v.snippet.liveBroadcastContent || "none") === "none",
@@ -71,12 +75,23 @@ for (const [qs, c] of [[beautyQ, "b"], [mukbangQ, "k"]]) for (const q of qs) {
 }
 const all = [...new Set([...longIds, ...shortIds, ...Object.keys(searchCat)])];
 const info = await details(all);
+// category from the video itself (classify.mjs), with each channel's usual category as a prior
+const VMETA = "data/vmeta.json.gz";
+const vmeta = fs.existsSync(VMETA) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(VMETA))) : {};
+for (const id of all) if (info[id]) vmeta[id] = info[id].meta;
+const known = Object.values(vmeta);
+const prior = channelPriors(known), kch = koreanChannels(known, []);
+let recat = 0, offTopic = 0;
 const out = { at: new Date().toISOString(), videos: {}, shorts: {}, used: 0 };
 for (const id of all) {
   const v = info[id]; if (!v || !v.usable) continue;          // deleted, private, processing or live
   const ok = official.has(v.ch) && !creator.has(v.ch);
-  const cat = official.has(v.ch) ? catOf[v.ch] : searchCat[id];
-  if (!cat) continue;                                         // music/screen/entertainment only from listed official channels
+  const first = official.has(v.ch) ? catOf[v.ch] : searchCat[id];
+  if (!first) continue;
+  let cat = classify(v.meta, prior, ok, kch);
+  if (!cat) { offTopic++; continue; }                         // not Korean, off-topic or unclear
+  if ("mdfe".includes(cat) && !ok) { offTopic++; continue; }  // music/screen/shows only from listed official channels
+  if (cat !== first) recat++;
   const isShort = shortIds.has(id) || (v.secs > 0 && v.secs <= SHORT_MAX_S && !longIds.has(id)) ;
   if (isShort) { if (v.days <= MAX_AGE) out.shorts[id] = [cat, v.views, ok ? 1 : 0]; }
   else if (v.days <= MAX_AGE) out.videos[id] = [cat, v.views, v.days, ok ? 1 : 0];
@@ -90,6 +105,7 @@ await Promise.all(Array.from({ length: 16 }, async () => {
     if (!(await hasThumb(id, k))) { delete (k === "s" ? out.shorts : out.videos)[id]; dropped++; } }
 }));
 out.used = used;
+fs.mkdirSync("data", { recursive: true }); fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
 fs.writeFileSync(outPath, JSON.stringify(out));
 console.log(JSON.stringify({ channels: channels.length, empty_channels: failed, candidates: all.length,
-  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, no_thumbnail_dropped: dropped, quota_used: used }));
+  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, no_thumbnail_dropped: dropped, recategorised: recat, dropped_off_topic: offTopic, quota_used: used }));
