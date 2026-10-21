@@ -551,7 +551,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
     <h1 class="logo"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="8" y="8" width="24" height="84" rx="3" fill="currentColor"/><polygon points="38,45 69,8 95,8 64,45" fill="#6B4EFF"/><polygon points="38,55 64,55 95,92 69,92" fill="#6B4EFF" fill-opacity=".55"/></svg>KREELZ<small data-i18n="tagline">K-content, timed for global fans</small></h1>
     <div class="right">
       <span class="today-date" id="todayDate"></span>
-      <div class="city">
+      <div class="city" hidden style="display:none">
         <select id="citySel" aria-label="City">
           <option value="Asia/Jakarta">Jakarta (WIB)</option>
           <option value="Asia/Manila">Manila (PHT)</option>
@@ -1401,7 +1401,7 @@ function pickLang(){
   if(/^(fil|tl)/.test(n)) return "tl"; if(n.startsWith("th")) return "th"; if(/^(id|in)\b/.test(n)) return "id"; if(n.startsWith("es")) return "es";
   return "en";
 }
-const state = {cat:"all", q:"", tz: store.get("ss-tz") || "Asia/Jakarta", embeds:false, lang:pickLang()};
+const state = {cat:"all", q:"", tz: (()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"Asia/Seoul"}catch(e){return "Asia/Seoul"}})(), embeds:false, lang:pickLang()};
 function t(k,v){
   let s=I18N[state.lang]&&I18N[state.lang][k]; if(s==null) s=I18N.en[k]; if(s==null) return k;
   return v ? s.replace(/\{(\w+)\}/g,(m,x)=>v[x]!=null?v[x]:m) : s;
