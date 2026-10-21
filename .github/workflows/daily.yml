@@ -5,8 +5,13 @@ name: Nightly refresh (00:00 KST)
 # if the 23:00 start never happened, and then publishes at once.
 on:
   schedule:
-    - cron: "0 14 * * *"    # 14:00 UTC = 23:00 KST (prepare, then publish at 00:00 KST)
-    - cron: "20 15 * * *"   # 15:20 UTC = 00:20 KST (safety net only)
+    # GitHub sometimes starts scheduled jobs very late or skips one, so there are several starts: the first one
+    # that runs prepares everything and publishes at 00:00:00 KST; the later ones see the day is done and stop.
+    - cron: "0 13 * * *"    # 22:00 KST
+    - cron: "30 13 * * *"   # 22:30 KST
+    - cron: "0 14 * * *"    # 23:00 KST
+    - cron: "30 14 * * *"   # 23:30 KST
+    - cron: "20 15 * * *"   # 00:20 KST (publishes at once if nothing ran before midnight)
   workflow_dispatch: {}     # manual run: publishes immediately
 
 permissions:
@@ -28,7 +33,7 @@ jobs:
         id: day
         run: |
           # the KST date this refresh goes live on: tomorrow when started before midnight, today after it
-          BUILD=$(TZ=Asia/Seoul date -d '+90 minutes' +%F)
+          BUILD=$(TZ=Asia/Seoul date -d '+150 minutes' +%F)
           [ "${{ github.event_name }}" = "workflow_dispatch" ] && BUILD=$(TZ=Asia/Seoul date +%F)
           CUR=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
           echo "build=$BUILD" >> "$GITHUB_OUTPUT"
