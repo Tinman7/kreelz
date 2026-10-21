@@ -609,7 +609,6 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
         <button type="button" data-s="new" data-i18n="sort_new"></button>
         <button type="button" data-s="views" data-i18n="sort_views"></button>
       </div>
-      <label class="chk"><input type="checkbox" id="fOfficial"> <span data-i18n="official_only"></span></label>
     </div>
     <div class="fgrid" id="fgrid"></div>
     <div class="wall" id="fwall" hidden></div>
@@ -1727,7 +1726,7 @@ for(let i=0;i+16<=FEED.length;i+=16){
   const v={id:FEED.substr(i,11),cat,ok:c!==c.toLowerCase(),views:vc===4095?-1:Math.round(Math.pow(1.006,vc)-1),days:dc===4095?-1:dc+sinceBuild,r:FV.length};
   FV.push(v); FBYCAT[cat]=(FBYCAT[cat]||0)+1;
 }
-const fstate={sort:(s=>s==="views"?s:"new")(store.get("ss-fsort")),official:store.get("ss-fofficial")==="1",shown:0,cap:0,list:[]};
+const fstate={sort:(s=>s==="views"?s:"new")(store.get("ss-fsort")),official:false,shown:0,cap:0,list:[]};
 const meta={}; // id -> {t, ch}
 const nfmt=n=>new Intl.NumberFormat(LOCALE[state.lang],{notation:"compact",maximumFractionDigits:1}).format(n);
 function agefmt(d){
@@ -1778,7 +1777,6 @@ function renderFeed(reset=true){
   $("#feedTitle").textContent = state.cat==="all"?t("allvideos"):t("catvideos",{c:flabel(state.cat)});
   $("#feedCount").textContent = l.length===1 ? t("nvideo1") : t("nvideos",{n:num(l.length)});
   document.querySelectorAll("#fsort button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===fstate.sort));
-  $("#fOfficial").checked=fstate.official;
   observeTitles();
 }
 /* Titles and channel names come from YouTube's public oEmbed endpoint, fetched as cards scroll into view */
@@ -1813,7 +1811,7 @@ const mio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{if(
 if(mio) mio.observe($("#fmore"));
 $("#fmore").addEventListener("click",()=>renderFeed(false));
 $("#fsort").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fstate.sort=b.dataset.s;store.set("ss-fsort",fstate.sort);renderFeed()});
-$("#fOfficial").addEventListener("change",e=>{fstate.official=e.target.checked;store.set("ss-fofficial",fstate.official?"1":"0");renderShorts();renderFeed()});
+
 $("#fgrid").addEventListener("click",e=>{
   const a=e.target.closest("[data-fv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return;
   if(!state.embeds) return;   // can't play inside this page: let the link open YouTube directly, one click
