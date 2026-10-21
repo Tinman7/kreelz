@@ -1819,7 +1819,17 @@ const PRIO={};   // id -> rank (1 = first artist in the list)
 const prioOf=v=>PRIO[v.id]||99;
 /* Screen and Shows tabs: official OTT channels (Netflix, TVING, Disney+, Coupang Play, wavve…) first */
 const OTTSET=new Set(); (function(){ const s=typeof PRIO_OTT==="string"?PRIO_OTT:""; for(let i=0;i+11<=s.length;i+=11) OTTSET.add(s.slice(i,i+11)) })();
-const prioCmp=(a,b)=> state.cat==="music" ? prioOf(a)-prioOf(b) : (state.cat==="screen"||state.cat==="ent") ? (OTTSET.has(b.id)?1:0)-(OTTSET.has(a.id)?1:0) : 0;
+const prioCmp=(a,b)=> state.cat==="music" ? prioOf(a)-prioOf(b) : 0;
+/* Screen and Shows: OTT videos get a slight lift but stay mixed in — every 3 places hold 1 OTT video and 2 others,
+   each side in the chosen order (latest / most viewed), until one side runs out. */
+function mixOTT(l){
+  if(state.cat!=="screen" && state.cat!=="ent") return l;
+  const o=[], r=[]; l.forEach(v=>(OTTSET.has(v.id)?o:r).push(v));
+  if(!o.length||!r.length) return l;
+  const out=[]; let i=0,j=0;
+  while(i<o.length||j<r.length){ if(i<o.length) out.push(o[i++]); for(let k=0;k<2&&j<r.length;k++) out.push(r[j++]) }
+  return out;
+}
 const nfmt=n=>new Intl.NumberFormat(LOCALE[state.lang],{notation:"compact",maximumFractionDigits:1}).format(n);
 function agefmt(d){
   if(d<0) return "";
@@ -1837,7 +1847,7 @@ function feedList(){
   const q=state.q.trim().toLowerCase();
   let l=FV.filter(v=>(state.cat==="all"||v.cat===state.cat)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S1=SORTS[fstate.sort]; return l.sort((a,b)=>prioCmp(a,b)||S1(a,b));
+  const S1=SORTS[fstate.sort]; return mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b)));
 }
 const okIcon=()=>`<span class="fok" title="${esc(t("verified"))}"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>`;
 const isNew = v => v.days>=0 && v.days<=1;
@@ -1931,7 +1941,7 @@ function shortsList(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>(state.cat==="all"||v.cat===state.cat)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S2=SSORTS[sstate.sort]||SSORTS.views; return l.sort((a,b)=>prioCmp(a,b)||S2(a,b));
+  const S2=SSORTS[sstate.sort]||SSORTS.views; return mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b)));
 }
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
