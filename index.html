@@ -1970,8 +1970,7 @@ function spFill(upto){
 }
 /* One YouTube player for the whole feed: it sits inside the scroller (so swipes over it still scroll) and is moved
    onto the short in view, which is swapped in with loadVideoById. Reusing one player keeps the browser's play/sound
-   permission from the first tap. Where sound can't start on its own (iPhone), it starts muted; one tap on the
-   player's unmute then holds for every following short. */
+   permission from the first tap. */
 let spPl=null, spCur="", spState=-1, spChk=0;
 function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
 function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
@@ -1979,13 +1978,16 @@ window.addEventListener("message",e=>{
   if(!spPl||e.source!==spPl.contentWindow) return;
   let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
   if(!d) return;
-  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("playVideo") }
+  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("unMute"); spCmd("playVideo") }
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
   if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") } }
 });
+/* Sound stays on: never mute. If the browser blocks autoplay with sound (iPhone before the first tap on the player),
+   the player waits on its own play button; after that first tap the same player keeps playing every short with sound. */
 function spAutoplayCheck(){
   clearTimeout(spChk);
-  spChk=setTimeout(()=>{ if(spState!==1 && spState!==3){ spCmd("mute"); spCmd("playVideo") } },1600);
+  spCmd("unMute"); spCmd("playVideo");
+  spChk=setTimeout(()=>{ spCmd("unMute"); if(spState!==1 && spState!==3) spCmd("playVideo") },2500);
 }
 function spPlace(el){ if(spPl){ spPl.style.top=el.offsetTop+"px"; spPl.style.height=el.offsetHeight+"px" } }
 function spPlay(v,el){
