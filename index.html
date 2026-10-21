@@ -528,6 +528,11 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .cm-msg{margin:0;font-size:12.5px;color:#B42318;min-height:0}
 .vh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:640px){.cm{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:75dvh}}
+.tapsound{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;pointer-events:none;display:inline-flex;align-items:center;gap:7px;
+  background:rgba(10,11,14,.78);color:#fff;font-size:13.5px;font-weight:700;padding:8px 14px;border-radius:999px;white-space:nowrap;animation:tsPulse 1.6s ease-in-out 3}
+.tapsound svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.frame{position:relative}
+@keyframes tsPulse{50%{transform:translateX(-50%) scale(1.06)}}
 .sp-poster{position:absolute;inset:0;display:block}
 .sp-poster img{width:100%;height:100%;object-fit:cover}
 .sp-side{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;min-width:0}
@@ -1358,6 +1363,11 @@ Object.assign(I18N.tl,{"like": "Like", "cm_title": "Mga komento", "cm_name": "Pa
 Object.assign(I18N.th,{"like": "ถูกใจ", "cm_title": "ความคิดเห็น", "cm_name": "ชื่อของคุณ", "cm_body": "เพิ่มความคิดเห็น…", "cm_post": "โพสต์", "cm_empty": "ยังไม่มีความคิดเห็น มาเป็นคนแรกกัน!", "cm_rules": "ความคิดเห็นเป็นสาธารณะ โปรดสุภาพและห้ามใส่ลิงก์", "cm_need": "กรอกชื่อและความคิดเห็น", "cm_nolinks": "ห้ามใส่ลิงก์ในความคิดเห็น", "cm_slow": "คุณแสดงความคิดเห็นเร็วเกินไป ลองใหม่ในอีกหนึ่งนาที", "cm_err": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง", "cm_del": "ลบ"});
 Object.assign(I18N.id,{"like": "Suka", "cm_title": "Komentar", "cm_name": "Nama kamu", "cm_body": "Tambahkan komentar…", "cm_post": "Kirim", "cm_empty": "Belum ada komentar. Jadilah yang pertama!", "cm_rules": "Komentar bersifat publik. Bersikap baik, tanpa tautan.", "cm_need": "Isi nama dan komentar.", "cm_nolinks": "Tautan tidak diizinkan di komentar.", "cm_slow": "Terlalu cepat. Coba lagi dalam satu menit.", "cm_err": "Terjadi kesalahan. Silakan coba lagi.", "cm_del": "Hapus"});
 Object.assign(I18N.es,{"like": "Me gusta", "cm_title": "Comentarios", "cm_name": "Tu nombre", "cm_body": "Añade un comentario…", "cm_post": "Publicar", "cm_empty": "Aún no hay comentarios. ¡Sé el primero!", "cm_rules": "Los comentarios son públicos. Sé amable, sin enlaces.", "cm_need": "Escribe un nombre y un comentario.", "cm_nolinks": "No se permiten enlaces en los comentarios.", "cm_slow": "Vas muy rápido. Inténtalo de nuevo en un minuto.", "cm_err": "Algo salió mal. Inténtalo de nuevo.", "cm_del": "Eliminar"});
+Object.assign(I18N.en,{tap_sound:"Tap the video for sound"});
+Object.assign(I18N.tl,{tap_sound:"I-tap ang video para may tunog"});
+Object.assign(I18N.th,{tap_sound:"แตะที่วิดีโอเพื่อเปิดเสียง"});
+Object.assign(I18N.id,{tap_sound:"Ketuk video untuk suara"});
+Object.assign(I18N.es,{tap_sound:"Toca el video para activar el sonido"});
 const LEGAL_INFO = {
   service:"KREELZ",
   operator:"[Operator legal name]",
@@ -1978,6 +1988,14 @@ function spFill(upto){
 /* One YouTube player for the whole feed: it sits inside the scroller (so swipes over it still scroll) and is moved
    onto the short in view, which is swapped in with loadVideoById. Reusing one player keeps the browser's play/sound
    permission from the first tap. */
+/* iPhone/iPad: WebKit only lets an embedded video play with sound after a tap on the video itself. There the player
+   starts at once without sound and a hint asks for one tap; once sound is on, every following short keeps it. */
+const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+let spSound = !IOS;
+const SOUND_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+const soundHint = () => IOS ? `<span class="tapsound">${SOUND_SVG}${esc(t("tap_sound"))}</span>` : "";
+/* tapping into the player moves focus into its frame: hide the hint then */
+window.addEventListener("blur",()=>{ setTimeout(()=>{ if(document.activeElement && document.activeElement.tagName==="IFRAME") document.querySelectorAll(".tapsound").forEach(x=>x.remove()) },0) });
 let spPl=null, spCur="", spState=-1, spChk=0;
 function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
 function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
@@ -1985,22 +2003,27 @@ window.addEventListener("message",e=>{
   if(!spPl||e.source!==spPl.contentWindow) return;
   let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
   if(!d) return;
-  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("unMute"); spCmd("playVideo") }
+  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); if(!IOS) spCmd("unMute"); spCmd("playVideo") }
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
   if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") } }
+  if(d.event==="infoDelivery" && d.info && typeof d.info.muted==="boolean" && IOS){ if(!d.info.muted && !spSound){ spSound=true; document.querySelectorAll("#spFeed .tapsound").forEach(x=>x.remove()) } }
 });
 /* Sound stays on: never mute. If the browser blocks autoplay with sound (iPhone before the first tap on the player),
    the player waits on its own play button; after that first tap the same player keeps playing every short with sound. */
 function spAutoplayCheck(){
   clearTimeout(spChk);
-  spCmd("unMute"); spCmd("playVideo");
-  spChk=setTimeout(()=>{ spCmd("unMute"); if(spState!==1 && spState!==3) spCmd("playVideo") },2500);
+  if(!IOS){ spCmd("unMute"); spCmd("playVideo"); spChk=setTimeout(()=>{ spCmd("unMute"); if(spState!==1 && spState!==3) spCmd("playVideo") },2500); return }
+  spCmd("playVideo");
+  /* iPhone: if the next short didn't start (sound not allowed yet), carry on without sound and show the hint again */
+  spChk=setTimeout(()=>{ if(spState!==1 && spState!==3){ spSound=false; spCmd("mute"); spCmd("playVideo"); spHint() } },2500);
 }
-function spPlace(el){ if(spPl){ spPl.style.top=el.offsetTop+"px"; spPl.style.height=el.offsetHeight+"px" } }
+function spHint(){ const f=$("#spFeed"); if(!IOS||spSound||!f||!spPl) return; f.querySelectorAll(".tapsound").forEach(x=>x.remove());
+  f.insertAdjacentHTML("beforeend",soundHint()); const el=f.querySelector(".tapsound"); if(el) el.style.top=(parseFloat(spPl.style.top)||0)+72+"px" }
+function spPlace(el){ if(spPl){ spPl.style.top=el.offsetTop+"px"; spPl.style.height=el.offsetHeight+"px"; spHint() } }
 function spPlay(v,el){
   const f=$("#spFeed");
   if(!spPl){
-    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&playsinline=1${IOS?"&mute=1":""}&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
     spPl=f.querySelector(".sp-player");
     spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
@@ -2242,7 +2265,7 @@ function renderStage(){
   const v=cur.videos[sel]; if(!v){$("#stage").innerHTML="";$("#now").innerHTML="";return}
   const tall = v.p==="tt";
   if(state.embeds){
-    $("#stage").innerHTML=`<div class="frame${tall?" tall":""}"><iframe src="${vEmbed(v)}" ${REFPOL} title="${esc(v.label||cur.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
+    $("#stage").innerHTML=`<div class="frame${tall?" tall":""}">${v.p==="yt"?soundHint():""}<iframe src="${vEmbed(v)}${IOS&&v.p==="yt"?"&mute=1":""}" ${REFPOL} title="${esc(v.label||cur.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
   } else {
     const img=vThumb(v);
     $("#stage").innerHTML=`<a class="frame poster" data-cat="${cur.cat}" href="${vURL(v)}" target="_blank" rel="noopener"${v.p==="tt"?` data-tt="${esc(v.id)}"`:""}>
