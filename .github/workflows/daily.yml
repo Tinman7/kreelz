@@ -54,6 +54,13 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/fans.mjs fans.json
 
+      - name: OTT official channels catch-up (Netflix, TVING, Disney+, Coupang Play, wavve)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/backfill.mjs ott.json UCNIiH_4ArJNd_cDZApZ7AFg:300 UCiEEF51uRAeZeCo8CJFhGWw:300 UCtdz9LWNNQKUg4Xpma_40Ug:300 UCjn-VbcIkAeXQKCmLJV8YwQ:300 UCpiCK8c6PBktcxq7Az_t4RQ:300 UCym5538xAEEppbridXozfgw:300
+
       - name: Merge into site
         if: steps.day.outputs.skip != '1'
         run: |
@@ -61,10 +68,12 @@ jobs:
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
-          if [ -s fans.json ]; then
-            python3 scripts/daily_merge.py index.html fans.json "${{ steps.day.outputs.build }}" index.next.html | tee -a merge.log
-            grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
-          fi
+          for extra in fans.json ott.json; do
+            if [ -s "$extra" ]; then
+              python3 scripts/daily_merge.py index.html "$extra" "${{ steps.day.outputs.build }}" index.next.html | tee -a merge.log
+              grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+            fi
+          done
           node scripts/prio.mjs index.html data/vmeta.json.gz
 
       - name: Weekly thumbnail check (Monday's refresh)
@@ -78,7 +87,7 @@ jobs:
       - name: Statistics for the admin page
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
-        run: node scripts/catalog_stats.mjs index.html daily.json fans.json
+        run: node scripts/catalog_stats.mjs index.html daily.json fans.json ott.json
 
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'
