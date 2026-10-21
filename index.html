@@ -604,7 +604,6 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
     <div class="bar-r">
       <input class="search" id="q" type="search" data-i18n-ph="search_ph" data-i18n-aria="search_ph" enterkeyhint="search" autocomplete="off">
       <label class="langsel"><span class="vh-only" data-i18n="lang">Language</span><select id="langSel" data-i18n-aria="lang"></select></label>
-      <button type="button" class="origbtn" id="origBtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h8M8 3v2M10 5c-1 4-3.5 7-6 8.5M6 9c1.2 2 3 3.6 5 4.5M13 21l4-9 4 9M14.5 18h5"/></svg><span data-i18n="orig_btn"></span></button>
     </div>
   </div>
 
@@ -1511,7 +1510,7 @@ const TX = {api: ("Translator" in self) ? self.Translator : null, cache:{}, q:[]
 try{ TX.cache = JSON.parse(store.get("ss-tx")||"{}") }catch(e){ TX.cache={} }
 const srcOf = s => HANGUL.test(s) ? "ko" : "en";
 /* "Original titles" switch: when on, every title and description is shown exactly as the uploader wrote it */
-state.orig = store.get("ss-orig")==="1";
+state.orig = false;
 const needsTx = s => !state.orig && !!s && !(srcOf(s)==="en" && state.lang==="en");
 function tx(text){
   if(!needsTx(text)) return text;
@@ -2435,8 +2434,8 @@ function setLang(l){
 }
 $("#langSel").innerHTML = LANGS.map(([k,n])=>`<option value="${k}">${n}</option>`).join("");
 $("#langSel").addEventListener("change",e=>{ txWarm(e.target.value); setLang(e.target.value) });
-function syncOrig(){ const b=$("#origBtn"); b.setAttribute("aria-pressed", state.orig); b.title=t(state.orig?"orig_on":"orig_off") }
-$("#origBtn").addEventListener("click",()=>{
+function syncOrig(){ const b=$("#origBtn"); if(!b) return; b.setAttribute("aria-pressed", state.orig); b.title=t(state.orig?"orig_on":"orig_off") }
+$("#origBtn")&&$("#origBtn").addEventListener("click",()=>{
   state.orig=!state.orig; store.set("ss-orig", state.orig?"1":"0"); syncOrig();
   renderAll(); document.querySelectorAll("[data-ft]").forEach(el=>fillMeta(el.dataset.ft));
   if(sheet.open && cur){ fillSheetText(); renderNow() }
