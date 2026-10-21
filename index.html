@@ -16,6 +16,8 @@
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://kreelz.com/">
 <meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -49,6 +51,8 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .logo i{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
 @media (prefers-reduced-motion:no-preference){.logo i{animation:blink 2.6s ease-in-out infinite}}
 @keyframes blink{50%{opacity:.35}}
+.logo .mark{width:26px;height:26px;flex:none;margin-right:-1px}
+.logo.sm .mark{width:17px;height:17px}
 .logo small{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:10px;padding-left:12px;border-left:1px solid var(--line)}
 .right{display:flex;align-items:center;gap:16px}
 .today-date{font-size:13px;color:var(--muted);font-weight:500}
@@ -544,7 +548,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 
 <div class="wrap">
   <header class="mast">
-    <h1 class="logo"><i aria-hidden="true"></i>KREELZ<small data-i18n="tagline">K-content, timed for Southeast Asia</small></h1>
+    <h1 class="logo"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="8" y="8" width="24" height="84" rx="3" fill="currentColor"/><polygon points="38,45 69,8 95,8 64,45" fill="#6B4EFF"/><polygon points="38,55 64,55 95,92 69,92" fill="#6B4EFF" fill-opacity=".55"/></svg>KREELZ<small data-i18n="tagline">K-content, timed for Southeast Asia</small></h1>
     <div class="right">
       <span class="today-date" id="todayDate"></span>
       <div class="city">
@@ -668,7 +672,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 <dialog id="auth" class="modal" aria-labelledby="auTitle" data-mode="signup">
   <form id="auForm" novalidate>
     <div class="m-head">
-      <div><span class="logo sm"><i aria-hidden="true"></i>KREELZ</span><h2 id="auTitle"></h2><p id="auSub"></p></div>
+      <div><span class="logo sm"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="8" y="8" width="24" height="84" rx="3" fill="currentColor"/><polygon points="38,45 69,8 95,8 64,45" fill="#6B4EFF"/><polygon points="38,55 64,55 95,92 69,92" fill="#6B4EFF" fill-opacity=".55"/></svg>KREELZ</span><h2 id="auTitle"></h2><p id="auSub"></p></div>
       <button type="button" class="sh-x" data-close data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="m-body">
