@@ -43,6 +43,7 @@ jobs:
 
       - name: Collect from YouTube Data API
         if: steps.day.outputs.skip != '1'
+        continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/collect.mjs scripts/channels.json daily.json
@@ -81,6 +82,7 @@ jobs:
       - name: Merge into site
         if: steps.day.outputs.skip != '1'
         run: |
+          [ -s daily.json ] || echo '{"videos":{},"shorts":{}}' > daily.json
           python3 scripts/daily_merge.py index.html daily.json "${{ steps.day.outputs.build }}" index.next.html | tee merge.log
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
@@ -121,7 +123,8 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html t data stats
+          git add index.html data stats
+          [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
       - name: Wait for 00:00 KST
