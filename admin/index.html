@@ -126,12 +126,12 @@ tfoot td{font-weight:800;border-bottom:0}
     </div>
   </div>
 
-  <h2>방문 · 재생 통계 <small id="dayLabel"></small></h2>
+  <h2>KREELZ 방문 · 재생 통계 <small id="dayLabel"></small></h2>
   <div class="grid kpis">
-    <div class="card kpi"><div class="l">어제 방문자</div><div class="v" id="vY">–</div><div class="s" id="vYS"></div></div>
-    <div class="card kpi"><div class="l">어제 본 영상 수</div><div class="v" id="pY">–</div><div class="s" id="pYS"></div></div>
-    <div class="card kpi"><div class="l">누적 방문자</div><div class="v" id="vAll">–</div><div class="s">브라우저 기준 고유 방문자</div></div>
-    <div class="card kpi"><div class="l">누적 재생 · 좋아요 · 댓글</div><div class="v" id="pAll">–</div><div class="s" id="lcAll"></div></div>
+    <div class="card kpi"><div class="l">어제 KREELZ 방문자</div><div class="v" id="vY">–</div><div class="s" id="vYS"></div></div>
+    <div class="card kpi"><div class="l">어제 KREELZ에서 본 영상 수</div><div class="v" id="pY">–</div><div class="s" id="pYS"></div></div>
+    <div class="card kpi"><div class="l">KREELZ 누적 방문자</div><div class="v" id="vAll">–</div><div class="s">브라우저 기준 고유 방문자</div></div>
+    <div class="card kpi"><div class="l">KREELZ 누적 재생 · 좋아요 · 댓글</div><div class="v" id="pAll">–</div><div class="s" id="lcAll"></div></div>
   </div>
   <div class="card" style="margin-top:12px">
     <div style="font-size:14px;font-weight:800;margin-bottom:6px">일별 방문자 · 재생 수 <small style="color:var(--muted);font-weight:500">최근 30일</small></div>
@@ -139,13 +139,14 @@ tfoot td{font-weight:800;border-bottom:0}
     <div class="legend"><span><i style="background:var(--accent)"></i>방문자</span><span><i style="background:var(--accent2)"></i>재생 수</span></div>
   </div>
 
-  <h2 style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">인기 영상
+  <h2>KREELZ 인기 영상 <small>YouTube 조회수가 아니라 우리 사이트에서 재생 · 좋아요 · 댓글이 일어난 횟수 기준</small></h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+    <span class="seg" id="metric" role="group" aria-label="기준"><button type="button" data-m="plays" aria-pressed="true">조회수</button><button type="button" data-m="likes" aria-pressed="false">좋아요</button><button type="button" data-m="comments" aria-pressed="false">댓글</button></span>
     <span class="seg" id="period" role="group" aria-label="기간"><button type="button" data-p="yesterday" aria-pressed="false">어제</button><button type="button" data-p="all" aria-pressed="true">누적</button></span>
-  </h2>
-  <div class="grid three">
-    <div class="card top"><h3>가장 많이 본 영상</h3><ol id="topPlays"></ol></div>
-    <div class="card top"><h3>좋아요가 가장 많은 영상</h3><ol id="topLikes"></ol></div>
-    <div class="card top"><h3>댓글이 가장 많은 영상</h3><ol id="topComments"></ol></div>
+  </div>
+  <div class="grid two">
+    <div class="card top"><h3>인기 쇼츠 TOP 10</h3><ol id="topShorts"></ol></div>
+    <div class="card top"><h3>인기 일반 영상 TOP 10</h3><ol id="topVideos"></ol></div>
   </div>
 
   <h2>회원 통계</h2>
@@ -233,23 +234,32 @@ function bars(D){
 }
 
 /* ---------- top videos ---------- */
-let period="all"; const titles={};
+let period="all", metric="plays"; const titles={};
+let SHORTS=null;   // Set of short ids on the site (stats/shorts.txt)
+const shortsSet=()=>SHORTS||(SHORTS=fetch("/stats/shorts.txt?"+Date.now()).then(r=>r.ok?r.text():"").then(t=>{ const s=new Set(); for(let i=0;i+11<=t.length;i+=11) s.add(t.slice(i,i+11)); return s }).catch(()=>new Set()));
 async function title(id){
   if(titles[id]) return titles[id];
   if(!/^[\w-]{11}$/.test(id)) return titles[id]={t:id,ch:""};
   try{ const d=await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`).then(r=>r.ok?r.json():null);
        return titles[id]=d?{t:d.title,ch:d.author_name}:{t:"(삭제되었거나 비공개된 영상)",ch:""} }catch(e){ return titles[id]={t:id,ch:""} }
 }
-async function topList(sel,what,unit){
-  const el=$(sel); el.innerHTML=`<li class="empty" style="display:block">불러오는 중…</li>`;
-  const {data,error}=await sb.rpc("admin_top",{what,period,lim:10});
-  if(error){ el.innerHTML=`<li class="empty" style="display:block">불러오지 못했습니다</li>`; return }
-  if(!data.length){ el.innerHTML=`<li class="empty" style="display:block">아직 데이터가 없습니다</li>`; return }
-  const items=await Promise.all(data.map(async r=>({...r, ...(await title(r.video_id))})));
+function rows(el,items,unit){
+  if(!items.length){ el.innerHTML=`<li class="empty" style="display:block">아직 데이터가 없습니다</li>`; return }
   el.innerHTML=items.map(r=>{ const yt=/^[\w-]{11}$/.test(r.video_id);
     return `<li><img src="${yt?`https://i.ytimg.com/vi/${r.video_id}/mqdefault.jpg`:""}" alt="" loading="lazy"><div class="t"><a href="${yt?`https://www.youtube.com/watch?v=${r.video_id}`:"#"}" target="_blank" rel="noopener">${esc(r.t)}</a><br><small style="color:var(--muted)">${esc(r.ch||"")}</small></div><span class="n">${nf(r.n)}${unit}</span></li>` }).join("");
 }
-function loadTop(){ topList("#topPlays","plays","회"); topList("#topLikes","likes","개"); topList("#topComments","comments","개") }
+async function loadTop(){
+  const unit={plays:"회",likes:"개",comments:"개"}[metric];
+  ["#topShorts","#topVideos"].forEach(s=>$(s).innerHTML=`<li class="empty" style="display:block">불러오는 중…</li>`);
+  const [{data,error},S]=await Promise.all([sb.rpc("admin_top",{what:metric,period,lim:400}), shortsSet()]);
+  if(error){ ["#topShorts","#topVideos"].forEach(s=>$(s).innerHTML=`<li class="empty" style="display:block">불러오지 못했습니다</li>`); return }
+  const sh=data.filter(r=>S.has(r.video_id)).slice(0,10), vd=data.filter(r=>!S.has(r.video_id)).slice(0,10);
+  const withT=async l=>Promise.all(l.map(async r=>({...r,...(await title(r.video_id))})));
+  const [a,b]=await Promise.all([withT(sh),withT(vd)]);
+  rows($("#topShorts"),a,unit); rows($("#topVideos"),b,unit);
+}
+$("#metric").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; metric=b.dataset.m;
+  document.querySelectorAll("#metric button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
 $("#period").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; period=b.dataset.p;
   document.querySelectorAll("#period button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
 

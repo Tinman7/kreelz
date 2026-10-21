@@ -39,4 +39,6 @@ fs.writeFileSync("stats/history.json", JSON.stringify(hist.slice(-120)));
 // ids on the site now, so tomorrow's "new" counts only what is really new
 const ids = []; for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) ids.push(s.slice(i, i + 11)); }
 fs.writeFileSync("stats/known.txt", ids.join("\n"));
+// shorts ids (11 chars each), so the admin page can split its rankings into shorts and regular videos
+fs.writeFileSync("stats/shorts.txt", h.match(/const SHORTS = "([^"]*)";/)[1].match(/.{16}/g).map(r => r.slice(0, 11)).join(""));
 console.log(JSON.stringify({ build, total: catalog.total, new_today: catalog.new_today.all }));
