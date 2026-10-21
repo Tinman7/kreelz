@@ -44,7 +44,7 @@ def merge(rows, new, delta, kind):
             r = idx[vid]
             if vcode(views) != 4095 and (r[2] == 4095 or vcode(views) > r[2]): r[2] = vcode(views); upd += 1
             continue
-        fresh.append([vid, ch, vcode(views), max(0, int(days))])
+        fresh.append([vid, ch, vcode(views), min(4094, max(0, int(days)))])
     fresh.sort(key=lambda r: (r[3], -r[2]))
     return fresh + rows, fresh, upd
 
