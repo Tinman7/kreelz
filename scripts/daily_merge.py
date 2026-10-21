@@ -37,7 +37,7 @@ def merge(rows, new, delta, kind):
     for vid, val in new.items():
         if len(vid) != 11: continue
         if kind == "v": c, views, days, ok = val
-        else: c, views, ok = val; days = 0
+        else: c, views, ok = val[:3]; days = val[3] if len(val) > 3 else 0
         if c not in "dfmbke": continue
         ch = c.upper() if ok else c
         if vid in idx:

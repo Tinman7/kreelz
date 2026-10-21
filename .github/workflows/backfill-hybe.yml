@@ -1,0 +1,59 @@
+name: Backfill HYBE and BTS
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect BTS (everything) and HYBE channels
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: >
+          node scripts/backfill.mjs backfill.json
+          UCLkAepWjdylmXSltofFvsYQ:all
+          UC3IZKseVpdzPSBaWxBxundA:all
+          UCtiObj3CsEAdNU6ZPWDsddQ:400
+          UCArLZtok93cO5R9RI4_Y5Jw:400
+          UCfkXDY7vwkcJ8ddFGz8KusA:400
+          UCs-QBT4qkj_YiQw1ZntDO3g:400
+          UCEpFoWeCMCo5z3EvWaz6hQQ:400
+          UChhKBlh_wvspTh5n4mL0b5g:400
+          UC8C6QOPDVYwmuaSBZksefdg:400
+          UCMki_UkHb4qSc0qyEcOHHJw:400
+          UCHD1jo5RhijLfx5-0Ehe_cg:400
+          UCZMYvSPulDSUdx7bdtTFdrg:400
+          | tee backfill.log
+      - name: Merge and prioritise
+        run: |
+          BUILD=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          python3 scripts/daily_merge.py index.html backfill.json "$BUILD" index.next.html | tee merge.log
+          grep -q 'const SHORTS = "' index.next.html
+          mv index.next.html index.html
+          node scripts/prio.mjs index.html data/vmeta.json.gz | tee prio.log
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "HYBE/BTS backfill: $(tail -1 backfill.log) $(cat prio.log)"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

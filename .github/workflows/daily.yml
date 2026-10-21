@@ -36,6 +36,7 @@ jobs:
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
+          node scripts/prio.mjs index.html data/vmeta.json.gz
 
       - name: Titles in every language
         continue-on-error: true
