@@ -501,6 +501,33 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000}
+.soc{display:flex;gap:10px;align-items:center}
+.soc[hidden]{display:none}
+.soc-b{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:inherit;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+.soc-b svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round}
+.soc-like[aria-pressed="true"] svg{fill:#6B4EFF;stroke:#6B4EFF}
+.soc-l .soc-b{border-color:var(--line);background:var(--soft);color:var(--ink)}
+.soc-l{margin:10px 0 4px}
+.cm{border:0;padding:0;border-radius:18px;width:min(560px,calc(100vw - 24px));max-height:min(80dvh,720px);background:var(--bg);color:var(--ink);display:none;flex-direction:column}
+.cm[open]{display:flex}
+.cm::backdrop{background:rgba(5,6,8,.6)}
+.cm-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.cm-head h2{margin:0;font-size:17px;font-weight:800}
+.cm-n{color:var(--muted);font-weight:600}
+.cm-list{flex:1;overflow-y:auto;padding:6px 16px;min-height:120px}
+.cm-i{padding:10px 0;border-bottom:1px solid var(--line)}
+.cm-h{display:flex;gap:8px;align-items:baseline;font-size:13px}
+.cm-h span{color:var(--muted);font-size:12px}
+.cm-i p{margin:4px 0 0;font-size:14.5px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.cm-del{margin-left:auto;border:0;background:none;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;text-decoration:underline}
+.cm-empty{color:var(--muted);font-size:14px;text-align:center;padding:24px 0}
+.cm-form{display:grid;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.cm-form input,.cm-form textarea{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg);color:var(--ink);resize:vertical}
+.cm-row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.cm-rules{margin:0;font-size:11.5px;color:var(--muted)}
+.cm-msg{margin:0;font-size:12.5px;color:#B42318;min-height:0}
+.vh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:640px){.cm{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:75dvh}}
 .sp-poster{position:absolute;inset:0;display:block}
 .sp-poster img{width:100%;height:100%;object-fit:cover}
 .sp-side{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;min-width:0}
@@ -648,6 +675,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
   </div>
   <div class="stage" id="stage"></div>
   <div class="now" id="now"></div>
+  <div class="soc soc-l" id="shSoc" hidden></div>
   <p class="sh-blurb" id="shBlurb"></p>
   <p class="tnote sh-tn" id="shTn" hidden></p>
   <div class="sh-desc" id="shDesc" hidden></div>
@@ -664,6 +692,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
       <h2 id="spTitle"></h2>
       <p class="orig" id="spOrig" hidden></p>
       <p class="sp-meta" id="spMeta"></p>
+      <div class="soc" id="spSoc" hidden></div>
       <a class="sp-open" id="spOpen" target="_blank" rel="noopener"></a>
       <div class="sp-gate" id="spGate" hidden><p data-i18n="wall_btn"></p><button type="button" class="cta" data-auth="signup" data-i18n="wall_btn"></button></div>
       <div class="sp-nav"><button type="button" id="spPrev" data-i18n-aria="prev"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><span id="spPos"></span><button type="button" id="spNext" data-i18n-aria="next"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></div>
@@ -671,6 +700,18 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
   </div>
 </dialog>
 
+<dialog id="cm" class="cm" aria-labelledby="cmTitle">
+  <div class="cm-head"><h2 id="cmTitle"><span data-i18n="cm_title"></span> <span class="cm-n" id="cmCount"></span></h2><button type="button" class="sh-x" data-cm-close data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="cm-list" id="cmList"></div>
+  <form class="cm-form" id="cmForm" novalidate>
+    <label class="vh-sr" for="cmName" data-i18n="cm_name"></label>
+    <input id="cmName" maxlength="30" autocomplete="nickname" data-i18n-ph="cm_name">
+    <label class="vh-sr" for="cmBody" data-i18n="cm_body"></label>
+    <textarea id="cmBody" maxlength="500" rows="2" data-i18n-ph="cm_body"></textarea>
+    <div class="cm-row"><p class="cm-rules" data-i18n="cm_rules"></p><button type="submit" class="cta" id="cmPost" data-i18n="cm_post"></button></div>
+    <p class="cm-msg" id="cmMsg" role="status"></p>
+  </form>
+</dialog>
 <dialog id="auth" class="modal" aria-labelledby="auTitle" data-mode="signup">
   <form id="auForm" novalidate>
     <div class="m-head">
@@ -1312,6 +1353,11 @@ es:{
 };
 
 /* ===== Legal documents (English). Before launch, replace the operator details in LEGAL_INFO. ===== */
+Object.assign(I18N.en,{"like": "Like", "cm_title": "Comments", "cm_name": "Your name", "cm_body": "Add a comment…", "cm_post": "Post", "cm_empty": "No comments yet. Be the first!", "cm_rules": "Comments are public. Be kind, no links.", "cm_need": "Enter a name and a comment.", "cm_nolinks": "Links aren't allowed in comments.", "cm_slow": "You're commenting too fast. Try again in a minute.", "cm_err": "Something went wrong. Please try again.", "cm_del": "Delete"});
+Object.assign(I18N.tl,{"like": "Like", "cm_title": "Mga komento", "cm_name": "Pangalan mo", "cm_body": "Magdagdag ng komento…", "cm_post": "I-post", "cm_empty": "Wala pang komento. Ikaw ang mauna!", "cm_rules": "Pampubliko ang mga komento. Maging mabait, bawal ang link.", "cm_need": "Ilagay ang pangalan at komento.", "cm_nolinks": "Bawal ang link sa komento.", "cm_slow": "Masyadong mabilis. Subukan ulit pagkalipas ng isang minuto.", "cm_err": "May nangyaring mali. Pakisubukan ulit.", "cm_del": "Burahin"});
+Object.assign(I18N.th,{"like": "ถูกใจ", "cm_title": "ความคิดเห็น", "cm_name": "ชื่อของคุณ", "cm_body": "เพิ่มความคิดเห็น…", "cm_post": "โพสต์", "cm_empty": "ยังไม่มีความคิดเห็น มาเป็นคนแรกกัน!", "cm_rules": "ความคิดเห็นเป็นสาธารณะ โปรดสุภาพและห้ามใส่ลิงก์", "cm_need": "กรอกชื่อและความคิดเห็น", "cm_nolinks": "ห้ามใส่ลิงก์ในความคิดเห็น", "cm_slow": "คุณแสดงความคิดเห็นเร็วเกินไป ลองใหม่ในอีกหนึ่งนาที", "cm_err": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง", "cm_del": "ลบ"});
+Object.assign(I18N.id,{"like": "Suka", "cm_title": "Komentar", "cm_name": "Nama kamu", "cm_body": "Tambahkan komentar…", "cm_post": "Kirim", "cm_empty": "Belum ada komentar. Jadilah yang pertama!", "cm_rules": "Komentar bersifat publik. Bersikap baik, tanpa tautan.", "cm_need": "Isi nama dan komentar.", "cm_nolinks": "Tautan tidak diizinkan di komentar.", "cm_slow": "Terlalu cepat. Coba lagi dalam satu menit.", "cm_err": "Terjadi kesalahan. Silakan coba lagi.", "cm_del": "Hapus"});
+Object.assign(I18N.es,{"like": "Me gusta", "cm_title": "Comentarios", "cm_name": "Tu nombre", "cm_body": "Añade un comentario…", "cm_post": "Publicar", "cm_empty": "Aún no hay comentarios. ¡Sé el primero!", "cm_rules": "Los comentarios son públicos. Sé amable, sin enlaces.", "cm_need": "Escribe un nombre y un comentario.", "cm_nolinks": "No se permiten enlaces en los comentarios.", "cm_slow": "Vas muy rápido. Inténtalo de nuevo en un minuto.", "cm_err": "Algo salió mal. Inténtalo de nuevo.", "cm_del": "Eliminar"});
 const LEGAL_INFO = {
   service:"KREELZ",
   operator:"[Operator legal name]",
@@ -1951,6 +1997,7 @@ function spInfo(){
   $("#spTitle").textContent=title||t("loading");
   $("#spOrig").textContent = m.t && title!==m.t ? t("tr_orig",{t:m.t}) : ""; $("#spOrig").hidden = !(m.t && title!==m.t);
   $("#spMeta").textContent=[m.ch, v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
+  renderSoc("#spSoc", v.id);
   $("#spOpen").href=`https://www.youtube.com/shorts/${v.id}`;
   $("#spOpen").innerHTML=`${esc(t("open_on",{p:"YouTube"}))} ${arrow}`;
   $("#spPos").textContent=`${num(spIdx+1)} / ${num(sstate.cap)}`;
@@ -1979,6 +2026,111 @@ sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight")
 sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); clearTimeout(spChk); $("#spStage").innerHTML=""; spPl=null; spCur=""; spIdx=-1 });
 window.addEventListener("resize",()=>{ const el=$("#spFeed")&&$("#spFeed").querySelector(`[data-i="${spIdx}"]`); if(el) spPlace(el) });
 sp.addEventListener("click",e=>{ if(e.target===sp) sp.close() });
+
+/* ===== Likes & comments (stored in Supabase; hidden until SB_URL/SB_KEY are set) =====
+   Reading needs no sign-in. Liking or commenting signs the browser in anonymously (no account, no e-mail). */
+const SB_URL = "";            // e.g. https://xxxx.supabase.co
+const SB_KEY = "";            // the project's public anon key (safe to publish; access is limited by row-level security)
+const SOC_ON = !!(SB_URL && SB_KEY);
+let sb=null, sbUser=null, sbLoading=null;
+const socCache = {};          // id -> {likes, comments, liked}
+function sbLoad(){
+  if(sb) return Promise.resolve(sb);
+  if(!SOC_ON) return Promise.reject(new Error("off"));
+  return sbLoading || (sbLoading = new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+    s.onload=async()=>{ try{
+      sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"kreelz-auth"}});
+      const {data}=await sb.auth.getSession(); sbUser=data&&data.session?data.session.user:null; res(sb) }catch(e){ rej(e) } };
+    s.onerror=()=>rej(new Error("load")); document.head.appendChild(s);
+  }));
+}
+async function sbMe(){
+  await sbLoad(); if(sbUser) return sbUser;
+  const {data,error}=await sb.auth.signInAnonymously(); if(error) throw error; sbUser=data.user; return sbUser;
+}
+async function socStats(id){
+  await sbLoad();
+  const [l,c]=await Promise.all([
+    sb.from("likes").select("video_id",{count:"exact",head:true}).eq("video_id",id),
+    sb.from("comments").select("id",{count:"exact",head:true}).eq("video_id",id).eq("hidden",false)]);
+  let liked=false;
+  if(sbUser){ const r=await sb.from("likes").select("video_id").eq("video_id",id).eq("user_id",sbUser.id).maybeSingle(); liked=!!r.data }
+  return socCache[id]={likes:l.count||0, comments:c.count||0, liked};
+}
+const HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8.1 3.6 4.5 7.2 4.5c2 0 3.6 1.1 4.8 2.8 1.2-1.7 2.8-2.8 4.8-2.8 3.6 0 5.7 3.6 4.5 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>';
+const BUBBLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10.5H9.5L5 19.5V16H4z"/></svg>';
+function socPaint(box,id){
+  const s=socCache[id]||{likes:0,comments:0,liked:false};
+  box.innerHTML=`<button type="button" class="soc-b soc-like" data-soc-like="${esc(id)}" aria-pressed="${s.liked}" aria-label="${esc(t("like"))}">${HEART}<span>${esc(nfmt(s.likes))}</span></button>`+
+    `<button type="button" class="soc-b" data-soc-cm="${esc(id)}" aria-label="${esc(t("cm_title"))}">${BUBBLE}<span>${esc(nfmt(s.comments))}</span></button>`;
+}
+function renderSoc(sel,id){
+  const box=$(sel); if(!box) return;
+  if(!SOC_ON || !id){ box.hidden=true; return }
+  box.hidden=false; box.dataset.id=id; socPaint(box,id);
+  socStats(id).then(()=>{ if(box.dataset.id===id) socPaint(box,id) }).catch(()=>{});
+}
+function socRefresh(id){ document.querySelectorAll(".soc").forEach(b=>{ if(b.dataset.id===id) socPaint(b,id) }) }
+async function socToggleLike(id){
+  const s=socCache[id]||(socCache[id]={likes:0,comments:0,liked:false});
+  const want=!s.liked; s.liked=want; s.likes=Math.max(0,s.likes+(want?1:-1)); socRefresh(id);
+  try{
+    const me=await sbMe();
+    const r = want ? await sb.from("likes").insert({video_id:id,user_id:me.id}) : await sb.from("likes").delete().eq("video_id",id).eq("user_id",me.id);
+    if(r.error && r.error.code!=="23505") throw r.error;
+  }catch(e){ s.liked=!want; s.likes=Math.max(0,s.likes+(want?-1:1)); socRefresh(id); toast(t("cm_err")) }
+}
+/* comments panel */
+const cm=$("#cm"); let cmId="";
+const rtf = () => { try{ return new Intl.RelativeTimeFormat(GTCODE[state.lang]||"en",{numeric:"auto"}) }catch(e){ return null } };
+function ago(ts){
+  const s=(Date.now()-new Date(ts))/1000, f=rtf(); if(!f) return "";
+  if(s<60) return f.format(0,"second"); if(s<3600) return f.format(-Math.floor(s/60),"minute");
+  if(s<86400) return f.format(-Math.floor(s/3600),"hour"); if(s<2592000) return f.format(-Math.floor(s/86400),"day");
+  return new Date(ts).toLocaleDateString(GTCODE[state.lang]||"en");
+}
+async function cmLoad(){
+  const list=$("#cmList"); list.innerHTML=`<p class="cm-empty">${esc(t("loading"))}</p>`;
+  try{
+    await sbLoad();
+    const {data,error}=await sb.from("comments").select("id,name,body,created_at,user_id").eq("video_id",cmId).eq("hidden",false).order("created_at",{ascending:false}).limit(100);
+    if(error) throw error;
+    $("#cmCount").textContent=num(data.length);
+    list.innerHTML = data.length ? data.map(c=>`<div class="cm-i"><div class="cm-h"><b>${esc(c.name)}</b><span>${esc(ago(c.created_at))}</span>${sbUser&&c.user_id===sbUser.id?`<button type="button" class="cm-del" data-cm-del="${c.id}">${esc(t("cm_del"))}</button>`:""}</div><p>${esc(c.body)}</p></div>`).join("")
+      : `<p class="cm-empty">${esc(t("cm_empty"))}</p>`;
+  }catch(e){ list.innerHTML=`<p class="cm-empty">${esc(t("cm_err"))}</p>` }
+}
+function cmOpen(id){ cmId=id; $("#cmName").value=store.get("kz-name")||""; $("#cmBody").value=""; $("#cmMsg").textContent=""; cm.showModal(); cmLoad() }
+$("#cmForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("#cmName").value.trim().slice(0,30), body=$("#cmBody").value.trim().slice(0,500), msg=$("#cmMsg");
+  if(!name||!body){ msg.textContent=t("cm_need"); return }
+  if(/(https?:\/\/|www\.)/i.test(body)){ msg.textContent=t("cm_nolinks"); return }
+  const btn=$("#cmPost"); btn.disabled=true; msg.textContent="";
+  try{
+    const me=await sbMe();
+    const {error}=await sb.from("comments").insert({video_id:cmId,user_id:me.id,name,body});
+    if(error) throw error;
+    store.set("kz-name",name); $("#cmBody").value="";
+    const s=socCache[cmId]; if(s){ s.comments++; socRefresh(cmId) }
+    cmLoad();
+  }catch(err){ msg.textContent = /slow/i.test(err&&err.message||"") ? t("cm_slow") : t("cm_err") }
+  btn.disabled=false;
+});
+$("#cmList").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-cm-del]"); if(!b) return;
+  b.disabled=true;
+  try{ const {error}=await sb.from("comments").delete().eq("id",+b.dataset.cmDel); if(error) throw error;
+       const s=socCache[cmId]; if(s){ s.comments=Math.max(0,s.comments-1); socRefresh(cmId) } cmLoad() }
+  catch(err){ b.disabled=false; toast(t("cm_err")) }
+});
+cm.addEventListener("click",e=>{ if(e.target===cm||e.target.closest("[data-cm-close]")) cm.close() });
+document.addEventListener("click",e=>{
+  const l=e.target.closest("[data-soc-like]"); if(l){ e.preventDefault(); socToggleLike(l.dataset.socLike); return }
+  const c=e.target.closest("[data-soc-cm]"); if(c){ e.preventDefault(); cmOpen(c.dataset.socCm) }
+});
 
 /* Events */
 $("#citySel").value = state.tz;
@@ -2042,6 +2194,7 @@ function vTile(v,k){
   </button>`;
 }
 function renderStage(){
+  { const sv=cur&&cur.videos&&cur.videos[sel]; renderSoc("#shSoc", sv ? (sv.p==="yt"?sv.id:sv.p+":"+sv.id) : "") }
   const v=cur.videos[sel]; if(!v){$("#stage").innerHTML="";$("#now").innerHTML="";return}
   const tall = v.p==="tt";
   if(state.embeds){
