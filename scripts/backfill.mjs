@@ -33,8 +33,18 @@ const onSite = new Set(); for (const n of ["SHORTS", "FEED"]) { const s = h.matc
 const VMETA = "data/vmeta.json.gz";
 const vmeta = fs.existsSync(VMETA) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(VMETA))) : {};
 const longIds = new Set(), shortIds = new Set();
+// "@handle:N:Name" resolves an official channel by its handle; accepted only if its title contains Name and it has 500k+ subscribers
+const resolved = {};
 for (const spec of specs) {
-  const [ch, lim] = spec.split(":"); const max = lim === "all" ? 1e6 : +lim;
+  let [ch, lim, name] = spec.split(":"); const max = lim === "all" ? 1e6 : +lim;
+  if (ch.startsWith("@")) {
+    const d = await call("channels", { part: "snippet,statistics", forHandle: ch });
+    const c = (d.items || [])[0];
+    const ok = c && (c.snippet.title || "").toLowerCase().includes((name || "").toLowerCase()) && +(c.statistics.subscriberCount || 0) >= 500000;
+    console.log("handle", ch, c ? c.id + " " + c.snippet.title + " subs " + c.statistics.subscriberCount : "not found", ok ? "accepted" : "rejected");
+    if (!ok) continue;
+    ch = c.id; resolved[name] = [c.id];
+  }
   const up = await playlistAll("UU" + ch.slice(2), max), sh = await playlistAll("UUSH" + ch.slice(2), max);
   up.forEach(id => longIds.add(id)); sh.forEach(id => shortIds.add(id));
   console.log(ch, "uploads", up.length, "shorts", sh.length);
@@ -66,4 +76,11 @@ for (const id of cand) {
 }
 fs.mkdirSync("data", { recursive: true }); fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
 fs.writeFileSync(outPath, JSON.stringify(out));
+if (Object.keys(resolved).length) {
+  const f = "scripts/artist_channels.json", cur = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : {};
+  fs.writeFileSync(f, JSON.stringify({ ...cur, ...resolved }, null, 1));
+  const cf = "scripts/channels.json", cfg = JSON.parse(fs.readFileSync(cf, "utf8"));
+  for (const [n, [id]] of Object.entries(resolved)) if (!cfg.channels.some(c => c.id === id)) cfg.channels.push({ id, name: n, cat: "music" });
+  fs.writeFileSync(cf, JSON.stringify(cfg, null, 1));
+}
 console.log(JSON.stringify({ new_candidates: all.length, videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, skipped, quota_used: used }));
