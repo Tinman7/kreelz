@@ -1823,7 +1823,16 @@ const prioCmp=(a,b)=> state.cat==="music" ? prioOf(a)-prioOf(b) : 0;
 /* Screen and Shows: focus actors (young male leads popular in SEA, romance first) lead, OTT gets a slight lift, all mixed:
    every 4 places hold 2 focus-actor videos (romance before others), 1 OTT video and 1 other, each in the chosen order. */
 const ACT={}; (function(){ const s=typeof PRIO_ACT==="string"?PRIO_ACT:""; for(let i=0;i+12<=s.length;i+=12) ACT[s.slice(i,i+11)]=+s[i+11] })();
+/* Music: performance fancams of the priority artists get every other place among the priority items (artist order kept) */
+const FANSET=new Set(); (function(){ const s=typeof PRIO_FAN==="string"?PRIO_FAN:""; for(let i=0;i+11<=s.length;i+=11) FANSET.add(s.slice(i,i+11)) })();
+function mixMusic(l){
+  const f=[], p=[], r=[]; l.forEach(v=>(PRIO[v.id]?(FANSET.has(v.id)?f:p):r).push(v));
+  const out=[]; let i=0, j=0;
+  while(i<f.length||j<p.length){ if(i<f.length) out.push(f[i++]); if(j<p.length) out.push(p[j++]) }
+  return out.concat(r);
+}
 function mixOTT(l){
+  if(state.cat==="music") return mixMusic(l);
   if(state.cat!=="screen" && state.cat!=="ent") return l;
   const a=[], o=[], r=[]; l.forEach(v=>(ACT[v.id]?a:OTTSET.has(v.id)?o:r).push(v));
   a.sort((x,y)=>(ACT[y.id]||0)-(ACT[x.id]||0));          // romance first, stable within the chosen order

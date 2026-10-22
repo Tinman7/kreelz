@@ -13,6 +13,21 @@ export const ARTISTS = [
   ["ATEEZ",      ["UC2e4Ukj5Pfr7cb3KpJAFBdQ"], /ateez|에이티즈/i],
   ["KATSEYE",    [], /katseye|캣츠아이|캐츠아이/i],
 ];
+// Boy groups among the priority artists, and other popular boy groups whose performance fancams are collected too
+export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ"]);
+export const EXTRA_MALE = [
+  ["SEVENTEEN",   [], /seventeen|세븐틴|\bsvt\b/i],
+  ["NCT DREAM",   [], /nct ?dream|엔시티 ?드림/i],
+  ["NCT 127",     [], /nct ?127|엔시티 ?127/i],
+  ["RIIZE",       [], /riize|(?<![가-힣])라이즈(?![가-힣])/i],
+  ["BOYNEXTDOOR", [], /boynextdoor|보이넥스트도어/i],
+  ["ZEROBASEONE", [], /zerobaseone|제로베이스원|\bzb1\b/i],
+  ["TREASURE",    [], /\btreasure\b|(?<![가-힣])트레저(?![가-힣])/i],
+  ["EXO",         [], /\bexo\b|(?<![가-힣])엑소(?![가-힣])/i],
+  ["BIGBANG",     [], /bigbang|빅뱅|g-?dragon|지드래곤/i],
+];
+// performance fancams (stage, concert, festival, vertical/face cams)
+export const FANCAM_M = /직캠|fancam|fan ?cam|세로캠|페이스캠|face ?cam|focus ?cam|\bfocus\b|콘서트|concert|\bcam\b/i;
 // extra channel ids found later (e.g. KATSEYE's) can be added in scripts/artist_channels.json {"KATSEYE": ["UC..."]}
 import fs from "node:fs";
 try { const extra = JSON.parse(fs.readFileSync(new URL("./artist_channels.json", import.meta.url), "utf8"));

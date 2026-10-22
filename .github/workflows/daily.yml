@@ -53,12 +53,12 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/collect.mjs scripts/channels.json daily.json
 
-      - name: Fan videos of the priority artists (fancams, dance covers, fan edits)
+      - name: Fan videos (boy-group performance fancams first; covers and fan edits of the priority artists)
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          FAN_SEARCHES: "20"
+          FAN_SEARCHES: "30"
         run: node scripts/fans.mjs fans.json
 
       - name: Focus actors (young male leads popular in SEA), romance first
