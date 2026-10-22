@@ -1,18 +1,25 @@
 name: Nightly refresh (00:00 KST)
 
-# GitHub starts scheduled jobs late (often 10-60 minutes), so the job starts at 23:00 KST, prepares everything,
-# then waits and publishes at exactly 00:00:00 KST. A second start at 00:20 KST is a safety net: it only runs
-# if the 23:00 start never happened, and then publishes at once.
+# New content goes live only at exactly 00:00:00 KST. GitHub often starts scheduled jobs hours late, so the job starts
+# early in the evening (several starts, in case some are late or skipped), collects and builds everything with hours
+# to spare, then waits and publishes at 00:00:00 KST. A daily Claude scheduled task also starts it (workflow_dispatch,
+# publish=midnight) as a backstop. The first start that runs does the day; later ones see it is done and stop.
+# The 00:20 start is the last safety net: if nothing ran before midnight it publishes as soon as it is ready.
 on:
   schedule:
-    # GitHub sometimes starts scheduled jobs very late or skips one, so there are several starts: the first one
-    # that runs prepares everything and publishes at 00:00:00 KST; the later ones see the day is done and stop.
+    - cron: "0 10 * * *"    # 19:00 KST
+    - cron: "0 11 * * *"    # 20:00 KST
+    - cron: "0 12 * * *"    # 21:00 KST
     - cron: "0 13 * * *"    # 22:00 KST
-    - cron: "30 13 * * *"   # 22:30 KST
     - cron: "0 14 * * *"    # 23:00 KST
-    - cron: "30 14 * * *"   # 23:30 KST
     - cron: "20 15 * * *"   # 00:20 KST (publishes at once if nothing ran before midnight)
-  workflow_dispatch: {}     # manual run: publishes immediately
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "midnight = build now, go live at the next 00:00 KST; now = go live as soon as built"
+        default: "midnight"
+        type: choice
+        options: [midnight, now]
 
 permissions:
   contents: write
@@ -25,20 +32,25 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 170
+    timeout-minutes: 350          # GitHub maximum is 360
     steps:
       - uses: actions/checkout@v4
 
       - name: Which day is this refresh for?
         id: day
         run: |
-          # the KST date this refresh goes live on: tomorrow when started before midnight, today after it
-          BUILD=$(TZ=Asia/Seoul date -d '+150 minutes' +%F)
-          [ "${{ github.event_name }}" = "workflow_dispatch" ] && BUILD=$(TZ=Asia/Seoul date +%F)
+          # the KST date this refresh goes live on: tomorrow when started from noon on, today when started after midnight
+          BUILD=$(TZ=Asia/Seoul date -d '+12 hours' +%F)
+          WAIT=1
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.publish }}" = "now" ]; then BUILD=$(TZ=Asia/Seoul date +%F); WAIT=0; fi
+          echo "wait=$WAIT" >> "$GITHUB_OUTPUT"
           CUR=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
           echo "build=$BUILD" >> "$GITHUB_OUTPUT"
           echo "weekday=$(date -d "$BUILD" +%u)" >> "$GITHUB_OUTPUT"
-          if [ "$CUR" = "$BUILD" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Already refreshed for $BUILD"; fi
+          if [ "$CUR" = "$BUILD" ] && [ "$WAIT" = "1" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Already refreshed for $BUILD"; fi
+          # a job may run at most 6 hours, so a start more than 5.5 hours before midnight leaves it to a later start
+          LEFT=$(( $(TZ=Asia/Seoul date -d "$BUILD 00:00:00" +%s) - $(date +%s) ))
+          if [ "$WAIT" = "1" ] && [ "$LEFT" -gt 19800 ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "Too early (${LEFT}s before midnight), a later start will do it"; fi
           echo "Refresh for $BUILD (site currently $CUR)"
 
       - uses: actions/setup-node@v4
@@ -142,7 +154,7 @@ jobs:
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
       - name: Wait for 00:00 KST
-        if: steps.day.outputs.skip != '1' && github.event_name == 'schedule'
+        if: steps.day.outputs.skip != '1' && steps.day.outputs.wait == '1'
         run: |
           now=$(date +%s); target=$(TZ=Asia/Seoul date -d "${{ steps.day.outputs.build }} 00:00:00" +%s)
           wait=$(( target - now ))
