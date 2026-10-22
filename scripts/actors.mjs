@@ -15,10 +15,12 @@ export const ACTORS = [
   ["Rowoon", "로운", /(?<![가-힣])로운(?![가-힣])|\browoon\b/i],
 ];
 export const ROMANCE = /로맨스|로코|멜로|키스|설렘|심쿵|고백|연애|커플|첫사랑|사랑|데이트|직진|썸|남친|여친|결혼|프러포즈|romance|romantic|rom-?com|love|kiss|couple|crush|confess|date\b|dating|boyfriend|girlfriend|wedding|proposal/i;
-// 2 = popular actor in a romance, 1 = popular actor, 0 = other
+// fancams and fan-event clips of the actors (fan meetings, events, airport, red carpet, concerts)
+export const FANCAM = /직캠|fancam|fan ?cam|팬미팅|fan ?meet|팬사인|팬싸|fansign|무대인사|공항|출국|입국|airport|레드카펫|red ?carpet|포토월|포토콜|photocall|photo ?wall|시상식|award|콘서트|concert|이벤트|event|촬영장|팝업|pop-?up|\bcam\b|focus/i;
+// 3 = fancam of a focus actor, 2 = popular actor in a romance, 1 = popular actor, 0 = other
 export function actorScore(meta) {
   if (!meta) return 0;
   const text = meta[0] + " " + (meta[5] || []).join(" ");
   if (!ACTORS.some(a => a[2].test(text))) return 0;
-  return ROMANCE.test(text) ? 2 : 1;
+  return FANCAM.test(text) ? 3 : ROMANCE.test(text) ? 2 : 1;
 }
