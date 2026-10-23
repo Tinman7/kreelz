@@ -1,1 +1,15 @@
-<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>KREELZ promo</title><p>KREELZ promo assets</p>
+<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>KREELZ promo</title>
+<p id="s">KREELZ promo assets</p>
+<script>
+// Hands the promo files to the KREELZ Facebook tab that opened this page (used to upload posts). Only ever sends to facebook.com.
+(async () => {
+  const target = window.opener || (window.parent !== window ? window.parent : null);
+  if (!target) return;
+  const files = [["kreelz-launch.jpg","image/jpeg"],["kreelz-how-it-works.jpg","image/jpeg"],["kreelz-kdrama-boyfriend.jpg","image/jpeg"],["kreelz-promo.mp4","video/mp4"]];
+  for (const [name, type] of files) {
+    const buf = await (await fetch(name, {cache: "no-store"})).arrayBuffer();
+    target.postMessage({kz: 1, name, type, buf}, "https://www.facebook.com", [buf]);
+  }
+  document.getElementById("s").textContent = "sent";
+})();
+</script>
