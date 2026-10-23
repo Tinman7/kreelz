@@ -501,6 +501,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000}
+.sp-slide>.sp-tt{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1;background:#000}
 .soc{display:flex;gap:10px;align-items:center}
 .soc[hidden]{display:none}
 .soc-b{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:inherit;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
@@ -1944,6 +1945,19 @@ for(let i=0;i+16<=SHORTS.length;i+=16){
   SV.push({id:SHORTS.substr(i,11),cat,ok:c!==c.toLowerCase(),views:vc===4095?-1:Math.round(Math.pow(1.006,vc)-1),days:dc===4095?-1:dc+sinceBuild,r:SV.length});
   SBYCAT[cat]=(SBYCAT[cat]||0)+1;
 }
+/* TikTok shorts added on the admin page, written nightly by scripts/tiktok.mjs: [videoId, account, cat, title, "added (KST date)"] */
+const TIKTOK = [];
+TIKTOK.forEach(([vid,acct,c,title,added])=>{
+  const cat=FCAT[c]; if(!cat) return; const id="tt:"+vid;
+  meta[id]={t:title||"TikTok",ch:"@"+acct};
+  SV.push({id,vid,tt:`@${acct}/video/${vid}`,cat,ok:true,views:-1,days:Math.max(0,Math.floor((Date.now()-new Date(added+"T00:00:00+09:00"))/864e5)),r:SV.length});
+  SBYCAT[cat]=(SBYCAT[cat]||0)+1;
+});
+const ttURL = v => `https://www.tiktok.com/${v.tt}`;
+/* TikTok thumbnails expire, so they come from TikTok's public oEmbed endpoint when the card is drawn */
+const ttThumbP={};
+const ttThumbGet = url => ttThumbP[url] || (ttThumbP[url]=fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`).then(r=>r.ok?r.json():null).then(d=>d&&d.thumbnail_url||"").catch(()=>""));
+function ttThumbFill(root){ (root||document).querySelectorAll("img[data-tturl]:not([data-q])").forEach(img=>{ img.dataset.q="1"; ttThumbGet(img.dataset.tturl).then(u=>{ if(u) img.src=u; else img.remove() }) }) }
 const GUEST_SHORTS = MEMBERSHIP ? 12 : Infinity;
 const sstate={sort:(s=>s==="views"?s:"new")(store.get("ss-ssort")),shown:0,cap:0,list:[]};
 const kstDay = () => new Date(Date.now()+9*36e5).toISOString().slice(0,10);   // the site refreshes at 00:00 KST
@@ -1958,8 +1972,8 @@ function shortsList(){
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
   const m=meta[v.id];
-  return `<a class="sv" data-cat="${v.cat}" href="https://www.youtube.com/shorts/${v.id}" target="_blank" rel="noopener" data-sv="${k}">
-    <span class="sth"><img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">
+  return `<a class="sv" data-cat="${v.cat}" href="${v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`}" target="_blank" rel="noopener" data-sv="${k}">
+    <span class="sth">${v.tt?`<img data-tturl="${esc(ttURL(v))}" alt="">`:`<img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
     <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
@@ -1984,6 +1998,7 @@ function renderShorts(reset=true){
   sw.hidden = hidden<=0;
   if(hidden>0) sw.innerHTML = wallHTML(hidden, l.slice(sstate.cap).map(v=>v.id), "s");
   $("#shortsCount").textContent = t("nshorts",{n:num(l.length)});
+  ttThumbFill($("#sgrid"));
   document.querySelectorAll("#ssort button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===sstate.sort));
   observeTitles();
 }
@@ -1998,6 +2013,7 @@ let spIO=null, spN=0;
 const spMax = () => Math.min(sstate.cap, sstate.list.length);
 function spSlide(i){
   const v=sstate.list[i];
+  if(v.tt) return `<div class="sp-slide" data-i="${i}"><img data-tturl="${esc(ttURL(v))}" alt=""></div>`;
   return `<div class="sp-slide" data-i="${i}"><img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onerror="var a=this.getAttribute('data-alt');if(a){this.removeAttribute('data-alt');this.src=a}else this.remove()"></div>`;
 }
 function spFill(upto){
@@ -2008,6 +2024,7 @@ function spFill(upto){
   if(!s) return;
   f.insertAdjacentHTML("beforeend", s);
   f.querySelectorAll(".sp-slide:not([data-o])").forEach(el=>{ el.dataset.o="1"; spIO.observe(el) });
+  ttThumbFill(f);
 }
 /* One YouTube player for the whole feed: it sits inside the scroller (so swipes over it still scroll) and is moved
    onto the short in view, which is swapped in with loadVideoById. Reusing one player keeps the browser's play/sound
@@ -2050,6 +2067,14 @@ function spHint(k){ const f=$("#spFeed"); if(!IOS||!f||!spPl) return; f.querySel
 function spPlace(el){ if(spPl){ spPl.style.top=el.offsetTop+"px"; spPl.style.height=el.offsetHeight+"px"; const hnt=$("#spFeed .tapsound"); if(hnt) hnt.style.top=el.offsetTop+72+"px" } }
 function spPlay(v,el){
   const f=$("#spFeed");
+  f.querySelectorAll(".sp-tt").forEach(x=>{ if(x.parentNode!==el||!v.tt) x.remove() });
+  if(v.tt){   // TikTok: its own player inside the slide; the YouTube player waits, paused and hidden
+    clearTimeout(spChk); f.querySelectorAll(".tapsound").forEach(x=>x.remove());
+    if(spPl){ spCmd("pauseVideo"); spPl.style.display="none" }
+    if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",`<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
+    spCur=v.id; return;
+  }
+  if(spPl) spPl.style.display="";
   if(!spPl){
     f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=${IOS?0:1}&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
     spPl=f.querySelector(".sp-player");
@@ -2080,8 +2105,8 @@ function spInfo(){
   $("#spOrig").textContent = m.t && title!==m.t ? t("tr_orig",{t:m.t}) : ""; $("#spOrig").hidden = !(m.t && title!==m.t);
   $("#spMeta").textContent=[m.ch, v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
   renderSoc("#spSoc", v.id);
-  $("#spOpen").href=`https://www.youtube.com/shorts/${v.id}`;
-  $("#spOpen").innerHTML=`${esc(t("open_on",{p:"YouTube"}))} ${arrow}`;
+  $("#spOpen").href=v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`;
+  $("#spOpen").innerHTML=`${esc(t("open_on",{p:v.tt?"TikTok":"YouTube"}))} ${arrow}`;
   $("#spPos").textContent=`${num(spIdx+1)} / ${num(sstate.cap)}`;
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
