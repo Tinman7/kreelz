@@ -70,8 +70,16 @@ jobs:
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          FAN_SEARCHES: "30"
+          FAN_SEARCHES: "22"
         run: node scripts/fans.mjs fans.json
+
+      - name: Priority idols on interviews (Korea and overseas), TV / variety shows and award shows
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          IDOL_SHOW_SEARCHES: "10"
+        run: node scripts/idol_shows.mjs idol_shows.json
 
       - name: Focus actors (young male leads popular in SEA), romance first
         if: steps.day.outputs.skip != '1'
@@ -120,7 +128,7 @@ jobs:
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
-          for extra in fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json; do
+          for extra in fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json idol_shows.json; do
             if [ -s "$extra" ]; then
               python3 scripts/daily_merge.py index.html "$extra" "${{ steps.day.outputs.build }}" index.next.html | tee -a merge.log
               grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
@@ -139,7 +147,7 @@ jobs:
       - name: Statistics for the admin page
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
-        run: node scripts/catalog_stats.mjs index.html daily.json fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json
+        run: node scripts/catalog_stats.mjs index.html daily.json fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json idol_shows.json
 
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'

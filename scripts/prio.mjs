@@ -16,7 +16,8 @@ for (const n of ["SHORTS", "FEED"]) {
   for (let i = 0; i + 16 <= s.length; i += 16) {
     const cc = s[i + 11].toLowerCase();
     if ("dfe".includes(cc)) { const m = M[s.slice(i, i + 11)]; if (m && OTT.test(m[2]) && !OTT_NOT.test(m[2])) ott.push(s.slice(i, i + 11));
-      const sc = actorScore(m); if (sc) act.push(s.slice(i, i + 11) + sc); continue; }
+      const sc = actorScore(m) || (rank(m) ? 1 : 0);   // priority idols' interviews / TV appearances join the focus pool
+      if (sc) act.push(s.slice(i, i + 11) + sc); continue; }
     if (cc !== "m") continue;
     const id = s.slice(i, i + 11), m = M[id], text = m ? m[0] + " " + (m[5] || []).join(" ") : "";
     let r = rank(m); const cam = !!m && FANCAM_M.test(text);
