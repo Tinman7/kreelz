@@ -14,6 +14,10 @@ for (const [n, k] of [["SHORTS", "shorts"], ["FEED", "videos"]]) {
   const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1];
   for (let i = 0; i + 16 <= s.length; i += 16) { const c = CAT[s[i + 11].toLowerCase()]; if (c) tot[k][c]++; }
 }
+// TikTok shorts added on the admin page (const TIKTOK, written by scripts/tiktok.mjs): [videoId, account, cat, title, added]
+const TT = (() => { const m = h.match(/^const TIKTOK = (.*);$/m); try { return m ? JSON.parse(m[1]) : []; } catch { return []; } })();
+for (const [, , c] of TT) if (CAT[c]) tot.shorts[CAT[c]]++;
+const prevKnown = fs.existsSync("stats/known.txt") ? new Set(fs.readFileSync("stats/known.txt", "utf8").split("\n")) : null;
 const fresh = { shorts: empty(), videos: empty() }, counted = new Set();   // a video found by two collection steps counts once
 for (const dailyPath of dailyPaths) if (fs.existsSync(dailyPath)) {
   const d = JSON.parse(fs.readFileSync(dailyPath, "utf8"));
@@ -22,6 +26,7 @@ for (const dailyPath of dailyPaths) if (fs.existsSync(dailyPath)) {
   for (const [k, src] of [["shorts", d.shorts || {}], ["videos", d.videos || {}]])
     for (const [id, v] of Object.entries(src)) { const c = CAT[v[0]]; if (c && onSite.has(id) && (!prev || !prev.has(id)) && !counted.has(id)) { counted.add(id); fresh[k][c]++; } }
 }
+for (const [vid, , c] of TT) if (CAT[c] && prevKnown && !prevKnown.has("tt:" + vid)) fresh.shorts[CAT[c]]++;
 const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
 const catalog = {
   build, generated_at: new Date().toISOString(),
@@ -41,6 +46,7 @@ fs.writeFileSync("stats/history.json", JSON.stringify(hist.slice(-120)));
 try { sourceStats(); } catch (e) { console.error("sources:", e.message); }
 // ids on the site now, so tomorrow's "new" counts only what is really new
 const ids = []; for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) ids.push(s.slice(i, i + 11)); }
+for (const [vid] of TT) ids.push("tt:" + vid);
 fs.writeFileSync("stats/known.txt", ids.join("\n"));
 // shorts ids (11 chars each), so the admin page can split its rankings into shorts and regular videos
 fs.writeFileSync("stats/shorts.txt", h.match(/const SHORTS = "([^"]*)";/)[1].match(/.{16}/g).map(r => r.slice(0, 11)).join(""));
@@ -99,6 +105,13 @@ function sourceStats() {
     bump(chAll, v.p + ":" + cid, cname, curl, P);
     if (isNew) { plat.new.all[P] = (plat.new.all[P] || 0) + 1; bump(chNew, v.p + ":" + cid, cname, curl, P);
       routes["작품별 공식 영상 (직접 등록)"] = (routes["작품별 공식 영상 (직접 등록)"] || 0) + 1; }
+  }
+  for (const [vid, acct, c] of TT) {
+    if (!CAT[c]) continue;
+    const isNew = !!prevKnown && !prevKnown.has("tt:" + vid), url = `https://www.tiktok.com/@${acct}`;
+    plat.total.shorts.TikTok++; plat.total.all.TikTok++; bump(chAll, "tt:@" + acct, "@" + acct, url, "TikTok");
+    if (isNew) { plat.new.shorts.TikTok++; plat.new.all.TikTok++; bump(chNew, "tt:@" + acct, "@" + acct, url, "TikTok");
+      routes["관리자 페이지에서 추가한 틱톡"] = (routes["관리자 페이지에서 추가한 틱톡"] || 0) + 1; }
   }
   const top = (m, n) => [...m.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name)).slice(0, n);
   const out = {

@@ -80,6 +80,13 @@ tfoot td{font-weight:800;border-bottom:0}
 .rl .bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:-2px}
 .rl .bar i{display:block;height:100%;background:var(--accent)}
 .more{margin-top:10px;width:100%}
+.ttform textarea{width:100%;min-height:110px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);color:var(--ink);resize:vertical}
+.ttform .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.ttform select{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--ink);min-height:40px}
+.ttlist li{grid-template-columns:44px minmax(0,1fr) auto}
+.ttlist img{width:44px;height:58px;object-fit:cover;border-radius:6px;background:var(--line)}
+.ttlist .sub{font-size:12px;color:var(--muted)}
+.ttlist button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:8px;font:inherit;font-size:12.5px;padding:6px 10px;cursor:pointer;min-height:34px}
 [hidden]{display:none!important}
 @media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}}
 </style>
@@ -161,6 +168,26 @@ tfoot td{font-weight:800;border-bottom:0}
       <div style="font-size:14px;font-weight:800;margin-bottom:6px">오늘 신규 영상의 출처 채널 <small style="color:var(--muted);font-weight:500" id="chNewS"></small></div>
       <ul class="rl" id="chNew"></ul>
       <button class="btn more" id="chNewMore" type="button" hidden>더 보기</button>
+    </div>
+  </div>
+
+  <h2>틱톡 쇼츠 추가 <small>공식 계정 영상 링크를 붙여넣으면 자정(00:00 KST) 갱신 때 사이트 쇼츠에 올라갑니다 · 저녁 7시 이후에 넣은 링크는 다음 날 자정</small></h2>
+  <div class="grid two">
+    <form class="card ttform" id="ttForm">
+      <label for="ttUrls" style="font-size:14px;font-weight:800">틱톡 영상 링크 <small style="color:var(--muted);font-weight:500">한 줄에 하나씩, 여러 개 가능</small></label>
+      <textarea id="ttUrls" style="margin-top:8px" placeholder="https://www.tiktok.com/@nmixx_official/video/7696797571242626312" required></textarea>
+      <div class="row">
+        <label for="ttCat" class="note" style="margin:0">카테고리</label>
+        <select id="ttCat"><option value="m">음악</option><option value="d">드라마</option><option value="f">영화</option><option value="e">예능 (Shows)</option><option value="b">뷰티</option><option value="k">K-Food</option></select>
+        <button class="btn primary" type="submit" id="ttAdd">추가</button>
+      </div>
+      <p class="msg" id="ttMsg" role="status"></p>
+      <p class="note">틱톡 앱에서 <b>공유 → 링크 복사</b>로 받은 주소를 붙여넣으세요. 저작권자(공식 계정)가 올린 영상만 넣어 주세요. 삭제하면 다음 갱신 때 사이트에서도 빠집니다.</p>
+    </form>
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">등록된 틱톡 <small style="color:var(--muted);font-weight:500" id="ttCount"></small></div>
+      <ul class="rl ttlist" id="ttList"><li class="empty" style="display:block">불러오는 중…</li></ul>
+      <button class="btn more" id="ttMore" type="button" hidden>더 보기</button>
     </div>
   </div>
 
@@ -270,6 +297,50 @@ async function loadSources(){
   chList($("#chNew"),$("#chNewMore"),tracked?S.channels.new:[],tracked?"오늘은 새로 올라온 영상이 없습니다":"다음 00:00 갱신부터 집계됩니다.");
 }
 
+/* ---------- TikTok shorts added by hand (Supabase table tiktok_links, setup/tiktok.sql) ---------- */
+const TTCAT={m:"음악",d:"드라마",f:"영화",e:"예능",b:"뷰티",k:"K-Food"};
+const ttOembed=url=>fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`).then(r=>r.ok?r.json():null).catch(()=>null);
+let ttRows=[], ttShown=30;
+async function loadTikTok(){
+  const {data,error}=await sb.from("tiktok_links").select("vid,author,title,cat,added").order("created_at",{ascending:false}).limit(2000);
+  if(error){ $("#ttList").innerHTML=`<li class="empty err" style="display:block">목록을 불러오지 못했습니다. Supabase에 setup/tiktok.sql을 실행했는지 확인해 주세요.<br>${esc(error.message)}</li>`; return }
+  ttRows=data||[]; ttShown=30; drawTikTok();
+}
+function drawTikTok(){
+  $("#ttCount").textContent=ttRows.length?`${nf(ttRows.length)}개`:"";
+  $("#ttList").innerHTML=ttRows.length?ttRows.slice(0,ttShown).map(r=>{ const url=`https://www.tiktok.com/@${r.author}/video/${r.vid}`;
+    return `<li><img data-tt="${esc(url)}" alt=""><span class="nm"><a href="${esc(url)}" target="_blank" rel="noopener">${esc(r.title||"(제목 없음)")}</a><br><span class="sub">@${esc(r.author)} · ${TTCAT[r.cat]||r.cat} · ${esc(r.added)} 등록</span></span><button type="button" data-ttdel="${esc(r.vid)}">삭제</button></li>` }).join(""):`<li class="empty" style="display:block">아직 등록한 틱톡이 없습니다</li>`;
+  $("#ttMore").hidden=ttShown>=ttRows.length;
+  document.querySelectorAll("#ttList img[data-tt]").forEach(img=>ttOembed(img.dataset.tt).then(d=>{ if(d&&d.thumbnail_url) img.src=d.thumbnail_url }));
+}
+$("#ttMore").addEventListener("click",()=>{ ttShown+=50; drawTikTok() });
+$("#ttForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const m=$("#ttMsg"), btn=$("#ttAdd"), cat=$("#ttCat").value;
+  const urls=[...new Set(($("#ttUrls").value.match(/https?:\/\/[^\s"'<>]*tiktok\.com[^\s"'<>]*/gi)||[]))];
+  if(!urls.length){ m.className="msg err"; m.textContent="틱톡 링크를 찾지 못했습니다. https://www.tiktok.com/… 주소를 붙여넣어 주세요."; return }
+  btn.disabled=true; m.className="msg"; m.textContent=`확인하는 중… (0/${urls.length})`;
+  const ok=[], bad=[], dup=[]; let n=0;
+  for(const url of urls){
+    const d=await ttOembed(url); m.textContent=`확인하는 중… (${++n}/${urls.length})`;
+    const author=d&&(d.author_unique_id||((d.author_url||"").match(/@([\w.]+)/)||[])[1]), vid=d&&String(d.embed_product_id||"");
+    if(!d||!author||!/^\d{8,25}$/.test(vid)){ bad.push(url); continue }
+    const {error}=await sb.from("tiktok_links").insert({vid,author,title:String(d.title||"").slice(0,300),cat});
+    if(!error) ok.push(vid); else if(error.code==="23505") dup.push(url); else { bad.push(url+" ("+error.message+")") }
+  }
+  btn.disabled=false;
+  m.className=bad.length?"msg err":"msg";
+  m.innerHTML=[ok.length?`${ok.length}개 추가했습니다. 자정 갱신 때 사이트에 올라갑니다(저녁 7시 이후에 넣었으면 다음 날 자정).`:"", dup.length?`${dup.length}개는 이미 등록되어 있습니다.`:"",
+    bad.length?`${bad.length}개는 추가하지 못했습니다(삭제·비공개 영상이거나 잘못된 링크):<br>${bad.map(esc).join("<br>")}`:""].filter(Boolean).join(" ");
+  if(ok.length){ $("#ttUrls").value=bad.join("\n"); loadTikTok() }
+});
+$("#ttList").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-ttdel]"); if(!b) return;
+  if(!confirm("이 틱톡을 삭제할까요? 다음 갱신 때 사이트에서도 빠집니다.")) return;
+  b.disabled=true; const {error}=await sb.from("tiktok_links").delete().eq("vid",b.dataset.ttdel);
+  if(error){ b.disabled=false; alert("삭제하지 못했습니다: "+error.message); return }
+  ttRows=ttRows.filter(r=>r.vid!==b.dataset.ttdel); drawTikTok();
+});
+
 /* ---------- visits / plays / likes / comments (Supabase, finished days only) ---------- */
 async function loadUsage(){
   const [t,d]=await Promise.all([sb.rpc("admin_totals"),sb.rpc("admin_daily",{n:30})]);
@@ -300,6 +371,7 @@ let SHORTS=null;   // Set of short ids on the site (stats/shorts.txt)
 const shortsSet=()=>SHORTS||(SHORTS=fetch("/stats/shorts.txt?"+Date.now()).then(r=>r.ok?r.text():"").then(t=>{ const s=new Set(); for(let i=0;i+11<=t.length;i+=11) s.add(t.slice(i,i+11)); return s }).catch(()=>new Set()));
 async function title(id){
   if(titles[id]) return titles[id];
+  if(id.startsWith("tt:")){ const r=ttRows.find(x=>"tt:"+x.vid===id); return titles[id]=r?{t:r.title||"TikTok",ch:"@"+r.author+" · TikTok",url:`https://www.tiktok.com/@${r.author}/video/${r.vid}`}:{t:"TikTok "+id.slice(3),ch:"TikTok",url:""} }
   if(!/^[\w-]{11}$/.test(id)) return titles[id]={t:id,ch:""};
   try{ const d=await fetch(`https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`).then(r=>r.ok?r.json():null);
        return titles[id]=d?{t:d.title,ch:d.author_name}:{t:"(삭제되었거나 비공개된 영상)",ch:""} }catch(e){ return titles[id]={t:id,ch:""} }
@@ -307,14 +379,14 @@ async function title(id){
 function rows(el,items,unit){
   if(!items.length){ el.innerHTML=`<li class="empty" style="display:block">아직 데이터가 없습니다</li>`; return }
   el.innerHTML=items.map(r=>{ const yt=/^[\w-]{11}$/.test(r.video_id);
-    return `<li><img src="${yt?`https://i.ytimg.com/vi/${r.video_id}/mqdefault.jpg`:""}" alt="" loading="lazy"><div class="t"><a href="${yt?`https://www.youtube.com/watch?v=${r.video_id}`:"#"}" target="_blank" rel="noopener">${esc(r.t)}</a><br><small style="color:var(--muted)">${esc(r.ch||"")}</small></div><span class="n">${nf(r.n)}${unit}</span></li>` }).join("");
+    return `<li><img src="${yt?`https://i.ytimg.com/vi/${r.video_id}/mqdefault.jpg`:""}" alt="" loading="lazy"><div class="t"><a href="${yt?`https://www.youtube.com/watch?v=${r.video_id}`:esc(r.url||"#")}" target="_blank" rel="noopener">${esc(r.t)}</a><br><small style="color:var(--muted)">${esc(r.ch||"")}</small></div><span class="n">${nf(r.n)}${unit}</span></li>` }).join("");
 }
 async function loadTop(){
   const unit={plays:"회",likes:"개",comments:"개"}[metric];
   ["#topShorts","#topVideos"].forEach(s=>$(s).innerHTML=`<li class="empty" style="display:block">불러오는 중…</li>`);
   const [{data,error},S]=await Promise.all([sb.rpc("admin_top",{what:metric,period,lim:400}), shortsSet()]);
   if(error){ ["#topShorts","#topVideos"].forEach(s=>$(s).innerHTML=`<li class="empty" style="display:block">불러오지 못했습니다</li>`); return }
-  const sh=data.filter(r=>S.has(r.video_id)).slice(0,10), vd=data.filter(r=>!S.has(r.video_id)).slice(0,10);
+  const isS=id=>S.has(id)||id.startsWith("tt:"), sh=data.filter(r=>isS(r.video_id)).slice(0,10), vd=data.filter(r=>!isS(r.video_id)).slice(0,10);
   const withT=async l=>Promise.all(l.map(async r=>({...r,...(await title(r.video_id))})));
   const [a,b]=await Promise.all([withT(sh),withT(vd)]);
   rows($("#topShorts"),a,unit); rows($("#topVideos"),b,unit);
@@ -324,7 +396,7 @@ $("#metric").addEventListener("click",e=>{ const b=e.target.closest("button"); i
 $("#period").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; period=b.dataset.p;
   document.querySelectorAll("#period button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
 
-function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadUsage(); loadTop() }
+function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
 (function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
   const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();

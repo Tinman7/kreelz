@@ -136,6 +136,12 @@ jobs:
           done
           node scripts/prio.mjs index.html data/vmeta.json.gz
 
+      - name: TikTok shorts added on the admin page
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        timeout-minutes: 5
+        run: node scripts/tiktok.mjs index.html
+
       - name: Weekly thumbnail check (Monday's refresh)
         if: steps.day.outputs.skip != '1' && steps.day.outputs.weekday == '1'
         continue-on-error: true
