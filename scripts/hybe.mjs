@@ -12,11 +12,11 @@ export const ARTISTS = [
   ["ENHYPEN",    ["UCArLZtok93cO5R9RI4_Y5Jw"], /enhypen|엔하이픈/i],
   ["ATEEZ",      ["UC2e4Ukj5Pfr7cb3KpJAFBdQ"], /ateez|에이티즈/i],
   ["KATSEYE",    [], /katseye|캣츠아이|캐츠아이/i],
+  ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순/i],
 ];
 // Boy groups among the priority artists, and other popular boy groups whose performance fancams are collected too
-export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ"]);
+export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ", "SEVENTEEN"]);
 export const EXTRA_MALE = [
-  ["SEVENTEEN",   [], /seventeen|세븐틴|\bsvt\b/i],
   ["NCT DREAM",   [], /nct ?dream|엔시티 ?드림/i],
   ["NCT 127",     [], /nct ?127|엔시티 ?127/i],
   ["RIIZE",       [], /riize|(?<![가-힣])라이즈(?![가-힣])/i],
