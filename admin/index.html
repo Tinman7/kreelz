@@ -182,7 +182,7 @@ tfoot td{font-weight:800;border-bottom:0}
         <button class="btn primary" type="submit" id="ttAdd">추가</button>
       </div>
       <p class="msg" id="ttMsg" role="status"></p>
-      <p class="note">틱톡 앱에서 <b>공유 → 링크 복사</b>로 받은 주소를 붙여넣으세요. 저작권자(공식 계정)가 올린 영상만 넣어 주세요. 삭제하면 다음 갱신 때 사이트에서도 빠집니다.</p>
+      <p class="note">틱톡 앱에서 <b>공유 → 링크 복사</b>로 받은 주소를 붙여넣으세요. 저작권자(공식 계정)가 올린 영상만 넣어 주세요. 삭제하면 다음 갱신 때 사이트에서도 빠집니다. 삭제되거나 비공개로 바뀐 영상은 갱신 때 자동으로 사이트에서 빠집니다.</p>
     </form>
     <div class="card">
       <div style="font-size:14px;font-weight:800;margin-bottom:6px">등록된 틱톡 <small style="color:var(--muted);font-weight:500" id="ttCount"></small></div>
@@ -319,19 +319,24 @@ $("#ttForm").addEventListener("submit",async e=>{
   const urls=[...new Set(($("#ttUrls").value.match(/https?:\/\/[^\s"'<>]*tiktok\.com[^\s"'<>]*/gi)||[]))];
   if(!urls.length){ m.className="msg err"; m.textContent="틱톡 링크를 찾지 못했습니다. https://www.tiktok.com/… 주소를 붙여넣어 주세요."; return }
   btn.disabled=true; m.className="msg"; m.textContent=`확인하는 중… (0/${urls.length})`;
-  const ok=[], bad=[], dup=[]; let n=0;
+  const ok=[], bad=[], dup=[], short=[]; let n=0;
   for(const url of urls){
-    const d=await ttOembed(url); m.textContent=`확인하는 중… (${++n}/${urls.length})`;
-    const author=d&&(d.author_unique_id||((d.author_url||"").match(/@([\w.]+)/)||[])[1]), vid=d&&String(d.embed_product_id||"");
-    if(!d||!author||!/^\d{8,25}$/.test(vid)){ bad.push(url); continue }
-    const {error}=await sb.from("tiktok_links").insert({vid,author,title:String(d.title||"").slice(0,300),cat});
+    m.textContent=`확인하는 중… (${++n}/${urls.length})`;
+    // the account and video id are in the full link itself; TikTok's oEmbed (often blocked for browsers) only adds the title.
+    // Deleted or private videos are dropped by the nightly refresh, which checks every link from the server.
+    const p=url.match(/tiktok\.com\/@([\w.]{1,40})\/(?:video|photo)\/(\d{8,25})/i);
+    const d=await ttOembed(url);
+    const author=p?p[1]:d&&(d.author_unique_id||((d.author_url||"").match(/@([\w.]+)/)||[])[1]), vid=p?p[2]:d&&String(d.embed_product_id||"");
+    if(!author||!/^\d{8,25}$/.test(vid||"")){ (p||/\/(video|photo)\//.test(url)?bad:short).push(url); continue }
+    const {error}=await sb.from("tiktok_links").insert({vid,author,title:String(d&&d.title||"").slice(0,300),cat});
     if(!error) ok.push(vid); else if(error.code==="23505") dup.push(url); else { bad.push(url+" ("+error.message+")") }
   }
   btn.disabled=false;
-  m.className=bad.length?"msg err":"msg";
+  m.className=bad.length||short.length?"msg err":"msg";
   m.innerHTML=[ok.length?`${ok.length}개 추가했습니다. 자정 갱신 때 사이트에 올라갑니다(저녁 7시 이후에 넣었으면 다음 날 자정).`:"", dup.length?`${dup.length}개는 이미 등록되어 있습니다.`:"",
-    bad.length?`${bad.length}개는 추가하지 못했습니다(삭제·비공개 영상이거나 잘못된 링크):<br>${bad.map(esc).join("<br>")}`:""].filter(Boolean).join(" ");
-  if(ok.length){ $("#ttUrls").value=bad.join("\n"); loadTikTok() }
+    short.length?`${short.length}개는 짧은 링크라 영상을 알아내지 못했습니다. 링크를 브라우저에서 연 뒤 주소창의 전체 주소(https://www.tiktok.com/@계정/video/숫자)를 넣어 주세요:<br>${short.map(esc).join("<br>")}`:"",
+    bad.length?`${bad.length}개는 추가하지 못했습니다:<br>${bad.map(esc).join("<br>")}`:""].filter(Boolean).join(" ");
+  if(ok.length){ $("#ttUrls").value=short.concat(bad.map(x=>x.split(" (")[0])).join("\n"); loadTikTok() }
 });
 $("#ttList").addEventListener("click",async e=>{
   const b=e.target.closest("[data-ttdel]"); if(!b) return;

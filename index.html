@@ -1945,19 +1945,20 @@ for(let i=0;i+16<=SHORTS.length;i+=16){
   SV.push({id:SHORTS.substr(i,11),cat,ok:c!==c.toLowerCase(),views:vc===4095?-1:Math.round(Math.pow(1.006,vc)-1),days:dc===4095?-1:dc+sinceBuild,r:SV.length});
   SBYCAT[cat]=(SBYCAT[cat]||0)+1;
 }
-/* TikTok shorts added on the admin page, written nightly by scripts/tiktok.mjs: [videoId, account, cat, title, "added (KST date)"] */
+/* TikTok shorts added on the admin page, written nightly by scripts/tiktok.mjs: [videoId, account, cat, title, "added (KST date)", thumbnail] */
 const TIKTOK = [];
-TIKTOK.forEach(([vid,acct,c,title,added])=>{
+TIKTOK.forEach(([vid,acct,c,title,added,thumb])=>{
   const cat=FCAT[c]; if(!cat) return; const id="tt:"+vid;
   meta[id]={t:title||"TikTok",ch:"@"+acct};
-  SV.push({id,vid,tt:`@${acct}/video/${vid}`,cat,ok:true,views:-1,days:Math.max(0,Math.floor((Date.now()-new Date(added+"T00:00:00+09:00"))/864e5)),r:SV.length});
+  SV.push({id,vid,tt:`@${acct}/video/${vid}`,thumb:thumb||"",cat,ok:true,views:-1,days:Math.max(0,Math.floor((Date.now()-new Date(added+"T00:00:00+09:00"))/864e5)),r:SV.length});
   SBYCAT[cat]=(SBYCAT[cat]||0)+1;
 });
 const ttURL = v => `https://www.tiktok.com/${v.tt}`;
-/* TikTok thumbnails expire, so they come from TikTok's public oEmbed endpoint when the card is drawn */
+/* TikTok thumbnails expire: the nightly refresh brings a fresh one; if it no longer loads, ask TikTok's oEmbed */
+const ttImg = v => `<img ${v.thumb?`src="${esc(v.thumb)}" `:""}data-tturl="${esc(ttURL(v))}" alt="" loading="lazy" onerror="this.removeAttribute('src');ttThumbFill(this.parentNode)">`;
 const ttThumbP={};
 const ttThumbGet = url => ttThumbP[url] || (ttThumbP[url]=fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`).then(r=>r.ok?r.json():null).then(d=>d&&d.thumbnail_url||"").catch(()=>""));
-function ttThumbFill(root){ (root||document).querySelectorAll("img[data-tturl]:not([data-q])").forEach(img=>{ img.dataset.q="1"; ttThumbGet(img.dataset.tturl).then(u=>{ if(u) img.src=u; else img.remove() }) }) }
+function ttThumbFill(root){ (root||document).querySelectorAll("img[data-tturl]:not([data-q]):not([src])").forEach(img=>{ img.dataset.q="1"; ttThumbGet(img.dataset.tturl).then(u=>{ if(u) img.src=u; else img.remove() }) }) }
 const GUEST_SHORTS = MEMBERSHIP ? 12 : Infinity;
 const sstate={sort:(s=>s==="views"?s:"new")(store.get("ss-ssort")),shown:0,cap:0,list:[]};
 const kstDay = () => new Date(Date.now()+9*36e5).toISOString().slice(0,10);   // the site refreshes at 00:00 KST
@@ -1973,7 +1974,7 @@ const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
   const m=meta[v.id];
   return `<a class="sv" data-cat="${v.cat}" href="${v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`}" target="_blank" rel="noopener" data-sv="${k}">
-    <span class="sth">${v.tt?`<img data-tturl="${esc(ttURL(v))}" alt="">`:`<img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
+    <span class="sth">${v.tt?ttImg(v):`<img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
     <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
@@ -2013,7 +2014,7 @@ let spIO=null, spN=0;
 const spMax = () => Math.min(sstate.cap, sstate.list.length);
 function spSlide(i){
   const v=sstate.list[i];
-  if(v.tt) return `<div class="sp-slide" data-i="${i}"><img data-tturl="${esc(ttURL(v))}" alt=""></div>`;
+  if(v.tt) return `<div class="sp-slide" data-i="${i}">${ttImg(v)}</div>`;
   return `<div class="sp-slide" data-i="${i}"><img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onerror="var a=this.getAttribute('data-alt');if(a){this.removeAttribute('data-alt');this.src=a}else this.remove()"></div>`;
 }
 function spFill(upto){
