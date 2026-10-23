@@ -70,6 +70,16 @@ tfoot td{font-weight:800;border-bottom:0}
 .msg{font-size:13.5px;margin-top:10px;color:var(--ink2)}
 .err{color:#DC2626}
 .members{border-style:dashed}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--ink2);margin-left:6px;vertical-align:1px}
+.rl{list-style:none;margin:0;padding:0}
+.rl li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.rl li:last-child{border-bottom:0}
+.rl .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rl .nm a{text-decoration:none}.rl .nm a:hover{text-decoration:underline}
+.rl .n{font-weight:800;font-variant-numeric:tabular-nums}
+.rl .bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:-2px}
+.rl .bar i{display:block;height:100%;background:var(--accent)}
+.more{margin-top:10px;width:100%}
 [hidden]{display:none!important}
 @media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}}
 </style>
@@ -123,6 +133,34 @@ tfoot td{font-weight:800;border-bottom:0}
       <div style="font-size:14px;font-weight:800;margin-bottom:6px">카테고리별 신규 영상 추이 <small style="color:var(--muted);font-weight:500">최근 30일</small></div>
       <div id="newChart"></div>
       <div class="legend" id="newLegend"></div>
+    </div>
+  </div>
+
+  <h2>링크 출처 <small id="srcAsof">사이트에 올라간 영상 링크가 어느 플랫폼 · 수집 경로 · 채널에서 왔는지</small></h2>
+  <div class="grid two">
+    <div class="card tw">
+      <table>
+        <thead><tr><th>플랫폼</th><th>전체</th><th>쇼츠</th><th>일반</th><th>작품 페이지</th><th>오늘 신규</th></tr></thead>
+        <tbody id="platBody"><tr><td colspan="6" class="empty">불러오는 중…</td></tr></tbody>
+        <tfoot id="platFoot"></tfoot>
+      </table>
+      <p class="note">작품 페이지 = 작품별 공식 영상 목록(직접 등록). 피드 · 쇼츠와 겹치는 YouTube 영상은 ‘전체’에서 한 번만 셉니다.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">오늘 신규 영상은 어디서 왔나 <small style="color:var(--muted);font-weight:500">수집 경로별</small></div>
+      <ul class="rl" id="routeList"></ul>
+    </div>
+  </div>
+  <div class="grid two" style="margin-top:12px">
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">전체 영상의 출처 채널 <small style="color:var(--muted);font-weight:500" id="chAllS"></small></div>
+      <ul class="rl" id="chAll"></ul>
+      <button class="btn more" id="chAllMore" type="button" hidden>더 보기</button>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">오늘 신규 영상의 출처 채널 <small style="color:var(--muted);font-weight:500" id="chNewS"></small></div>
+      <ul class="rl" id="chNew"></ul>
+      <button class="btn more" id="chNewMore" type="button" hidden>더 보기</button>
     </div>
   </div>
 
@@ -209,6 +247,29 @@ function stacked(rows){
   return s+"</svg>";
 }
 
+/* ---------- where the links come from (stats/sources.json, written at each 00:00 KST refresh) ---------- */
+const PLATS=["YouTube","TikTok","Naver TV"];
+function chList(ul,btn,items,empty){
+  let shown=20;
+  const draw=()=>{ ul.innerHTML=items.length?items.slice(0,shown).map(c=>`<li><span class="nm">${c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)}<span class="badge">${esc(c.platform)}</span></span><span class="n">${nf(c.n)}</span></li>`).join(""):`<li class="empty" style="display:block">${empty}</li>`;
+    btn.hidden=shown>=items.length };
+  btn.onclick=()=>{ shown+=50; draw() }; draw();
+}
+async function loadSources(){
+  const r=await fetch("/stats/sources.json?"+Date.now()); if(!r.ok) throw 0; const S=await r.json(), T=S.platforms.total, N=S.platforms.new;
+  $("#srcAsof").textContent=`${S.build} 00:00 (KST) 갱신 기준 · 사이트에 올라간 영상 링크가 어느 플랫폼 · 수집 경로 · 채널에서 왔는지`;
+  const tracked=S.new_tracked, nv=p=>tracked?`<span class="plus">+${nf(N.all[p])}</span>`:"–";
+  $("#platBody").innerHTML=PLATS.map(p=>`<tr><td>${p}</td><td>${nf(T.all[p])}</td><td>${nf(T.shorts[p])}</td><td>${nf(T.videos[p])}</td><td>${nf(T.curated[p])}</td><td>${nv(p)}</td></tr>`).join("");
+  const sum=o=>PLATS.reduce((a,p)=>a+(o[p]||0),0);
+  $("#platFoot").innerHTML=`<tr><td>합계</td><td>${nf(sum(T.all))}</td><td>${nf(sum(T.shorts))}</td><td>${nf(sum(T.videos))}</td><td>${nf(sum(T.curated))}</td><td>${tracked?`<span class="plus">+${nf(sum(N.all))}</span>`:"–"}</td></tr>`;
+  const R=S.new_routes||[], max=Math.max(1,...R.map(x=>x.n));
+  $("#routeList").innerHTML=!tracked?`<li class="empty" style="display:block">다음 00:00 갱신부터 집계됩니다.</li>`:R.length?R.map(x=>`<li><span class="nm">${esc(x.name)}</span><span class="n">${nf(x.n)}</span><span class="bar"><i style="width:${x.n/max*100}%"></i></span></li>`).join(""):`<li class="empty" style="display:block">오늘은 새로 올라온 영상이 없습니다</li>`;
+  $("#chAllS").textContent=`채널 ${nf(S.channels.total_count)}곳 · 상위 ${nf(S.channels.top.length)}곳 표시`;
+  $("#chNewS").textContent=tracked?`채널 ${nf(S.channels.new_count)}곳`:"";
+  chList($("#chAll"),$("#chAllMore"),S.channels.top,"아직 데이터가 없습니다");
+  chList($("#chNew"),$("#chNewMore"),tracked?S.channels.new:[],tracked?"오늘은 새로 올라온 영상이 없습니다":"다음 00:00 갱신부터 집계됩니다.");
+}
+
 /* ---------- visits / plays / likes / comments (Supabase, finished days only) ---------- */
 async function loadUsage(){
   const [t,d]=await Promise.all([sb.rpc("admin_totals"),sb.rpc("admin_daily",{n:30})]);
@@ -263,7 +324,7 @@ $("#metric").addEventListener("click",e=>{ const b=e.target.closest("button"); i
 $("#period").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; period=b.dataset.p;
   document.querySelectorAll("#period button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
 
-function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadUsage(); loadTop() }
+function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadUsage(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
 (function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
   const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();
