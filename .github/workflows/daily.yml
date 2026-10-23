@@ -35,6 +35,9 @@ jobs:
     timeout-minutes: 350          # GitHub maximum is 360
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # the latest main, not the commit from when this start was queued, so a start that waited
+                      # behind an earlier run sees that the day is already done and stops instead of failing
 
       - name: Which day is this refresh for?
         id: day
