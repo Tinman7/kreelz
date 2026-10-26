@@ -2249,13 +2249,27 @@ async function socToggleLike(id){
   }catch(e){ s.liked=!want; s.likes=Math.max(0,s.likes+(want?-1:1)); socRefresh(id); toast(t("cm_err")) }
 }
 /* Anonymous usage counts for the admin page: one "visit" per browser per KST day, one "play" per video per page view.
-   Only a random id kept in this browser is sent: no name, e-mail or IP address is stored. */
+   Only a random id kept in this browser, the country and the time zone are sent: no name or e-mail is stored, and the
+   IP address is kept only as a daily-changing one-way code for counting unique IPs. */
 let VID=""; try{ VID=store.get("kz-vid")||""; if(!VID){ VID=(self.crypto&&crypto.randomUUID)?crypto.randomUUID():("v"+Math.random().toString(36).slice(2)+Date.now().toString(36)); store.set("kz-vid",VID) } }catch(e){}
 const kzPlayed=new Set();
+/* Country for the admin page's "visitors by country": the server takes it from the network when it can; this browser's
+   time zone (and language region) is the back-up. Only the country code and time-zone name are sent. */
+const KZ_TZ_CC={"Asia/Manila":"PH","Asia/Jakarta":"ID","Asia/Pontianak":"ID","Asia/Makassar":"ID","Asia/Jayapura":"ID",
+  "Asia/Bangkok":"TH","Asia/Ho_Chi_Minh":"VN","Asia/Saigon":"VN","Asia/Kuala_Lumpur":"MY","Asia/Kuching":"MY","Asia/Singapore":"SG",
+  "Asia/Brunei":"BN","Asia/Phnom_Penh":"KH","Asia/Vientiane":"LA","Asia/Yangon":"MM","Asia/Rangoon":"MM","Asia/Dili":"TL",
+  "Asia/Seoul":"KR","Asia/Tokyo":"JP","Asia/Taipei":"TW","Asia/Hong_Kong":"HK","Asia/Shanghai":"CN","Asia/Kolkata":"IN","Asia/Calcutta":"IN",
+  "Asia/Dubai":"AE","Asia/Riyadh":"SA","Asia/Qatar":"QA","Asia/Kuwait":"KW","Australia/Sydney":"AU","Australia/Melbourne":"AU","Australia/Brisbane":"AU","Australia/Perth":"AU",
+  "Pacific/Auckland":"NZ","Europe/London":"GB","America/Mexico_City":"MX","America/Sao_Paulo":"BR","America/Toronto":"CA","America/Vancouver":"CA"};
+let KZ_TZ="", KZ_CC=null, KZ_GEO=true;
+try{ KZ_TZ=Intl.DateTimeFormat().resolvedOptions().timeZone||""; KZ_CC=KZ_TZ_CC[KZ_TZ]||null;
+  if(!KZ_CC){ const m=/-([A-Z]{2})\b/.exec(navigator.language||""); if(m) KZ_CC=m[1] }
+  if(!KZ_CC && /^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage)$/.test(KZ_TZ)) KZ_CC="US" }catch(e){}
 function track(kind,video){
   if(!SOC_ON||!VID) return;
-  try{ fetch(SB_URL+"/rest/v1/events",{method:"POST",keepalive:true,headers:{apikey:SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
-    body:JSON.stringify({kind,visitor:VID,video_id:video||null})}).catch(()=>{}) }catch(e){}
+  const send=(geo)=>fetch(SB_URL+"/rest/v1/events",{method:"POST",keepalive:true,headers:{apikey:SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+    body:JSON.stringify(geo?{kind,visitor:VID,video_id:video||null,country:KZ_CC,tz:(KZ_TZ||"").slice(0,40)||null}:{kind,visitor:VID,video_id:video||null})});
+  try{ send(KZ_GEO).then(r=>{ if(r.status===400 && KZ_GEO){ KZ_GEO=false; send(false).catch(()=>{}) } }).catch(()=>{}) }catch(e){}   // older database without the country columns
 }
 function trackPlay(id){ if(!id||kzPlayed.has(id)) return; kzPlayed.add(id); track("play",id) }
 try{ const kday=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul"}).format(new Date()); if(store.get("kz-visit")!==kday){ store.set("kz-visit",kday); track("visit") } }catch(e){}
