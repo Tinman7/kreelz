@@ -68,7 +68,7 @@ for (const c of cfg.channels) {
 }
 // K-Travel & Food (kreelz.com/jp only): Japanese videos about trips, cafes, street food and markets in Korea
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
-{ const n = TR.done ? Math.min(TR.per_night || 3, TR.queries.length) : TR.queries.length;
+{ const n = CHECK ? 3 : TR.done ? Math.min(TR.per_night || 3, TR.queries.length) : TR.queries.length;   // the check shares the nightly quota: 3 searches
   const start = Math.floor(Date.now() / DAY) * n % Math.max(1, TR.queries.length);
   const qs = Array.from({ length: n }, (_, i) => TR.queries[(start + i) % TR.queries.length]);
   const since = new Date(Date.now() - (TR.done ? 60 : 365) * DAY).toISOString();
@@ -81,7 +81,7 @@ const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & fo
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = []; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // artists alternate
-  const n = Math.min(FN.done ? (FN.per_night || 6) : (FN.first_run || 12), Q.length);
+  const n = Math.min(CHECK ? 4 : FN.done ? (FN.per_night || 6) : (FN.first_run || 12), Q.length);
   const start = Math.floor(Date.now() / DAY) * n % Math.max(1, Q.length);
   const qs = Array.from({ length: n }, (_, i) => Q[(start + i) % Q.length]);
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
