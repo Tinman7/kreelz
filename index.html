@@ -563,7 +563,10 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
   .sp-in{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;height:100%}
   .sp-stage{height:auto;width:100%;aspect-ratio:auto;min-height:0}
   .sp-side{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));gap:6px}
-  .sp-top{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));left:12px;right:12px;z-index:3}
+  /* category + close sit in their own bar ABOVE the video, never on top of YouTube's own buttons (gear, CC, channel) */
+  .sp-top{position:absolute;top:0;left:0;right:0;z-index:3;box-sizing:border-box;height:calc(56px + env(safe-area-inset-top,0px));
+    padding:env(safe-area-inset-top,0px) 12px 0 16px;background:#0B0C0F;border-bottom:1px solid rgba(255,255,255,.08)}
+  .sp-stage{margin-top:calc(56px + env(safe-area-inset-top,0px))}
   .sp h2{font-size:16px}
   .sp-nav{position:absolute;right:12px;top:50%;transform:translateY(-50%);flex-direction:column;z-index:3}
   .sp-nav span{display:none}
