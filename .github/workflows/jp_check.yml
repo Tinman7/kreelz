@@ -19,7 +19,9 @@ jobs:
       - name: Check
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node scripts/japan.mjs --check
+        run: |
+          set -o pipefail
+          node scripts/japan.mjs --check 2>&1 | tee jp_check.log
       - name: Save the channel ids
         run: |
           git config user.name "kreelz-bot"
@@ -27,8 +29,11 @@ jobs:
           git add scripts/jp_channels.json
           git commit -m "Japan channels found" || echo "nothing new"
           git pull --rebase -q && git push
-      - name: Report (branch jp-check, jp_check.txt)
+      - name: Report (branch jp-check)
+        if: always()
         run: |
-          cp jp_check.txt /tmp/r.txt
-          git checkout --orphan jp-check && git rm -rfq . && cp /tmp/r.txt jp_check.txt
-          git add jp_check.txt && git commit -qm "Japan channels check report" && git push -f origin jp-check
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p /tmp/r && cp jp_check.txt jp_check.log /tmp/r/ 2>/dev/null || true
+          git checkout -q --orphan jp-check && git rm -rfq . && cp /tmp/r/* . 2>/dev/null || true
+          git add -A && git commit -qm "Japan channels check report" && git push -qf origin jp-check

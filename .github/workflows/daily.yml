@@ -68,6 +68,13 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/collect.mjs scripts/channels.json daily.json
 
+      - name: Japan edition (kreelz.com/jp only) — Japanese OTT and the Japan channels of K-pop artists (few API units, so it runs early)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/japan.mjs jp.json
+
       - name: Fan videos (boy-group performance fancams first; covers and fan edits of the priority artists)
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
@@ -115,13 +122,6 @@ jobs:
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/backfill.mjs ott.json UCNIiH_4ArJNd_cDZApZ7AFg:300 UCiEEF51uRAeZeCo8CJFhGWw:300 UCtdz9LWNNQKUg4Xpma_40Ug:300 UCjn-VbcIkAeXQKCmLJV8YwQ:300 UCpiCK8c6PBktcxq7Az_t4RQ:300 UCym5538xAEEppbridXozfgw:300
-
-      - name: Japan edition (kreelz.com/jp only) — Japanese OTT and the Japan channels of K-pop artists
-        if: steps.day.outputs.skip != '1'
-        continue-on-error: true
-        env:
-          YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node scripts/japan.mjs jp.json
 
       - name: One-time catch-up of SEVENTEEN's official channel (added to the Music priority list on 2026-10-23)
         if: steps.day.outputs.skip != '1' && steps.day.outputs.build == '2026-10-24'
