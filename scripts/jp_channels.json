@@ -137,7 +137,9 @@
    "not": "English|Global",
    "min": 5000,
    "cat": "travel",
-   "korean": false
+   "korean": false,
+   "id": "UCFKqiizhhgYgdEQIPsdJ4Pg",
+   "name": "韓国観光公社 日本公式チャンネル"
   }
  ],
  "travel": {
