@@ -6,6 +6,9 @@ export const ARTISTS = [
   ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌/i],
   ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿/i],
   ["Stray Kids", ["UC9rMiEjNaCSsebs31MRDCRA"], /stray ?kids|스트레이 ?키즈|스키즈|\bskz\b/i],
+  // TWICE added 2026-10-26 (per David): official channel; members by their distinctive names only (Sana, Momo, Mina are common words)
+  ["TWICE",      ["UCzgxx_DM2Dcb9Y1spb9mUJA"], /\b(?:TWICE|Twice)\b|#twice\b(?=.*(?:kpop|jyp|once|트와이스))|트와이스|MISAMO|[Mm]isamo|미사모|\b(?:[Nn]ayeon|NAYEON|[Jj]eongyeon|JEONGYEON|[Tt]zuyu|TZUYU)\b|쯔위|(?<![가-힣])(?:나연)(?![가-힣])/],
+  // case-sensitive: "twice" is also an English word; Jihyo, Chaeyoung, Dahyun are left out (Song Ji-hyo of Running Man, Rosé = Park Chae-young, tripleS DaHyun)
   ["TUIDE",      ["UCgQ7HPx1qcmH9_lPTlWOnQw"], /tuide|튜이드/i],
   ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b/i],
   ["TWS",        ["UC8C6QOPDVYwmuaSBZksefdg"], /\btws\b|투어스/i],
@@ -20,7 +23,7 @@ export const ARTISTS = [
 export const JP_ARTISTS = [
   ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団|バンタン|ジョングク|グク(?![ァ-ヶ])|ジミン|ユンギ|ホソク|ナムジュン|ソクジン/i],
   ["Stray Kids", ["UC9rMiEjNaCSsebs31MRDCRA"], /stray ?kids|스트레이 ?키즈|스키즈|\bskz\b|ストレイキッズ|スキズ/i],
-  ["TWICE",      ["UCCRb6nYKaT8tzLA8CwDdUtw"], /\btwice\b|트와이스|トゥワイス|misamo|ミサモ|湊崎紗夏|名井南|平井もも|(?<![ァ-ヶー])(?:サナ|ミナ|モモ|ツウィ|ジヒョ|ナヨン|ダヒョン)(?![ァ-ヶー])/i],
+  ["TWICE",      ["UCCRb6nYKaT8tzLA8CwDdUtw", "UCzgxx_DM2Dcb9Y1spb9mUJA"], /\btwice\b|트와이스|トゥワイス|misamo|ミサモ|湊崎紗夏|名井南|平井もも|(?<![ァ-ヶー])(?:サナ|ミナ|モモ|ツウィ|ジヒョ|ナヨン|ダヒョン)(?![ァ-ヶー])/i],
   ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b|トゥバ|トゥモロー ?バイ ?トゥギャザー|ヒュニンカイ|ボムギュ|ヨンジュン/i],
   ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌|ルセラフィム|ルセラ(?![ァ-ヶ])|ホ・ユンジン|キム・チェウォン|ホン・ウンチェ|カズハ/i],
   ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿|アイリット/i],

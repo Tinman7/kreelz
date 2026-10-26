@@ -10,7 +10,7 @@ const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missin
 const outPath = process.argv[2] || "fans.json";
 const SEARCHES = +(process.env.FAN_SEARCHES || 33);          // 100 quota units each
 const MIN_VIEWS = +(process.env.FAN_MIN_VIEWS || 100000);
-const KO = { "BTS": "방탄소년단", "CORTIS": "코르티스", "LE SSERAFIM": "르세라핌", "ILLIT": "아일릿", "Stray Kids": "스트레이키즈", "TUIDE": "튜이드",
+const KO = { "BTS": "방탄소년단", "CORTIS": "코르티스", "LE SSERAFIM": "르세라핌", "ILLIT": "아일릿", "Stray Kids": "스트레이키즈", "TWICE": "트와이스", "TUIDE": "튜이드",
   "TXT": "투모로우바이투게더", "TWS": "투어스", "ENHYPEN": "엔하이픈", "ATEEZ": "에이티즈", "KATSEYE": "캣츠아이",
   "SEVENTEEN": "세븐틴", "NCT DREAM": "엔시티 드림", "NCT 127": "엔시티 127", "RIIZE": "라이즈", "BOYNEXTDOOR": "보이넥스트도어",
   "ZEROBASEONE": "제로베이스원", "TREASURE": "트레저", "EXO": "엑소", "BIGBANG": "빅뱅" };
@@ -38,12 +38,17 @@ const jobs = [], isBoy = a => MALE.has(a[0]) || EXTRA_MALE.includes(a);
 BOY_KINDS.forEach(k => ARTISTS.forEach((a, ai) => { if (isBoy(a)) jobs.push({ q: k(a[0]), artist: ai, cam: true }); }));
 GIRL_KINDS.forEach(k => ARTISTS.forEach((a, ai) => { if (!isBoy(a)) jobs.push({ q: k(a[0]), artist: ai }); }));
 ALL_KINDS.forEach(k => LISTED.forEach((a, ai) => jobs.push({ q: k(a[0]), artist: ai })));
-const start = Math.floor(Date.now() / DAY) * SEARCHES % jobs.length;
-const today = Array.from({ length: Math.min(SEARCHES, jobs.length) }, (_, i) => jobs[(start + i) % jobs.length]);
+// Latest performances first for TWICE (per David 2026-10-26): one of tonight's searches is always a TWICE search limited to
+// the last year (THIS IS FOR world tour Jul 2025 - Jul 2026, its Seoul finale, festivals and stages since), one query per night
+const TW = ARTISTS.findIndex(a => a[0] === "TWICE"), TW_RECENT = ["TWICE THIS IS FOR fancam", "트와이스 직캠", "TWICE world tour fancam", "TWICE stage 4K"];
+const day = Math.floor(Date.now() / DAY), recent = TW >= 0 && SEARCHES > 1 ? [{ q: TW_RECENT[day % TW_RECENT.length], artist: TW, since: 365 }] : [];
+const start = day * (SEARCHES - recent.length) % jobs.length;
+const today = [...recent, ...Array.from({ length: Math.min(SEARCHES - recent.length, jobs.length) }, (_, i) => jobs[(start + i) % jobs.length])];
 const found = {}, camJob = {};   // id -> artist index; id found by a boy-group fancam search
 try {
   for (const j of today) {
-    const d = await call("search", { part: "id", q: j.q, type: "video", order: "viewCount", videoEmbeddable: "true", maxResults: 50 }, 100);
+    const d = await call("search", { part: "id", q: j.q, type: "video", order: "viewCount", videoEmbeddable: "true", maxResults: 50,
+      ...(j.since ? { publishedAfter: new Date(Date.now() - j.since * DAY).toISOString() } : {}) }, 100);
     for (const x of d.items || []) if (x.id?.videoId && !(x.id.videoId in found)) { found[x.id.videoId] = j.artist; if (j.cam) camJob[x.id.videoId] = 1; }
   }
 } catch (e) { console.log("search stopped:", e.message); }

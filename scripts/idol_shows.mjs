@@ -11,7 +11,7 @@ const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missin
 const outPath = process.argv[2] || "idol_shows.json";
 const SEARCHES = +(process.env.IDOL_SHOW_SEARCHES || 10);   // 100 quota units each
 const MIN_VIEWS = +(process.env.IDOL_SHOW_MIN_VIEWS || 30000);
-const KO = { "BTS": "방탄소년단", "CORTIS": "코르티스", "LE SSERAFIM": "르세라핌", "ILLIT": "아일릿", "Stray Kids": "스트레이키즈", "TUIDE": "튜이드",
+const KO = { "BTS": "방탄소년단", "CORTIS": "코르티스", "LE SSERAFIM": "르세라핌", "ILLIT": "아일릿", "Stray Kids": "스트레이키즈", "TWICE": "트와이스", "TUIDE": "튜이드",
   "TXT": "투모로우바이투게더", "TWS": "투어스", "ENHYPEN": "엔하이픈", "ATEEZ": "에이티즈", "KATSEYE": "캣츠아이", "SEVENTEEN": "세븐틴" };
 const KINDS = [a => `${a[0]} interview`, a => `${KO[a[0]] || a[0]} 인터뷰`, a => `${KO[a[0]] || a[0]} 예능`,
                a => `${KO[a[0]] || a[0]} 시상식`, a => `${a[0]} award show`, a => `${a[0]} talk show`];
