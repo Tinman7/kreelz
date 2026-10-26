@@ -500,7 +500,8 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-feed::-webkit-scrollbar{display:none}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
-.sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000}
+.sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000;transition:opacity .12s}
+.sp-feed .sp-player.sp-hide{opacity:0;pointer-events:none}   /* while swiping / until the new short really plays: the slide's own thumbnail shows */
 .sp-slide>.sp-tt{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1;background:#000}
 .soc{display:flex;gap:10px;align-items:center}
 .soc[hidden]{display:none}
@@ -2043,7 +2044,11 @@ const SOUND_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5
 const soundHint = (k="tap_play") => IOS ? `<span class="tapsound">${SOUND_SVG}${esc(t(k))}</span>` : "";
 /* tapping into a player moves focus into its frame: hide the hint then */
 window.addEventListener("blur",()=>{ setTimeout(()=>{ if(document.activeElement && document.activeElement.tagName==="IFRAME") document.querySelectorAll(".tapsound").forEach(x=>x.remove()) },0) });
-let spPl=null, spCur="", spState=-1, spChk=0;
+let spPl=null, spCur="", spState=-1, spChk=0, spWait=false, spShowT=0;
+/* The shared player is hidden while the feed scrolls and while a newly loaded short has not started, so the previous
+   short never shows on top of the next one. */
+function spHide(){ if(spPl && !spPl.classList.contains("sp-hide")){ spPl.classList.add("sp-hide"); if(!spPl.style.display) spCmd("pauseVideo") } }
+function spShow(){ clearTimeout(spShowT); spWait=false; if(spPl) spPl.classList.remove("sp-hide") }
 function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
 function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
 window.addEventListener("message",e=>{
@@ -2053,7 +2058,8 @@ window.addEventListener("message",e=>{
   if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); if(!IOS){ spCmd("unMute"); spCmd("playVideo") } else if(spSound){ spCmd("unMute"); spCmd("playVideo") } }
   if(d.event==="infoDelivery" && d.info && typeof d.info.muted==="boolean") spMuted=d.info.muted;
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
-  if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") } }
+  if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") }
+    if(spWait && (st===1 || st===3 || (IOS && st===5))) spShow() }
   if(IOS && spState===1){
     if(!spMuted){ if(!spSound){ spSound=true } document.querySelectorAll("#spFeed .tapsound").forEach(x=>x.remove()); spHintFor=spCur }
     else if(spHintFor!==spCur){ spHintFor=spCur; spSound=false; spHint("tap_unmute") }   // YouTube fell back to muted play
@@ -2086,7 +2092,9 @@ function spPlay(v,el){
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
   }
   spPlace(el);
-  if(spCur!==v.id){ spCur=v.id; spState=-1; spCmd(IOS&&!spSound?"cueVideoById":"loadVideoById",[{videoId:v.id,startSeconds:0}]); spAutoplayCheck() }
+  if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; clearTimeout(spShowT); spShowT=setTimeout(spShow,1800);
+    spCmd(IOS&&!spSound?"cueVideoById":"loadVideoById",[{videoId:v.id,startSeconds:0}]); spAutoplayCheck() }
+  else if(!spWait) spShow()
 }
 function spActivate(i){
   const f=$("#spFeed"); if(!f) return;
@@ -2115,12 +2123,15 @@ function spInfo(){
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
 function spOpen(k){
-  spIdx=-1; spN=0; spPl=null; spCur=""; spState=-1;
+  spIdx=-1; spN=0; spPl=null; spCur=""; spState=-1; spWait=false; clearTimeout(spShowT);
   $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>';
   if(spIO) spIO.disconnect();
   spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
   if(!sp.open) sp.showModal();
-  let spT=0; $("#spFeed").addEventListener("scroll",e=>{ clearTimeout(spT); spT=setTimeout(()=>{ const f=e.target, H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); if(Math.abs(f.scrollTop-i*H)<H*0.4) spActivate(i) },140) },{passive:true});
+  let spT=0, spY=0; $("#spFeed").addEventListener("scroll",e=>{ const f=e.target;
+    if(Math.abs(f.scrollTop-spY)>8) spHide();      // a real swipe, not a 1-px settle
+    clearTimeout(spT); spT=setTimeout(()=>{ const H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); spY=f.scrollTop;
+      if(Math.abs(f.scrollTop-i*H)<H*0.4){ if(i===spIdx && !spWait && !(sstate.list[i]||{}).tt){ spShow(); spCmd("playVideo") } else spActivate(i) } },140) },{passive:true});
   spFill(k+10);
   const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
   spActivate(k);
