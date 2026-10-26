@@ -2567,7 +2567,11 @@ function toast(msg){ const el=$("#toast"); el.textContent=msg; el.hidden=false; 
 /* ===== Header account area ===== */
 const initial = n => (String(n||"?").trim()[0]||"?").toUpperCase();
 function renderAcct(){
-  if(!MEMBERSHIP){ $("#acct").innerHTML=""; $("#legalLinks").hidden=true; return }
+  /* without accounts only the Japanese privacy policy and external transmission notice are shown (videos are embedded
+     either way; Japan's Telecommunications Business Act asks for the notice to be published) */
+  const memberDocs=$("#legalLinks").querySelectorAll('[data-doc=terms],[data-doc=mkt],[data-doc=email]');
+  memberDocs.forEach(b=>b.hidden=!MEMBERSHIP);
+  if(!MEMBERSHIP){ $("#acct").innerHTML=""; $("#legalLinks").hidden=state.lang!=="ja"; return }
   $("#legalLinks").hidden=false;
   $("#acct").innerHTML = ME
     ? `<button type="button" class="me" id="btnMe" aria-label="${esc(t("mypage"))}"><span class="av">${esc(initial(ME.name))}</span><b>${esc(t("mypage"))}</b></button>`
