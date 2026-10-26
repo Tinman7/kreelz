@@ -80,7 +80,8 @@ async function searchGroup(G, tag, days) {
   const since = new Date(Date.now() - (G.done ? days[1] : days[0]) * DAY).toISOString();
   let got = 0;
   try { for (const q of qs) {
-    const d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
     for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = tag; got++; } } }
   catch (e) { console.log(tag.name, "search stopped:", e.message); }
   console.log(tag.name, JSON.stringify(qs), "found", got);
@@ -96,7 +97,8 @@ const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan 
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
   let got = 0;
   try { for (const q of qs) {
-    const d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    // order=relevance: with order=viewCount YouTube answered these idol searches with no items at all (2026-10-26)
+    const d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
     if (CHECK) console.log("  fan search", JSON.stringify(q), "items", (d.items || []).length, "total", d.pageInfo?.totalResults, d.error ? JSON.stringify(d.error).slice(0, 200) : "");
     for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = FANS; got++; } } }
   catch (e) { console.log("fan search stopped:", e.message); }
