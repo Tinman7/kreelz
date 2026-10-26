@@ -84,14 +84,17 @@ for (let i = 0; i < all.length; i += 50) {
 // Korean: Korean audio, a clear K-content word, Hangul, a Korean name in katakana (パク・ヘス, イ・ヒジュン ...) or a
 // Japan-edition actor/artist. A bare 韓国/Korea is not enough ("Summer Camp in Korea" is a J-pop show).
 const KWORD = /韓国ドラマ|韓国映画|韓国バラエティ|韓ドラ|韓流|韓国発|韓国の(人気|大ヒット|話題)|k-?pop|k-?ドラマ|kドラマ|k-?drama|korean ?(drama|series|film|movie)|[가-힣]/i;
-const KNAME = /(?:^|[^ァ-ヶー])(?:キム|イ|パク|チェ|チョン|チョ|カン|ユン|チャン|イム|ハン|オ|ソ|シン|クォン|ファン|アン|ソン|ホン|ユ|チュ|ナム|ペ|ノ|ハ|ムン|ヤン|コ|ペク|ピョン|ウ|ク|ミン|ジョン|ソル|チ|リュ|チャ|ド|ヨ|ヒョン|オム|キ|チン|ナ|ジン)・[ァ-ヶ]{2,5}(?![ァ-ヶー])/;   // no ー: キム・カーダシアン is not Korean
+const KNAME = /(?:^|[^ァ-ヶー])(?:キム|イ|パク|チェ|チョン|チョ|カン|ユン|チャン|イム|ハン|オ|ソ|シン|クォン|ファン|アン|ソン|ホン|ユ|チュ|ナム|ペ|ノ|ハ|ムン|ヤン|コ|ペク|ピョン|ウ|ク|ミン|ジョン|ソル|チ|リュ|チャ|ド|ヨ|ヒョン|オム|キ|チン|ナ|ジン)・[ァ-ヶ]{2,5}(?![ァ-ヶー])/g;   // no ー: キム・カーダシアン is not Korean
+// two different Korean names (a cast) — one alone can be a Western name (アン・ハサウェイ)
+const cast = t => new Set((t.match(KNAME) || []).map(x => x.replace(/^[^ァ-ヶ]/, ""))).size >= 2;
 const SPORT = /ボクシング|格闘|修斗|RIZIN|\bT?KO\b|KO勝|級\d*回戦|試合|プロデビュー|フェニックスバトル|サッカー|野球|ゴルフ|競馬|\bvs\.?\b/i;
 const names = [...JP_ACTORS, ...JP_ARTISTS].map(a => a[2]), idols = JP_ARTISTS.map(a => a[2]);
 const why = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   if (SPORT.test(v.meta[0])) return "";
-  return v.audio.startsWith("ko") ? "audio" : KWORD.test(t) ? "word" : KNAME.test(t) ? "name" : names.some(re => re.test(t)) ? "star" : KWORD.test(v.desc.slice(0, 300)) ? "desc" : ""; };
+  return v.audio.startsWith("ko") ? "audio" : KWORD.test(t) ? "word" : cast(t) ? "cast" : names.some(re => re.test(t)) ? "star"
+    : KWORD.test(v.desc.slice(0, 400)) && cast(v.desc.slice(0, 600)) ? "desc" : ""; };
 const korean = v => !!why(v);
-const MUSIC = /\bMMA\b|\bMAMA\b|KCON|ミュージックビデオ|\bM\/?V\b|music video|ライブ|\blive\b|コンサート|ツアー|\btour\b|ステージ|stage|パフォーマンス|performance|歌|音楽番組|Mカウントダウン|M COUNTDOWN|カムバ|comeback|デビュー|debut|アルバム|album|シングル|single|授賞式|アワード|award/i;
+const MUSIC = /MMA ?20\d\d|\bMMA\b|\bMAMA\b|KCON|ミュージックビデオ|\bM\/?V\b|music video|ライブ|\blive\b|コンサート|ツアー|\btour\b|人気歌謡|ミュージックバンク|Mカウントダウン|M ?COUNTDOWN|音楽番組|授賞式|アワード|award|カムバ|comeback|デビュー|debut/i;
 const FILM = /映画|劇場|ムービー|\bmovie\b|\bfilm\b|영화/i;
 const SHOW = /バラエティ|リアリティ|恋愛リアリティ|サバイバル|オーディション|密着|ドキュメンタリー|インタビュー|interview|ビハインド|behind|メイキング|making|vlog|リアクション|reaction|ゲーム|トーク|出演回|驚きの土曜日|ユ・?クイズ|ランニングマン|知ってるお兄さん|私は一人で暮らす|예능|리얼리티|인터뷰|비하인드/i;
 const cat = v => {
