@@ -93,7 +93,9 @@ async function claude(items) {
   }
   return null;
 }
-const todo = site_ids.filter(id => store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id]));
+// Japan-only videos (scripts/japan.mjs) are shown only on kreelz.com/jp, already in Japanese: no translation needed
+const jpOnly = new Set(fs.existsSync("data/jp_only.json") ? JSON.parse(fs.readFileSync("data/jp_only.json", "utf8")) : []);
+const todo = site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id]));
 const queue = []; for (let i = 0; i < todo.length; i += 40) queue.push(todo.slice(i, i + 40));
 let done = 0;
 await Promise.all(Array.from({ length: 6 }, async () => {

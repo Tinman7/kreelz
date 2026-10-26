@@ -1,0 +1,26 @@
+{
+ "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found.",
+ "channels": [
+  {"q": "Netflix Japan", "title": "^Netflix Japan$", "min": 500000, "cat": "screen", "korean": true},
+  {"q": "U-NEXT 公式", "title": "^U-NEXT", "min": 50000, "cat": "screen", "korean": true},
+  {"q": "Lemino 公式", "title": "^Lemino", "min": 20000, "cat": "screen", "korean": true},
+  {"q": "ディズニープラス 公式", "title": "ディズニープラス|Disney\\+ ?(Japan|JP)|Disney Plus Japan", "min": 100000, "cat": "screen", "korean": true},
+  {"q": "プライムビデオ Prime Video Japan", "title": "プライムビデオ|Prime Video ?(JP|Japan)", "min": 100000, "cat": "screen", "korean": true},
+  {"q": "Hulu Japan 公式", "title": "^Hulu", "min": 50000, "cat": "screen", "korean": true},
+  {"q": "KNTV 韓流", "title": "KNTV", "min": 5000, "cat": "screen", "korean": false},
+  {"q": "Mnet Japan", "title": "Mnet ?(Japan|JAPAN|Smart)", "min": 10000, "cat": "music", "korean": false},
+  {"q": "KCON JAPAN", "title": "KCON", "min": 10000, "cat": "music", "korean": false},
+  {"q": "SEVENTEEN JAPAN OFFICIAL", "title": "SEVENTEEN.*JAPAN", "min": 50000, "cat": "music", "korean": false, "artist": "SEVENTEEN"},
+  {"q": "Stray Kids Japan official", "title": "Stray Kids.*(JAPAN|Japan)", "min": 50000, "cat": "music", "korean": false, "artist": "Stray Kids"},
+  {"q": "TWICE JAPAN OFFICIAL", "title": "TWICE.*JAPAN", "min": 50000, "cat": "music", "korean": false, "artist": "TWICE"},
+  {"q": "ENHYPEN JAPAN OFFICIAL", "title": "ENHYPEN.*JAPAN", "min": 50000, "cat": "music", "korean": false, "artist": "ENHYPEN"},
+  {"q": "TOMORROW X TOGETHER JAPAN OFFICIAL", "title": "(TOMORROW X TOGETHER|TXT).*JAPAN", "min": 50000, "cat": "music", "korean": false, "artist": "TXT"},
+  {"q": "LE SSERAFIM JAPAN OFFICIAL", "title": "LE SSERAFIM.*JAPAN", "min": 50000, "cat": "music", "korean": false, "artist": "LE SSERAFIM"},
+  {"q": "BOYNEXTDOOR JAPAN OFFICIAL", "title": "BOYNEXTDOOR.*JAPAN", "min": 20000, "cat": "music", "korean": false, "artist": "BOYNEXTDOOR"},
+  {"q": "ATEEZ JAPAN OFFICIAL", "title": "ATEEZ.*JAPAN", "min": 20000, "cat": "music", "korean": false, "artist": "ATEEZ"},
+  {"q": "ILLIT JAPAN OFFICIAL", "title": "ILLIT.*JAPAN", "min": 20000, "cat": "music", "korean": false, "artist": "ILLIT"},
+  {"q": "TWS JAPAN OFFICIAL", "title": "TWS.*JAPAN", "min": 20000, "cat": "music", "korean": false, "artist": "TWS"},
+  {"q": "&TEAM official", "title": "^&TEAM", "min": 50000, "cat": "music", "korean": false, "artist": "&TEAM", "id": "UCHD1jo5RhijLfx5-0Ehe_cg"},
+  {"q": "NiziU official", "title": "^NiziU", "min": 100000, "cat": "music", "korean": false}
+ ]
+}
