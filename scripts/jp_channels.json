@@ -144,7 +144,7 @@
  ],
  "travel": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: Japanese videos about trips, cafes, street food and markets in Korea, found by these YouTube searches (Japanese, region JP). All of them on the first run, then a few in rotation each night.",
-  "per_night": 3,
+  "per_night": 2,
   "min_views": 20000,
   "queries": [
    "韓国旅行 vlog",
@@ -159,12 +159,13 @@
    "韓国 コンビニ グルメ",
    "弘大 カフェ",
    "韓国 ホテル おすすめ"
-  ]
+  ],
+  "first_run": 6
  },
  "fans": {
   "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken.",
-  "first_run": 12,
-  "per_night": 6,
+  "first_run": 8,
+  "per_night": 4,
   "min_views": 10000,
   "min_ja_comments": 3,
   "artists": {
@@ -185,5 +186,21 @@
    "紅白",
    "ハイタッチ会"
   ]
- }
+ },
+ "beauty": {
+  "_note": "Beauty tab of kreelz.com/jp: popular Japanese videos and shorts about Olive Young shopping and Korean cosmetics (hauls, recommendations, new products).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 50000,
+  "queries": [
+   "オリーブヤング 購入品",
+   "オリヤン おすすめ",
+   "韓国コスメ 購入品",
+   "オリーブヤング 爆買い",
+   "オリヤン 新作",
+   "韓国コスメ おすすめ ランキング",
+   "オリーブヤング 明洞"
+  ]
+ },
+ "_note_quota": "Searches cost 100 YouTube API units each and share the nightly quota with the global edition, so only a few run each night (first_run on the first night, then per_night in rotation)."
 }

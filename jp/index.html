@@ -1955,7 +1955,7 @@ function mixMusic(l){
 }
 function mixOTT(l){
   if(state.cat==="music") return mixMusic(l);
-  if(REGION==="jp" && state.cat==="mukbang"){   // K-Travel & Food: 2 of every 3 places for the Japanese travel and food videos
+  if(REGION==="jp" && (state.cat==="mukbang"||state.cat==="beauty")){   // K-Travel & Food and Beauty: 2 of every 3 places for the Japanese videos (trips and food; Olive Young and K-cosmetics)
     const j=[], r=[]; l.forEach(v=>(JPOSET.has(v.id)?j:r).push(v)); const out=[]; let a=0, b=0;
     while(a<j.length||b<r.length){ if(a<j.length) out.push(j[a++]); if(a<j.length) out.push(j[a++]); if(b<r.length) out.push(r[b++]) }
     return out }

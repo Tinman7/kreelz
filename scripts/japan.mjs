@@ -67,21 +67,30 @@ for (const c of cfg.channels) {
   console.log(c.name || c.q, c.id, "uploads", up.length, "shorts", sh.length);
 }
 // K-Travel & Food (kreelz.com/jp only): Japanese videos about trips, cafes, street food and markets in Korea
+// Search groups (kreelz.com/jp only), each a few searches a night in rotation:
+//   travel — K-Travel & Food tab: Japanese videos about trips, cafes, street food and markets in Korea
+//   beauty — Beauty tab: Olive Young shopping and Korean cosmetics, as Japanese fans watch them
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
-{ const n = CHECK ? 3 : TR.done ? Math.min(TR.per_night || 3, TR.queries.length) : TR.queries.length;   // the check shares the nightly quota: 3 searches
-  const start = Math.floor(Date.now() / DAY) * n % Math.max(1, TR.queries.length);
-  const qs = Array.from({ length: n }, (_, i) => TR.queries[(start + i) % TR.queries.length]);
-  const since = new Date(Date.now() - (TR.done ? 60 : 365) * DAY).toISOString();
+const BE = cfg.beauty || { queries: [] }, BEAUTY = { name: "Olive Young / Korean cosmetics (search)", cat: "beauty", search: true };
+async function searchGroup(G, tag, days) {
+  const L = G.queries || []; if (!L.length) return;
+  const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length);
+  const start = Math.floor(Date.now() / DAY) * n % L.length;
+  const qs = Array.from({ length: n }, (_, i) => L[(start + i) % L.length]);
+  const since = new Date(Date.now() - (G.done ? days[1] : days[0]) * DAY).toISOString();
   let got = 0;
   try { for (const q of qs) {
     const d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
-    for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = TRAVEL; got++; } } }
-  catch (e) { console.log("travel search stopped:", e.message); }
-  console.log("travel searches", JSON.stringify(qs), "found", got); }
+    for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = tag; got++; } } }
+  catch (e) { console.log(tag.name, "search stopped:", e.message); }
+  console.log(tag.name, JSON.stringify(qs), "found", got);
+}
+await searchGroup(TR, TRAVEL, [365, 60]);
+await searchGroup(BE, BEAUTY, [180, 30]);
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = []; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // artists alternate
-  const n = Math.min(CHECK ? 4 : FN.done ? (FN.per_night || 6) : (FN.first_run || 12), Q.length);
+  const n = Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
   const start = Math.floor(Date.now() / DAY) * n % Math.max(1, Q.length);
   const qs = Array.from({ length: n }, (_, i) => Q[(start + i) % Q.length]);
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
@@ -125,6 +134,7 @@ const SHOW = /バラエティ|リアリティ|恋愛リアリティ|サバイバ
 const cat = v => {
   const c = chOf[v.id], text = v.meta[0] + " " + v.meta[5].join(" ");
   if (c.cat === "travel") return "k";
+  if (c.cat === "beauty") return "b";
   if (c.cat === "fans") return STAGE.test(text) ? "m" : "e";   // stage fancams to Music, airport / events / fan meetings to Shows                 // K-Travel & Food tab on /jp (K-Food elsewhere)
   if (c.cat === "music") return SHOW.test(text) ? "e" : "m";
   if ((SHOW.test(text) || idols.some(re => re.test(v.meta[0]))) && !/ドラマ/.test(v.meta[0]) && !MUSIC.test(v.meta[0])) return "e";
@@ -136,6 +146,11 @@ const KANA = /[ぁ-んァ-ヶ]/;
 const KPLACE = /韓国|ソウル|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|仁川|大邱|全州|慶州|景福宮|漢南|新沙|カロスキル|延南|乙支路|益善洞|北村|ロッテワールド|korea|seoul|busan|jeju/i;
 const TRAVELW = /旅行|旅|vlog|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故/i;
+const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
+const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
+const NOT_BEAUTY = /ドラマ|映画|予告|直撮り|fancam|ファンカム|\bmv\b|m\/v|ニュース|news|株|投資|決算/i;
+const beautyOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
+  return KANA.test(v.meta[0]) && COSME.test(t) && BEAUTYW.test(t) && !NOT_BEAUTY.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 const travelOK = v => KANA.test(v.meta[0]) && KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
 for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
 // fan uploads: one of the fan-search artists, not a full re-upload, and Japanese fans in the comments
@@ -154,7 +169,7 @@ const jaC = {};
   console.log("fan candidates", fc.length, "with Japanese comments", fc.filter(id => jaC[id] >= (FN.min_ja_comments || 3)).length); }
 const fanOK = v => (jaC[v.id] || 0) >= (FN.min_ja_comments || 3);
 const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0, notFan = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
@@ -162,6 +177,7 @@ for (const id of cand) {
   if (!good.has(id)) { skipped++; continue; }
   if (c.korean && !korean(v)) { notKorean++; continue; }
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
+  if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
   if (c === FANS && !fanOK(v)) { notFan++; continue; }
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
@@ -174,6 +190,7 @@ if (CHECK) fs.writeFileSync("jp_check.txt", report + "\n");
 if (!CHECK) {
   for (const c of cfg.channels) if (c.id) c.done = true;
   if (cfg.travel) cfg.travel.done = true;
+  if (cfg.beauty) cfg.beauty.done = true;
   if (cfg.fans) cfg.fans.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
@@ -181,5 +198,5 @@ if (!CHECK) {
   fs.writeFileSync(outPath, JSON.stringify(out));
 }
 const summary = JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,
-  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, not_travel: notTravel, not_fan: notFan, skipped, quota_used: used });
+  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, not_on_topic: notTravel, not_fan: notFan, skipped, quota_used: used });
 console.log(summary); if (CHECK) fs.appendFileSync("jp_check.txt", summary + "\n");
