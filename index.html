@@ -501,7 +501,17 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000;transition:opacity .12s}
-.sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none}   /* while swiping / until the new short really plays: the slide's own thumbnail shows */
+.sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none}
+/* iPhone/iPad: no scrolling feed. One fixed screen; swipe up/down swaps the short (WebKit draws iframes in a scrolling
+   box late, so a scrolling feed showed the previous short over the next one) */
+.sp-fixed{overflow:hidden;touch-action:none;scroll-snap-type:none}
+.sp-fixed .sp-slide{position:absolute;inset:0;height:auto}
+.sp-swipe{position:absolute;inset:0;z-index:2}
+.sp-swipe[hidden]{display:none}
+.sp-in-up{animation:spInUp .22s ease-out}
+.sp-in-down{animation:spInDown .22s ease-out}
+@keyframes spInUp{from{transform:translateY(35%);opacity:.2}to{transform:none;opacity:1}}
+@keyframes spInDown{from{transform:translateY(-35%);opacity:.2}to{transform:none;opacity:1}}   /* while swiping / until the new short really plays: the slide's own thumbnail shows */
 .sp-slide>.sp-tt{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1;background:#000}
 .soc{display:flex;gap:10px;align-items:center}
 .soc[hidden]{display:none}
@@ -2024,6 +2034,7 @@ function spSlide(i){
 function spFill(upto){
   const f=$("#spFeed"); if(!f) return;
   if(upto>sstate.shown-2 && sstate.shown<sstate.cap) renderShorts(false);
+  if(SP_FIX) return;
   upto=Math.min(upto, spMax()); let s="";
   for(; spN<upto; spN++) s+=spSlide(spN);
   if(!s) return;
@@ -2040,6 +2051,7 @@ function spFill(upto){
    short after it is loaded into the same player and plays with sound by itself. */
 const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
 let spSound = !IOS, spMuted = false, spHintFor = "";
+const SP_FIX = IOS;   // fixed-screen swipe mode on iPhone/iPad
 const SOUND_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
 const soundHint = (k="tap_play") => IOS ? `<span class="tapsound">${SOUND_SVG}${esc(t(k))}</span>` : "";
 /* tapping into a player moves focus into its frame: hide the hint then */
@@ -2064,7 +2076,32 @@ window.addEventListener("message",e=>{
     if(!spMuted){ if(!spSound){ spSound=true } document.querySelectorAll("#spFeed .tapsound").forEach(x=>x.remove()); spHintFor=spCur }
     else if(spHintFor!==spCur){ spHintFor=spCur; spSound=false; spHint("tap_unmute") }   // YouTube fell back to muted play
   }
+  spSwipeSync();
 });
+/* the swipe layer covers the video only once sound is unlocked: before that, taps must reach YouTube's own ▶ button */
+function spSwipeSync(){ const o=$("#spFeed .sp-swipe"); if(o) o.hidden = !(SP_FIX && spSound && !(sstate.list[spIdx]||{}).tt) }
+function spShowIdx(i,dir){
+  const f=$("#spFeed"); if(!f||i<0||i>=spMax()) return;
+  if(i>=sstate.shown-2 && sstate.shown<sstate.cap) renderShorts(false);
+  const old=[...f.querySelectorAll(".sp-slide")];
+  f.insertAdjacentHTML("afterbegin", spSlide(i));
+  const el=f.querySelector(`.sp-slide[data-i="${i}"]`);
+  if(dir) el.classList.add(dir>0?"sp-in-up":"sp-in-down");
+  old.forEach(x=>{ if(x!==el) x.remove() });
+  ttThumbFill(f);
+  spActivate(i); spSwipeSync();
+}
+let spTx=0, spTy=0, spTt=0, spTon=false;
+function spGestures(){
+  if(!SP_FIX || sp.dataset.g) return; sp.dataset.g="1";
+  const on=()=>sp.open && $("#spFeed.sp-fixed");
+  sp.addEventListener("touchstart",e=>{ if(!on()||e.touches.length>1) return; const t=e.touches[0]; spTx=t.clientX; spTy=t.clientY; spTt=Date.now(); spTon=true },{passive:true});
+  sp.addEventListener("touchmove",e=>{ if(spTon && on() && e.target.closest(".sp-stage,.sp-side")) e.preventDefault() },{passive:false});
+  sp.addEventListener("touchend",e=>{ if(!spTon||!on()) return; spTon=false;
+    const t=e.changedTouches[0], dx=t.clientX-spTx, dy=t.clientY-spTy;
+    if(Math.abs(dy)>45 && Math.abs(dy)>Math.abs(dx)*1.2){ spGo(dy<0?1:-1); return }
+    if(Math.abs(dx)<10 && Math.abs(dy)<10 && Date.now()-spTt<350 && e.target.closest(".sp-swipe")){ if(spState===1) spCmd("pauseVideo"); else spCmd("playVideo") } });
+}
 function spAutoplayCheck(){
   clearTimeout(spChk);
   if(!IOS){ spCmd("unMute"); spCmd("playVideo"); spChk=setTimeout(()=>{ spCmd("unMute"); if(spState!==1 && spState!==3) spCmd("playVideo") },2500); return }
@@ -2124,6 +2161,12 @@ function spInfo(){
 }
 function spOpen(k){
   spIdx=-1; spN=0; spPl=null; spCur=""; spState=-1; spWait=false; clearTimeout(spShowT);
+  if(SP_FIX){
+    if(spIO) spIO.disconnect();
+    $("#spStage").innerHTML='<div class="sp-feed sp-fixed" id="spFeed"><div class="sp-swipe" hidden></div></div>';
+    if(!sp.open) sp.showModal();
+    spGestures(); spShowIdx(k,0); return;
+  }
   $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>';
   if(spIO) spIO.disconnect();
   spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
@@ -2138,6 +2181,7 @@ function spOpen(k){
 }
 function spGo(d){
   const n=spIdx+d; if(n<0||n>=spMax()) return;
+  if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
   const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el) $("#spFeed").scrollTo({top:el.offsetTop,behavior:"smooth"});
 }
