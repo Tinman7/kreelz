@@ -97,6 +97,7 @@ const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan 
   let got = 0;
   try { for (const q of qs) {
     const d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    if (CHECK) console.log("  fan search", JSON.stringify(q), "items", (d.items || []).length, "total", d.pageInfo?.totalResults, d.error ? JSON.stringify(d.error).slice(0, 200) : "");
     for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = FANS; got++; } } }
   catch (e) { console.log("fan search stopped:", e.message); }
   console.log("fan searches", JSON.stringify(qs), "found", got); }
