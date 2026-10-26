@@ -1,5 +1,5 @@
 {
- "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels.",
+ "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels. cat: screen = OTT (drama/film, shows and music by keywords), tv = Korean TV channel in Japan (same rules), music = an artist's channel.",
  "channels": [
   {
    "q": "Netflix Japan",
@@ -60,7 +60,7 @@
    "q": "KNTV 韓流",
    "title": "KNTV",
    "min": 5000,
-   "cat": "screen",
+   "cat": "tv",
    "korean": false,
    "id": "UCpupW2jSGnHsXn1OXUjHyDA",
    "name": "KNTV"
@@ -69,7 +69,7 @@
    "q": "Mnet Japan",
    "title": "Mnet ?(Japan|JAPAN|Smart)",
    "min": 10000,
-   "cat": "music",
+   "cat": "tv",
    "korean": false,
    "id": "UCF9DM3iAcBx2dg_hBiJntjw",
    "name": "Mnet Japan"
