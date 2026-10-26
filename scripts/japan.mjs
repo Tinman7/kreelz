@@ -40,14 +40,16 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 for (const c of cfg.channels) {
   if (c.id) continue;
+  if (c.searched && Date.now() - new Date(c.searched) < 7 * DAY) continue;   // nothing found recently: try again weekly
   const d = await call("search", { part: "snippet", type: "channel", q: c.q, maxResults: 5 });
   const ids = (d.items || []).map(x => x.snippet.channelId || (x.id || {}).channelId).filter(Boolean);
   if (!ids.length) { console.log("not found:", c.q); continue; }
   const s = await call("channels", { part: "snippet,statistics", id: ids.join(",") });
   const re = new RegExp(c.title, "i");
-  const hit = (s.items || []).find(x => re.test(x.snippet.title) && +(x.statistics.subscriberCount || 0) >= (c.min || 0));
+  const no = c.not ? new RegExp(c.not, "i") : null;
+  const hit = (s.items || []).find(x => re.test(x.snippet.title) && !(no && no.test(x.snippet.title)) && +(x.statistics.subscriberCount || 0) >= (c.min || 0));
   console.log("search", JSON.stringify(c.q), "->", (s.items || []).map(x => `${x.snippet.title} (${x.statistics.subscriberCount})`).join(" | "), "=>", hit ? "ACCEPTED " + hit.id : "none accepted");
-  if (hit) { c.id = hit.id; c.name = hit.snippet.title; }
+  if (hit) { c.id = hit.id; c.name = hit.snippet.title; delete c.searched; } else c.searched = new Date().toISOString().slice(0, 10);
 }
 fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
 
@@ -103,7 +105,9 @@ for (const id of cand) {
   if (p.sample.length < 4) p.sample.push(`[${k}] ${v.meta[0].slice(0, 70)}`);
   if (!CHECK) { vmeta[id] = v.meta; only.add(id); }
 }
-for (const [n, p] of Object.entries(per)) console.log(n, "videos", p.videos, "shorts", p.shorts, "\n   " + p.sample.join("\n   "));
+const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
+console.log(report);
+if (CHECK) fs.writeFileSync("jp_check.txt", report + "\n");
 if (!CHECK) {
   for (const c of cfg.channels) if (c.id) c.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
@@ -111,5 +115,6 @@ if (!CHECK) {
   fs.writeFileSync(ONLY, JSON.stringify([...only]));
   fs.writeFileSync(outPath, JSON.stringify(out));
 }
-console.log(JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,
-  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, skipped, quota_used: used }));
+const summary = JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,
+  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, skipped, quota_used: used });
+console.log(summary); if (CHECK) fs.appendFileSync("jp_check.txt", summary + "\n");

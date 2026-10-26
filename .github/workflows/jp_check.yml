@@ -27,3 +27,8 @@ jobs:
           git add scripts/jp_channels.json
           git commit -m "Japan channels found" || echo "nothing new"
           git pull --rebase -q && git push
+      - name: Report (branch jp-check, jp_check.txt)
+        run: |
+          cp jp_check.txt /tmp/r.txt
+          git checkout --orphan jp-check && git rm -rfq . && cp /tmp/r.txt jp_check.txt
+          git add jp_check.txt && git commit -qm "Japan channels check report" && git push -f origin jp-check

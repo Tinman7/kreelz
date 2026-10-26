@@ -1,5 +1,5 @@
 {
- "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found.",
+ "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days).",
  "channels": [
   {
    "q": "Netflix Japan",
@@ -11,13 +11,12 @@
    "name": "Netflix Japan"
   },
   {
-   "q": "U-NEXT 公式",
+   "q": "U-NEXT 韓流 韓国ドラマ",
    "title": "^U-NEXT",
    "min": 50000,
    "cat": "screen",
    "korean": true,
-   "id": "UCMjvvElkdLRTgcTKklAUkSw",
-   "name": "U-NEXT フットボール"
+   "not": "フットボール|football|サッカー|スポーツ|ゴルフ|格闘|アニメ|anime|競馬|麻雀"
   },
   {
    "q": "Lemino 公式",
@@ -72,15 +71,6 @@
    "korean": false,
    "id": "UCF9DM3iAcBx2dg_hBiJntjw",
    "name": "Mnet Japan"
-  },
-  {
-   "q": "KCON JAPAN",
-   "title": "KCON",
-   "min": 10000,
-   "cat": "music",
-   "korean": false,
-   "id": "UC2aul0Y3jUJ9sMzOhWPT9AA",
-   "name": "KCON official"
   },
   {
    "q": "SEVENTEEN JAPAN OFFICIAL",
