@@ -25,6 +25,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TX_MINUTES: "170"
+          TX_PAR: "10"
         run: node scripts/titles.mjs index.html | tee tx.log
       - name: Commit and publish
         env:
