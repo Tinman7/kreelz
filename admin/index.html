@@ -46,6 +46,13 @@ tfoot td{font-weight:800;border-bottom:0}
 .three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .chart{width:100%;height:auto;display:block}
 .chart text{fill:var(--muted);font-size:11px;font-family:inherit}
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#16A34A;margin-right:6px;vertical-align:1px;animation:livePulse 2s ease-in-out infinite}
+@keyframes livePulse{50%{opacity:.35}}
+.recent{list-style:none;margin:0;padding:0}
+.recent li{display:grid;grid-template-columns:48px 26px minmax(0,1fr);gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}
+.recent li:last-child{border-bottom:0}
+.recent time{color:var(--muted);font-variant-numeric:tabular-nums}
+.recent .t{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:8px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
@@ -119,6 +126,32 @@ tfoot td{font-weight:800;border-bottom:0}
       <button class="btn" id="out" type="button">로그아웃</button>
     </div>
   </header>
+
+  <h2><span class="live-dot" aria-hidden="true"></span>지금 실시간 <small id="liveStamp">오늘 0시(한국 시간)부터 지금까지 · 30초마다 자동 갱신</small></h2>
+  <div class="grid kpis">
+    <div class="card kpi"><div class="l">오늘 방문자</div><div class="v" id="liveV">–</div><div class="s" id="liveVS"></div></div>
+    <div class="card kpi"><div class="l">오늘 재생</div><div class="v" id="liveP">–</div><div class="s" id="livePS"></div></div>
+    <div class="card kpi"><div class="l">최근 30분 접속 중</div><div class="v new" id="liveA">–</div><div class="s" id="liveAS"></div></div>
+    <div class="card kpi"><div class="l">오늘 가장 많이 온 나라</div><div class="v" id="liveC">–</div><div class="s" id="liveCS"></div></div>
+  </div>
+  <div class="grid two" style="margin-top:12px">
+    <div class="card">
+      <div style="font-size:14px;font-weight:800;margin-bottom:6px">오늘 시간대별 방문자 · 재생 <small style="color:var(--muted);font-weight:500">한국 시간</small></div>
+      <div id="liveChart"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>방문자</span><span><i style="background:var(--accent2)"></i>재생 수</span></div>
+    </div>
+    <div class="card tw">
+      <table>
+        <thead><tr><th style="text-align:left">오늘 국가별</th><th>방문자</th><th>재생</th></tr></thead>
+        <tbody id="liveGeo"><tr><td colspan="3" class="empty">불러오는 중…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid three" style="margin-top:12px">
+    <div class="card top"><h3>오늘 인기 쇼츠</h3><ol id="liveTopS"></ol></div>
+    <div class="card top"><h3>오늘 인기 일반 영상</h3><ol id="liveTopV"></ol></div>
+    <div class="card"><h3 style="margin:0 0 10px;font-size:14.5px;font-weight:800">최근 30분 재생</h3><ul class="recent" id="liveRecent"></ul></div>
+  </div>
 
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
@@ -256,7 +289,7 @@ async function start(){
   const {data}=await sb.auth.getSession(); const u=data.session&&data.session.user;
   if(!u || u.is_anonymous){ show("#login"); return }
   if((u.email||"").toLowerCase()!==ADMIN){ show("#denied"); return }
-  show("#app"); load();
+  show("#app"); load(); liveLoop();
 }
 sb.auth.onAuthStateChange((ev)=>{ if(ev==="SIGNED_IN") start() });
 
@@ -428,6 +461,41 @@ $("#metric").addEventListener("click",e=>{ const b=e.target.closest("button"); i
   document.querySelectorAll("#metric button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
 $("#period").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; period=b.dataset.p;
   document.querySelectorAll("#period button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadTop() });
+
+/* ---------- live: today so far (KST), refreshed every 30 s while the page is open and visible ---------- */
+let liveT=0;
+const hm=t=>new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date(t));
+function hourBars(H){
+  const W=640,HH=150,P=34,n=H.length||1,gw=(W-P-6)/n,bw=Math.max(2,gw/2-1.5),max=Math.max(1,...H.map(r=>Math.max(r.v,r.p)));
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${HH+20}" role="img" aria-label="오늘 시간대별 방문자와 재생 수">`;
+  (max<4?[0,1]:[0,.5,1]).forEach(f=>{const y=HH-(HH-8)*f; s+=`<line x1="${P}" x2="${W}" y1="${y}" y2="${y}" stroke="${css("--line")}"/><text x="${P-6}" y="${y+4}" text-anchor="end">${nf(Math.round(max*f))}</text>`});
+  H.forEach((r,i)=>{ const x=P+4+i*gw, hv=(HH-8)*r.v/max, hp=(HH-8)*r.p/max;
+    s+=`<rect x="${x}" y="${HH-hv}" width="${bw}" height="${hv}" rx="2" fill="${css("--accent")}"><title>${r.h}시 방문자 ${nf(r.v)}</title></rect>`;
+    s+=`<rect x="${x+bw+1}" y="${HH-hp}" width="${bw}" height="${hp}" rx="2" fill="${css("--accent2")}"><title>${r.h}시 재생 ${nf(r.p)}</title></rect>`;
+    if(r.h%3===0) s+=`<text x="${x+bw}" y="${HH+14}" text-anchor="middle">${r.h}시</text>` });
+  return s+"</svg>";
+}
+async function loadLive(){
+  const {data:L,error}=await sb.rpc("admin_live");
+  if(error){ $("#liveStamp").innerHTML=`<span class="err">실시간 통계를 불러오지 못했습니다 (Supabase에 setup/live.sql 실행 필요): ${esc(error.message)}</span>`; return }
+  $("#liveV").textContent=nf(L.visitors); $("#liveVS").textContent=`고유 IP ${nf(L.ips)}개`;
+  $("#liveP").textContent=nf(L.plays); $("#livePS").textContent=`좋아요 ${nf(L.likes)} · 댓글 ${nf(L.comments)}`;
+  $("#liveA").textContent=nf(L.active30); $("#liveAS").textContent=`최근 30분 재생 ${nf(L.plays30)}회`;
+  const C=(L.countries||[]).filter(r=>r.v>0||r.p>0), c0=C.find(r=>r.c!=="??")||C[0];
+  $("#liveC").textContent=c0?`${ccFlag(c0.c)} ${ccName(c0.c)}`:"–"; $("#liveCS").textContent=c0?`방문자 ${nf(c0.v)} · 재생 ${nf(c0.p)}`:"";
+  const k=new Date(new Date(L.now).toLocaleString("en-US",{timeZone:"Asia/Seoul"})).getHours();
+  $("#liveChart").innerHTML=hourBars((L.hourly||[]).filter(r=>r.h<=k));
+  $("#liveGeo").innerHTML=C.length? C.slice(0,12).map(r=>`<tr><td style="text-align:left">${ccFlag(r.c)} ${esc(ccName(r.c))}</td><td>${nf(r.v)}</td><td>${nf(r.p)}</td></tr>`).join("") : `<tr><td colspan="3" class="empty">오늘은 아직 방문이 없습니다</td></tr>`;
+  const S=await shortsSet(), isS=id=>S.has(id)||String(id).startsWith("tt:"), top=(L.top||[]).map(r=>({video_id:r.id,n:r.n}));
+  const withT=async l=>Promise.all(l.map(async r=>({...r,...(await title(r.video_id))})));
+  const [a,b]=await Promise.all([withT(top.filter(r=>isS(r.video_id)).slice(0,5)), withT(top.filter(r=>!isS(r.video_id)).slice(0,5))]);
+  rows($("#liveTopS"),a,"회"); rows($("#liveTopV"),b,"회");
+  const R=await Promise.all((L.recent||[]).map(async r=>({at:r.t, c:r.c||"??", ...(await title(r.id))})));
+  $("#liveRecent").innerHTML=R.length? R.map(r=>`<li><time>${hm(r.at)}</time><span title="${esc(ccName(r.c))}">${ccFlag(r.c)}</span><span class="t">${esc(r.t||"")}</span></li>`).join("") : `<li class="empty" style="display:block">최근 30분 동안 재생이 없습니다</li>`;
+  $("#liveStamp").textContent=`오늘 0시(한국 시간)부터 지금까지 · 30초마다 자동 갱신 · 마지막 갱신 ${new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date())}`;
+}
+function liveLoop(){ clearTimeout(liveT); if(!$("#app").hidden && document.visibilityState==="visible") loadLive().catch(()=>{}); liveT=setTimeout(liveLoop,30000) }
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") liveLoop() });
 
 function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
