@@ -119,7 +119,7 @@ let doneJa = 0;
     }
   })); }
 // pass B — the global edition's languages
-const todo = AK ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id])) : [];
+const todo = AK && process.env.TX_PASSES !== "ja" ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id])) : [];
 const queue = []; for (let i = 0; i < todo.length; i += 40) queue.push(todo.slice(i, i + 40));
 let done = 0;
 await Promise.all(Array.from({ length: PAR }, async () => {
@@ -146,7 +146,7 @@ let curated = 0;
   const texts = [...new Set(list.flatMap(it => [it.kind, it.blurb, it.title]).filter(x => typeof x === "string" && x.trim()))];
   const cmap = {};
   for (const l of LANGS) cmap[l] = fs.existsSync(`t/c/${l}.json`) ? JSON.parse(fs.readFileSync(`t/c/${l}.json`, "utf8")) : {};
-  const need = AK ? texts.filter(x => LANGS.some(l => !cmap[l][x])) : [];
+  const need = AK && process.env.TX_PASSES !== "ja" ? texts.filter(x => LANGS.some(l => !cmap[l][x])) : [];
   for (let i = 0; i < need.length && outTok < MAX_OUT; i += 30) {
     const batch = need.slice(i, i + 30);
     const res = await claude(batch.map(t => ({ t })));

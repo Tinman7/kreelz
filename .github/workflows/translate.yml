@@ -1,7 +1,13 @@
 name: Translate all titles
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      passes:
+        description: "ja = Japanese only (kreelz.com/jp); all = Japanese, then en/tl/th/id/es"
+        default: "ja"
+        type: choice
+        options: [ja, all]
 
 permissions:
   contents: write
@@ -26,6 +32,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TX_MINUTES: "170"
           TX_PAR: "10"
+          TX_PASSES: ${{ inputs.passes }}
         run: node scripts/titles.mjs index.html | tee tx.log
       - name: Commit and publish
         env:
