@@ -66,6 +66,18 @@ for (const c of cfg.channels) {
   up.forEach(id => { chOf[id] = c }); sh.forEach(id => { chOf[id] = c; shortIds.add(id) });
   console.log(c.name || c.q, c.id, "uploads", up.length, "shorts", sh.length);
 }
+// K-Travel & Food (kreelz.com/jp only): Japanese videos about trips, cafes, street food and markets in Korea
+const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
+{ const n = TR.done ? Math.min(TR.per_night || 3, TR.queries.length) : TR.queries.length;
+  const start = Math.floor(Date.now() / DAY) * n % Math.max(1, TR.queries.length);
+  const qs = Array.from({ length: n }, (_, i) => TR.queries[(start + i) % TR.queries.length]);
+  const since = new Date(Date.now() - (TR.done ? 60 : 365) * DAY).toISOString();
+  let got = 0;
+  try { for (const q of qs) {
+    const d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = TRAVEL; got++; } } }
+  catch (e) { console.log("travel search stopped:", e.message); }
+  console.log("travel searches", JSON.stringify(qs), "found", got); }
 const all = Object.keys(chOf).filter(id => !onSite.has(id));
 const vmeta = fs.existsSync(VMETA) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(VMETA))) : {};
 const info = {};
@@ -99,20 +111,28 @@ const FILM = /映画|劇場|ムービー|\bmovie\b|\bfilm\b|영화/i;
 const SHOW = /バラエティ|リアリティ|恋愛リアリティ|サバイバル|オーディション|密着|ドキュメンタリー|インタビュー|interview|ビハインド|behind|メイキング|making|vlog|リアクション|reaction|ゲーム|トーク|出演回|驚きの土曜日|ユ・?クイズ|ランニングマン|知ってるお兄さん|私は一人で暮らす|예능|리얼리티|인터뷰|비하인드/i;
 const cat = v => {
   const c = chOf[v.id], text = v.meta[0] + " " + v.meta[5].join(" ");
+  if (c.cat === "travel") return "k";                 // K-Travel & Food tab on /jp (K-Food elsewhere)
   if (c.cat === "music") return SHOW.test(text) ? "e" : "m";
   if ((SHOW.test(text) || idols.some(re => re.test(v.meta[0]))) && !/ドラマ/.test(v.meta[0]) && !MUSIC.test(v.meta[0])) return "e";
   if (MUSIC.test(v.meta[0])) return "m";
   if (FILM.test(text)) return "f";
   return "d";
 };
-const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= 300);
+const KANA = /[ぁ-んァ-ヶ]/;
+const KPLACE = /韓国|ソウル|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|仁川|大邱|全州|慶州|景福宮|漢南|新沙|カロスキル|延南|乙支路|益善洞|北村|ロッテワールド|korea|seoul|busan|jeju/i;
+const TRAVELW = /旅行|旅|vlog|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
+const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故/i;
+const travelOK = v => KANA.test(v.meta[0]) && KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
+for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
+const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0;
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id].search ? (TR.min_views || 20000) : 300));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
   const v = { ...info[id], id }, c = chOf[id];
   if (!good.has(id)) { skipped++; continue; }
   if (c.korean && !korean(v)) { notKorean++; continue; }
+  if (c.search && !travelOK(v)) { notTravel++; continue; }
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}] ${v.meta[0].slice(0, 70)}`);
@@ -123,11 +143,12 @@ console.log(report);
 if (CHECK) fs.writeFileSync("jp_check.txt", report + "\n");
 if (!CHECK) {
   for (const c of cfg.channels) if (c.id) c.done = true;
+  if (cfg.travel) cfg.travel.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(ONLY, JSON.stringify([...only]));
   fs.writeFileSync(outPath, JSON.stringify(out));
 }
 const summary = JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,
-  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, skipped, quota_used: used });
+  videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, not_korean: notKorean, not_travel: notTravel, skipped, quota_used: used });
 console.log(summary); if (CHECK) fs.appendFileSync("jp_check.txt", summary + "\n");

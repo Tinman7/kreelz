@@ -130,6 +130,33 @@
    "korean": false,
    "id": "UCHp2q2i85qt_9nn2H7AvGOw",
    "name": "NiziU Official"
+  },
+  {
+   "q": "韓国観光公社 公式",
+   "title": "韓国観光公社|VISITKOREA|Visit ?Korea|Korea Tourism",
+   "not": "English|Global",
+   "min": 5000,
+   "cat": "travel",
+   "korean": false
   }
- ]
+ ],
+ "travel": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: Japanese videos about trips, cafes, street food and markets in Korea, found by these YouTube searches (Japanese, region JP). All of them on the first run, then a few in rotation each night.",
+  "per_night": 3,
+  "min_views": 20000,
+  "queries": [
+   "韓国旅行 vlog",
+   "ソウル旅行",
+   "釜山旅行",
+   "済州島 旅行",
+   "韓国グルメ",
+   "明洞 グルメ",
+   "聖水 カフェ",
+   "韓国 屋台 市場",
+   "広蔵市場",
+   "韓国 コンビニ グルメ",
+   "弘大 カフェ",
+   "韓国 ホテル おすすめ"
+  ]
+ }
 }
