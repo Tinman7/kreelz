@@ -2,7 +2,7 @@
 // usage: node scripts/prio.mjs index.html data/vmeta.json.gz
 import fs from "node:fs"; import zlib from "node:zlib";
 import { rank, ARTISTS, EXTRA_MALE, FANCAM_M, JP_ARTISTS, rankIn } from "./hybe.mjs";
-import { actorScore, JP_ACTORS, actorScoreIn } from "./actors.mjs";
+import { actorScore, jpActorKind, jpActorRank } from "./actors.mjs";
 const [site, metaPath] = process.argv.slice(2);
 let h = fs.readFileSync(site, "utf8");
 const M = JSON.parse(zlib.gunzipSync(fs.readFileSync(metaPath)));
@@ -28,8 +28,11 @@ for (const n of ["SHORTS", "FEED"]) {
     if ("dfe".includes(cc)) { const m = M[s.slice(i, i + 11)]; if (m && ((OTT.test(m[2]) && !OTT_NOT.test(m[2])) || JPO.has(s.slice(i, i + 11)))) ott.push(s.slice(i, i + 11));
       const sc = actorScore(m) || (rank(m) ? 1 : 0);   // priority idols' interviews / TV appearances join the focus pool
       if (sc) act.push(s.slice(i, i + 11) + sc);
-      const scJ = actorScoreIn(JP_ACTORS, m) || (rankIn(JP_ARTISTS, m) ? 1 : 0);
-      if (scJ) actJ.push(s.slice(i, i + 11) + scJ); continue; }
+      // Japan edition: kind of video of the ranked actors (r romance, f fan meeting, e event/fancam, m fan-made, o other);
+      // priority idols' TV / interview clips join the pool as "o"
+      // + the actor's place in JP_ACTORS (RC char; "z" = a priority idol), so /jp can take the actors in ranking order
+      const kJ = jpActorKind(m) || (rankIn(JP_ARTISTS, m) ? "o" : "");
+      if (kJ) actJ.push(s.slice(i, i + 11) + kJ + (jpActorRank(m) ? RC[jpActorRank(m) - 1] : "z")); continue; }
     if (cc !== "m") continue;
     const id = s.slice(i, i + 11), m = M[id], text = m ? m[0] + " " + (m[5] || []).join(" ") : "";
     let r = rank(m); const cam = !!m && FANCAM_M.test(text);
@@ -39,11 +42,11 @@ for (const n of ["SHORTS", "FEED"]) {
     if (r) { list.push(id + RC[r - 1]); const nm = ARTISTS[r - 1] ? ARTISTS[r - 1][0] : "other boy groups"; counts[nm] = (counts[nm] || 0) + 1; if (cam) fan.push(id); }
   }
 }
-const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACT_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}";`;
+const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}";`;
 h = h.replace(/const PRIO_BTS = "[^"]*"; const PRIO_HYBE = "[^"]*";/, line);
 h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]*";/, "").replace(/ const PRIO_FAN = "[^"]*";/, "")
-  .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "");
+  .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "");
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);
-console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_fancams: fanJ.length, jp_only: jpo.length, jp_last: lastJ.length }));
+console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_last: lastJ.length }));

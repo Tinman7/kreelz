@@ -5,7 +5,7 @@
 //        YT_API_KEY=... node scripts/japan.mjs --check            (find the channels and show what would be collected; writes no site data)
 import fs from "node:fs"; import zlib from "node:zlib";
 import { hasThumb } from "./thumbs.mjs";
-import { JP_ACTORS } from "./actors.mjs";
+import { JP_ACTORS, JP_ACTOR_JA, jpActorKind } from "./actors.mjs";
 import { JP_ARTISTS } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");
@@ -88,6 +88,13 @@ async function searchGroup(G, tag, days) {
 }
 await searchGroup(TR, TRAVEL, [365, 60]);
 await searchGroup(BE, BEAUTY, [180, 30]);
+// Ranked actors (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes, fan meetings,
+// visits to Japan / events / fancams and fan-made videos. Actor and kind both rotate (22 actors x 7 kinds, coprime), so every
+// night covers different actors and a mix of kinds; the top of the ranking comes first on the first night.
+const AC = cfg.actors || { kinds: [] }, ACTS = { name: "Ranked actors: romance, fan meetings, events, fan-made (search)", cat: "actors", search: true };
+{ const names = JP_ACTORS.map(a => JP_ACTOR_JA[a[0]]).filter(Boolean), K = AC.kinds || [];
+  const queries = []; for (let j = 0; names.length && K.length && j < names.length * K.length; j++) queries.push(names[j % names.length] + " " + K[j % K.length]);
+  await searchGroup({ ...AC, queries }, ACTS, [1095, 365]); }
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = [...(FN.extra || [])]; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // extra first, then artists alternate
@@ -138,6 +145,7 @@ const cat = v => {
   const c = chOf[v.id], text = v.meta[0] + " " + v.meta[5].join(" ");
   if (c.cat === "travel") return "k";
   if (c.cat === "beauty") return "b";
+  if (c.cat === "actors") return jpActorKind(v.meta) === "r" ? "d" : "e";   // romance scenes to Screen; fan meetings, events, fancams, fan-made to Shows
   if (c.cat === "fans") return STAGE.test(text) ? "m" : "e";   // stage fancams to Music, airport / events / fan meetings to Shows                 // K-Travel & Food tab on /jp (K-Food elsewhere)
   if (c.cat === "music") return SHOW.test(text) ? "e" : "m";
   if ((SHOW.test(text) || idols.some(re => re.test(v.meta[0]))) && !/ドラマ/.test(v.meta[0]) && !MUSIC.test(v.meta[0])) return "e";
@@ -170,9 +178,11 @@ const jaC = {};
       && info[id].meta[6] > 0 && info[id].meta[6] <= 30 * 60 && fanArtist(info[id]) && !FULL.test(info[id].meta[0]));
   const q = [...fc]; await Promise.all(Array.from({ length: 8 }, async () => { while (q.length) { const id = q.pop(); jaC[id] = await jaComments(id); } }));
   console.log("fan candidates", fc.length, "with Japanese comments", fc.filter(id => jaC[id] >= (FN.min_ja_comments || 3)).length); }
+// ranked-actor uploads: one of the actors is named, not a full re-upload, at most 30 minutes
+const actorOK = v => !!jpActorKind(v.meta) && !FULL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 30 * 60;
 const fanOK = v => (jaC[v.id] || 0) >= (FN.min_ja_comments || 3);
 const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0, notFan = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
@@ -182,6 +192,7 @@ for (const id of cand) {
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
   if (c === FANS && !fanOK(v)) { notFan++; continue; }
+  if (c === ACTS && !actorOK(v)) { notFan++; continue; }
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
@@ -195,6 +206,7 @@ if (!CHECK) {
   if (cfg.travel) cfg.travel.done = true;
   if (cfg.beauty) cfg.beauty.done = true;
   if (cfg.fans) cfg.fans.done = true;
+  if (cfg.actors) cfg.actors.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(ONLY, JSON.stringify([...only]));

@@ -1,5 +1,12 @@
 {
  "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels. cat: screen = OTT (drama/film, shows and music by keywords), tv = Korean TV channel in Japan (same rules), music = an artist's channel.",
+ "actors": {
+  "_note": "Ranked actors on kreelz.com/jp (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes (3 of 7 kinds), fan meetings, visits to Japan / events / fancams and fan-made videos. Queries = Japanese actor name + kind, rotating. Taken only when the actor is named and it is not a full re-upload (max 30 min).",
+  "first_run": 12,
+  "per_night": 8,
+  "min_views": 10000,
+  "kinds": ["キスシーン", "胸キュン シーン", "ラブコメ", "ファンミーティング", "来日 イベント", "直撮り", "FMV"]
+ },
  "channels": [
   {
    "q": "Netflix Japan",
