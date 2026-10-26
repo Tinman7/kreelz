@@ -1613,8 +1613,11 @@ const HTML_LANG = {en:"en",tl:"fil",th:"th",id:"id",es:"es",ja:"ja"};
    with data-region="jp": Japanese by default, Japan-first artist and actor order, Japan look. */
 const REGION = document.documentElement.dataset.region==="jp" ? "jp" : "global";
 const LANG_KEY = REGION==="jp" ? "ss-lang-jp" : "ss-lang";
+/* kreelz.com/jp offers Japanese and English only */
+const MENU_LANGS = REGION==="jp" ? ["ja","en"].map(k=>LANGS.find(l=>l[0]===k)) : LANGS;   // 日本語 first
+const langOK = l => !!I18N[l] && MENU_LANGS.some(x=>x[0]===l);
 function pickLang(){
-  const s=store.get(LANG_KEY); if(s && I18N[s]) return s;
+  const s=store.get(LANG_KEY); if(s && langOK(s)) return s;
   if(REGION==="jp") return "ja";
   const n=(navigator.language||"en").toLowerCase();
   if(n.startsWith("ja")) return "ja";
@@ -2801,7 +2804,7 @@ function renderMP(){
       </section>
       <section><h3>${esc(t("mp_prefs"))}</h3>
         <div class="two">
-          <div class="fld"><label for="mpLang">${esc(t("mp_lang"))}</label><select id="mpLang">${LANGS.map(([k,n])=>`<option value="${k}"${k===state.lang?" selected":""}>${n}</option>`).join("")}</select></div>
+          <div class="fld"><label for="mpLang">${esc(t("mp_lang"))}</label><select id="mpLang">${MENU_LANGS.map(([k,n])=>`<option value="${k}"${k===state.lang?" selected":""}>${n}</option>`).join("")}</select></div>
           <div class="fld"><label for="mpCity">${esc(t("mp_city"))}</label><select id="mpCity">${cityOpts}</select></div>
         </div>
       </section>
@@ -2857,14 +2860,14 @@ function applyStatic(){
   const ln=$("#langNote"); if(ln){ ln.hidden = REGION!=="jp"; if(REGION==="jp") ln.innerHTML = esc(t("lang_note")).replace("\u0001",`<b>${esc(t("ja_badge"))}</b>`) }
 }
 function setLang(l){
-  if(!I18N[l]) return;
+  if(!langOK(l)) return;
   state.lang=l; store.set(LANG_KEY,l);
   if(ME) ME=Auth.update({lang:l});
   applyStatic(); syncOrig(); renderAll(); renderAcct();
   if(auth.open) setMode(auth.dataset.mode);
   txInit();
 }
-$("#langSel").innerHTML = LANGS.map(([k,n])=>`<option value="${k}">${n}</option>`).join("");
+$("#langSel").innerHTML = MENU_LANGS.map(([k,n])=>`<option value="${k}">${n}</option>`).join("");
 $("#langSel").addEventListener("change",e=>{ txWarm(e.target.value); setLang(e.target.value) });
 function syncOrig(){ const b=$("#origBtn"); if(!b) return; b.setAttribute("aria-pressed", state.orig); b.title=t(state.orig?"orig_on":"orig_off") }
 $("#origBtn")&&$("#origBtn").addEventListener("click",()=>{
