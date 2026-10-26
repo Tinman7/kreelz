@@ -15,7 +15,8 @@
    "cat": "screen",
    "korean": true,
    "id": "UCv2ejD5B1xOYtGB2cf80B8g",
-   "name": "Netflix Japan"
+   "name": "Netflix Japan",
+   "done": true
   },
   {
    "q": "U-NEXT 韓流 韓国ドラマ",
@@ -25,7 +26,8 @@
    "korean": true,
    "not": "フットボール|football|サッカー|スポーツ|ゴルフ|格闘|アニメ|anime|競馬|麻雀",
    "id": "UCsnDrary1zSkV9RFyZ11K7w",
-   "name": "U-NEXT韓流・アジア公式"
+   "name": "U-NEXT韓流・アジア公式",
+   "done": true
   },
   {
    "q": "Lemino 公式",
@@ -34,7 +36,8 @@
    "cat": "screen",
    "korean": true,
    "id": "UCFLpS7vAGxlNgL0ZorC8oUw",
-   "name": "Lemino"
+   "name": "Lemino",
+   "done": true
   },
   {
    "q": "ディズニープラス 公式",
@@ -43,7 +46,8 @@
    "cat": "screen",
    "korean": true,
    "id": "UCm9iPGnmMYtZkNQ3IoBIPIA",
-   "name": "ディズニープラス"
+   "name": "ディズニープラス",
+   "done": true
   },
   {
    "q": "プライムビデオ Prime Video Japan",
@@ -52,7 +56,8 @@
    "cat": "screen",
    "korean": true,
    "id": "UCOMLsUCr8F0zf6LSwxBnuRA",
-   "name": "Prime Video JP - プライムビデオ"
+   "name": "Prime Video JP - プライムビデオ",
+   "done": true
   },
   {
    "q": "Hulu Japan 公式",
@@ -61,7 +66,8 @@
    "cat": "screen",
    "korean": true,
    "id": "UCh9VLvvUq_OrBVVd5C7q0Qw",
-   "name": "Hulu Japan公式"
+   "name": "Hulu Japan公式",
+   "done": true
   },
   {
    "q": "KNTV 韓流",
@@ -70,7 +76,8 @@
    "cat": "tv",
    "korean": false,
    "id": "UCpupW2jSGnHsXn1OXUjHyDA",
-   "name": "KNTV"
+   "name": "KNTV",
+   "done": true
   },
   {
    "q": "Mnet Japan",
@@ -79,7 +86,8 @@
    "cat": "tv",
    "korean": false,
    "id": "UCF9DM3iAcBx2dg_hBiJntjw",
-   "name": "Mnet Japan"
+   "name": "Mnet Japan",
+   "done": true
   },
   {
    "q": "SEVENTEEN JAPAN OFFICIAL",
@@ -89,7 +97,8 @@
    "korean": false,
    "artist": "SEVENTEEN",
    "id": "UCpbTKp4B80rE2zHWvQvZpvA",
-   "name": "SEVENTEEN Japan official Youtube"
+   "name": "SEVENTEEN Japan official Youtube",
+   "done": true
   },
   {
    "q": "Stray Kids Japan official",
@@ -99,7 +108,8 @@
    "korean": false,
    "artist": "Stray Kids",
    "id": "UCXhj2pPWvONXmvgHX5wllCA",
-   "name": "Stray Kids Japan Official YouTube"
+   "name": "Stray Kids Japan Official YouTube",
+   "done": true
   },
   {
    "q": "TWICE JAPAN OFFICIAL",
@@ -109,7 +119,8 @@
    "korean": false,
    "artist": "TWICE",
    "id": "UCCRb6nYKaT8tzLA8CwDdUtw",
-   "name": "TWICE JAPAN OFFICIAL YouTube Channel"
+   "name": "TWICE JAPAN OFFICIAL YouTube Channel",
+   "done": true
   },
   {
    "q": "ATEEZ JAPAN OFFICIAL",
@@ -127,7 +138,8 @@
    "cat": "music",
    "korean": false,
    "artist": "&TEAM",
-   "id": "UCHD1jo5RhijLfx5-0Ehe_cg"
+   "id": "UCHD1jo5RhijLfx5-0Ehe_cg",
+   "done": true
   },
   {
    "q": "NiziU official",
@@ -136,7 +148,8 @@
    "cat": "music",
    "korean": false,
    "id": "UCHp2q2i85qt_9nn2H7AvGOw",
-   "name": "NiziU Official"
+   "name": "NiziU Official",
+   "done": true
   },
   {
    "q": "韓国観光公社 公式",
@@ -146,7 +159,8 @@
    "cat": "travel",
    "korean": false,
    "id": "UCFKqiizhhgYgdEQIPsdJ4Pg",
-   "name": "韓国観光公社 日本公式チャンネル"
+   "name": "韓国観光公社 日本公式チャンネル",
+   "done": true
   }
  ],
  "travel": {
@@ -179,7 +193,8 @@
    "景福宮 韓服 体験",
    "韓国 屋台 グルメ"
   ],
-  "first_run": 6
+  "first_run": 6,
+  "done": true
  },
  "fans": {
   "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken. extra = searched before the artist x kind list (TWICE's Japanese members Sana, Mina, Momo and MISAMO). Artists in priority order: BTS and Stray Kids first among boy groups.",
@@ -213,7 +228,8 @@
    "TWICE モモ 直撮り",
    "MISAMO",
    "TWICE 最新 日本"
-  ]
+  ],
+  "done": true
  },
  "beauty": {
   "_note": "Beauty tab of kreelz.com/jp: popular Japanese videos and shorts about Olive Young shopping and Korean cosmetics (hauls, recommendations, new products).",
@@ -228,7 +244,8 @@
    "オリヤン 新作",
    "韓国コスメ おすすめ ランキング",
    "オリーブヤング 明洞"
-  ]
+  ],
+  "done": true
  },
  "_note_quota": "Searches cost 100 YouTube API units each and share the nightly quota with the global edition, so only a few run each night (first_run on the first night, then per_night in rotation)."
 }
