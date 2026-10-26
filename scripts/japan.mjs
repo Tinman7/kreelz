@@ -41,7 +41,8 @@ const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 for (const c of cfg.channels) {
   if (c.id) continue;
   if (c.searched && Date.now() - new Date(c.searched) < 7 * DAY) continue;   // nothing found recently: try again weekly
-  const d = await call("search", { part: "snippet", type: "channel", q: c.q, maxResults: 5 });
+  let d; try { d = await call("search", { part: "snippet", type: "channel", q: c.q, maxResults: 5 }); }
+  catch (e) { console.log("search stopped:", e.message); break; }          // out of quota: collect from the channels already known
   const ids = (d.items || []).map(x => x.snippet.channelId || (x.id || {}).channelId).filter(Boolean);
   if (!ids.length) { console.log("not found:", c.q); continue; }
   const s = await call("channels", { part: "snippet,statistics", id: ids.join(",") });

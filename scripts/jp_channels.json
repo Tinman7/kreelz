@@ -1,5 +1,5 @@
 {
- "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days).",
+ "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels.",
  "channels": [
   {
    "q": "Netflix Japan",
@@ -16,7 +16,9 @@
    "min": 50000,
    "cat": "screen",
    "korean": true,
-   "not": "フットボール|football|サッカー|スポーツ|ゴルフ|格闘|アニメ|anime|競馬|麻雀"
+   "not": "フットボール|football|サッカー|スポーツ|ゴルフ|格闘|アニメ|anime|競馬|麻雀",
+   "id": "UCsnDrary1zSkV9RFyZ11K7w",
+   "name": "U-NEXT韓流・アジア公式"
   },
   {
    "q": "Lemino 公式",
@@ -103,60 +105,12 @@
    "name": "TWICE JAPAN OFFICIAL YouTube Channel"
   },
   {
-   "q": "ENHYPEN JAPAN OFFICIAL",
-   "title": "ENHYPEN.*JAPAN",
-   "min": 50000,
-   "cat": "music",
-   "korean": false,
-   "artist": "ENHYPEN"
-  },
-  {
-   "q": "TOMORROW X TOGETHER JAPAN OFFICIAL",
-   "title": "(TOMORROW X TOGETHER|TXT).*JAPAN",
-   "min": 50000,
-   "cat": "music",
-   "korean": false,
-   "artist": "TXT"
-  },
-  {
-   "q": "LE SSERAFIM JAPAN OFFICIAL",
-   "title": "LE SSERAFIM.*JAPAN",
-   "min": 50000,
-   "cat": "music",
-   "korean": false,
-   "artist": "LE SSERAFIM"
-  },
-  {
-   "q": "BOYNEXTDOOR JAPAN OFFICIAL",
-   "title": "BOYNEXTDOOR.*JAPAN",
-   "min": 20000,
-   "cat": "music",
-   "korean": false,
-   "artist": "BOYNEXTDOOR"
-  },
-  {
    "q": "ATEEZ JAPAN OFFICIAL",
    "title": "ATEEZ.*JAPAN",
    "min": 20000,
    "cat": "music",
    "korean": false,
    "artist": "ATEEZ"
-  },
-  {
-   "q": "ILLIT JAPAN OFFICIAL",
-   "title": "ILLIT.*JAPAN",
-   "min": 20000,
-   "cat": "music",
-   "korean": false,
-   "artist": "ILLIT"
-  },
-  {
-   "q": "TWS JAPAN OFFICIAL",
-   "title": "TWS.*JAPAN",
-   "min": 20000,
-   "cat": "music",
-   "korean": false,
-   "artist": "TWS"
   },
   {
    "q": "&TEAM official",
