@@ -14,21 +14,22 @@ export const ARTISTS = [
   ["KATSEYE",    [], /katseye|캣츠아이|캐츠아이/i],
   ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순/i],
 ];
-// Japan edition (kreelz.com/jp): Music order for Japanese fans. Based on Oricon 2025 annual sales and 2025 K-pop tour
-// grosses (Stray Kids No.1 K-pop act in Japan, then SEVENTEEN, ENHYPEN, &TEAM, BOYNEXTDOOR ...).
+// Japan edition (kreelz.com/jp): Music order for Japanese fans. BTS, TXT, LE SSERAFIM and ILLIT first (strongest in
+// Japan, per David 2026-10-26), then Oricon 2025 annual sales / 2025 Japan tour grosses (Stray Kids, SEVENTEEN, ENHYPEN, &TEAM ...).
+// Katakana names match Japanese fan titles (members only where the name is distinctive).
 export const JP_ARTISTS = [
+  ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団|バンタン|ジョングク|グク(?![ァ-ヶ])|ジミン|ユンギ|ホソク|ナムジュン|ソクジン/i],
+  ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b|トゥバ|トゥモロー ?バイ ?トゥギャザー|ヒュニンカイ|ボムギュ|ヨンジュン/i],
+  ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌|ルセラフィム|ルセラ(?![ァ-ヶ])|ホ・ユンジン|キム・チェウォン|ホン・ウンチェ|カズハ/i],
+  ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿|アイリット/i],
   ["Stray Kids", ["UC9rMiEjNaCSsebs31MRDCRA"], /stray ?kids|스트레이 ?키즈|스키즈|\bskz\b|ストレイキッズ|スキズ/i],
   ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순|セブンティーン|セブチ/i],
-  ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団/i],
   ["ENHYPEN",    ["UCArLZtok93cO5R9RI4_Y5Jw"], /enhypen|엔하이픈|エンハイプン/i],
   ["&TEAM",      ["UCHD1jo5RhijLfx5-0Ehe_cg"], /&team|andteam|앤팀|エンティーム/i],
   ["TWICE",      [], /\btwice\b|트와이스|トゥワイス|misamo/i],
-  ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌|ルセラフィム/i],
-  ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b/i],
   ["BOYNEXTDOOR",["UChhKBlh_wvspTh5n4mL0b5g"], /boynextdoor|보이넥스트도어|ボイネク/i],
   ["ATEEZ",      ["UC2e4Ukj5Pfr7cb3KpJAFBdQ"], /ateez|에이티즈/i],
   ["TWS",        ["UC8C6QOPDVYwmuaSBZksefdg"], /\btws\b|투어스/i],
-  ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿|アイリット/i],
   ["aespa",      [], /aespa|에스파/i],
   ["NCT WISH",   ["UCiZqWVAeChfqlom5ZPR3ZJA"], /nct ?wish|엔시티 ?위시/i],
   ["CORTIS",     ["UCZMYvSPulDSUdx7bdtTFdrg"], /cortis|코르티스/i],
@@ -56,7 +57,7 @@ export const EXTRA_MALE = [
   ["BIGBANG",     [], /bigbang|빅뱅|g-?dragon|지드래곤/i],
 ];
 // performance fancams (stage, concert, festival, vertical/face cams)
-export const FANCAM_M = /직캠|fancam|fan ?cam|세로캠|페이스캠|face ?cam|focus ?cam|\bfocus\b|콘서트|concert|\bcam\b/i;
+export const FANCAM_M = /직캠|直撮り|ファンカム|fancam|fan ?cam|세로캠|페이스캠|face ?cam|focus ?cam|\bfocus\b|콘서트|concert|\bcam\b/i;
 // extra channel ids found later (e.g. KATSEYE's) can be added in scripts/artist_channels.json {"KATSEYE": ["UC..."]}
 import fs from "node:fs";
 try { const extra = JSON.parse(fs.readFileSync(new URL("./artist_channels.json", import.meta.url), "utf8"));

@@ -160,5 +160,30 @@
    "弘大 カフェ",
    "韓国 ホテル おすすめ"
   ]
+ },
+ "fans": {
+  "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken.",
+  "first_run": 12,
+  "per_night": 6,
+  "min_views": 10000,
+  "min_ja_comments": 3,
+  "artists": {
+   "BTS": "BTS",
+   "TXT": "TXT トゥバ",
+   "LE SSERAFIM": "ルセラフィム",
+   "ILLIT": "ILLIT アイリット"
+  },
+  "kinds": [
+   "直撮り",
+   "来日",
+   "イベント",
+   "ファンミーティング 日本",
+   "空港",
+   "東京ドーム",
+   "Mステ",
+   "CDTV",
+   "紅白",
+   "ハイタッチ会"
+  ]
  }
 }
