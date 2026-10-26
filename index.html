@@ -559,6 +559,8 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp h2{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.3;overflow-wrap:anywhere}
 .sp .orig{color:rgba(255,255,255,.55)}
 .sp-meta{margin:0;font-size:13.5px;color:rgba(255,255,255,.7)}
+.sp-rail{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.sp-open .sp-ico,.sp-open .sm{display:none}
 .sp-open{align-self:flex-start;font-size:13.5px;font-weight:700;color:#fff;border-bottom:1px solid rgba(255,255,255,.3);padding-block:4px;display:inline-flex;gap:4px;align-items:center}
 .sp-gate{margin-top:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.08)}
 .sp-gate p{margin:0 0 10px;font-size:13.5px;font-weight:700}
@@ -597,7 +599,17 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
   .sp-side h2{font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   .sp-side .orig{display:none}
   .sp-side .sp-meta{font-size:12.5px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  .sp-side .sp-open{font-size:12.5px;padding-block:2px}
+  /* side buttons down the right edge, as in the YouTube Shorts app: like, comments, share, open in YouTube */
+  .sp-side{padding-right:80px}
+  .sp-rail{position:absolute;right:4px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:72px;flex-direction:column;flex-wrap:nowrap;gap:16px;pointer-events:auto}
+  .sp-rail .soc{flex-direction:column;gap:16px}
+  .sp-rail .soc-b,.sp-rail .sp-open{flex-direction:column;align-items:center;gap:3px;min-height:0;padding:0;border:0;border-radius:0;background:none;color:#fff;
+    font-size:12px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.7);align-self:center;text-decoration:none}
+  .sp-rail .soc-b svg,.sp-rail .sp-ico{display:block;width:30px;height:30px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+  .sp-rail .sp-share svg,.sp-rail .sp-ico{fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .sp-rail .sp-ico .f{fill:#fff;stroke:none}
+  .sp-rail .sp-open .lg{display:none}
+  .sp-rail .sp-open .sm{display:block}
   .sp-nav{position:absolute;right:12px;top:50%;transform:translateY(-50%);flex-direction:column;z-index:3}
   .sp-nav span{display:none}
   .sp-nav{display:none}
@@ -730,8 +742,11 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
       <h2 id="spTitle"></h2>
       <p class="orig" id="spOrig" hidden></p>
       <p class="sp-meta" id="spMeta"></p>
-      <div class="soc" id="spSoc" hidden></div>
-      <a class="sp-open" id="spOpen" target="_blank" rel="noopener"></a>
+      <div class="sp-rail">
+        <div class="soc" id="spSoc" hidden></div>
+        <button type="button" class="soc-b sp-share" id="spShare"><svg viewBox="0 0 24 24"><path d="M14 5l6 6-6 6M20 11h-9a7 7 0 0 0-7 7v1"/></svg><span data-i18n="share"></span></button>
+        <a class="sp-open" id="spOpen" target="_blank" rel="noopener"></a>
+      </div>
       <div class="sp-gate" id="spGate" hidden><p data-i18n="wall_btn"></p><button type="button" class="cta" data-auth="signup" data-i18n="wall_btn"></button></div>
       <div class="sp-nav"><button type="button" id="spPrev" data-i18n-aria="prev"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><span id="spPos"></span><button type="button" id="spNext" data-i18n-aria="next"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></div>
     </div>
@@ -1153,6 +1168,7 @@ en:{
   c_age:"I am 16 years of age or older", c_mkt:"Use my personal information for service news and member benefits", c_email:"Receive promotional emails",
   view:"View", opt_note:"Optional items are not required to join. You can change them anytime in My page.",
   legal_note:"Legal documents are provided in English.",
+  share:"Share", copied:"Link copied",
   lg_terms:"Terms of Service", lg_privacy:"Privacy Notice", lg_mkt:"Marketing consent", lg_email:"Promotional email consent",
   btn_signup:"Create account", to_login:"Already have an account? Log in", to_signup:"New to KREELZ? Sign up free",
   err_req:"Please agree to all required items.", err_name:"Enter your name.", err_email:"Enter a valid email address.",
@@ -1206,6 +1222,7 @@ tl:{
   c_age:"Ako ay 16 taong gulang pataas", c_mkt:"Gamitin ang aking personal na impormasyon para sa balita ng serbisyo at benepisyo ng member", c_email:"Tumanggap ng promotional na email",
   view:"Tingnan", opt_note:"Hindi kailangan ang mga opsyonal para makasali. Mababago mo ito anumang oras sa Aking page.",
   legal_note:"Nasa English ang mga legal na dokumento.",
+  share:"Ibahagi", copied:"Nakopya ang link",
   btn_signup:"Gumawa ng account", to_login:"May account ka na? Mag-log in", to_signup:"Bago sa KREELZ? Mag-sign up nang libre",
   err_req:"Pakisang-ayunan ang lahat ng kailangang item.", err_name:"Ilagay ang iyong pangalan.", err_email:"Maglagay ng tamang email address.",
   err_pw:"Gumamit ng hindi bababa sa 8 character na may letra at numero.", err_exists:"Naka-register na ang email na ito. Mag-log in na lang.",
@@ -1258,6 +1275,7 @@ th:{
   c_age:"ฉันมีอายุ 16 ปีขึ้นไป", c_mkt:"ใช้ข้อมูลส่วนบุคคลของฉันเพื่อแจ้งข่าวบริการและสิทธิประโยชน์สมาชิก", c_email:"รับอีเมลโปรโมชัน",
   view:"ดู", opt_note:"ไม่จำเป็นต้องยอมรับรายการที่ไม่บังคับเพื่อสมัคร และเปลี่ยนได้ทุกเมื่อในหน้าของฉัน",
   legal_note:"เอกสารทางกฎหมายมีให้เป็นภาษาอังกฤษ",
+  share:"แชร์", copied:"คัดลอกลิงก์แล้ว",
   btn_signup:"สร้างบัญชี", to_login:"มีบัญชีแล้ว? เข้าสู่ระบบ", to_signup:"เพิ่งเคยใช้ KREELZ? สมัครฟรี",
   err_req:"โปรดยอมรับรายการที่จำเป็นทั้งหมด", err_name:"กรุณากรอกชื่อ", err_email:"กรุณากรอกอีเมลที่ถูกต้อง",
   err_pw:"ใช้อย่างน้อย 8 ตัวอักษรที่มีทั้งตัวอักษรและตัวเลข", err_exists:"อีเมลนี้ลงทะเบียนแล้ว โปรดเข้าสู่ระบบ",
@@ -1310,6 +1328,7 @@ id:{
   c_age:"Saya berusia 16 tahun atau lebih", c_mkt:"Gunakan data pribadi saya untuk kabar layanan dan manfaat anggota", c_email:"Terima email promosi",
   view:"Lihat", opt_note:"Item opsional tidak wajib untuk mendaftar. Anda dapat mengubahnya kapan saja di Halaman saya.",
   legal_note:"Dokumen hukum tersedia dalam bahasa Inggris.",
+  share:"Bagikan", copied:"Tautan disalin",
   btn_signup:"Buat akun", to_login:"Sudah punya akun? Masuk", to_signup:"Baru di KREELZ? Daftar gratis",
   err_req:"Harap setujui semua item wajib.", err_name:"Masukkan nama Anda.", err_email:"Masukkan alamat email yang valid.",
   err_pw:"Gunakan minimal 8 karakter berisi huruf dan angka.", err_exists:"Email ini sudah terdaftar. Silakan masuk.",
@@ -1362,6 +1381,7 @@ es:{
   c_age:"Tengo 16 años o más", c_mkt:"Usar mis datos personales para novedades del servicio y ventajas para miembros", c_email:"Recibir correos promocionales",
   view:"Ver", opt_note:"Los elementos opcionales no son necesarios para registrarte. Puedes cambiarlos cuando quieras en Mi página.",
   legal_note:"Los documentos legales están en inglés.",
+  share:"Compartir", copied:"Enlace copiado",
   btn_signup:"Crear cuenta", to_login:"¿Ya tienes cuenta? Inicia sesión", to_signup:"¿Nuevo en KREELZ? Regístrate gratis",
   err_req:"Acepta todos los elementos obligatorios.", err_name:"Escribe tu nombre.", err_email:"Escribe un correo electrónico válido.",
   err_pw:"Usa al menos 8 caracteres con letras y números.", err_exists:"Este correo ya está registrado. Inicia sesión.",
@@ -1403,7 +1423,7 @@ Object.assign(I18N.tl,{tap_play:"I-tap ang ▶ sa video para mag-play na may tun
 Object.assign(I18N.th,{tap_play:"แตะ ▶ บนวิดีโอเพื่อเล่นพร้อมเสียง",tap_unmute:"แตะไอคอนลำโพงบนวิดีโอเพื่อเปิดเสียง"});
 Object.assign(I18N.id,{tap_play:"Ketuk ▶ di video untuk memutar dengan suara",tap_unmute:"Ketuk ikon speaker di video untuk suara"});
 Object.assign(I18N.es,{tap_play:"Toca ▶ en el video para reproducir con sonido",tap_unmute:"Toca el ícono del altavoz en el video para activar el sonido"});
-I18N.ja={"lg_terms":"利用規約","lg_privacy":"プライバシーポリシー","lg_mkt":"マーケティング利用の同意","lg_email":"広告メール受信の同意","nav_screen":"ドラマ","nav_beauty":"美容","nav_ent":"バラエティ","tagline":"韓国エンタメを、日本のファンへ毎日お届け","login":"ログイン","signup":"新規登録","mypage":"マイページ","logout":"ログアウト","lang":"言語","search_ph":"アーティスト・番組・俳優で検索","cat_all":"すべて","cat_music":"音楽","cat_drama":"ドラマ","cat_film":"映画","cat_beauty":"ビューティー","cat_mukbang":"Kフード","cat_events":"イベント","kpop":"K-POP","onair":"本日公開","comingup":"近日公開","next14":"今後14日間 · 現地時間","allvideos":"すべての動画","catvideos":"{c}の動画","nvideos":"{n}本の動画","nvideo1":"動画1本","sort_new":"新着順","sort_views":"再生回数順","sort_hot":"急上昇","sort_rel":"関連度順","official_only":"公式・認証チャンネルのみ","showmore":"もっと見る · 残り{n}本","feednote":"動画はYouTubeからリンクしており、投稿者自身のチャンネルで再生されます。再生回数と日付は最終更新時点のものです。","latestpicks":"最新のおすすめ","catpicks":"{c}のおすすめ","titles_count":"{n}作品 · 公式動画{v}本","views":"{n}回視聴","loading":"タイトルを読み込み中","wall_title":"無料登録で全{n}本の動画を視聴","wall_body":"ゲストは最初の{g}本をお試しで見られます。無料アカウントを作ると、すべての動画とマイページが使えます。","wall_btn":"無料アカウントを作成","wall_login":"会員の方はログイン","wall_more":"+ 会員限定あと{n}本","signup_title":"無料アカウントを作成","signup_sub":"すべての動画が見放題。無料です。","login_title":"おかえりなさい","login_sub":"ログインしてすべての動画を見る","name":"名前","email":"メールアドレス","password":"パスワード","pw_hint":"英字と数字を含む8文字以上","agree_all":"任意項目を含め、すべてに同意する","req":"必須","opt":"任意","c_terms":"利用規約に同意します","c_privacy":"個人情報の収集・利用に同意します","c_age":"16歳以上です","c_mkt":"サービスのお知らせや会員特典のために個人情報を利用することに同意します","c_email":"プロモーションメールを受け取る","view":"見る","opt_note":"任意項目は登録に必須ではありません。マイページでいつでも変更できます。","legal_note":"規約などの法的文書は日本語で表示しています（英語版が原文です）。","btn_signup":"アカウントを作成","to_login":"アカウントをお持ちの方はログイン","to_signup":"KREELZは初めてですか？無料で登録","err_req":"必須項目にすべて同意してください。","err_name":"名前を入力してください。","err_email":"正しいメールアドレスを入力してください。","err_pw":"英字と数字を含む8文字以上にしてください。","err_exists":"このメールアドレスはすでに登録されています。ログインしてください。","err_login":"メールアドレスまたはパスワードが正しくありません。","err_crypto":"お使いのブラウザでは安全にアカウントを作成できません。ブラウザを更新してください。","welcome":"{name}さん、ようこそ！すべての動画が見られるようになりました。","welcome_back":"{name}さん、おかえりなさい！","close":"閉じる","agree_btn":"同意する","cancel":"キャンセル","mp_hello":"こんにちは、{name}さん","mp_since":"{d}から会員","mp_unlocked":"全動画見放題 · {n}本","mp_profile":"プロフィール","mp_save":"保存","mp_saved":"保存しました","mp_prefs":"設定","mp_lang":"表示言語","mp_city":"公開時刻の表示地域","mp_consents":"同意事項","mp_agreed":"{d}に同意","mp_changed":"{d}に変更","mp_never":"未同意","mp_account":"アカウント","mp_delete":"アカウントを削除","mp_delete_q":"アカウントとデータを削除しますか？元に戻せません。","mp_delete_yes":"削除する","mp_deleted":"アカウントを削除しました。","tr_offer":"韓国語の動画タイトルを{lang}で表示しますか？","tr_btn":"タイトルを翻訳","tr_link":"翻訳","tr_on":"タイトルはお使いの端末で翻訳されています。","desc_h":"この動画について","tr_auto":"自動翻訳","more":"もっと見る","shorts_h":"ショート","shorts_sub":"公式チャンネルと韓国クリエイターの縦型ショート動画","nshorts":"ショート{n}本","sort_mix":"ミックス","prev":"前へ","next":"次へ","wall_title_s":"無料登録で全{n}本のショートを視聴","upd":"毎日0:00（日本時間）更新 · 最終更新 {d}","new_badge":"NEW","cat_screen":"ドラマ・映画","cat_ent":"バラエティ","nav_ent":"バラエティ","orig_btn":"原題で表示","orig_on":"投稿時のタイトルで表示中（翻訳なし）","orig_off":"翻訳タイトルで表示中","tr_orig":"原題：{t}","out_today":"本日公開","today_at":"今日 {t}","just":"公開されたばかり","tomorrow":"明日","in_days":"{n}日後","new_week":"今週の新作","out_now":"公開中","weekly":"毎週新しい動画","ongoing":"放送中","watch_mv":"MVを見る","watch_trailer":"予告編を見る","watch":"見る","find_mv":"MVを探す","find_trailer":"予告編を探す","find_video":"動画を探す","nothing_today":"{city}では今日の予定はありません。近日公開の作品はこちら。","no_releases":"今後2週間の公開予定はありません。","show_all":"すべて表示（{n}件）","show_less":"閉じる","all_day":"終日","kst_date":"韓国時間の日付","tba":"未定","video_by":"動画：{ch}","no_match":"「{q}」に一致するものはありません。アーティスト名・番組名・俳優名で探してみてください。","no_picks":"まだおすすめはありません。上の{c}の動画をすべてご覧ください。","no_feed_q":"「{q}」に一致する動画はまだ読み込まれていません。リストをスクロールするか、チャンネル名で探してみてください。","no_feed":"まだ動画はありません。","all_official":"公式動画すべて","official_video":"公式動画","open_on":"{p}で開く","via":"{ch}より","no_official":"公式動画はまだありません。公開日にまたチェックしてください。","sh_note":"すべての動画は投稿者自身のチャンネルから再生・リンクしています。ここで再アップロードはしていません。","verified":"認証済み・公式チャンネル","ft1_h":"公式ソース","ft1_p":"動画はYouTube、TikTok、NAVER TVからリンク・埋め込みしています。音楽・ドラマ・映画はレーベル、放送局、認証チャンネルから、ビューティー、旅行、フードはクリエイター本人のチャンネルから。再アップロードは一切していません。","ft2_h":"公開時刻","ft2_p":"韓国の公開時刻は韓国時間（日本時間と同じ）で発表されます。お使いの地域の時刻に合わせて表示し、この端末に記憶します。","ft3_h":"リンクの報告","ft3_p":"リンク切れや非公式のリンクを見つけたら、{addr} までお知らせください。1日以内に修正します。","like":"いいね","cm_title":"コメント","cm_name":"ニックネーム","cm_body":"コメントを追加…","cm_post":"投稿","cm_empty":"まだコメントはありません。最初のコメントをどうぞ！","cm_rules":"コメントは公開されます。思いやりを持って、リンクは貼らないでください。","cm_need":"ニックネームとコメントを入力してください。","cm_nolinks":"コメントにリンクは貼れません。","cm_slow":"コメントの間隔が短すぎます。1分ほどしてから再度お試しください。","cm_err":"問題が発生しました。もう一度お試しください。","cm_del":"削除","tap_play":"動画の▶をタップすると音ありで再生されます","tap_unmute":"動画のスピーカーアイコンをタップすると音が出ます"};
+I18N.ja={"share":"シェア","copied":"リンクをコピーしました","lg_terms":"利用規約","lg_privacy":"プライバシーポリシー","lg_mkt":"マーケティング利用の同意","lg_email":"広告メール受信の同意","nav_screen":"ドラマ","nav_beauty":"美容","nav_ent":"バラエティ","tagline":"韓国エンタメを、日本のファンへ毎日お届け","login":"ログイン","signup":"新規登録","mypage":"マイページ","logout":"ログアウト","lang":"言語","search_ph":"アーティスト・番組・俳優で検索","cat_all":"すべて","cat_music":"音楽","cat_drama":"ドラマ","cat_film":"映画","cat_beauty":"ビューティー","cat_mukbang":"Kフード","cat_events":"イベント","kpop":"K-POP","onair":"本日公開","comingup":"近日公開","next14":"今後14日間 · 現地時間","allvideos":"すべての動画","catvideos":"{c}の動画","nvideos":"{n}本の動画","nvideo1":"動画1本","sort_new":"新着順","sort_views":"再生回数順","sort_hot":"急上昇","sort_rel":"関連度順","official_only":"公式・認証チャンネルのみ","showmore":"もっと見る · 残り{n}本","feednote":"動画はYouTubeからリンクしており、投稿者自身のチャンネルで再生されます。再生回数と日付は最終更新時点のものです。","latestpicks":"最新のおすすめ","catpicks":"{c}のおすすめ","titles_count":"{n}作品 · 公式動画{v}本","views":"{n}回視聴","loading":"タイトルを読み込み中","wall_title":"無料登録で全{n}本の動画を視聴","wall_body":"ゲストは最初の{g}本をお試しで見られます。無料アカウントを作ると、すべての動画とマイページが使えます。","wall_btn":"無料アカウントを作成","wall_login":"会員の方はログイン","wall_more":"+ 会員限定あと{n}本","signup_title":"無料アカウントを作成","signup_sub":"すべての動画が見放題。無料です。","login_title":"おかえりなさい","login_sub":"ログインしてすべての動画を見る","name":"名前","email":"メールアドレス","password":"パスワード","pw_hint":"英字と数字を含む8文字以上","agree_all":"任意項目を含め、すべてに同意する","req":"必須","opt":"任意","c_terms":"利用規約に同意します","c_privacy":"個人情報の収集・利用に同意します","c_age":"16歳以上です","c_mkt":"サービスのお知らせや会員特典のために個人情報を利用することに同意します","c_email":"プロモーションメールを受け取る","view":"見る","opt_note":"任意項目は登録に必須ではありません。マイページでいつでも変更できます。","legal_note":"規約などの法的文書は日本語で表示しています（英語版が原文です）。","btn_signup":"アカウントを作成","to_login":"アカウントをお持ちの方はログイン","to_signup":"KREELZは初めてですか？無料で登録","err_req":"必須項目にすべて同意してください。","err_name":"名前を入力してください。","err_email":"正しいメールアドレスを入力してください。","err_pw":"英字と数字を含む8文字以上にしてください。","err_exists":"このメールアドレスはすでに登録されています。ログインしてください。","err_login":"メールアドレスまたはパスワードが正しくありません。","err_crypto":"お使いのブラウザでは安全にアカウントを作成できません。ブラウザを更新してください。","welcome":"{name}さん、ようこそ！すべての動画が見られるようになりました。","welcome_back":"{name}さん、おかえりなさい！","close":"閉じる","agree_btn":"同意する","cancel":"キャンセル","mp_hello":"こんにちは、{name}さん","mp_since":"{d}から会員","mp_unlocked":"全動画見放題 · {n}本","mp_profile":"プロフィール","mp_save":"保存","mp_saved":"保存しました","mp_prefs":"設定","mp_lang":"表示言語","mp_city":"公開時刻の表示地域","mp_consents":"同意事項","mp_agreed":"{d}に同意","mp_changed":"{d}に変更","mp_never":"未同意","mp_account":"アカウント","mp_delete":"アカウントを削除","mp_delete_q":"アカウントとデータを削除しますか？元に戻せません。","mp_delete_yes":"削除する","mp_deleted":"アカウントを削除しました。","tr_offer":"韓国語の動画タイトルを{lang}で表示しますか？","tr_btn":"タイトルを翻訳","tr_link":"翻訳","tr_on":"タイトルはお使いの端末で翻訳されています。","desc_h":"この動画について","tr_auto":"自動翻訳","more":"もっと見る","shorts_h":"ショート","shorts_sub":"公式チャンネルと韓国クリエイターの縦型ショート動画","nshorts":"ショート{n}本","sort_mix":"ミックス","prev":"前へ","next":"次へ","wall_title_s":"無料登録で全{n}本のショートを視聴","upd":"毎日0:00（日本時間）更新 · 最終更新 {d}","new_badge":"NEW","cat_screen":"ドラマ・映画","cat_ent":"バラエティ","nav_ent":"バラエティ","orig_btn":"原題で表示","orig_on":"投稿時のタイトルで表示中（翻訳なし）","orig_off":"翻訳タイトルで表示中","tr_orig":"原題：{t}","out_today":"本日公開","today_at":"今日 {t}","just":"公開されたばかり","tomorrow":"明日","in_days":"{n}日後","new_week":"今週の新作","out_now":"公開中","weekly":"毎週新しい動画","ongoing":"放送中","watch_mv":"MVを見る","watch_trailer":"予告編を見る","watch":"見る","find_mv":"MVを探す","find_trailer":"予告編を探す","find_video":"動画を探す","nothing_today":"{city}では今日の予定はありません。近日公開の作品はこちら。","no_releases":"今後2週間の公開予定はありません。","show_all":"すべて表示（{n}件）","show_less":"閉じる","all_day":"終日","kst_date":"韓国時間の日付","tba":"未定","video_by":"動画：{ch}","no_match":"「{q}」に一致するものはありません。アーティスト名・番組名・俳優名で探してみてください。","no_picks":"まだおすすめはありません。上の{c}の動画をすべてご覧ください。","no_feed_q":"「{q}」に一致する動画はまだ読み込まれていません。リストをスクロールするか、チャンネル名で探してみてください。","no_feed":"まだ動画はありません。","all_official":"公式動画すべて","official_video":"公式動画","open_on":"{p}で開く","via":"{ch}より","no_official":"公式動画はまだありません。公開日にまたチェックしてください。","sh_note":"すべての動画は投稿者自身のチャンネルから再生・リンクしています。ここで再アップロードはしていません。","verified":"認証済み・公式チャンネル","ft1_h":"公式ソース","ft1_p":"動画はYouTube、TikTok、NAVER TVからリンク・埋め込みしています。音楽・ドラマ・映画はレーベル、放送局、認証チャンネルから、ビューティー、旅行、フードはクリエイター本人のチャンネルから。再アップロードは一切していません。","ft2_h":"公開時刻","ft2_p":"韓国の公開時刻は韓国時間（日本時間と同じ）で発表されます。お使いの地域の時刻に合わせて表示し、この端末に記憶します。","ft3_h":"リンクの報告","ft3_p":"リンク切れや非公式のリンクを見つけたら、{addr} までお知らせください。1日以内に修正します。","like":"いいね","cm_title":"コメント","cm_name":"ニックネーム","cm_body":"コメントを追加…","cm_post":"投稿","cm_empty":"まだコメントはありません。最初のコメントをどうぞ！","cm_rules":"コメントは公開されます。思いやりを持って、リンクは貼らないでください。","cm_need":"ニックネームとコメントを入力してください。","cm_nolinks":"コメントにリンクは貼れません。","cm_slow":"コメントの間隔が短すぎます。1分ほどしてから再度お試しください。","cm_err":"問題が発生しました。もう一度お試しください。","cm_del":"削除","tap_play":"動画の▶をタップすると音ありで再生されます","tap_unmute":"動画のスピーカーアイコンをタップすると音が出ます"};
 const LEGAL_INFO = {
   service:"KREELZ",
   operator:"David Lee",
@@ -2327,7 +2347,7 @@ function spInfo(){
   $("#spMeta").textContent=[m.ch, v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
   renderSoc("#spSoc", v.id);
   $("#spOpen").href=v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`;
-  $("#spOpen").innerHTML=`${esc(t("open_on",{p:v.tt?"TikTok":"YouTube"}))} ${arrow}`;
+  $("#spOpen").innerHTML=`<svg class="sp-ico" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" class="f"/></svg><span class="lg">${esc(t("open_on",{p:v.tt?"TikTok":"YouTube"}))} ${arrow}</span><span class="sm">${v.tt?"TikTok":"YouTube"}</span>`;
   $("#spPos").textContent=`${num(spIdx+1)} / ${num(sstate.cap)}`;
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
@@ -2358,6 +2378,19 @@ function spGo(d){
   const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el) $("#spFeed").scrollTo({top:el.offsetTop,behavior:"smooth"});
 }
 $("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; if(!state.embeds) return; e.preventDefault(); spOpen(+a.dataset.sv) });
+/* Share: the KREELZ link of this short (kreelz.com/?s=<id>, /jp/ on the Japan edition), so friends land on the site */
+$("#spShare").addEventListener("click",async()=>{
+  const v=sstate.list[spIdx]; if(!v) return;
+  const url=`https://kreelz.com/${REGION==="jp"?"jp/":""}?s=${encodeURIComponent(v.id)}`, m=meta[v.id]||{}, title=m.t?tx(m.t):"KREELZ";
+  try{ if(navigator.share){ await navigator.share({title, text:title, url}); return } }catch(e){ if(e&&e.name==="AbortError") return }
+  try{ await navigator.clipboard.writeText(url) }catch(e){}
+  const sp2=$("#spShare span"); sp2.textContent=t("copied"); setTimeout(()=>{ sp2.textContent=t("share") },1800);
+});
+/* a shared link (?s=<id>) opens that short */
+(function(){ let id=""; try{ id=new URLSearchParams(location.search).get("s")||"" }catch(e){} if(!/^[\w-]{6,40}$/.test(id)) return;
+  let n=0; const go=()=>{ const i=sstate.list.findIndex(v=>v.id===id);
+    if(i>=0 && state.embeds){ while(i>=sstate.shown && sstate.shown<sstate.list.length) renderShorts(false); spOpen(i); return }
+    if(++n<25) setTimeout(go,300) }; setTimeout(go,300) })();   // waits for the list and the embed check (up to ~7 s)
 $("#spPrev").addEventListener("click",()=>spGo(-1));
 $("#spNext").addEventListener("click",()=>spGo(1));
 sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();spGo(1)} if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();spGo(-1)} });
