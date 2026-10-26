@@ -2047,9 +2047,9 @@ function mixOTT(l){
     const j=[], r=[]; l.forEach(v=>(JPOSET.has(v.id)?j:r).push(v)); const out=[]; let a=0, b=0;
     while(a<j.length||b<r.length){ if(a<j.length) out.push(j[a++]); if(a<j.length) out.push(j[a++]); if(b<r.length) out.push(r[b++]) }
     return out }
-  if(REGION==="jp" && state.cat==="all"){   // /jp All tab: every 3rd place for the ranked actors' videos (same mix as above)
-    const a=[], r=[]; l.forEach(v=>(ACT[v.id]&&(v.cat==="screen"||v.cat==="ent")?a:r).push(v)); const m=mixJPActors(a), out=[]; let x=0, y=0;
-    while(x<m.length||y<r.length){ if(x<m.length) out.push(m[x++]); if(y<r.length) out.push(r[y++]); if(y<r.length) out.push(r[y++]) }
+  if(REGION==="jp" && state.cat==="all"){   // /jp All tab, every 3 places: a Japanese video (Japanese channels and creators) first, then a ranked actor's video (same mix as above), then the rest
+    const j=[], a=[], r=[]; l.forEach(v=>(JPOSET.has(v.id)?j:ACT[v.id]&&(v.cat==="screen"||v.cat==="ent")?a:r).push(v)); const m=mixJPActors(a), out=[]; let w=0, x=0, y=0;
+    while(w<j.length||x<m.length||y<r.length){ if(w<j.length) out.push(j[w++]); if(x<m.length) out.push(m[x++]); if(y<r.length) out.push(r[y++]) }
     return out }
   if(state.cat!=="screen" && state.cat!=="ent") return l;
   const a=[], o=[], r=[]; l.forEach(v=>(ACT[v.id]?a:OTTSET.has(v.id)?o:r).push(v));
