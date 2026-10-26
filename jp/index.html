@@ -506,7 +506,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000;transition:opacity .12s}
-.sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none}
+.sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none;clip-path:inset(0 0 100% 0)}   /* clip too: Android can draw a video layer through opacity */
 /* iPhone/iPad: no scrolling feed. One fixed screen; swipe up/down swaps the short (WebKit draws iframes in a scrolling
    box late, so a scrolling feed showed the previous short over the next one) */
 .sp-fixed{overflow:hidden;touch-action:none;scroll-snap-type:none}
@@ -2164,7 +2164,10 @@ const IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform=
 let spSound = !IOS, spMuted = false, spHintFor = "";
 /* Fixed-screen swipe mode on every touch phone/tablet (iPhone, iPad, Android): mobile browsers draw an iframe inside a
    scrolling box late, so a scrolling feed showed the previous short over the next one. Desktop keeps the scrolling feed. */
-const SP_FIX = IOS || (()=>{ try{ return matchMedia("(hover:none) and (pointer:coarse)").matches }catch(e){ return false } })();
+/* Detection is broad on purpose: some Android phones (S Pen models, "desktop site", in-app browsers) report a hover-capable
+   or fine pointer, which kept them on the scrolling feed and its overlap. */
+const SP_FIX = IOS || /Android|Mobile|SamsungBrowser|FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent) || (()=>{ try{
+  return matchMedia("(hover:none) and (pointer:coarse)").matches || (matchMedia("(any-pointer:coarse)").matches && Math.min(screen.width,screen.height)<900) }catch(e){ return false } })();
 const SOUND_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
 const soundHint = (k="tap_play") => SP_FIX ? `<span class="tapsound">${SOUND_SVG}${esc(t(k))}</span>` : "";
 /* tapping into a player moves focus into its frame: hide the hint then */
@@ -2183,8 +2186,13 @@ window.addEventListener("message",e=>{
   if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); if(!IOS){ spCmd("unMute"); spCmd("playVideo") } else if(spSound){ spCmd("unMute"); spCmd("playVideo") } }
   if(d.event==="infoDelivery" && d.info && typeof d.info.muted==="boolean") spMuted=d.info.muted;
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
+  /* a late message about the short that was just left must not reveal the player: check the video id when YouTube sends it */
+  const vid = d.info && d.info.videoData && d.info.videoData.video_id;
+  if(vid && spCur && vid!==spCur) return;
   if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") }
-    if(spWait && (st===1 || st===3 || (IOS && st===5))) spShow() }
+    /* reveal only once the new short is really playing: while buffering (3), Android's player still shows the last frame
+       of the previous short. iOS waiting for the tap on ▶ (5 = cued) shows the new short's own play button. */
+    if(spWait && (st===1 || (IOS && !spSound && st===5))) spShow() }
   if(SP_FIX && spState===1){
     if(!spMuted){ if(!spSound){ spSound=true } document.querySelectorAll("#spFeed .tapsound").forEach(x=>x.remove()); spHintFor=spCur }
     else if(spHintFor!==spCur){ spHintFor=spCur; spSound=false; spHint("tap_unmute") }   // YouTube fell back to muted play
@@ -2242,7 +2250,7 @@ function spPlay(v,el){
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
   }
   spPlace(el);
-  if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; clearTimeout(spShowT); spShowT=setTimeout(spShow,1800);
+  if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; clearTimeout(spShowT); spShowT=setTimeout(spShow,3500);   // fallback if autoplay is blocked: by then the new short is loaded
     spCmd(IOS&&!spSound?"cueVideoById":"loadVideoById",[{videoId:v.id,startSeconds:0}]); spAutoplayCheck() }
   else if(!spWait) spShow()
 }
