@@ -504,6 +504,12 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .sp-feed::-webkit-scrollbar{display:none}
 .sp-slide{position:relative;height:100%;scroll-snap-align:start;scroll-snap-stop:always;background:#000;overflow:hidden}
 .sp-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+/* fixed screen (phones): while the next short loads, its own thumbnail shows at full brightness with a small spinner, so a
+   swipe answers at once; the video takes over the moment it plays */
+.sp-fixed .sp-slide>img{opacity:1}
+.sp-fixed.sp-loading::after{content:"";position:absolute;left:50%;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;z-index:2;border-radius:50%;
+  border:3px solid rgba(255,255,255,.35);border-top-color:#fff;animation:spSpin .8s linear infinite;pointer-events:none}
+@keyframes spSpin{to{transform:rotate(360deg)}}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000;transition:opacity .12s}
 .sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none;clip-path:inset(0 0 100% 0)}   /* clip too: Android can draw a video layer through opacity */
 /* iPhone/iPad: no scrolling feed. One fixed screen; swipe up/down swaps the short (WebKit draws iframes in a scrolling
@@ -2245,7 +2251,7 @@ let spPl=null, spCur="", spState=-1, spChk=0, spWait=false, spShowT=0;
 /* The shared player is hidden while the feed scrolls and while a newly loaded short has not started, so the previous
    short never shows on top of the next one. */
 function spHide(){ if(spPl && !spPl.classList.contains("sp-hide")){ spPl.classList.add("sp-hide"); if(!spPl.style.display) spCmd("pauseVideo") } }
-function spShow(){ clearTimeout(spShowT); spWait=false; if(spPl) spPl.classList.remove("sp-hide") }
+function spShow(){ clearTimeout(spShowT); spWait=false; if(spPl) spPl.classList.remove("sp-hide"); const f=$("#spFeed"); if(f) f.classList.remove("sp-loading") }
 function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
 function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
 window.addEventListener("message",e=>{
@@ -2307,7 +2313,7 @@ function spPlay(v,el){
   const f=$("#spFeed");
   f.querySelectorAll(".sp-tt").forEach(x=>{ if(x.parentNode!==el||!v.tt) x.remove() });
   if(v.tt){   // TikTok: its own player inside the slide; the YouTube player waits, paused and hidden
-    clearTimeout(spChk); f.querySelectorAll(".tapsound").forEach(x=>x.remove());
+    clearTimeout(spChk); f.querySelectorAll(".tapsound").forEach(x=>x.remove()); f.classList.remove("sp-loading");
     if(spPl){ spCmd("pauseVideo"); spPl.style.display="none" }
     if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",`<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
     spCur=v.id; return;
@@ -2320,7 +2326,7 @@ function spPlay(v,el){
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
   }
   spPlace(el);
-  if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; clearTimeout(spShowT); spShowT=setTimeout(spShow,3500);   // fallback if autoplay is blocked: by then the new short is loaded
+  if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; f.classList.add("sp-loading"); clearTimeout(spShowT); spShowT=setTimeout(spShow,3500);   // fallback if autoplay is blocked: by then the new short is loaded
     spCmd(IOS&&!spSound?"cueVideoById":"loadVideoById",[{videoId:v.id,startSeconds:0}]); spAutoplayCheck() }
   else if(!spWait) spShow()
 }
