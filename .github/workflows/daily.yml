@@ -173,7 +173,8 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html data stats
+          node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
+          git add index.html data stats jp
           [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 

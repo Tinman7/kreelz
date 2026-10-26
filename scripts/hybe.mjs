@@ -14,6 +14,35 @@ export const ARTISTS = [
   ["KATSEYE",    [], /katseye|캣츠아이|캐츠아이/i],
   ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순/i],
 ];
+// Japan edition (kreelz.com/jp): Music order for Japanese fans. Based on Oricon 2025 annual sales and 2025 K-pop tour
+// grosses (Stray Kids No.1 K-pop act in Japan, then SEVENTEEN, ENHYPEN, &TEAM, BOYNEXTDOOR ...).
+export const JP_ARTISTS = [
+  ["Stray Kids", ["UC9rMiEjNaCSsebs31MRDCRA"], /stray ?kids|스트레이 ?키즈|스키즈|\bskz\b|ストレイキッズ|スキズ/i],
+  ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순|セブンティーン|セブチ/i],
+  ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団/i],
+  ["ENHYPEN",    ["UCArLZtok93cO5R9RI4_Y5Jw"], /enhypen|엔하이픈|エンハイプン/i],
+  ["&TEAM",      ["UCHD1jo5RhijLfx5-0Ehe_cg"], /&team|andteam|앤팀|エンティーム/i],
+  ["TWICE",      [], /\btwice\b|트와이스|トゥワイス|misamo/i],
+  ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌|ルセラフィム/i],
+  ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b/i],
+  ["BOYNEXTDOOR",["UChhKBlh_wvspTh5n4mL0b5g"], /boynextdoor|보이넥스트도어|ボイネク/i],
+  ["ATEEZ",      ["UC2e4Ukj5Pfr7cb3KpJAFBdQ"], /ateez|에이티즈/i],
+  ["TWS",        ["UC8C6QOPDVYwmuaSBZksefdg"], /\btws\b|투어스/i],
+  ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿|アイリット/i],
+  ["aespa",      [], /aespa|에스파/i],
+  ["NCT WISH",   ["UCiZqWVAeChfqlom5ZPR3ZJA"], /nct ?wish|엔시티 ?위시/i],
+  ["CORTIS",     ["UCZMYvSPulDSUdx7bdtTFdrg"], /cortis|코르티스/i],
+];
+// The artist a video belongs to: its official channel first, then the title, and the tags only when neither decides
+// (uploaders often tag other groups, e.g. an ATEEZ clip tagged "stray kids").
+export function rankIn(list, meta) {
+  if (!meta) return 0;
+  for (let i = 0; i < list.length; i++) if (list[i][1].includes(meta[1])) return i + 1;
+  for (let i = 0; i < list.length; i++) if (list[i][2].test(meta[0] || "")) return i + 1;
+  const tags = (meta[5] || []).join(" ");
+  for (let i = 0; i < list.length; i++) if (list[i][2].test(tags)) return i + 1;
+  return 0;
+}
 // Boy groups among the priority artists, and other popular boy groups whose performance fancams are collected too
 export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ", "SEVENTEEN"]);
 export const EXTRA_MALE = [
@@ -33,9 +62,4 @@ import fs from "node:fs";
 try { const extra = JSON.parse(fs.readFileSync(new URL("./artist_channels.json", import.meta.url), "utf8"));
       for (const a of ARTISTS) if (extra[a[0]]) a[1].push(...extra[a[0]]); } catch (e) {}
 // rank: 1 (first) .. ARTISTS.length, 0 = not a priority artist
-export function rank(meta) {
-  if (!meta) return 0;
-  const text = meta[0] + " " + (meta[5] || []).join(" ");
-  for (let i = 0; i < ARTISTS.length; i++) if (ARTISTS[i][1].includes(meta[1]) || ARTISTS[i][2].test(text)) return i + 1;
-  return 0;
-}
+export function rank(meta) { return rankIn(ARTISTS, meta); }
