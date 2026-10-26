@@ -175,13 +175,15 @@
   "first_run": 6
  },
  "fans": {
-  "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken.",
-  "first_run": 8,
+  "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken. extra = searched before the artist x kind list (TWICE's Japanese members Sana, Mina, Momo and MISAMO). Artists in priority order: BTS and Stray Kids first among boy groups.",
+  "first_run": 9,
   "per_night": 4,
   "min_views": 10000,
   "min_ja_comments": 3,
   "artists": {
    "BTS": "BTS",
+   "Stray Kids": "スキズ Stray Kids",
+   "TWICE": "TWICE",
    "TXT": "TXT トゥバ",
    "LE SSERAFIM": "ルセラフィム",
    "ILLIT": "ILLIT アイリット"
@@ -197,6 +199,13 @@
    "CDTV",
    "紅白",
    "ハイタッチ会"
+  ],
+  "extra": [
+   "TWICE サナ 直撮り",
+   "TWICE ミナ 直撮り",
+   "TWICE モモ 直撮り",
+   "MISAMO",
+   "TWICE 最新 日本"
   ]
  },
  "beauty": {
