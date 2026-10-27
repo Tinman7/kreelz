@@ -13,7 +13,8 @@
    "来日 イベント",
    "直撮り",
    "FMV"
-  ]
+  ],
+  "done": true
  },
  "channels": [
   {
@@ -178,7 +179,8 @@
    "note": "맛집남자 foodman, picked by David 2026-10-27",
    "id": "UCeEd6KA0gOX63vIEvsQDS0Q",
    "name": "맛집남자 foodman",
-   "food": true
+   "food": true,
+   "done": true
   },
   {
    "handle": "@okspoon",
@@ -187,7 +189,8 @@
    "reco": true,
    "note": "okspoon, picked by David 2026-10-27",
    "id": "UCpfWetqfN59iR6J1ep36W1Q",
-   "name": "옥스푼"
+   "name": "옥스푼",
+   "done": true
   },
   {
    "id": "UCl23-Cci_SMqyGXE1T_LYUg",
@@ -372,7 +375,8 @@
    "白瀬文化村 カフェ",
    "海東龍宮寺",
    "田浦 カフェ通り"
-  ]
+  ],
+  "done": true
  },
  "kr_reco": {
   "_note": "K-Travel & Food tab of kreelz.com/jp, given priority: Korean-language YouTube picks for travel spots and restaurants in Korea (searched in Korean, region KR). Titles are translated to Japanese by scripts/titles.mjs. Shown on both editions; only the /jp order lifts them. Added 2026-10-27 (per David).",
@@ -386,6 +390,7 @@
    "외국인 한국여행지 추천",
    "외국인 한국 식당 추천",
    "요즘핫한식당"
-  ]
+  ],
+  "done": true
  }
 }
