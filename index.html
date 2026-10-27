@@ -2412,7 +2412,7 @@ function spPreNext(){
   const v=sstate.list[j], el=SP_FIX ? null : f.querySelector(`[data-i="${j}"]`); if(!v || (!SP_FIX && !el) || v.id===spNxId) return;
   spNxId=v.id; spNxPrimed=false;
   if(!spNx){
-    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player sp-hide sp-nx${SP_FIX?" sp-off":""}" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player sp-hide sp-nx${SP_FIX?" sp-off":""}" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1${CCQ()}&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
     spNx=f.querySelector(".sp-nx");
     spNx.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ const w=spNx&&spNx.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:2,channel:"widget"}),"*"); if(++n>=6) clearInterval(t) },250) });
   } else { spNx.classList.add("sp-hide","sp-nx"); if(SP_FIX) spNx.classList.add("sp-off"); nxCmd("mute"); nxCmd("loadVideoById",[{videoId:v.id,startSeconds:0}]) }
@@ -2500,7 +2500,7 @@ function spPlay(v,el){
   }
   if(spPl) spPl.style.display="";
   if(!spPl){
-    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=${IOS?0:1}&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1${CCQ()}&autoplay=${IOS?0:1}&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
     spPl=f.querySelector(".sp-player");
     spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
@@ -2558,7 +2558,7 @@ function spPrep(k){
   sp.classList.add("sp-prep");
   $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>'; const f=$("#spFeed"); let h="";
   for(; spN<Math.min(k+10,spMax()); spN++) h+=spSlide(spN);
-  f.insertAdjacentHTML("beforeend", h + `<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+  f.insertAdjacentHTML("beforeend", h + `<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1${CCQ()}&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
   spPl=f.querySelector(".sp-player"); spCur=v.id;
   const el=f.querySelector(`[data-i="${k}"]`); if(el){ f.scrollTop=el.offsetTop; spPlace(el) }
   spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
@@ -2815,8 +2815,29 @@ const PLAT = {yt:"YouTube", tt:"TikTok", nv:"Naver TV", nc:"NAVER Clip"};
 const EMBED_OK = /^https?:$/.test(location.protocol) && location.origin!=="null";
 const YT_ORIGIN = EMBED_OK ? `&origin=${encodeURIComponent(location.origin)}` : "";
 const REFPOL = 'referrerpolicy="strict-origin-when-cross-origin"';
+/* Japanese (kreelz.com/jp, or the site in Japanese): Korean videos play with captions on, in Japanese — YouTube's own
+   track when there is one, otherwise the Korean (or auto-detected) track auto-translated to Japanese (per David
+   2026-10-28). Japan-only videos (Japanese channels and creators) are left without captions. */
+const CCQ = id => state.lang==="ja" && !(id && JPOSET.has(id)) ? "&cc_load_policy=1" : "";
+const ccSent=new WeakMap(), ccVid=new WeakMap();
+window.addEventListener("message",e=>{
+  if(state.lang!=="ja" || !/youtube/.test(e.origin||"")) return;
+  let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return } if(!d || !e.source) return;
+  const vid=d.info && d.info.videoData && d.info.videoData.video_id; if(vid) ccVid.set(e.source, vid);
+  if(d.event!=="apiInfoDelivery" || !d.info || !d.info.captions) return;
+  const send=(func,args)=>e.source.postMessage(JSON.stringify({event:"command",func,args,id:d.id,channel:"widget"}),"*");
+  const cv=ccVid.get(e.source)||"", c=d.info.captions, tr=c.track||{}, list=c.tracklist||[];
+  if(cv && JPOSET.has(cv)){ if(ccSent.get(e.source)!=="off:"+cv){ ccSent.set(e.source,"off:"+cv); send("unloadModule",["captions"]) } return }
+  const ja=list.find(x=>/^ja/.test(x.languageCode||"")), base=list.find(x=>/^ko/.test(x.languageCode||"")) || (tr.languageCode ? tr : null);
+  let want; if(ja) want={languageCode:ja.languageCode, kind:ja.kind||""};
+  else if(base && !/^ja/.test(base.languageCode)) want={languageCode:base.languageCode, kind:base.kind||"", translationLanguage:{languageCode:"ja",languageName:"日本語"}};
+  else return;
+  if(tr.languageCode===want.languageCode && ((tr.translationLanguage||{}).languageCode||"")===((want.translationLanguage||{}).languageCode||"")) return;
+  const key=cv+JSON.stringify(want); if(ccSent.get(e.source)===key) return; ccSent.set(e.source,key);
+  send("setOption",["captions","track",want]);
+});
 const vURL = v => v.p==="yt" ? `https://www.youtube.com/watch?v=${v.id}` : v.p==="tt" ? `https://www.tiktok.com/${v.id}` : `https://tv.naver.com/v/${v.id}`;
-const vEmbed = v => v.p==="yt" ? `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}` : v.p==="tt" ? `https://www.tiktok.com/embed/v2/${v.id.split("/").pop()}` : `https://tv.naver.com/embed/${v.id}?autoPlay=true`;
+const vEmbed = v => v.p==="yt" ? `https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1${CCQ(v.id)}&autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}` : v.p==="tt" ? `https://www.tiktok.com/embed/v2/${v.id.split("/").pop()}` : `https://tv.naver.com/embed/${v.id}?autoPlay=true`;
 const ttThumbs = {};
 function vThumb(v){
   if(v.p==="yt") return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
@@ -2864,7 +2885,7 @@ function vTile(v,k){
    If it has not started 2.5 s after the click, the normal autoplaying player is put in instead. */
 const PRE_ON = !SP_FIX && !IOS;
 let pre=null;   // {id, f: iframe, ready, want}
-const preURL = id => `https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1&autoplay=0&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}`;
+const preURL = id => `https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1${CCQ(id)}&autoplay=0&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}`;
 function preCmd(func,args){ const w=pre&&pre.f&&pre.f.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:3,channel:"widget"}),"*") }
 function preload(id){
   if(!PRE_ON || !state.embeds || sheet.open || !id || (pre && pre.id===id)) return;
@@ -2900,6 +2921,7 @@ function renderStage(){
   pre=null;
   if(state.embeds){
     $("#stage").innerHTML=`<div class="frame${tall?" tall":""}">${v.p==="yt"?soundHint("tap_play"):""}<iframe src="${IOS&&v.p==="yt"?vEmbed(v).replace("autoplay=1","autoplay=0"):vEmbed(v)}" ${REFPOL} title="${esc(v.label||cur.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
+    if(v.p==="yt" && CCQ(v.id)){ const f=$("#stage iframe"); f.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ const w=f.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:4,channel:"widget"}),"*"); if(++n>=8) clearInterval(t) },250) }) }
   } else {
     const img=vThumb(v);
     $("#stage").innerHTML=`<a class="frame poster" data-cat="${cur.cat}" href="${vURL(v)}" target="_blank" rel="noopener"${v.p==="tt"?` data-tt="${esc(v.id)}"`:""}>
