@@ -752,14 +752,14 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
     <button id="shClose" class="sh-x" type="button" data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="stage" id="stage"></div>
-  <div class="now" id="now"></div>
+  <div class="now" id="now" style="display:none"></div><!-- the "via … · Open on YouTube" line under the player: removed (per David 2026-10-28) -->
   <div class="soc soc-l" id="shSoc" hidden></div>
   <p class="sh-blurb" id="shBlurb"></p>
   <p class="tnote sh-tn" id="shTn" hidden></p>
   <div class="sh-desc" id="shDesc" hidden></div>
-  <div class="vh"><h3 data-i18n="all_official"></h3><span id="vCount"></span></div>
+  <div class="vh" id="vHead"><h3 data-i18n="all_official"></h3><span id="vCount"></span></div>
   <div class="vgrid" id="vgrid"></div>
-  <p class="sh-note" data-i18n="sh_note"></p>
+  <p class="sh-note" id="shNote" data-i18n="sh_note"></p>
 </dialog>
 
 <dialog id="sp" class="sp" aria-labelledby="spTitle">
@@ -2944,6 +2944,9 @@ function openSheet(it){
   fillSheetText();
   $("#vCount").textContent= it.videos.length===1 ? t("nvideo1") : t("nvideos",{n:num(it.videos.length)});
   $("#vgrid").innerHTML=it.videos.map(vTile).join("") || `<p class="sh-note">${t("no_official")}</p>`;
+  // a single video (every long video from the feed): no thumbnail list under the player — it only repeated the video
+  // (per David 2026-10-28); title pages with several official videos keep the list to pick from
+  const multi=it.videos.length>1; ["#vHead","#vgrid","#shNote"].forEach(q=>{ $(q).style.display=multi?"":"none" });
   renderStage(); loadDesc(); sheet.showModal(); sheet.scrollTop=0; loadTikTokThumbs(it); loadYtLabels(it);
 }
 document.addEventListener("click",e=>{
