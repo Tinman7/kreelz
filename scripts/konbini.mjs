@@ -3,6 +3,7 @@
 // usage: YT_API_KEY=... node scripts/konbini.mjs konbini.out.json      (config: scripts/konbini.json)
 import fs from "node:fs"; import zlib from "node:zlib";
 import { hasThumb } from "./thumbs.mjs";
+import { ARTISTS, EXTRA_MALE } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");   // show what would be taken; writes nothing, 2 searches
 const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "konbini.out.json";
@@ -20,24 +21,31 @@ async function call(ep, params) {
   return { items: [] };
 }
 const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || ""); return m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0; };
-const cfg = JSON.parse(fs.readFileSync(CFG, "utf8")), L = cfg.queries || [];
-const n = Math.min(CHECK ? 2 : cfg.done ? (cfg.per_night || 3) : (cfg.first_run || 6), L.length);
-const start = cfg.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;
-const qs = Array.from({ length: n }, (_, i) => L[(start + i) % L.length]);
-const since = new Date(Date.now() - (cfg.done ? 60 : 365) * DAY).toISOString();
-const found = new Set();
-try { for (const q of qs) {
-  let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
-  if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
-  for (const x of d.items || []) if (x.id?.videoId) found.add(x.id.videoId);
+const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
+const groups = cfg.groups || [{ ...cfg, name: "konbini", topic: "konbini" }];
+const found = new Map(), asked = [];   // id -> group
+try { for (const g of groups) {
+  const L = g.queries || []; if (!L.length) continue;
+  const n = Math.min(CHECK ? 2 : g.done ? (g.per_night || 3) : (g.first_run || 6), L.length);
+  const start = g.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;
+  const since = new Date(Date.now() - (g.done ? 60 : 365) * DAY).toISOString();
+  for (let i = 0; i < n; i++) { const q = L[(start + i) % L.length]; asked.push(q);
+    let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
+    if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
+    for (const x of d.items || []) if (x.id?.videoId && !found.has(x.id.videoId)) found.set(x.id.videoId, g); }
 } } catch (e) { console.log("search stopped:", e.message); }
+const qs = asked;
 const h = fs.readFileSync("index.html", "utf8");
 const onSite = new Set(); for (const k of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${k} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
-const ids = [...found].filter(id => !onSite.has(id));
+const ids = [...found.keys()].filter(id => !onSite.has(id));
 const vmeta = fs.existsSync(VMETA) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(VMETA))) : {};
 // on topic: a convenience store or the Han River, in Korea; no full re-uploads, music videos or news
 const TOPIC = /편의점|convenience ?store|\bGS25\b|\bCU\b|세븐일레븐|7-?eleven|이마트24|emart24|꿀조합|한강 ?라면|한강 ?피크닉|한강.{0,12}(라면|피크닉|치킨|먹|편의점|돗자리)|han ?river.{0,20}(ramyeon|ramen|picnic|food|eat|convenience)|hangang.{0,20}(ramyeon|ramen|picnic)|라면 ?기계|ramyeon ?machine|ramen ?machine/i;
 const KOREA = /[가-힣]|korea|seoul|busan|한국|서울/i;
+// pilgrimage: fans at an idol's (or a drama's) filming location, or at a restaurant / cafe the idols went to
+const PILGRIM = /성지순례|pilgrimage|filming (location|spot)s?|촬영지|촬영 ?장소|단골|다녀간|갔던|방문한|visited|went to|favou?rite (restaurant|cafe|spot|place)|(restaurant|cafe|spot|place)s? (of|by|where)|where .{0,25}(ate|eat|went|filmed)|성지|뮤비 ?촬영/i;
+const IDOL = t => /kpop|k-pop|idol|아이돌|케이팝|k-?drama|드라마/i.test(t) || [...ARTISTS, ...EXTRA_MALE].some(a => a[2].test(t));
+const onTopic = (g, text) => g.topic === "pilgrimage" ? PILGRIM.test(text) && IDOL(text) : TOPIC.test(text);
 const NOT = /full ?(ver|version|episode)|풀버전|\bmv\b|m\/v|music video|뉴스|news|사건|사고|lyrics?|가사|playlist/i;
 const out = { videos: {}, shorts: {} }, cand = [];
 for (let i = 0; i < ids.length; i += 50) {
@@ -47,9 +55,10 @@ for (let i = 0; i < ids.length; i += 50) {
     const meta = [s.title || "", s.channelId || "", s.channelTitle || "", s.categoryId || "", ((v.topicDetails || {}).topicCategories || []).map(u => u.split("/").pop()), (s.tags || []).slice(0, 12), secs];
     const text = meta[0] + " " + meta[5].join(" ");
     if (!(st.uploadStatus === "processed" && st.privacyStatus === "public" && st.embeddable !== false && (s.liveBroadcastContent || "none") === "none")) continue;
-    if (views < (cfg.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !TOPIC.test(text) || !KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0])) continue;
+    const g = found.get(v.id);
+    if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text) || !KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0])) continue;
     vmeta[v.id] = meta;
-    cand.push({ id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
+    cand.push({ g: g.name, id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
 const good = new Set(), q = cand.map(c => c.id);
@@ -59,7 +68,7 @@ for (const c of cand) { if (!good.has(c.id)) continue;
 if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(outPath, JSON.stringify(out));
-  cfg.done = true; fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
+  for (const g of groups) g.done = true; fs.writeFileSync(CFG, JSON.stringify(cfg.groups ? cfg : groups[0], null, 1) + "\n");
 }
-console.log(cand.filter(c => good.has(c.id)).slice(0, CHECK ? 25 : 12).map(c => `  ${c.short ? "short" : "video"} ${c.views} ${c.t.slice(0, 70)}`).join("\n"));
+console.log(cand.filter(c => good.has(c.id)).sort((x, y) => x.g < y.g ? -1 : 1).slice(0, CHECK ? 40 : 12).map(c => `  [${c.g}] ${c.short ? "short" : "video"} ${c.views} ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ searches: qs, found: found.size, new: ids.length, videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, quota_used: used }));

@@ -90,6 +90,8 @@ await searchGroup(TR, TRAVEL, [365, 60]);
 await searchGroup(BE, BEAUTY, [180, 30]);
 const KB = cfg.konbini || { queries: [] };   // convenience stores and the Han River: same tab and checks as travel & food
 await searchGroup(KB, TRAVEL, [365, 60]);
+const PG = cfg.pilgrimage || { queries: [] };   // idols' places in Korea (聖地巡礼): same tab and checks as travel & food
+await searchGroup(PG, TRAVEL, [365, 60]);
 // Ranked actors (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes, fan meetings,
 // visits to Japan / events / fancams and fan-made videos. Actor and kind both rotate (22 actors x 7 kinds, coprime), so every
 // night covers different actors and a mix of kinds; the top of the ranking comes first on the first night.
@@ -157,14 +159,14 @@ const cat = v => {
 };
 const KANA = /[ぁ-んァ-ヶ]/;
 const KPLACE = /韓国|ソウル|漢江|ハンガン|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|慶州|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
-const TRAVELW = /旅行|旅|vlog|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
+const TRAVELW = /旅行|旅|vlog|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
 const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
 const NOT_BEAUTY = /ドラマ|映画|予告|直撮り|fancam|ファンカム|\bmv\b|m\/v|ニュース|news|株|投資|決算/i;
 const beautyOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return KANA.test(v.meta[0]) && COSME.test(t) && BEAUTYW.test(t) && !NOT_BEAUTY.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
-const travelOK = v => KANA.test(v.meta[0]) && KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
+const travelOK = v => KANA.test(v.meta[0]) && (KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) || (/聖地|行きつけ|ゆかり|ロケ地|撮影地/.test(v.meta[0]) && idols.some(re => re.test(v.meta[0] + " " + v.meta[5].join(" "))))) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
 for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
 // fan uploads: one of the fan-search artists, not a full re-upload, and Japanese fans in the comments
 const FAN_ART = JP_ARTISTS.filter(a => FN.artists && FN.artists[a[0]]);
@@ -208,6 +210,7 @@ if (!CHECK) {
   if (cfg.travel) cfg.travel.done = true;
   if (cfg.beauty) cfg.beauty.done = true;
   if (cfg.konbini) cfg.konbini.done = true;
+  if (cfg.pilgrimage) cfg.pilgrimage.done = true;
   if (cfg.fans) cfg.fans.done = true;
   if (cfg.actors) cfg.actors.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");

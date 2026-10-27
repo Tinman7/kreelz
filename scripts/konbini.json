@@ -1,20 +1,47 @@
 {
- "_note": "K-Food tab (both editions): popular shorts of Korean convenience-store tours and finds — drink combos, cup-ramyeon machines, new snacks — and Han River ramyeon / picnics, from Korean and foreign creators. YouTube searches (100 API units each): first_run on the first night, then per_night in rotation. Added 2026-10-27 (per David).",
- "first_run": 6,
- "per_night": 3,
- "min_views": 50000,
- "queries": [
-  "korean convenience store food",
-  "편의점 꿀조합",
-  "한강라면",
-  "korea convenience store tour",
-  "편의점 음료 조합",
-  "han river ramyeon",
-  "한강 피크닉",
-  "GS25 CU 신상",
-  "korean convenience store drink",
-  "한강 편의점",
-  "seoul convenience store haul",
-  "편의점 털기"
+ "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each).",
+ "groups": [
+  {
+   "name": "konbini",
+   "_note": "K-Food tab (both editions): popular shorts of Korean convenience-store tours and finds — drink combos, cup-ramyeon machines, new snacks — and Han River ramyeon / picnics, from Korean and foreign creators. YouTube searches (100 API units each): first_run on the first night, then per_night in rotation. Added 2026-10-27 (per David).",
+   "first_run": 6,
+   "per_night": 3,
+   "min_views": 50000,
+   "queries": [
+    "korean convenience store food",
+    "편의점 꿀조합",
+    "한강라면",
+    "korea convenience store tour",
+    "편의점 음료 조합",
+    "han river ramyeon",
+    "한강 피크닉",
+    "GS25 CU 신상",
+    "korean convenience store drink",
+    "한강 편의점",
+    "seoul convenience store haul",
+    "편의점 털기"
+   ],
+   "topic": "konbini"
+  },
+  {
+   "name": "pilgrimage",
+   "_note": "K-Food tab (both editions): fans visiting the places of popular idols — filming locations, the restaurants and cafes they went to (K-pop pilgrimage / 성지순례). Added 2026-10-27 (per David).",
+   "first_run": 4,
+   "per_night": 2,
+   "min_views": 30000,
+   "topic": "pilgrimage",
+   "queries": [
+    "BTS 성지순례",
+    "kpop idol cafe seoul",
+    "BTS restaurant seoul visited",
+    "아이돌 단골 맛집",
+    "kpop pilgrimage seoul",
+    "Stray Kids 성지순례",
+    "kdrama filming location seoul",
+    "케이팝 성지순례 카페",
+    "BTS filming locations",
+    "SEVENTEEN 단골 맛집"
+   ]
+  }
  ]
 }

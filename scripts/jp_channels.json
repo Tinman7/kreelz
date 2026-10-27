@@ -272,5 +272,21 @@
    "韓国 コンビニ 爆買い",
    "韓国 コンビニ 新商品"
   ]
+ },
+ "pilgrimage": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: Japanese fans visiting idols' places in Korea — filming locations, restaurants and cafes they went to (聖地巡礼). Added 2026-10-27 (per David).",
+  "first_run": 3,
+  "per_night": 2,
+  "min_views": 20000,
+  "queries": [
+   "BTS 聖地巡礼",
+   "スキズ 聖地巡礼",
+   "TWICE 聖地巡礼 韓国",
+   "韓国 アイドル 行きつけ",
+   "BTS 行きつけ 店",
+   "推し活 韓国旅行",
+   "韓国ドラマ ロケ地 ソウル",
+   "SEVENTEEN 聖地巡礼"
+  ]
  }
 }
