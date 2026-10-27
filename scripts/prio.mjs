@@ -17,7 +17,11 @@ const TRAVEL_FIRST = new Set(["UC4i1qf8CUH93DLSbD9efqig"]), welcome = [];
 // Korean-language travel & restaurant picks (scripts/japan.mjs kr_reco): lifted in the /jp K-Travel & Food tab
 const RECO = new Set(fs.existsSync("data/jp_reco.json") ? JSON.parse(fs.readFileSync("data/jp_reco.json", "utf8")) : []), reco = [];
 // and every video of the Korean creators picked for that tab (jp_channels.json channels with reco), already on the site or new
-const RECO_CH = new Set(); try { for (const c of JSON.parse(fs.readFileSync("scripts/jp_channels.json", "utf8")).channels) if (c.reco && c.id) RECO_CH.add(c.id); } catch (e) {}
+// (only = just the titles matching it, e.g. the 먹을텐데 episodes of 성시경's channel)
+const RECO_CH = new Map(), TOP_CH = new Map(), top = [];   // channel id -> title filter
+try { for (const c of JSON.parse(fs.readFileSync("scripts/jp_channels.json", "utf8")).channels) if (c.reco && c.id) {
+  const re = c.only ? new RegExp(c.only, "i") : null; RECO_CH.set(c.id, re); if (c.top) TOP_CH.set(c.id, RC[TOP_CH.size]); } } catch (e) {}
+const chHit = (C, m) => !!m && C.has(m[1]) && !(RECO_CH.get(m[1]) && !RECO_CH.get(m[1]).test(m[0]));
 // Japan edition: these two dramas go to the very end of every list on /jp (index.html moves PRIO_LAST_JP ids last)
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i, lastJ = [];
 const OTT = /netflix|넷플릭스|tving|티빙|disney ?(plus|\+)|디즈니 ?(플러스|\+)|coupang ?play|쿠팡플레이|wavve|웨이브|prime ?video|watcha|왓챠/i;
@@ -31,7 +35,9 @@ for (const n of ["SHORTS", "FEED"]) {
     const cc = s[i + 11].toLowerCase();
     if (JPO.has(s.slice(i, i + 11))) jpo.push(s.slice(i, i + 11));
     { const mm = M[s.slice(i, i + 11)]; if (mm && TRAVEL_FIRST.has(mm[1])) welcome.push(s.slice(i, i + 11)); }
-    if (RECO.has(s.slice(i, i + 11)) || (M[s.slice(i, i + 11)] && RECO_CH.has(M[s.slice(i, i + 11)][1]))) reco.push(s.slice(i, i + 11));
+    // top picked creators (성시경의 먹을텐데, 최자로드): id + which creator, so /jp can alternate them at the head of the tab
+    { const id = s.slice(i, i + 11), m = M[id]; if (chHit(TOP_CH, m)) top.push(id + TOP_CH.get(m[1]));
+      else if ((RECO.has(id) && !(m && TOP_CH.has(m[1]))) || chHit(RECO_CH, m)) reco.push(id); }
     { const m = M[s.slice(i, i + 11)]; if (m && LAST_JP.test(m[0] + " " + (m[5] || []).join(" "))) lastJ.push(s.slice(i, i + 11)); }
     if ("dfe".includes(cc)) { const m = M[s.slice(i, i + 11)]; if (m && ((OTT.test(m[2]) && !OTT_NOT.test(m[2])) || JPO.has(s.slice(i, i + 11)))) ott.push(s.slice(i, i + 11));
       const sc = actorScore(m) || (rank(m) ? 1 : 0);   // priority idols' interviews / TV appearances join the focus pool
@@ -50,11 +56,12 @@ for (const n of ["SHORTS", "FEED"]) {
     if (r) { list.push(id + RC[r - 1]); const nm = ARTISTS[r - 1] ? ARTISTS[r - 1][0] : "other boy groups"; counts[nm] = (counts[nm] || 0) + 1; if (cam) fan.push(id); }
   }
 }
-const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}";`;
+const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}";`;
 h = h.replace(/const PRIO_BTS = "[^"]*"; const PRIO_HYBE = "[^"]*";/, line);
 h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]*";/, "").replace(/ const PRIO_FAN = "[^"]*";/, "")
-  .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "");
+  .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "")
+  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "");
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);
-console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_travel_first: welcome.length, jp_reco: reco.length, jp_last: lastJ.length }));
+console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_travel_first: welcome.length, jp_reco: reco.length, jp_top: top.length, jp_last: lastJ.length }));

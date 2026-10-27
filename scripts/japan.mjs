@@ -9,6 +9,8 @@ import { JP_ACTORS, JP_ACTOR_JA, jpActorKind } from "./actors.mjs";
 import { JP_ARTISTS } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");
+// JP_TOP_ONLY=1: only the top picked creators (jp_channels.json "top": 성시경의 먹을텐데, 최자로드) — no searches, other channels untouched
+const TOP_ONLY = process.env.JP_TOP_ONLY === "1";
 const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "jp.json";
 const CFG = "scripts/jp_channels.json", VMETA = "data/vmeta.json.gz", ONLY = "data/jp_only.json";
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
@@ -39,7 +41,7 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 // ---- 1) find each channel once (search + name and subscriber check), then remember its id
 const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 for (const c of cfg.channels) {
-  if (c.id) continue;
+  if (c.id || (TOP_ONLY && !c.top)) continue;
   if (c.handle || c.video) {   // exact: by @handle, or by one of the channel's videos
     try {
       const d = c.handle ? await call("channels", { part: "snippet", forHandle: c.handle }) : await call("videos", { part: "snippet", id: c.video });
@@ -70,8 +72,8 @@ const only = new Set(fs.existsSync(ONLY) ? JSON.parse(fs.readFileSync(ONLY, "utf
 const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
 const chOf = {}, shortIds = new Set();
 for (const c of cfg.channels) {
-  if (!c.id) continue;
-  const max = c.done ? DAILY : FIRST;
+  if (!c.id || (TOP_ONLY && !c.top)) continue;
+  const max = c.done ? DAILY : (c.first || FIRST);
   const up = await playlist("UU" + c.id.slice(2), max), sh = await playlist("UUSH" + c.id.slice(2), max);
   up.forEach(id => { chOf[id] = c }); sh.forEach(id => { chOf[id] = c; shortIds.add(id) });
   const pl = c.playlist ? await playlist(c.playlist, 500) : []; pl.forEach(id => { if (!chOf[id]) chOf[id] = c });
@@ -84,7 +86,7 @@ for (const c of cfg.channels) {
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
 const BE = cfg.beauty || { queries: [] }, BEAUTY = { name: "Olive Young / Korean cosmetics (search)", cat: "beauty", search: true };
 async function searchGroup(G, tag, days, limit = Infinity) {
-  const L = G.queries || []; if (!L.length || limit <= 0) return 0;
+  const L = G.queries || []; if (!L.length || limit <= 0 || TOP_ONLY) return 0;
   const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length, limit);
   G.ran = true;
   const start = G.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;   // the first night takes the top of the list
@@ -121,7 +123,7 @@ const AC = cfg.actors || { kinds: [] }, ACTS = { name: "Ranked actors: romance, 
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = [...(FN.extra || [])]; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // extra first, then artists alternate
-  const n = Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
+  const n = TOP_ONLY ? 0 : Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
   const start = FN.done ? Math.floor(Date.now() / DAY) * n % Math.max(1, Q.length) : 0;   // the first night takes the top of the list
   const qs = Array.from({ length: n }, (_, i) => Q[(start + i) % Q.length]);
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
@@ -216,6 +218,7 @@ for (const id of cand) {
   const v = { ...info[id], id }, c = chOf[id];
   if (!good.has(id)) { skipped++; continue; }
   if (c.korean && !korean(v)) { notKorean++; continue; }
+  if (c.only && !new RegExp(c.only, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. only the 먹을텐데 episodes of 성시경's channel
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
@@ -230,7 +233,7 @@ const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, sh
 console.log(report);
 if (CHECK) fs.writeFileSync("jp_check.txt", report + "\n");
 if (!CHECK) {
-  for (const c of cfg.channels) if (c.id) c.done = true;
+  for (const c of cfg.channels) if (c.id && (!TOP_ONLY || c.top)) c.done = true;
   if (cfg.travel && cfg.travel.ran) { cfg.travel.done = true; delete cfg.travel.ran; }
   if (cfg.beauty && cfg.beauty.ran) { cfg.beauty.done = true; delete cfg.beauty.ran; }
   if (cfg.kr_reco && cfg.kr_reco.ran) { cfg.kr_reco.done = true; delete cfg.kr_reco.ran; }
@@ -238,8 +241,8 @@ if (!CHECK) {
   if (cfg.pilgrimage && cfg.pilgrimage.ran) { cfg.pilgrimage.done = true; delete cfg.pilgrimage.ran; }
   if (cfg.heritage && cfg.heritage.ran) { cfg.heritage.done = true; delete cfg.heritage.ran; }
   if (cfg.busan_jp && cfg.busan_jp.ran) { cfg.busan_jp.done = true; delete cfg.busan_jp.ran; }
-  if (cfg.fans) cfg.fans.done = true;
-  if (cfg.actors) cfg.actors.done = true;
+  if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
+  if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(ONLY, JSON.stringify([...only]));

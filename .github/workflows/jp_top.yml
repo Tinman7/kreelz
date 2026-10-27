@@ -1,0 +1,59 @@
+# One-off: collect only the top picked creators of the kreelz.com/jp K-Travel & Food tab (jp_channels.json "top":
+# 성시경의 먹을텐데, 최자로드) and publish right away, without the nightly searches or other channels (David asked for
+# these "now", 2026-10-27). Uses a few hundred YouTube API units (one channel search + playlist pages + video details).
+name: JP top creators now
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+jobs:
+  top:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect the top creators (no searches)
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          JP_TOP_ONLY: "1"
+        run: node scripts/japan.mjs jp_top.json | tee top.log
+      - name: Merge into site (same build day, no ageing)
+        run: |
+          BUILT=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          if [ -s jp_top.json ]; then
+            python3 scripts/daily_merge.py index.html jp_top.json "$BUILT" index.next.html | tee -a top.log
+            grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+          fi
+          node scripts/prio.mjs index.html data/vmeta.json.gz | tee -a top.log
+      - name: Japanese titles for the new videos
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TX_MINUTES: "8"
+          TX_PASSES: "ja"
+        run: node scripts/titles.mjs index.html
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/region.mjs index.html
+          git add index.html data jp scripts/jp_channels.json
+          [ -d t ] && git add t
+          git commit -m "kreelz.com/jp K-Travel & Food: top creators (성시경의 먹을텐데, 최자로드) $(grep -o '"videos":[0-9]*,"shorts":[0-9]*' top.log | tail -1)" || echo "nothing to commit"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          cat top.log | tail -40
