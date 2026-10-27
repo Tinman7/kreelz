@@ -2,6 +2,10 @@ name: Probe video descriptions
 # Diagnostics: titles and descriptions of the ids in probe/ids.json, pushed to branch "probe" (probe.txt). No site data.
 on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: "probe/ids.json (default) or a channel id UC..."
+        default: "probe/ids.json"
 permissions:
   contents: write
 jobs:
@@ -15,7 +19,7 @@ jobs:
       - env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: |
-          node scripts/probe_desc.mjs probe/ids.json > /tmp/probe.txt
+          node scripts/probe_desc.mjs "${{ inputs.target || 'probe/ids.json' }}" > /tmp/probe.txt
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -q --orphan probe && git rm -rfq . && cp /tmp/probe.txt .
