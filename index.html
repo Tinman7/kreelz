@@ -2526,11 +2526,12 @@ function spOpen(k){
   const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
   spActivate(k);
 }
+let spJump=0;
 function spScrollWatch(){
   let spT=0, spY=0, paused=false; $("#spFeed").addEventListener("scroll",e=>{ const f=e.target;
     // a real swipe, not a 1-px settle: the short on screen pauses and scrolls away with its slide (the player sits in the
     // slide's place inside the scroller, so it cannot cover the next one)
-    if(Math.abs(f.scrollTop-spY)>8 && !paused){ paused=true; spCmd("pauseVideo") }
+    if(Math.abs(f.scrollTop-spY)>8 && !paused && Date.now()-spJump>500){ paused=true; spCmd("pauseVideo") }   // not for a button / key jump: that one already plays
     clearTimeout(spT); spT=setTimeout(()=>{ const H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); spY=f.scrollTop; paused=false;
       if(Math.abs(f.scrollTop-i*H)<H*0.4){ if(i===spIdx && !spWait && !(sstate.list[i]||{}).tt){ spShow(); spCmd("playVideo") } else spActivate(i) } },140) },{passive:true});
 }
@@ -2538,7 +2539,7 @@ function spGo(d){
   const n=spIdx+d; if(n<0||n>=spMax()) return;
   if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
-  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el){ $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"}); spActivate(n) }   // start it now, not on the next scroll check
+  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el){ spJump=Date.now(); $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"}); spActivate(n) }   // start it now, not on the next scroll check
 }
 $("#sgrid").addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const a=e.target.closest("[data-sv]"); if(!a) return;
   clearTimeout(spPrepT); const k=+a.dataset.sv; spPrepT=setTimeout(()=>spPrep(k),150) },{passive:true});
