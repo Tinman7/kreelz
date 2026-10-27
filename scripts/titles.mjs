@@ -73,7 +73,7 @@ Rules:
 - Keep emojis, #hashtags, numbers, episode markers like [EP.12] and punctuation style. Keep text already in the target language as it is.
 - Do not add explanations, quotes or extra words. Keep it about as long as the original.
 - Output ONLY a JSON object: {"<key>": {"en": "...", "tl": "...", "th": "...", "id": "...", "es": "..."}, ...} with exactly the keys you were given.`;
-let outTok = 0, inTok = 0, calls = 0, failedBatches = 0, logged = 0;
+let outTok = 0, inTok = 0, calls = 0, failedBatches = 0, logged = 0, stopTx = false;
 const SYSTEM_JA = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food, travel) into natural Japanese for Japanese fans.
 Rules:
 - Use the names Japanese fans use: Korean people in katakana with a middle dot between family and given name (차은우 → チャ・ウヌ, 변우석 → ビョン・ウソク); groups and brands in their usual Latin form (BTS, IVE, SEVENTEEN, Olive Young); dramas, films and shows by their official Japanese title when one is widely used (나 혼자 산다 → 私は一人で暮らす, 런닝맨 → ランニングマン), otherwise a natural Japanese rendering.
@@ -95,7 +95,8 @@ async function claude(items, system = SYSTEM) {
     if (r.status === 429 || r.status >= 500) { if (logged++ < 8) console.log("Claude API", r.status, (await r.text().catch(() => "")).slice(0, 300));
       await sleep((+(r.headers.get("retry-after") || 0) * 1000) || 4000 * (t + 1)); continue; }
     const d = await r.json();
-    if (!r.ok) throw new Error("Claude API " + r.status + ": " + JSON.stringify(d.error || d).slice(0, 300));
+    if (!r.ok) { console.log("Claude API " + r.status + ": " + JSON.stringify(d.error || d).slice(0, 300) + " — translation stopped, saving what is done");
+      stopTx = true; return null; }   // e.g. credit balance too low: keep everything translated so far
     calls++; inTok += d.usage?.input_tokens || 0; outTok += d.usage?.output_tokens || 0;
     let txt = (d.content || []).map(c => c.text || "").join("").trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
     const a = txt.indexOf("{"), b = txt.lastIndexOf("}");
@@ -112,7 +113,7 @@ const todoJa = AK ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && stor
 let doneJa = 0;
 { const q = []; for (let i = 0; i < todoJa.length; i += 50) q.push(todoJa.slice(i, i + 50));
   await Promise.all(Array.from({ length: PAR }, async () => {
-    while (q.length && outTok < MAX_OUT && Date.now() < DEADLINE) {
+    while (q.length && !stopTx && outTok < MAX_OUT && Date.now() < DEADLINE) {
       const batch = q.shift();
       const res = await claude(batch.map(id => ({ id, t: store.o[id][0] })), SYSTEM_JA);
       if (!res) { failedBatches++; continue; }
@@ -126,7 +127,7 @@ const todo = AK && process.env.TX_PASSES !== "ja" ? site_ids.filter(id => !jpOnl
 const queue = []; for (let i = 0; i < todo.length; i += 40) queue.push(todo.slice(i, i + 40));
 let done = 0;
 await Promise.all(Array.from({ length: PAR }, async () => {
-  while (queue.length && outTok < MAX_OUT && Date.now() < DEADLINE) {
+  while (queue.length && !stopTx && outTok < MAX_OUT && Date.now() < DEADLINE) {
     const batch = queue.shift();
     const res = await claude(batch.map(id => ({ id, t: store.o[id][0] })));
     if (!res) { failedBatches++; continue; }
@@ -150,7 +151,7 @@ let curated = 0;
   const cmap = {};
   for (const l of LANGS) cmap[l] = fs.existsSync(`t/c/${l}.json`) ? JSON.parse(fs.readFileSync(`t/c/${l}.json`, "utf8")) : {};
   const need = AK && process.env.TX_PASSES !== "ja" ? texts.filter(x => LANGS.some(l => !cmap[l][x])) : [];
-  for (let i = 0; i < need.length && outTok < MAX_OUT; i += 30) {
+  for (let i = 0; i < need.length && !stopTx && outTok < MAX_OUT; i += 30) {
     const batch = need.slice(i, i + 30);
     const res = await claude(batch.map(t => ({ t })));
     if (!res) { failedBatches++; continue; }

@@ -180,6 +180,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TX_MINUTES: "20"
+          TX_PASSES: "ja"   # Japanese titles only (approved 2026-10-27); "all" adds en/tl/th/id/es (about $10 once)
         run: node scripts/titles.mjs index.html
 
       - name: Commit
