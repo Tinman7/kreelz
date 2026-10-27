@@ -2292,14 +2292,6 @@ const NCLIP=(window.NCLIP&&Array.isArray(window.NCLIP.items))?window.NCLIP.items
 NCLIP.forEach(([mid,c,title,ch,views,up,img,ok])=>{ const cat=FCAT[c]; if(!cat||!mid) return; const id="nc:"+mid;
   meta[id]={t:title||"NAVER Clip",ch:ch||""};
   SV.push({id,vid:mid,tt:"nc",nc:true,thumb:img||"",cat,ok:!!ok,views:+views||0,days:liveDays(up),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 });
-/* NAVER's clip viewer starts muted; in embed mode it takes "shorts-viewer.action.mute" from the page (per David
-   2026-10-28: clips play with sound). It is sent once the viewer reports in, until it says it is unmuted. */
-const ncUnmuted=new WeakSet();   // per viewer window
-window.addEventListener("message",e=>{ const d=e.data; if(!d || typeof d!=="object" || typeof d.messageType!=="string" || !d.messageType.startsWith("shorts-viewer.event.")) return;
-  const tid=String(d.targetId||""); if(!tid.startsWith("kz-") || !e.source) return;
-  if(d.messageType==="shorts-viewer.event.mute" && d.payload && d.payload.muted===false){ ncUnmuted.add(e.source); return }
-  if(ncUnmuted.has(e.source)) return;
-  e.source.postMessage({messageType:"shorts-viewer.action.mute", targetId:tid, payload:{muted:false}}, "*") });
 const ncURL = v => `https://m.naver.com/shorts/?serviceType=CLIP&mediaType=VOD&seedMediaId=${v.vid}`;
 const ttURL = v => v.nc ? ncURL(v) : `https://www.tiktok.com/${v.tt}`;
 /* TikTok thumbnails expire: the nightly refresh brings a fresh one; if it no longer loads, ask TikTok's oEmbed */
@@ -2504,7 +2496,7 @@ function spPlay(v,el){
   if(v.tt){   // TikTok: its own player inside the slide; the YouTube player waits, paused and hidden
     clearTimeout(spChk); f.querySelectorAll(".tapsound").forEach(x=>x.remove()); f.classList.remove("sp-loading");
     if(spPl){ spCmd("pauseVideo"); spPl.style.display="none" }
-    if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",v.nc ? `<iframe class="sp-tt" src="${ncURL(v)}&embed=true&sdkTargetId=kz-${v.vid}" ${REFPOL} title="NAVER Clip" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
+    if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",v.nc ? `<iframe class="sp-tt" src="${ncURL(v)}&embed=true" ${REFPOL} title="NAVER Clip" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
     spCur=v.id; return;
   }
   if(spPl) spPl.style.display="";
@@ -2824,33 +2816,8 @@ const PLAT = {yt:"YouTube", tt:"TikTok", nv:"Naver TV", nc:"NAVER Clip"};
 const EMBED_OK = /^https?:$/.test(location.protocol) && location.origin!=="null";
 const YT_ORIGIN = EMBED_OK ? `&origin=${encodeURIComponent(location.origin)}` : "";
 const REFPOL = 'referrerpolicy="strict-origin-when-cross-origin"';
-/* Japanese (kreelz.com/jp, or the site in Japanese): Korean long videos get captions in Japanese — switched on only
-   once the video is already playing, so the start is not slowed down (forcing captions at load did, per David
-   2026-10-28): YouTube's Japanese track if there is one, else the Korean track (or the auto-generated Korean one)
-   auto-translated to Japanese. Shorts and Japan-only videos are left as they are. */
-const CCQ = id => state.lang==="ja" && !(id && JPOSET.has(id));
-const ccDone=new WeakMap(), ccVid=new WeakMap(), ccT=new WeakMap();
-function ccSet(src, id, want){ const k=ccVid.get(src)+JSON.stringify(want); if(ccDone.get(src)===k) return; ccDone.set(src,k);
-  src.postMessage(JSON.stringify({event:"command",func:"setOption",args:["captions","track",want],id,channel:"widget"}),"*") }
-window.addEventListener("message",e=>{
-  if(state.lang!=="ja" || !/youtube/.test(e.origin||"") || !e.source) return;
-  const st=$("#stage iframe"); if(!st || st.contentWindow!==e.source) return;   // long-video player only
-  let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return } if(!d) return;
-  const vid=d.info && d.info.videoData && d.info.videoData.video_id; if(vid) ccVid.set(e.source, vid);
-  const cv=ccVid.get(e.source)||""; if(!cv || !CCQ(cv)) return;
-  const asr={languageCode:"ko", kind:"asr", translationLanguage:{languageCode:"ja",languageName:"日本語"}};
-  const state1 = d.event==="onStateChange" ? d.info===1 : (d.event==="infoDelivery" && d.info && d.info.playerState===1);
-  if(state1 && ccT.get(e.source)!==cv){ ccT.set(e.source,cv);   // playing: load the captions module, pick a track a moment later
-    e.source.postMessage(JSON.stringify({event:"command",func:"loadModule",args:["captions"],id:d.id||4,channel:"widget"}),"*");
-    const src=e.source, id=d.id||4; setTimeout(()=>{ if(!ccDone.get(src) || !ccDone.get(src).startsWith(cv)) ccSet(src,id,asr) },1500); return }
-  if(d.event!=="apiInfoDelivery" || !d.info || !d.info.captions || ccT.get(e.source)!==cv) return;
-  const c=d.info.captions, tr=c.track||{}, list=c.tracklist||[];
-  if(/^ja/.test(tr.languageCode||"") || ((tr.translationLanguage||{}).languageCode||"")==="ja") { ccDone.set(e.source, cv+"ok"); return }
-  const ja=list.find(x=>/^ja/.test(x.languageCode||"")), ko=list.find(x=>/^ko/.test(x.languageCode||""));
-  ccSet(e.source, d.id||4, ja ? {languageCode:ja.languageCode, kind:ja.kind||""} : ko ? {languageCode:ko.languageCode, kind:ko.kind||"", translationLanguage:{languageCode:"ja",languageName:"日本語"}} : asr);
-});
 const vURL = v => v.p==="yt" ? `https://www.youtube.com/watch?v=${v.id}` : v.p==="tt" ? `https://www.tiktok.com/${v.id}` : `https://tv.naver.com/v/${v.id}`;
-const vEmbed = v => v.p==="yt" ? `https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}` : v.p==="tt" ? `https://www.tiktok.com/embed/v2/${v.id.split("/").pop()}` : `https://tv.naver.com/embed/${v.id}?autoPlay=true`;
+const vEmbed = v => v.p==="yt" ? `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}` : v.p==="tt" ? `https://www.tiktok.com/embed/v2/${v.id.split("/").pop()}` : `https://tv.naver.com/embed/${v.id}?autoPlay=true`;
 const ttThumbs = {};
 function vThumb(v){
   if(v.p==="yt") return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
@@ -2934,7 +2901,6 @@ function renderStage(){
   pre=null;
   if(state.embeds){
     $("#stage").innerHTML=`<div class="frame${tall?" tall":""}">${v.p==="yt"?soundHint("tap_play"):""}<iframe src="${IOS&&v.p==="yt"?vEmbed(v).replace("autoplay=1","autoplay=0"):vEmbed(v)}" ${REFPOL} title="${esc(v.label||cur.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
-    if(v.p==="yt" && CCQ(v.id)){ const f=$("#stage iframe"); f.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ const w=f.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:4,channel:"widget"}),"*"); if(++n>=8) clearInterval(t) },250) }) }
   } else {
     const img=vThumb(v);
     $("#stage").innerHTML=`<a class="frame poster" data-cat="${cur.cat}" href="${vURL(v)}" target="_blank" rel="noopener"${v.p==="tt"?` data-tt="${esc(v.id)}"`:""}>
