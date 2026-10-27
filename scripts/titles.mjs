@@ -88,7 +88,8 @@ async function claude(items, system = SYSTEM) {
       r = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-        body: JSON.stringify({ model: MODEL, max_tokens: 16000, system, messages: [{ role: "user", content: user }] }),
+        body: JSON.stringify({ model: MODEL, max_tokens: 16000, system, messages: [{ role: "user", content: user }],
+          ...(process.env.TX_NO_THINKING === "0" ? {} : { thinking: { type: "disabled" } }) }),   // plain translation: no thinking tokens
       });
     } catch (e) { if (logged++ < 8) console.log("fetch failed:", e.message); await sleep(3000 * (t + 1)); continue; }
     if (r.status === 429 || r.status >= 500) { if (logged++ < 8) console.log("Claude API", r.status, (await r.text().catch(() => "")).slice(0, 300));
@@ -105,6 +106,7 @@ async function claude(items, system = SYSTEM) {
 // Japan-only videos (scripts/japan.mjs) are shown only on kreelz.com/jp, already in Japanese: no translation needed
 const jpOnly = new Set(fs.existsSync("data/jp_only.json") ? JSON.parse(fs.readFileSync("data/jp_only.json", "utf8")) : []);
 for (const id of jpOnly) if (store.o[id] && store.o[id][0]) store.ja[id] = store.o[id][0];   // already Japanese
+for (const id of site_ids) { const t = store.o[id] && store.o[id][0]; if (t && !store.ja[id] && /[ぁ-んァ-ヶ]/.test(t)) store.ja[id] = t; }   // titles already written in Japanese
 // pass A — Japanese first (kreelz.com/jp shows these; phones have no built-in translator)
 const todoJa = AK ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && !store.ja[id]) : [];
 let doneJa = 0;
