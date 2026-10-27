@@ -57,7 +57,7 @@ console.log(JSON.stringify({ build, total: catalog.total, new_today: catalog.new
 // Feed and shorts are YouTube ids (from data/vmeta.json.gz: [title, channelId, channelName, ...]);
 // the per-title official video lists (const VIDEOS) carry their own platform and uploader.
 function sourceStats() {
-  const PLAT = { yt: "YouTube", tt: "TikTok", nv: "Naver TV" };
+  const PLAT = { yt: "YouTube", tt: "TikTok", nv: "NAVER Clip" };   // NAVER TV dropped for NAVER Clip (2026-10-27)
   const ROUTE = {
     "daily.json": "공식 채널 정기 수집 (YouTube Data API)", "fans.json": "팬 영상 (보이그룹 직캠·커버·팬 편집)",
     "idol_shows.json": "우선 아이돌 인터뷰·방송·시상식", "actors.json": "집중 배우 영상",

@@ -1,0 +1,43 @@
+# NAVER Clip (네이버 클립): K-pop, K-drama, K-film, K-beauty and K-travel & food clips found with NAVER's clip search,
+# written to nclip.js (shown on both editions, mixed into the shorts). Every 6 hours; touches nothing the nightly
+# refresh writes, so it never collides with it.
+name: NAVER Clip
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: naverclip
+  cancel-in-progress: false
+jobs:
+  clip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Search NAVER Clip, write nclip.js
+        run: node scripts/naverclip.mjs nclip.js 2>&1 | tee nclip.log
+      - name: Publish nclip.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add nclip.js
+          git commit -m "NAVER Clip: $(tail -1 nclip.log | head -c 200)" || echo "nothing new"
+          git pull --rebase -q && git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+      - name: Log (branch nclip-log)
+        if: always()
+        run: |
+          cp nclip.log /tmp/nclip.log 2>/dev/null || true
+          git checkout -q --orphan nclip-log && git rm -rfq . && cp /tmp/nclip.log . 2>/dev/null || true
+          git add -A && git commit -qm "nclip log" && git push -qf origin nclip-log

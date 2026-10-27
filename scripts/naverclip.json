@@ -1,0 +1,18 @@
+{
+ "_note": "NAVER Clip (네이버 클립) search groups, both editions (scripts/naverclip.mjs -> nclip.js, mixed into the shorts with some priority). Replaces NAVER TV as a source (per David 2026-10-27). cat: m music, d drama, f film, e shows, b beauty, k K-Travel & Food. A clip is kept when it is at most max_days old and has min_views views (min_views_certified for NAVER-certified creators); not / not_source drop news, politics and the like.",
+ "max_days": 14,
+ "max_keep": 21,
+ "min_views": 1000,
+ "min_views_certified": 200,
+ "cap_per_cat": 80,
+ "not": "뉴스|속보|사건|사고|정치|대통령|선거|국회|검찰|경찰|재판|사망|숨진|부고|광고문의|구독과 좋아요만",
+ "not_source": "news|뉴스|8news|ytn|연합|jtbcnews|mbcnews|kbsnews|sbsnews",
+ "groups": [
+  {"name": "kpop", "cat": "m", "queries": ["케이팝", "아이돌 직캠", "아이돌 챌린지", "아일릿", "방탄소년단", "스트레이키즈", "트와이스", "세븐틴", "에스파", "르세라핌", "아이브", "엔하이픈", "투어스", "보이넥스트도어", "코르티스", "라이즈", "베이비몬스터", "블랙핑크", "엔시티 위시", "투모로우바이투게더"]},
+  {"name": "drama", "cat": "d", "queries": ["드라마 명장면", "드라마 하이라이트", "넷플릭스 드라마", "tvN 드라마", "로맨스 드라마", "변우석", "차은우", "송강", "박보검", "김수현"]},
+  {"name": "film", "cat": "f", "queries": ["한국 영화", "영화 예고편", "영화 명장면"]},
+  {"name": "shows", "cat": "e", "queries": ["예능 레전드", "놀라운 토요일", "런닝맨", "나 혼자 산다", "아이돌 예능"]},
+  {"name": "beauty", "cat": "b", "queries": ["올리브영 추천", "K뷰티", "메이크업 튜토리얼", "화장품 추천", "올영 세일"]},
+  {"name": "travel_food", "cat": "k", "queries": ["한국 여행", "서울 여행", "부산 여행", "제주 여행", "서울 맛집", "맛집 추천", "먹방", "편의점 신상", "한강 라면", "성수동 카페"]}
+ ]
+}

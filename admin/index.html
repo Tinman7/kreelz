@@ -331,7 +331,7 @@ function stacked(rows){
 }
 
 /* ---------- where the links come from (stats/sources.json, written at each 00:00 KST refresh) ---------- */
-const PLATS=["YouTube","TikTok","Naver TV"];
+const PLATS=["YouTube","TikTok","NAVER Clip"];
 function chList(ul,btn,items,empty){
   let shown=20;
   const draw=()=>{ ul.innerHTML=items.length?items.slice(0,shown).map(c=>`<li><span class="nm">${c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)}<span class="badge">${esc(c.platform)}</span></span><span class="n">${nf(c.n)}</span></li>`).join(""):`<li class="empty" style="display:block">${empty}</li>`;
