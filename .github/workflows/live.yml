@@ -4,6 +4,8 @@
 name: Live clips now
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "20 7 * * *"   # 16:20 KST, just after the YouTube quota resets: new finds of the hot groups (until their end date)
 permissions:
   contents: write
   pages: write
