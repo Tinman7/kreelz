@@ -2404,7 +2404,7 @@ function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.
    never be drawn over the short on screen. iPhone/iPad keep one player (Apple only allows sound in the player the user
    tapped). Skipped on data saver / 2G. */
 const SP_SLOW = (()=>{ try{ const c=navigator.connection; return !!(c && (c.saveData || /2g/.test(c.effectiveType||""))) }catch(e){ return false } })();
-const SP_PRE = !SP_FIX && !IOS && !SP_SLOW;   // phones: one player again (2026-10-28: the off-screen second player froze the picture on Android while the sound played)
+const SP_PRE = !IOS && !SP_SLOW;
 let spNx=null, spNxId="", spNxPrimed=false;
 function nxCmd(func,args){ const w=spNx&&spNx.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:2,channel:"widget"}),"*") }
 function spPreNext(){
