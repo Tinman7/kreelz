@@ -40,6 +40,15 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 for (const c of cfg.channels) {
   if (c.id) continue;
+  if (c.handle || c.video) {   // exact: by @handle, or by one of the channel's videos
+    try {
+      const d = c.handle ? await call("channels", { part: "snippet", forHandle: c.handle }) : await call("videos", { part: "snippet", id: c.video });
+      const it = (d.items || [])[0];
+      if (it) { c.id = c.handle ? it.id : it.snippet.channelId; c.name = c.handle ? it.snippet.title : it.snippet.channelTitle; console.log("found", c.handle || c.video, "->", c.name, c.id); }
+      else console.log("not found:", c.handle || c.video);
+    } catch (e) { console.log("lookup stopped:", e.message); }
+    continue;
+  }
   if (c.searched && Date.now() - new Date(c.searched) < 7 * DAY) continue;   // nothing found recently: try again weekly
   let d; try { d = await call("search", { part: "snippet", type: "channel", q: c.q, maxResults: 5 }); }
   catch (e) { console.log("search stopped:", e.message); break; }          // out of quota: collect from the channels already known
@@ -65,7 +74,8 @@ for (const c of cfg.channels) {
   const max = c.done ? DAILY : FIRST;
   const up = await playlist("UU" + c.id.slice(2), max), sh = await playlist("UUSH" + c.id.slice(2), max);
   up.forEach(id => { chOf[id] = c }); sh.forEach(id => { chOf[id] = c; shortIds.add(id) });
-  console.log(c.name || c.q, c.id, "uploads", up.length, "shorts", sh.length);
+  const pl = c.playlist ? await playlist(c.playlist, 500) : []; pl.forEach(id => { if (!chOf[id]) chOf[id] = c });
+  console.log(c.name || c.q, c.id, "uploads", up.length, "shorts", sh.length, c.playlist ? "playlist " + pl.length : "");
 }
 // K-Travel & Food (kreelz.com/jp only): Japanese videos about trips, cafes, street food and markets in Korea
 // Search groups (kreelz.com/jp only), each a few searches a night in rotation:
@@ -156,7 +166,7 @@ const FILM = /映画|劇場|ムービー|\bmovie\b|\bfilm\b|영화/i;
 const SHOW = /バラエティ|リアリティ|恋愛リアリティ|サバイバル|オーディション|密着|ドキュメンタリー|インタビュー|interview|ビハインド|behind|メイキング|making|vlog|リアクション|reaction|ゲーム|トーク|出演回|驚きの土曜日|ユ・?クイズ|ランニングマン|知ってるお兄さん|私は一人で暮らす|예능|리얼리티|인터뷰|비하인드/i;
 const cat = v => {
   const c = chOf[v.id], text = v.meta[0] + " " + v.meta[5].join(" ");
-  if (c.cat === "travel") return "k";
+  if (c.cat === "travel") return "k";   // also the picked Korean food / travel creators
   if (c.cat === "beauty") return "b";
   if (c.cat === "actors") return jpActorKind(v.meta) === "r" ? "d" : "e";   // romance scenes to Screen; fan meetings, events, fancams, fan-made to Shows
   if (c.cat === "fans") return STAGE.test(text) ? "m" : "e";   // stage fancams to Music, airport / events / fan meetings to Shows                 // K-Travel & Food tab on /jp (K-Food elsewhere)
@@ -214,7 +224,7 @@ for (const id of cand) {
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
-  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO) reco.add(id); else only.add(id); }   // Korean picks are not Japan-only
+  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); }   // Korean picks are not Japan-only
 }
 const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
 console.log(report);
