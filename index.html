@@ -2024,6 +2024,8 @@ const JPOSET=new Set(); (function(){ const s=typeof PRIO_JPO==="string"?PRIO_JPO
 const regionSkip=id=>REGION!=="jp" && JPOSET.has(id);
 /* /jp K-Travel & Food: "어서와 한국은 처음이지" (Welcome, First Time in Korea?) comes first, its shows included (scripts/prio.mjs) */
 const WELSET=new Set(); (function(){ const s=typeof PRIO_WELCOME==="string"?PRIO_WELCOME:""; for(let i=0;i+11<=s.length;i+=11) WELSET.add(s.slice(i,i+11)) })();
+/* /jp K-Travel & Food: Korean-language travel & restaurant picks (scripts/japan.mjs kr_reco) get priority */
+const RECOSET=new Set(); (function(){ const s=typeof PRIO_JPRECO==="string"?PRIO_JPRECO:""; for(let i=0;i+11<=s.length;i+=11) RECOSET.add(s.slice(i,i+11)) })();
 const inCat = v => state.cat==="all" || v.cat===state.cat || (REGION==="jp" && state.cat==="mukbang" && WELSET.has(v.id));
 const FV=[]; const FBYCAT={};
 for(let i=0;i+16<=FEED.length;i+=16){
@@ -2086,9 +2088,9 @@ function mixMusic(l){
 function mixOTT(l){
   if(state.cat==="music") return mixMusic(l);
   if(REGION==="jp" && (state.cat==="mukbang"||state.cat==="beauty")){   // K-Travel & Food and Beauty: 2 of every 3 places for the Japanese videos (trips and food; Olive Young and K-cosmetics)
-    const w=[], j=[], r=[]; l.forEach(v=>(state.cat==="mukbang"&&WELSET.has(v.id)?w:JPOSET.has(v.id)?j:r).push(v));
-    // every 6 places: 3 Japanese videos, 2 others and 1 from "어서와 한국은 처음이지" (a light lift, not the top)
-    const out=[], src=[j,w,r], idx=[0,0,0], cyc=state.cat==="mukbang"?[0,0,2,0,1,2]:[0,0,2];   // Beauty: 2 of every 3 Japanese
+    const w=[], j=[], r=[], k=[]; l.forEach(v=>(state.cat==="mukbang"&&RECOSET.has(v.id)?k:state.cat==="mukbang"&&WELSET.has(v.id)?w:JPOSET.has(v.id)?j:r).push(v));
+    // every 6 places: 2 Korean travel & restaurant picks (first), 2 Japanese videos, 1 from "어서와 한국은 처음이지", 1 other
+    const out=[], src=[j,w,r,k], idx=[0,0,0,0], cyc=state.cat==="mukbang"?[3,0,3,0,1,2]:[0,0,2];   // Beauty: 2 of every 3 Japanese
     while(out.length<l.length){ let moved=false;
       for(const k of cyc){ if(idx[k]<src[k].length){ out.push(src[k][idx[k]++]); moved=true } }
       if(!moved) break }

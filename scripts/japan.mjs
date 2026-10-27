@@ -58,6 +58,7 @@ fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
 const h = fs.readFileSync("index.html", "utf8");
 const onSite = new Set(); for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
 const only = new Set(fs.existsSync(ONLY) ? JSON.parse(fs.readFileSync(ONLY, "utf8")) : []);
+const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
 const chOf = {}, shortIds = new Set();
 for (const c of cfg.channels) {
   if (!c.id) continue;
@@ -81,8 +82,8 @@ async function searchGroup(G, tag, days, limit = Infinity) {
   const since = new Date(Date.now() - (G.done ? days[1] : days[0]) * DAY).toISOString();
   let got = 0;
   try { for (const q of qs) {
-    let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
-    if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, regionCode: "JP", relevanceLanguage: "ja", videoEmbeddable: "true", maxResults: 50 });
+    let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, regionCode: G.region || "JP", relevanceLanguage: G.lang || "ja", videoEmbeddable: "true", maxResults: 50 });
+    if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, regionCode: G.region || "JP", relevanceLanguage: G.lang || "ja", videoEmbeddable: "true", maxResults: 50 });
     for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = tag; got++; } } }
   catch (e) { console.log(tag.name, "search stopped:", e.message); }
   console.log(tag.name, JSON.stringify(qs), "found", got);
@@ -91,10 +92,13 @@ async function searchGroup(G, tag, days, limit = Infinity) {
 const KB = cfg.konbini || { queries: [] };   // convenience stores and the Han River: same tab and checks as travel & food
 const PG = cfg.pilgrimage || { queries: [] };   // idols' places in Korea (聖地巡礼)
 const HG = cfg.heritage || { queries: [] }, BG = cfg.busan_jp || { queries: [] };   // traditional Seoul, Busan
+// Korean-language picks for travel spots and restaurants (Korean creators, region KR): shown on both editions, lifted on /jp
+const KR = cfg.kr_reco || { queries: [] }, RECO = { name: "Korean travel & restaurant picks (search, KR)", cat: "travel", search: true, reco: true };
 // These searches share the nightly YouTube quota with the global edition: at most JP_SEARCHES a night, the groups
 // taking turns (a group that did not get a turn keeps its first-run size for a later night).
 { const G = [[TR, TRAVEL, [365, 60]], [BE, BEAUTY, [180, 30]], [KB, TRAVEL, [365, 60]], [PG, TRAVEL, [365, 60]], [HG, TRAVEL, [365, 60]], [BG, TRAVEL, [365, 60]]];
   let budget = +(process.env.JP_SEARCHES || 6);
+  budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
 // Ranked actors (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes, fan meetings,
@@ -171,6 +175,10 @@ const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュ�
 const NOT_BEAUTY = /ドラマ|映画|予告|直撮り|fancam|ファンカム|\bmv\b|m\/v|ニュース|news|株|投資|決算/i;
 const beautyOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return KANA.test(v.meta[0]) && COSME.test(t) && BEAUTYW.test(t) && !NOT_BEAUTY.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
+const RECO_W = /여행|여행지|가볼만한|가볼 ?만한|추천|맛집|식당|카페|코스|투어|핫플|먹방|음식|브이로그|vlog|travel|trip|food|restaurant|must ?visit|places to/i;
+const RECO_NOT = /\bmv\b|m\/v|직캠|fancam|드라마|예고|teaser|trailer|뉴스|news|사건|사고|일본|도쿄|오사카|후쿠오카|대만|베트남|태국|유럽|미국/i;
+const recoOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
+  return (/[가-힣]/.test(t) || /korea|seoul|busan/i.test(t)) && RECO_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 const travelOK = v => KANA.test(v.meta[0]) && (KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) || (/聖地|行きつけ|ゆかり|ロケ地|撮影地/.test(v.meta[0]) && idols.some(re => re.test(v.meta[0] + " " + v.meta[5].join(" "))))) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
 for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
 // fan uploads: one of the fan-search artists, not a full re-upload, and Japanese fans in the comments
@@ -199,13 +207,14 @@ for (const id of cand) {
   if (!good.has(id)) { skipped++; continue; }
   if (c.korean && !korean(v)) { notKorean++; continue; }
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
+  if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
   if (c === FANS && !fanOK(v)) { notFan++; continue; }
   if (c === ACTS && !actorOK(v)) { notFan++; continue; }
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
-  if (!CHECK) { vmeta[id] = v.meta; only.add(id); }
+  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO) reco.add(id); else only.add(id); }   // Korean picks are not Japan-only
 }
 const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
 console.log(report);
@@ -214,6 +223,7 @@ if (!CHECK) {
   for (const c of cfg.channels) if (c.id) c.done = true;
   if (cfg.travel && cfg.travel.ran) { cfg.travel.done = true; delete cfg.travel.ran; }
   if (cfg.beauty && cfg.beauty.ran) { cfg.beauty.done = true; delete cfg.beauty.ran; }
+  if (cfg.kr_reco && cfg.kr_reco.ran) { cfg.kr_reco.done = true; delete cfg.kr_reco.ran; }
   if (cfg.konbini && cfg.konbini.ran) { cfg.konbini.done = true; delete cfg.konbini.ran; }
   if (cfg.pilgrimage && cfg.pilgrimage.ran) { cfg.pilgrimage.done = true; delete cfg.pilgrimage.ran; }
   if (cfg.heritage && cfg.heritage.ran) { cfg.heritage.done = true; delete cfg.heritage.ran; }
@@ -223,6 +233,7 @@ if (!CHECK) {
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(ONLY, JSON.stringify([...only]));
+  fs.writeFileSync(RECO_F, JSON.stringify([...reco]));
   fs.writeFileSync(outPath, JSON.stringify(out));
 }
 const summary = JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,

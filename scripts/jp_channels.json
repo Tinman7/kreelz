@@ -324,5 +324,19 @@
    "海東龍宮寺",
    "田浦 カフェ通り"
   ]
+ },
+ "kr_reco": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp, given priority: Korean-language YouTube picks for travel spots and restaurants in Korea (searched in Korean, region KR). Titles are translated to Japanese by scripts/titles.mjs. Shown on both editions; only the /jp order lifts them. Added 2026-10-27 (per David).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 30000,
+  "region": "KR",
+  "lang": "ko",
+  "queries": [
+   "한국여행지 추천",
+   "외국인 한국여행지 추천",
+   "외국인 한국 식당 추천",
+   "요즘핫한식당"
+  ]
  }
 }
