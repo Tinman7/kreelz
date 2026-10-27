@@ -22,6 +22,10 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- videos open faster: connect to YouTube's embed, player and thumbnail hosts ahead of the first click -->
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://i.ytimg.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: white, editorial-clean. Hairline header with underline tabs → "on air today" + 14-day list → borderless media grid.
@@ -2291,7 +2295,7 @@ window.addEventListener("message",e=>{
   if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") }
     /* reveal only once the new short is really playing: while buffering (3), Android's player still shows the last frame
        of the previous short. iOS waiting for the tap on ▶ (5 = cued) shows the new short's own play button. */
-    if(spWait && (st===1 || (IOS && !spSound && st===5))) spShow() }
+    if(spWait && (st===1 || (!SP_FIX && st===3) || (IOS && !spSound && st===5))) spShow() }   // desktop: reveal as soon as the new short buffers
   if(SP_FIX && spState===1){
     if(!spMuted){ if(!spSound){ spSound=true } document.querySelectorAll("#spFeed .tapsound").forEach(x=>x.remove()); spHintFor=spCur }
     else if(spHintFor!==spCur){ spHintFor=spCur; spSound=false; spHint("tap_unmute") }   // YouTube fell back to muted play
@@ -2420,6 +2424,25 @@ $("#spShare").addEventListener("click",async()=>{
   let n=0; const go=()=>{ const i=sstate.list.findIndex(v=>v.id===id);
     if(i>=0 && state.embeds){ while(i>=sstate.shown && sstate.shown<sstate.list.length) renderShorts(false); spOpen(i); return }
     if(++n<25) setTimeout(go,300) }; setTimeout(go,300) })();   // waits for the list and the embed check (up to ~7 s)
+/* Faster first play: once the page is idle, a hidden YouTube player loads once so its program files are in the
+   browser cache before the first click (skipped on data saver / slow connections); hovering a video (desktop) also
+   fetches its player page ahead of the click. */
+(function(){
+  const slow=()=>{ try{ const c=navigator.connection; return !!(c && (c.saveData || /2g/.test(c.effectiveType||""))) }catch(e){ return false } };
+  const warm=()=>{ if(!state.embeds || slow() || document.hidden) return; const v=(sstate.list||[]).find(x=>!x.tt); if(!v) return;
+    const f=document.createElement("iframe"); f.src=`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=0&mute=1&rel=0&playsinline=1${YT_ORIGIN}`;
+    f.setAttribute("aria-hidden","true"); f.tabIndex=-1; f.title="";
+    f.style.cssText="position:fixed;left:-9999px;top:0;width:320px;height:180px;border:0;opacity:0;pointer-events:none";
+    document.body.appendChild(f); setTimeout(()=>f.remove(),20000) };
+  const later=fn=>("requestIdleCallback" in window) ? requestIdleCallback(fn,{timeout:6000}) : setTimeout(fn,4000);
+  window.addEventListener("load",()=>setTimeout(()=>later(warm),2500),{once:true});
+  const done=new Set();
+  document.addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse" || !state.embeds) return;
+    const a=e.target.closest("[data-sv],[data-play],[data-fv]"); if(!a) return;
+    let id=""; if(a.dataset.sv!=null){ const v=sstate.list[+a.dataset.sv]; id=v&&!v.tt?v.id:"" } else if(a.dataset.fv!=null){ id=a.dataset.fv }
+    if(!id || done.has(id) || done.size>40) return; done.add(id);
+    const l=document.createElement("link"); l.rel="prefetch"; l.href=`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}`; document.head.appendChild(l) },{passive:true});
+})();
 $("#spPrev").addEventListener("click",()=>spGo(-1));
 $("#spNext").addEventListener("click",()=>spGo(1));
 sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();spGo(1)} if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();spGo(-1)} });
