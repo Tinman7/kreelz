@@ -1945,9 +1945,11 @@ function renderTabs(){
 
 function visible(){
   const q=state.q.trim().toLowerCase();
-  const welPick = i => REGION==="jp" && state.cat==="mukbang" && /어서와 ?한국은 ?처음이지/.test(i.who) ? 1 : 0;
-  return CONTENT.filter(i=>(state.cat==="all"||i.cat===state.cat) &&
-    (!q || (i.title+" "+i.who+" "+i.kind+" "+i.blurb+" "+txc(i.kind)+" "+txc(i.blurb)).toLowerCase().includes(q))).sort((a,b)=>welPick(b)-welPick(a));
+  const l = CONTENT.filter(i=>(state.cat==="all"||i.cat===state.cat) &&
+    (!q || (i.title+" "+i.who+" "+i.kind+" "+i.blurb+" "+txc(i.kind)+" "+txc(i.blurb)).toLowerCase().includes(q)));
+  // /jp K-Travel & Food: the "어서와 한국은 처음이지" card moves up to third place (a light lift)
+  if(REGION==="jp" && state.cat==="mukbang"){ const k=l.findIndex(i=>/어서와 ?한국은 ?처음이지/.test(i.who)); if(k>2){ const [c]=l.splice(k,1); l.splice(2,0,c) } }
+  return l;
 }
 
 function card(i){
@@ -2084,8 +2086,12 @@ function mixMusic(l){
 function mixOTT(l){
   if(state.cat==="music") return mixMusic(l);
   if(REGION==="jp" && (state.cat==="mukbang"||state.cat==="beauty")){   // K-Travel & Food and Beauty: 2 of every 3 places for the Japanese videos (trips and food; Olive Young and K-cosmetics)
-    const w=[], j=[], r=[]; l.forEach(v=>(state.cat==="mukbang"&&WELSET.has(v.id)?w:JPOSET.has(v.id)?j:r).push(v)); const out=[...w]; let a=0, b=0;   // Welcome, First Time in Korea? first
-    while(a<j.length||b<r.length){ if(a<j.length) out.push(j[a++]); if(a<j.length) out.push(j[a++]); if(b<r.length) out.push(r[b++]) }
+    const w=[], j=[], r=[]; l.forEach(v=>(state.cat==="mukbang"&&WELSET.has(v.id)?w:JPOSET.has(v.id)?j:r).push(v));
+    // every 6 places: 3 Japanese videos, 2 others and 1 from "어서와 한국은 처음이지" (a light lift, not the top)
+    const out=[], src=[j,w,r], idx=[0,0,0], cyc=state.cat==="mukbang"?[0,0,2,0,1,2]:[0,0,2];   // Beauty: 2 of every 3 Japanese
+    while(out.length<l.length){ let moved=false;
+      for(const k of cyc){ if(idx[k]<src[k].length){ out.push(src[k][idx[k]++]); moved=true } }
+      if(!moved) break }
     return out }
   if(REGION==="jp" && state.cat==="all"){   // /jp All tab, every 3 places: a Japanese video (Japanese channels and creators) first, then a ranked actor's video (same mix as above), then the rest
     const j=[], a=[], r=[]; l.forEach(v=>(JPOSET.has(v.id)?j:ACT[v.id]&&(v.cat==="screen"||v.cat==="ent")?a:r).push(v)); const m=mixJPActors(a), out=[]; let w=0, x=0, y=0;
