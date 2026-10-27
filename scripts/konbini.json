@@ -1,15 +1,15 @@
 {
- "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these.",
+ "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
    "name": "illit_songkang",
    "topic": "hot",
    "cat": "m",
    "since": "2026-10-26",
-   "until": "2026-11-09",
+   "until": "2026-11-03",
    "per_night": 6,
    "min_views": 5000,
-   "_note": "Hot (both editions): fan shorts and clips of ILLIT's '체포하겠어 (You're Under Arrest)' MV (2026-10-26 18:00 KST) — the ending with actor Song Kang went viral. Every night until 'until', all queries, uploads since 'since'; must name both ILLIT/the song and Song Kang. Added 2026-10-27 (per David).",
+   "_note": "Hot (both editions): fan shorts and clips of ILLIT's '체포하겠어 (You're Under Arrest)' MV (2026-10-26 18:00 KST) — the ending with actor Song Kang went viral. Pinned at the top of All and Music (both editions) until 'until' (one week, per David); every night until then, all queries, uploads since 'since'; must name both ILLIT/the song and Song Kang. Added 2026-10-27 (per David).",
    "require": [
     "송강(?!호)|song ?kang(?![- ]?ho)|ソン・?ガン",
     "아일릿|ILLIT|アイリット|아이릿|체포하겠어|under ?arrest"
@@ -21,6 +21,27 @@
     "ILLIT You're Under Arrest Song Kang",
     "アイリット ソンガン",
     "체포하겠어 뮤비 송강"
+   ],
+   "pin": true
+  },
+  {
+   "name": "illit_arrest",
+   "topic": "hot",
+   "cat": "m",
+   "since": "2026-10-24",
+   "until": "2026-11-03",
+   "per_night": 3,
+   "min_views": 20000,
+   "_note": "Hot (both editions): fun clips of ILLIT's '체포하겠어 (You're Under Arrest)' MV and the STUDIO CHOOM performance when it is out. Added 2026-10-27 (per David).",
+   "require": [
+    "아일릿|ILLIT|アイリット",
+    "체포하겠어|under ?arrest|逮捕"
+   ],
+   "not": "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop|tutorial|튜토리얼|mirror|거울모드|cover|커버|reaction|리액션",
+   "queries": [
+    "STUDIO CHOOM ILLIT 체포하겠어",
+    "아일릿 체포하겠어 쇼츠",
+    "ILLIT You're Under Arrest"
    ]
   },
   {

@@ -58,7 +58,7 @@ try { for (let gi = 0; gi < rot.length && budget > 0; gi++) { const g = rot[(off
 const qs = asked;
 const h = fs.readFileSync("index.html", "utf8");
 const onSite = new Set(); for (const k of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${k} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
-const ids = [...found.keys()].filter(id => !onSite.has(id));
+const ids = [...found.keys()].filter(id => LIVE_F || !onSite.has(id));   // live: also the ones on the site (for the pins)
 const vmeta = fs.existsSync(VMETA) ? JSON.parse(zlib.gunzipSync(fs.readFileSync(VMETA))) : {};
 // on topic: a convenience store or the Han River, in Korea; no full re-uploads, music videos or news
 const TOPIC = /편의점|convenience ?store|\bGS25\b|\bCU\b|세븐일레븐|7-?eleven|이마트24|emart24|꿀조합|한강 ?라면|한강 ?피크닉|한강.{0,12}(라면|피크닉|치킨|먹|편의점|돗자리)|han ?river.{0,20}(ramyeon|ramen|picnic|food|eat|convenience)|hangang.{0,20}(ramyeon|ramen|picnic)|라면 ?기계|ramyeon ?machine|ramen ?machine/i;
@@ -90,21 +90,24 @@ for (let i = 0; i < ids.length; i += 50) {
     if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
     if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
     vmeta[v.id] = meta;
-    cand.push({ g: g.name, cat: g.cat, meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
+    cand.push({ g: g.name, cat: g.cat, pin: !!g.pin, until: g.until, on: onSite.has(v.id), meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
 const good = new Set(), q = cand.map(c => c.id);
 await Promise.all(Array.from({ length: 16 }, async () => { while (q.length) { const id = q.pop(); if (await hasThumb(id, "v")) good.add(id); } }));
-for (const c of cand) { if (!good.has(c.id)) continue;
+for (const c of cand) { if (!good.has(c.id) || c.on) continue;
   const k = c.cat || "k";
   if (c.short) out.shorts[c.id] = [k, c.views, 0, c.days]; else out.videos[c.id] = [k, c.views, c.days, 0]; }
 if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/jp), title, channel]
   const old = (() => { try { return JSON.parse(fs.readFileSync(LIVE_F, "utf8").replace(/^window\.LIVE=/, "").replace(/;\s*$/, "")) } catch (e) { return { v: [], s: [] } } })();
   const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
+  const pin = new Set((old.pin && old.pin.ids) || []); let until = (old.pin && old.pin.until) || "";
   for (const c of cand) { if (!good.has(c.id)) continue;
+    if (c.pin) { pin.add(c.id); if (c.until > until) until = c.until; }
+    if (c.on) continue;
     keep.set(c.id, [c.id, c.cat || "k", c.views, c.up, rank(c.meta) || 0, rankIn(JP_ARTISTS, c.meta) || 0, c.meta[0].slice(0, 150), c.meta[2], c.short ? 1 : 0]); }
   const all = [...keep.values()].filter(x => Date.now() - Date.parse(x[3]) < 14 * DAY);
-  const L = { built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]) };
+  const L = { built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), pin: { until, ids: [...pin] }, ja: old.ja || {}, en: old.en || {} };   // titles translated by hand stay
   fs.writeFileSync(LIVE_F, "window.LIVE=" + JSON.stringify(L) + ";\n");
 } else if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
