@@ -21,7 +21,7 @@ jobs:
           Q=$(python3 -c "import urllib.parse;print(urllib.parse.quote('아일릿'))")
           URLS="${{ inputs.urls }}"
           if [ -z "$URLS" ]; then URLS="https://search.naver.com/search.naver?ssc=tab.clip.all&query=$Q https://m.search.naver.com/search.naver?ssc=tab.m_clip.all&query=$Q https://clip.naver.com/ https://m.naver.com/shorts/"; fi
-          i=0; for u in $URLS; do i=$((i+1)); curl -sL -A "$( [ $((i%2)) = 0 ] && echo "$MUA" || echo "$UA" )" -H "Accept-Language: ko-KR,ko;q=0.9" -o /tmp/p/$i.html -w "$i %{http_code} %{size_download} %{url_effective}\n" "$u" >> /tmp/p/index.txt; done
+          i=0; for u in $URLS; do i=$((i+1)); curl -sL -D /tmp/p/$i.hdr -A "$( [ $((i%2)) = 0 ] && echo "$MUA" || echo "$UA" )" -H "Accept-Language: ko-KR,ko;q=0.9" -o /tmp/p/$i.html -w "$i %{http_code} %{size_download} %{url_effective}\n" "$u" >> /tmp/p/index.txt; done
           cat /tmp/p/index.txt
           git config user.name "kreelz-bot"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -q --orphan probe-naver && git rm -rfq . && cp /tmp/p/* . && git add -A && git commit -qm probe && git push -qf origin probe-naver
