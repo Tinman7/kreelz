@@ -184,7 +184,8 @@
    "cat": "travel",
    "korean": false,
    "reco": true,
-   "note": "Korean creator picked by David 2026-10-27: channel of this video + this playlist"
+   "note": "Korean creator picked by David 2026-10-27: channel of this video + this playlist (= 최자로드 channel, same filter as its top entry)",
+   "skip": "콘서트|컴백|\\[CRASH\\]|목 관리|Hater|도쿄|오사카|일본|후쿠오카|교토|츠케멘|라멘"
   },
   {
    "handle": "@맛집남자foodman",
