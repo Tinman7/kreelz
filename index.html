@@ -2537,7 +2537,7 @@ function spGo(d){
   const n=spIdx+d; if(n<0||n>=spMax()) return;
   if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
-  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el) $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"});
+  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el){ $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"}); spActivate(n) }   // start it now, not on the next scroll check
 }
 $("#sgrid").addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const a=e.target.closest("[data-sv]"); if(!a) return;
   clearTimeout(spPrepT); const k=+a.dataset.sv; spPrepT=setTimeout(()=>spPrep(k),150) },{passive:true});
