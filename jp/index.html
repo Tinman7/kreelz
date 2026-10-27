@@ -2816,6 +2816,18 @@ const PLAT = {yt:"YouTube", tt:"TikTok", nv:"Naver TV", nc:"NAVER Clip"};
 const EMBED_OK = /^https?:$/.test(location.protocol) && location.origin!=="null";
 const YT_ORIGIN = EMBED_OK ? `&origin=${encodeURIComponent(location.origin)}` : "";
 const REFPOL = 'referrerpolicy="strict-origin-when-cross-origin"';
+/* Captions off. For a short while (2026-10-28 08:00–08:24) the Japan edition switched YouTube captions on with Japanese
+   auto-translation; YouTube remembers that in the visitor's browser, so every later video loaded the translated
+   captions too and phones stalled. Whenever a player reports an active caption track, turn it off again (the browser
+   then remembers "off"); nothing is sent when captions are already off. */
+const ccOff=new WeakSet();
+window.addEventListener("message",e=>{ if(!e.source || !/youtube/.test(e.origin||"")) return;
+  let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
+  if(!d || d.event!=="apiInfoDelivery" || !d.info || !d.info.captions) return;
+  const tr=d.info.captions.track||{}; if(!tr.languageCode || ccOff.has(e.source)) return; ccOff.add(e.source);
+  const send=(func,args)=>e.source.postMessage(JSON.stringify({event:"command",func,args,id:d.id,channel:"widget"}),"*");
+  send("setOption",["captions","track",{}]); send("unloadModule",["captions"]);
+});
 const vURL = v => v.p==="yt" ? `https://www.youtube.com/watch?v=${v.id}` : v.p==="tt" ? `https://www.tiktok.com/${v.id}` : `https://tv.naver.com/v/${v.id}`;
 const vEmbed = v => v.p==="yt" ? `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}` : v.p==="tt" ? `https://www.tiktok.com/embed/v2/${v.id.split("/").pop()}` : `https://tv.naver.com/embed/${v.id}?autoPlay=true`;
 const ttThumbs = {};
