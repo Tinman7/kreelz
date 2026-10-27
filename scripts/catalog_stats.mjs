@@ -17,6 +17,9 @@ for (const [n, k] of [["SHORTS", "shorts"], ["FEED", "videos"]]) {
 // TikTok shorts added on the admin page (const TIKTOK, written by scripts/tiktok.mjs): [videoId, account, cat, title, added]
 const TT = (() => { const m = h.match(/^const TIKTOK = (.*);$/m); try { return m ? JSON.parse(m[1]) : []; } catch { return []; } })();
 for (const [, , c] of TT) if (CAT[c]) tot.shorts[CAT[c]]++;
+// NAVER Clip shorts (nclip.js, scripts/naverclip.mjs every 6 hours): [mediaId, cat, title, channel, views, upload day, thumb, certified]
+const NC = (() => { try { return JSON.parse(fs.readFileSync("nclip.js", "utf8").replace(/^window\.NCLIP=/, "").replace(/;\s*$/, "")).items || []; } catch { return []; } })();
+for (const [, c] of NC) if (CAT[c]) tot.shorts[CAT[c]]++;
 const prevKnown = fs.existsSync("stats/known.txt") ? new Set(fs.readFileSync("stats/known.txt", "utf8").split("\n")) : null;
 const fresh = { shorts: empty(), videos: empty() }, counted = new Set();   // a video found by two collection steps counts once
 for (const dailyPath of dailyPaths) if (fs.existsSync(dailyPath)) {
@@ -27,6 +30,7 @@ for (const dailyPath of dailyPaths) if (fs.existsSync(dailyPath)) {
     for (const [id, v] of Object.entries(src)) { const c = CAT[v[0]]; if (c && onSite.has(id) && (!prev || !prev.has(id)) && !counted.has(id)) { counted.add(id); fresh[k][c]++; } }
 }
 for (const [vid, , c] of TT) if (CAT[c] && prevKnown && !prevKnown.has("tt:" + vid)) fresh.shorts[CAT[c]]++;
+for (const [mid, c] of NC) if (CAT[c] && prevKnown && !prevKnown.has("nc:" + mid)) fresh.shorts[CAT[c]]++;
 const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
 const catalog = {
   build, generated_at: new Date().toISOString(),
@@ -47,6 +51,7 @@ try { sourceStats(); } catch (e) { console.error("sources:", e.message); }
 // ids on the site now, so tomorrow's "new" counts only what is really new
 const ids = []; for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) ids.push(s.slice(i, i + 11)); }
 for (const [vid] of TT) ids.push("tt:" + vid);
+for (const [mid] of NC) ids.push("nc:" + mid);
 fs.writeFileSync("stats/known.txt", ids.join("\n"));
 // shorts ids (11 chars each), so the admin page can split its rankings into shorts and regular videos
 fs.writeFileSync("stats/shorts.txt", h.match(/const SHORTS = "([^"]*)";/)[1].match(/.{16}/g).map(r => r.slice(0, 11)).join(""));
@@ -57,7 +62,7 @@ console.log(JSON.stringify({ build, total: catalog.total, new_today: catalog.new
 // Feed and shorts are YouTube ids (from data/vmeta.json.gz: [title, channelId, channelName, ...]);
 // the per-title official video lists (const VIDEOS) carry their own platform and uploader.
 function sourceStats() {
-  const PLAT = { yt: "YouTube", tt: "TikTok", nv: "NAVER Clip" };   // NAVER TV dropped for NAVER Clip (2026-10-27)
+  const PLAT = { yt: "YouTube", tt: "TikTok", nc: "NAVER Clip" };   // NAVER TV dropped for NAVER Clip (2026-10-27)
   const ROUTE = {
     "daily.json": "공식 채널 정기 수집 (YouTube Data API)", "fans.json": "팬 영상 (보이그룹 직캠·커버·팬 편집)",
     "idol_shows.json": "우선 아이돌 인터뷰·방송·시상식", "actors.json": "집중 배우 영상",
@@ -112,6 +117,13 @@ function sourceStats() {
     plat.total.shorts.TikTok++; plat.total.all.TikTok++; bump(chAll, "tt:@" + acct, "@" + acct, url, "TikTok");
     if (isNew) { plat.new.shorts.TikTok++; plat.new.all.TikTok++; bump(chNew, "tt:@" + acct, "@" + acct, url, "TikTok");
       routes["관리자 페이지에서 추가한 틱톡"] = (routes["관리자 페이지에서 추가한 틱톡"] || 0) + 1; }
+  }
+  for (const [mid, c, , ch] of NC) {
+    if (!CAT[c]) continue;
+    const isNew = !!prevKnown && !prevKnown.has("nc:" + mid), name = ch || "(채널 정보 없음)";
+    plat.total.shorts["NAVER Clip"]++; plat.total.all["NAVER Clip"]++; bump(chAll, "nc:" + name, name, "", "NAVER Clip");
+    if (isNew) { plat.new.shorts["NAVER Clip"]++; plat.new.all["NAVER Clip"]++; bump(chNew, "nc:" + name, name, "", "NAVER Clip");
+      routes["네이버 클립 검색 (6시간마다)"] = (routes["네이버 클립 검색 (6시간마다)"] || 0) + 1; }
   }
   const top = (m, n) => [...m.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name)).slice(0, n);
   const out = {
