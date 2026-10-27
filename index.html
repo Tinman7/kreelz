@@ -2070,6 +2070,27 @@ const PINS=new Set(); (function(){ const today=new Date(Date.now()+9*3600e3).toI
 const pinUp=l=>{ if(!PINS.size || !(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
   const ja=v=>REGION==="jp" && /[ぁ-んァ-ヶ]/.test((meta[v.id]||{}).t||"") ? 1 : 0;   // /jp: the Japanese-made clips first
   const p=l.filter(v=>PINS.has(v.id)).sort((a,b)=>ja(b)-ja(a)||b.views-a.views); if(!p.length) return l; const t=new Set(p); return p.concat(l.filter(v=>!t.has(v))) };
+/* Shorts, All and Music, while a hot moment is on: the first screen (12) is 6 of it — the pinned clips (Song Kang) and
+   the other clips of the same release (ILLIT) taking turns — then 6 popular shorts of other artists (one each, most
+   viewed per day of the last week); below that the hot clips come back every 3rd place and the same artist's other shorts wait 30 places, so the rest stays mixed */
+const HOTSET=new Set((LIVE.v||[]).concat(LIVE.s||[]).map(x=>x[0]).filter(id=>!PINS.has(id)));
+const hotMix=l=>{ if(!PINS.size || !(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
+  const ja=v=>REGION==="jp" && /[ぁ-んァ-ヶ]/.test((meta[v.id]||{}).t||"") ? 1 : 0;
+  const by=(a,b)=>ja(b)-ja(a)||b.views-a.views;
+  const S=l.filter(v=>PINS.has(v.id)).sort(by), I=l.filter(v=>HOTSET.has(v.id)).sort(by); if(!S.length && !I.length) return l;
+  const head=[]; for(let k=0; head.length<6 && (k<S.length||k<I.length); k++){ if(k<S.length) head.push(S[k]); if(head.length<6 && k<I.length) head.push(I[k]) }
+  const used=new Set(head), hotRanks=new Set(S.concat(I).map(v=>PRIO[v.id]).filter(Boolean));
+  const sc=v=>v.views/(Math.max(v.days,0)+1), seen=new Set(), others=[];
+  for(const v of l.filter(v=>PRIO[v.id] && !hotRanks.has(PRIO[v.id]) && !PINS.has(v.id) && !HOTSET.has(v.id) && v.days>=0 && v.days<=7).sort((a,b)=>sc(b)-sc(a))){
+    if(seen.has(PRIO[v.id])) continue; seen.add(PRIO[v.id]); others.push(v); if(others.length>=6) break }
+  others.forEach(v=>used.add(v));
+  const left=S.concat(I).filter(v=>!used.has(v)).sort(by), out=head.concat(others);
+  // the same artist's other shorts move 30 places down, so the next screens are not all ILLIT again
+  const rest=[], wait=[]; let n=0; for(const v of l){ if(used.has(v) || PINS.has(v.id) || HOTSET.has(v.id)) continue;
+    if(hotRanks.has(PRIO[v.id])) wait.push([n+30,v]); else { while(wait.length && wait[0][0]<=n){ rest.push(wait.shift()[1]); n++ } rest.push(v); n++ } }
+  wait.forEach(x=>rest.push(x[1]));
+  let a=0, b=0; while(a<left.length||b<rest.length){ for(let n=0;n<2&&b<rest.length;n++) out.push(rest[b++]); if(a<left.length) out.push(left[a++]) }
+  return out };
 const freshUp=l=>{ if(!(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
   const sc=v=>v.views/(v.days+1);   // views per day: today's MV beats yesterday's vlog with more views
   const top=l.filter(v=>PRIO[v.id] && v.days>=0 && v.days<=2).sort((a,b)=>sc(b)-sc(a)).slice(0,12); if(!top.length) return l;
@@ -2278,7 +2299,7 @@ function shortsList(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(pinUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))))));
+  const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(hotMix(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))))));
 }
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
