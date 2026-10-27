@@ -5,7 +5,15 @@
   "first_run": 12,
   "per_night": 8,
   "min_views": 10000,
-  "kinds": ["キスシーン", "胸キュン シーン", "ラブコメ", "ファンミーティング", "来日 イベント", "直撮り", "FMV"]
+  "kinds": [
+   "キスシーン",
+   "胸キュン シーン",
+   "ラブコメ",
+   "ファンミーティング",
+   "来日 イベント",
+   "直撮り",
+   "FMV"
+  ]
  },
  "channels": [
   {
@@ -197,7 +205,7 @@
   "done": true
  },
  "fans": {
-  "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken. extra = searched before the artist x kind list (TWICE's Japanese members Sana, Mina, Momo and MISAMO). Artists in priority order: BTS and Stray Kids first among boy groups.",
+  "_note": "Fan uploads for kreelz.com/jp (besides the official channels): fancams, Japan events, airport, fan meetings and Japanese TV/music shows of the artists strongest in Japan. A video is taken only if Japanese fans comment on it (min_ja_comments of its top 20 comments in Japanese). Full re-uploads of broadcasts are not taken. extra = searched before the artist x kind list (TWICE's Japanese members Sana, Mina, Momo and MISAMO). Artists in priority order: BTS and Stray Kids first among boy groups. TWS, BOYNEXTDOOR and ATEEZ added 2026-10-27 (per David).",
   "first_run": 9,
   "per_night": 4,
   "min_views": 10000,
@@ -208,7 +216,10 @@
    "TWICE": "TWICE",
    "TXT": "TXT トゥバ",
    "LE SSERAFIM": "ルセラフィム",
-   "ILLIT": "ILLIT アイリット"
+   "ILLIT": "ILLIT アイリット",
+   "TWS": "TWS トゥアス",
+   "BOYNEXTDOOR": "ボイネク BOYNEXTDOOR",
+   "ATEEZ": "ATEEZ エイティーズ"
   },
   "kinds": [
    "直撮り",

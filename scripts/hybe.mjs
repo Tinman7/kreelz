@@ -16,6 +16,7 @@ export const ARTISTS = [
   ["ATEEZ",      ["UC2e4Ukj5Pfr7cb3KpJAFBdQ"], /ateez|에이티즈/i],
   ["KATSEYE",    [], /katseye|캣츠아이|캐츠아이/i],
   ["SEVENTEEN",  ["UCfkXDY7vwkcJ8ddFGz8KusA"], /seventeen|세븐틴|\bsvt\b|부석순/i],
+  ["BOYNEXTDOOR",["UChhKBlh_wvspTh5n4mL0b5g"], /boynextdoor|보이넥스트도어|보넥도/i],   // added 2026-10-27 (per David), at the end
 ];
 // Japan edition (kreelz.com/jp): Music order for Japanese fans (per David 2026-10-26): boy groups BTS and Stray Kids
 // first, TWICE (Japanese members Sana, Mina, Momo), then TXT, LE SSERAFIM, ILLIT (strong in Japan), then Oricon 2025 annual sales / 2025 Japan tour grosses (Stray Kids, SEVENTEEN, ENHYPEN, &TEAM ...).
@@ -48,12 +49,11 @@ export function rankIn(list, meta) {
   return 0;
 }
 // Boy groups among the priority artists, and other popular boy groups whose performance fancams are collected too
-export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ", "SEVENTEEN"]);
+export const MALE = new Set(["BTS", "CORTIS", "Stray Kids", "TXT", "TWS", "ENHYPEN", "ATEEZ", "SEVENTEEN", "BOYNEXTDOOR"]);
 export const EXTRA_MALE = [
   ["NCT DREAM",   [], /nct ?dream|엔시티 ?드림/i],
   ["NCT 127",     [], /nct ?127|엔시티 ?127/i],
   ["RIIZE",       [], /riize|(?<![가-힣])라이즈(?![가-힣])/i],
-  ["BOYNEXTDOOR", [], /boynextdoor|보이넥스트도어/i],
   ["ZEROBASEONE", [], /zerobaseone|제로베이스원|\bzb1\b/i],
   ["TREASURE",    [], /\btreasure\b|(?<![가-힣])트레저(?![가-힣])/i],
   ["EXO",         [], /\bexo\b|(?<![가-힣])엑소(?![가-힣])/i],
