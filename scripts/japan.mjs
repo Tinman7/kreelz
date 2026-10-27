@@ -219,6 +219,7 @@ for (const id of cand) {
   if (!good.has(id)) { skipped++; continue; }
   if (c.korean && !korean(v)) { notKorean++; continue; }
   if (c.only && !new RegExp(c.only, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. only the 먹을텐데 episodes of 성시경's channel
+  if (c.skip && new RegExp(c.skip, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. 최자로드's concert promos and Japan restaurants
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }

@@ -17,10 +17,10 @@ const TRAVEL_FIRST = new Set(["UC4i1qf8CUH93DLSbD9efqig"]), welcome = [];
 // Korean-language travel & restaurant picks (scripts/japan.mjs kr_reco): lifted in the /jp K-Travel & Food tab
 const RECO = new Set(fs.existsSync("data/jp_reco.json") ? JSON.parse(fs.readFileSync("data/jp_reco.json", "utf8")) : []), reco = [];
 // and every video of the Korean creators picked for that tab (jp_channels.json channels with reco), already on the site or new
-// (only = just the titles matching it, e.g. the 먹을텐데 episodes of 성시경's channel)
+// (only = just the titles matching it, e.g. the 먹을텐데 episodes of 성시경's channel; skip = not these)
 const RECO_CH = new Map(), TOP_CH = new Map(), top = [];   // channel id -> title filter
 try { for (const c of JSON.parse(fs.readFileSync("scripts/jp_channels.json", "utf8")).channels) if (c.reco && c.id) {
-  const re = c.only ? new RegExp(c.only, "i") : null; RECO_CH.set(c.id, re); if (c.top) TOP_CH.set(c.id, RC[TOP_CH.size]); } } catch (e) {}
+  const re = c.only || c.skip ? { test: t => (!c.only || new RegExp(c.only, "i").test(t)) && !(c.skip && new RegExp(c.skip, "i").test(t)) } : null; RECO_CH.set(c.id, re); if (c.top) TOP_CH.set(c.id, RC[TOP_CH.size]); } } catch (e) {}
 const chHit = (C, m) => !!m && C.has(m[1]) && !(RECO_CH.get(m[1]) && !RECO_CH.get(m[1]).test(m[0]));
 // Japan edition: these two dramas go to the very end of every list on /jp (index.html moves PRIO_LAST_JP ids last)
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i, lastJ = [];
