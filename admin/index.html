@@ -48,6 +48,15 @@ tfoot td{font-weight:800;border-bottom:0}
 .chart text{fill:var(--muted);font-size:11px;font-family:inherit}
 .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#16A34A;margin-right:6px;vertical-align:1px;animation:livePulse 2s ease-in-out infinite}
 @keyframes livePulse{50%{opacity:.35}}
+.fbl{list-style:none;margin:0;padding:0}
+.fbl li{padding:12px 0;border-bottom:1px solid var(--line)}
+.fbl li:last-child{border-bottom:0}
+.fbl li.done{opacity:.5}
+.fbl .h{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12.5px;color:var(--muted)}
+.fbl .k{font-weight:800;color:var(--ink)}
+.fbl .m{margin:6px 0 0;font-size:14.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.fbl label{margin-left:auto;display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+.fbl .empty{color:var(--muted);text-align:center}
 .recent{list-style:none;margin:0;padding:0}
 .recent li{display:grid;grid-template-columns:48px 26px minmax(0,1fr);gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}
 .recent li:last-child{border-bottom:0}
@@ -152,6 +161,9 @@ tfoot td{font-weight:800;border-bottom:0}
     <div class="card top"><h3>오늘 인기 일반 영상</h3><ol id="liveTopV"></ol></div>
     <div class="card"><h3 style="margin:0 0 10px;font-size:14.5px;font-weight:800">최근 30분 재생</h3><ul class="recent" id="liveRecent"></ul></div>
   </div>
+
+  <h2>사용자 피드백 <small id="fbNote">사이트 아래쪽 "피드백 보내기"로 들어온 메시지 · 영어판·일본판 모두</small></h2>
+  <div class="card"><ul class="fbl" id="fbList"><li class="empty">불러오는 중…</li></ul></div>
 
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
@@ -497,7 +509,22 @@ async function loadLive(){
 function liveLoop(){ clearTimeout(liveT); if(!$("#app").hidden && document.visibilityState==="visible") loadLive().catch(()=>{}); liveT=setTimeout(liveLoop,30000) }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") liveLoop() });
 
-function load(){ loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
+/* user feedback (setup/feedback.sql) */
+const FB_KIND={feedback:"의견",bug:"오류",request:"콘텐츠 요청",other:"기타"};
+async function loadFeedback(){
+  const {data,error}=await sb.rpc("admin_feedback",{n:100});
+  if(error){ $("#fbList").innerHTML=`<li class="empty">피드백을 불러오지 못했습니다 (Supabase에 setup/feedback.sql 실행 필요): ${esc(error.message)}</li>`; return }
+  const open=(data||[]).filter(r=>!r.done).length;
+  $("#fbNote").textContent=`안 읽은 메시지 ${open}개 · 전체 ${(data||[]).length}개 (최근 100개)`;
+  $("#fbList").innerHTML=(data||[]).length ? data.map(r=>{
+    const d=new Date(r.created_at).toLocaleString("ko-KR",{timeZone:"Asia/Seoul",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
+    return `<li class="${r.done?"done":""}"><div class="h"><span class="k">${esc(FB_KIND[r.kind]||r.kind)}</span><span>${esc(d)}</span><span>${r.region==="jp"?"일본판":"영어판"} · ${esc(r.lang||"")}</span>${r.email?`<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>`:""}<label><input type="checkbox" data-fbdone="${r.id}"${r.done?" checked":""}> 처리함</label></div><p class="m">${esc(r.message)}</p></li>` }).join("")
+    : `<li class="empty">아직 들어온 피드백이 없습니다</li>`;
+}
+document.addEventListener("change",async e=>{ const c=e.target.closest("[data-fbdone]"); if(!c) return;
+  const {error}=await sb.rpc("admin_feedback_done",{fid:+c.dataset.fbdone, is_done:c.checked}); if(error){ alert(error.message); c.checked=!c.checked; return }
+  c.closest("li").classList.toggle("done",c.checked) });
+function load(){ loadFeedback().catch(()=>{}); loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
 (function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
   const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();

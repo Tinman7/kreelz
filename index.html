@@ -552,6 +552,14 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
 .cm-row{display:flex;gap:10px;align-items:center;justify-content:space-between}
 .cm-rules{margin:0;font-size:11.5px;color:var(--muted)}
 .cm-msg{margin:0;font-size:12.5px;color:#B42318;min-height:0}
+.fbbtn{margin-top:10px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font:inherit;font-size:13.5px;font-weight:700;border-radius:999px;padding:8px 14px;cursor:pointer}
+.fbbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.fbbtn:hover{border-color:var(--ink)}
+.fb .cm-form{border-top:0}
+.fb-sub{margin:0 0 4px;font-size:14px;color:var(--ink-2)}
+.fb-l{font-size:12.5px;font-weight:700;color:var(--muted)}
+.fb select{font:inherit;font-size:15px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg);color:var(--ink)}
+.fb .cm-msg.ok{color:#15803D}
 .vh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:640px){.cm{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:75dvh}}
 .tapsound{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;pointer-events:none;display:inline-flex;align-items:center;gap:7px;
@@ -726,6 +734,7 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
     <div><h4 data-i18n="ft1_h"></h4><p data-i18n="ft1_p"></p></div>
     <div><h4 data-i18n="ft2_h"></h4><p data-i18n="ft2_p"></p></div>
     <div><h4 data-i18n="ft3_h"></h4><p id="ft3p"></p></div>
+    <div><h4 data-i18n="ft4_h"></h4><p id="ft4p"></p><button type="button" class="fbbtn" id="fbOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg><span data-i18n="fb_btn"></span></button></div>
     <div class="legal-links" id="legalLinks"><button type="button" class="lnk" data-doc="terms" data-i18n="lg_terms">Terms of Service</button><button type="button" class="lnk" data-doc="privacy" data-i18n="lg_privacy">Privacy Notice</button><button type="button" class="lnk" data-doc="mkt" data-i18n="lg_mkt">Marketing consent</button><button type="button" class="lnk" data-doc="email" data-i18n="lg_email">Promotional email consent</button><button type="button" class="lnk" data-doc="ext" id="lgExt" hidden>外部送信について</button><span>© 2026 KREELZ</span></div>
   </footer>
 </div>
@@ -765,6 +774,21 @@ dialog.sp::backdrop{background:rgba(5,6,8,.82)}
       <div class="sp-nav"><button type="button" id="spPrev" data-i18n-aria="prev"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><span id="spPos"></span><button type="button" id="spNext" data-i18n-aria="next"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></div>
     </div>
   </div>
+</dialog>
+
+<dialog id="fb" class="cm fb" aria-labelledby="fbTitle">
+  <div class="cm-head"><h2 id="fbTitle" data-i18n="fb_title"></h2><button type="button" class="sh-x" data-fb-close data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <form class="cm-form fb-form" id="fbForm" novalidate>
+    <p class="fb-sub" data-i18n="fb_sub"></p>
+    <label class="fb-l" for="fbKind" data-i18n="fb_kind"></label>
+    <select id="fbKind"><option value="feedback" data-i18n="fb_k_feedback"></option><option value="bug" data-i18n="fb_k_bug"></option><option value="request" data-i18n="fb_k_request"></option><option value="other" data-i18n="fb_k_other"></option></select>
+    <label class="vh-sr" for="fbMsg" data-i18n="fb_msg"></label>
+    <textarea id="fbMsg" maxlength="2000" rows="5" data-i18n-ph="fb_msg"></textarea>
+    <label class="vh-sr" for="fbEmail" data-i18n="fb_email"></label>
+    <input id="fbEmail" type="email" maxlength="120" autocomplete="email" inputmode="email" data-i18n-ph="fb_email">
+    <div class="cm-row"><p class="cm-rules" data-i18n="fb_note"></p><button type="submit" class="cta" id="fbSend" data-i18n="fb_send"></button></div>
+    <p class="cm-msg" id="fbMsgOut" role="status"></p>
+  </form>
 </dialog>
 
 <dialog id="cm" class="cm" aria-labelledby="cmTitle">
@@ -1211,7 +1235,8 @@ en:{
   verified:"Verified or official channel",
   ft1_h:"Official sources", ft1_p:"Videos are linked or embedded from YouTube, TikTok and Naver TV. Music, drama and film come from labels, broadcasters and verified channels; beauty and mukbang come from the creators' own channels. We don't host or re-upload anything.",
   ft2_h:"Release times", ft2_p:"Korean releases are announced in KST. We convert each one to the city you choose, and remember your choice on this device.",
-  ft3_h:"Report a link", ft3_p:"Spotted a broken or unofficial link? Email {addr} and we'll fix it within a day."
+  ft3_h:"Report a link", ft3_p:"Spotted a broken or unofficial link? Email {addr} and we'll fix it within a day.",
+  ft4_h:"Contact", ft4_p:"Questions about KREELZ? Email {addr}. Ideas, or something on the site not working? Tell us here:", fb_btn:"Send feedback", fb_title:"Send us feedback", fb_sub:"How is KREELZ working for you? We read every message.", fb_kind:"Topic", fb_k_feedback:"Feedback", fb_k_bug:"Something isn't working", fb_k_request:"Content request", fb_k_other:"Other", fb_msg:"Your message…", fb_email:"Your email (optional, if you'd like a reply)", fb_send:"Send", fb_ok:"Thank you! Your message was sent.", fb_err:"Couldn't send. Please try again, or email {addr}.", fb_short:"Please write a little more.", fb_bademail:"Please check the email address.", fb_limit:"You've sent several messages today. Please try again tomorrow or email {addr}.", fb_note:"Your email is used only to reply to you.",
 },
 tl:{
   tagline:"K-content, sakto sa oras ng global fans",
@@ -1264,7 +1289,8 @@ tl:{
   verified:"Verified o opisyal na channel",
   ft1_h:"Opisyal na source", ft1_p:"Naka-link o naka-embed ang mga video mula sa YouTube, TikTok at Naver TV. Ang musika, drama at pelikula ay mula sa labels, broadcasters at verified channels; ang beauty at mukbang ay mula sa sariling channel ng creators. Wala kaming hino-host o nire-upload.",
   ft2_h:"Oras ng release", ft2_p:"Inaanunsyo sa KST ang Korean releases. Kino-convert namin ito sa lungsod na pinili mo at tinatandaan sa device na ito.",
-  ft3_h:"Mag-report ng link", ft3_p:"May nakitang sira o hindi opisyal na link? Mag-email sa {addr} at aayusin namin sa loob ng isang araw."
+  ft3_h:"Mag-report ng link", ft3_p:"May nakitang sira o hindi opisyal na link? Mag-email sa {addr} at aayusin namin sa loob ng isang araw.",
+  ft4_h:"Makipag-ugnayan", ft4_p:"May tanong tungkol sa KREELZ? Mag-email sa {addr}. May ideya o may hindi gumagana sa site? Sabihin dito:", fb_btn:"Magpadala ng feedback", fb_title:"Magpadala sa amin ng feedback", fb_sub:"Kumusta ang KREELZ para sa iyo? Binabasa namin ang bawat mensahe.", fb_kind:"Paksa", fb_k_feedback:"Feedback", fb_k_bug:"May hindi gumagana", fb_k_request:"Request ng content", fb_k_other:"Iba pa", fb_msg:"Ang iyong mensahe…", fb_email:"Ang iyong email (opsyonal, kung gusto mo ng sagot)", fb_send:"Ipadala", fb_ok:"Salamat! Naipadala ang iyong mensahe.", fb_err:"Hindi naipadala. Subukang muli, o mag-email sa {addr}.", fb_short:"Pakidagdagan pa nang kaunti.", fb_bademail:"Pakitingnan ang email address.", fb_limit:"Marami ka nang naipadala ngayong araw. Subukang muli bukas o mag-email sa {addr}.", fb_note:"Ginagamit lang ang iyong email para sagutin ka.",
 },
 th:{
   tagline:"คอนเทนต์เกาหลี ตรงเวลาสำหรับแฟน ๆ ทั่วโลก",
@@ -1317,7 +1343,8 @@ th:{
   verified:"ช่องทางการหรือช่องที่ยืนยันแล้ว",
   ft1_h:"แหล่งทางการ", ft1_p:"วิดีโอทั้งหมดลิงก์หรือฝังจาก YouTube, TikTok และ Naver TV เพลง ซีรีส์ และภาพยนตร์มาจากค่ายเพลง สถานีโทรทัศน์ และช่องที่ยืนยันแล้ว ส่วนบิวตี้และม็อกบังมาจากช่องของครีเอเตอร์เอง เราไม่ได้โฮสต์หรืออัปโหลดซ้ำ",
   ft2_h:"เวลาปล่อยผลงาน", ft2_p:"ผลงานเกาหลีประกาศตามเวลา KST เราแปลงเป็นเวลาของเมืองที่คุณเลือกและจำไว้ในอุปกรณ์นี้",
-  ft3_h:"แจ้งลิงก์", ft3_p:"พบลิงก์เสียหรือไม่เป็นทางการ? อีเมลมาที่ {addr} เราจะแก้ไขภายในหนึ่งวัน"
+  ft3_h:"แจ้งลิงก์", ft3_p:"พบลิงก์เสียหรือไม่เป็นทางการ? อีเมลมาที่ {addr} เราจะแก้ไขภายในหนึ่งวัน",
+  ft4_h:"ติดต่อเรา", ft4_p:"มีคำถามเกี่ยวกับ KREELZ? ส่งอีเมลมาที่ {addr} มีไอเดียหรือพบปัญหาในเว็บไซต์ บอกเราได้ที่นี่:", fb_btn:"ส่งความคิดเห็น", fb_title:"ส่งความคิดเห็นถึงเรา", fb_sub:"KREELZ เป็นอย่างไรบ้าง? เราอ่านทุกข้อความ", fb_kind:"หัวข้อ", fb_k_feedback:"ความคิดเห็น", fb_k_bug:"มีบางอย่างใช้งานไม่ได้", fb_k_request:"ขอเนื้อหา", fb_k_other:"อื่นๆ", fb_msg:"ข้อความของคุณ…", fb_email:"อีเมลของคุณ (ไม่บังคับ หากต้องการให้ตอบกลับ)", fb_send:"ส่ง", fb_ok:"ขอบคุณ! ส่งข้อความเรียบร้อยแล้ว", fb_err:"ส่งไม่สำเร็จ ลองอีกครั้ง หรือส่งอีเมลมาที่ {addr}", fb_short:"กรุณาเขียนเพิ่มอีกสักหน่อย", fb_bademail:"กรุณาตรวจสอบอีเมล", fb_limit:"วันนี้คุณส่งข้อความหลายครั้งแล้ว ลองใหม่พรุ่งนี้หรือส่งอีเมลมาที่ {addr}", fb_note:"เราใช้อีเมลของคุณเพื่อตอบกลับเท่านั้น",
 },
 id:{
   tagline:"Konten Korea, tepat waktu untuk fans global",
@@ -1370,7 +1397,8 @@ id:{
   verified:"Kanal resmi atau terverifikasi",
   ft1_h:"Sumber resmi", ft1_p:"Video ditautkan atau disematkan dari YouTube, TikTok, dan Naver TV. Musik, drama, dan film berasal dari label, stasiun TV, dan kanal terverifikasi; kecantikan dan mukbang dari kanal kreatornya sendiri. Kami tidak menghosting atau mengunggah ulang apa pun.",
   ft2_h:"Jam rilis", ft2_p:"Rilis Korea diumumkan dalam KST. Kami mengonversinya ke kota pilihan Anda dan mengingatnya di perangkat ini.",
-  ft3_h:"Laporkan tautan", ft3_p:"Menemukan tautan rusak atau tidak resmi? Kirim email ke {addr}, kami perbaiki dalam sehari."
+  ft3_h:"Laporkan tautan", ft3_p:"Menemukan tautan rusak atau tidak resmi? Kirim email ke {addr}, kami perbaiki dalam sehari.",
+  ft4_h:"Kontak", ft4_p:"Ada pertanyaan tentang KREELZ? Kirim email ke {addr}. Punya ide atau ada yang tidak berfungsi di situs? Beri tahu kami di sini:", fb_btn:"Kirim masukan", fb_title:"Kirim masukan untuk kami", fb_sub:"Bagaimana pengalamanmu dengan KREELZ? Kami membaca setiap pesan.", fb_kind:"Topik", fb_k_feedback:"Masukan", fb_k_bug:"Ada yang tidak berfungsi", fb_k_request:"Permintaan konten", fb_k_other:"Lainnya", fb_msg:"Pesanmu…", fb_email:"Email kamu (opsional, jika ingin dibalas)", fb_send:"Kirim", fb_ok:"Terima kasih! Pesanmu sudah terkirim.", fb_err:"Gagal mengirim. Coba lagi, atau kirim email ke {addr}.", fb_short:"Tulis sedikit lebih banyak, ya.", fb_bademail:"Periksa kembali alamat email.", fb_limit:"Kamu sudah mengirim beberapa pesan hari ini. Coba lagi besok atau kirim email ke {addr}.", fb_note:"Email kamu hanya dipakai untuk membalas.",
 },
 es:{
   tagline:"Contenido coreano, a la hora de fans de todo el mundo",
@@ -1423,7 +1451,8 @@ es:{
   verified:"Canal oficial o verificado",
   ft1_h:"Fuentes oficiales", ft1_p:"Los videos se enlazan o insertan desde YouTube, TikTok y Naver TV. La música, los dramas y el cine provienen de sellos, cadenas y canales verificados; belleza y mukbang, de los canales de sus creadores. No alojamos ni volvemos a subir nada.",
   ft2_h:"Horarios de estreno", ft2_p:"Los estrenos coreanos se anuncian en KST. Los convertimos a la ciudad que elijas y lo recordamos en este dispositivo.",
-  ft3_h:"Reportar un enlace", ft3_p:"¿Has visto un enlace roto o no oficial? Escribe a {addr} y lo arreglaremos en un día."
+  ft3_h:"Reportar un enlace", ft3_p:"¿Has visto un enlace roto o no oficial? Escribe a {addr} y lo arreglaremos en un día.",
+  ft4_h:"Contacto", ft4_p:"¿Preguntas sobre KREELZ? Escríbenos a {addr}. ¿Ideas o algo que no funciona en la web? Cuéntanoslo aquí:", fb_btn:"Enviar comentarios", fb_title:"Envíanos tus comentarios", fb_sub:"¿Qué tal te va con KREELZ? Leemos todos los mensajes.", fb_kind:"Tema", fb_k_feedback:"Comentario", fb_k_bug:"Algo no funciona", fb_k_request:"Pedir contenido", fb_k_other:"Otro", fb_msg:"Tu mensaje…", fb_email:"Tu correo (opcional, si quieres respuesta)", fb_send:"Enviar", fb_ok:"¡Gracias! Tu mensaje se ha enviado.", fb_err:"No se pudo enviar. Inténtalo de nuevo o escríbenos a {addr}.", fb_short:"Escribe un poco más, por favor.", fb_bademail:"Revisa la dirección de correo.", fb_limit:"Hoy ya has enviado varios mensajes. Inténtalo mañana o escríbenos a {addr}.", fb_note:"Solo usamos tu correo para responderte.",
 }
 };
 
@@ -1438,7 +1467,7 @@ Object.assign(I18N.tl,{tap_play:"I-tap ang ▶ sa video para mag-play na may tun
 Object.assign(I18N.th,{tap_play:"แตะ ▶ บนวิดีโอเพื่อเล่นพร้อมเสียง",tap_unmute:"แตะไอคอนลำโพงบนวิดีโอเพื่อเปิดเสียง"});
 Object.assign(I18N.id,{tap_play:"Ketuk ▶ di video untuk memutar dengan suara",tap_unmute:"Ketuk ikon speaker di video untuk suara"});
 Object.assign(I18N.es,{tap_play:"Toca ▶ en el video para reproducir con sonido",tap_unmute:"Toca el ícono del altavoz en el video para activar el sonido"});
-I18N.ja={"ja_badge":"日本語","lang_note":"メニューと動画タイトルは日本語で表示されます（タイトルは自動翻訳）。動画の音声と字幕は元のままなので、日本語字幕のない動画も多くあります。\u0001マークの動画は、日本の公式チャンネルや日本のクリエイターによる日本語の動画です。","share":"シェア","copied":"リンクをコピーしました","lg_terms":"利用規約","lg_privacy":"プライバシーポリシー","lg_mkt":"マーケティング利用の同意","lg_email":"広告メール受信の同意","nav_screen":"ドラマ","nav_beauty":"美容","nav_ent":"バラエティ","tagline":"韓国エンタメを、日本のファンへ毎日お届け","login":"ログイン","signup":"新規登録","mypage":"マイページ","logout":"ログアウト","lang":"言語","search_ph":"アーティスト・番組・俳優で検索","cat_all":"すべて","cat_music":"音楽","cat_drama":"ドラマ","cat_film":"映画","cat_beauty":"ビューティー","cat_mukbang":"Kフード","cat_events":"イベント","kpop":"K-POP","onair":"本日公開","comingup":"近日公開","next14":"今後14日間 · 現地時間","allvideos":"すべての動画","catvideos":"{c}の動画","nvideos":"{n}本の動画","nvideo1":"動画1本","sort_new":"新着順","sort_views":"再生回数順","sort_hot":"急上昇","sort_rel":"関連度順","official_only":"公式・認証チャンネルのみ","showmore":"もっと見る · 残り{n}本","feednote":"動画はYouTubeからリンクしており、投稿者自身のチャンネルで再生されます。再生回数と日付は最終更新時点のものです。","latestpicks":"最新のおすすめ","catpicks":"{c}のおすすめ","titles_count":"{n}作品 · 公式動画{v}本","views":"{n}回視聴","loading":"タイトルを読み込み中","wall_title":"無料登録で全{n}本の動画を視聴","wall_body":"ゲストは最初の{g}本をお試しで見られます。無料アカウントを作ると、すべての動画とマイページが使えます。","wall_btn":"無料アカウントを作成","wall_login":"会員の方はログイン","wall_more":"+ 会員限定あと{n}本","signup_title":"無料アカウントを作成","signup_sub":"すべての動画が見放題。無料です。","login_title":"おかえりなさい","login_sub":"ログインしてすべての動画を見る","name":"名前","email":"メールアドレス","password":"パスワード","pw_hint":"英字と数字を含む8文字以上","agree_all":"任意項目を含め、すべてに同意する","req":"必須","opt":"任意","c_terms":"利用規約に同意します","c_privacy":"個人情報の収集・利用に同意します","c_age":"16歳以上です","c_mkt":"サービスのお知らせや会員特典のために個人情報を利用することに同意します","c_email":"プロモーションメールを受け取る","view":"見る","opt_note":"任意項目は登録に必須ではありません。マイページでいつでも変更できます。","legal_note":"規約などの法的文書は日本語で表示しています（英語版が原文です）。","btn_signup":"アカウントを作成","to_login":"アカウントをお持ちの方はログイン","to_signup":"KREELZは初めてですか？無料で登録","err_req":"必須項目にすべて同意してください。","err_name":"名前を入力してください。","err_email":"正しいメールアドレスを入力してください。","err_pw":"英字と数字を含む8文字以上にしてください。","err_exists":"このメールアドレスはすでに登録されています。ログインしてください。","err_login":"メールアドレスまたはパスワードが正しくありません。","err_crypto":"お使いのブラウザでは安全にアカウントを作成できません。ブラウザを更新してください。","welcome":"{name}さん、ようこそ！すべての動画が見られるようになりました。","welcome_back":"{name}さん、おかえりなさい！","close":"閉じる","agree_btn":"同意する","cancel":"キャンセル","mp_hello":"こんにちは、{name}さん","mp_since":"{d}から会員","mp_unlocked":"全動画見放題 · {n}本","mp_profile":"プロフィール","mp_save":"保存","mp_saved":"保存しました","mp_prefs":"設定","mp_lang":"表示言語","mp_city":"公開時刻の表示地域","mp_consents":"同意事項","mp_agreed":"{d}に同意","mp_changed":"{d}に変更","mp_never":"未同意","mp_account":"アカウント","mp_delete":"アカウントを削除","mp_delete_q":"アカウントとデータを削除しますか？元に戻せません。","mp_delete_yes":"削除する","mp_deleted":"アカウントを削除しました。","tr_offer":"韓国語の動画タイトルを{lang}で表示しますか？","tr_btn":"タイトルを翻訳","tr_link":"翻訳","tr_on":"タイトルはお使いの端末で翻訳されています。","desc_h":"この動画について","tr_auto":"自動翻訳","more":"もっと見る","shorts_h":"ショート","shorts_sub":"公式チャンネルと韓国クリエイターの縦型ショート動画","nshorts":"ショート{n}本","sort_mix":"ミックス","prev":"前へ","next":"次へ","wall_title_s":"無料登録で全{n}本のショートを視聴","upd":"毎日0:00（日本時間）更新 · 最終更新 {d}","new_badge":"NEW","cat_screen":"ドラマ・映画","cat_ent":"バラエティ","nav_ent":"バラエティ","orig_btn":"原題で表示","orig_on":"投稿時のタイトルで表示中（翻訳なし）","orig_off":"翻訳タイトルで表示中","tr_orig":"原題：{t}","out_today":"本日公開","today_at":"今日 {t}","just":"公開されたばかり","tomorrow":"明日","in_days":"{n}日後","new_week":"今週の新作","out_now":"公開中","weekly":"毎週新しい動画","ongoing":"放送中","watch_mv":"MVを見る","watch_trailer":"予告編を見る","watch":"見る","find_mv":"MVを探す","find_trailer":"予告編を探す","find_video":"動画を探す","nothing_today":"{city}では今日の予定はありません。近日公開の作品はこちら。","no_releases":"今後2週間の公開予定はありません。","show_all":"すべて表示（{n}件）","show_less":"閉じる","all_day":"終日","kst_date":"韓国時間の日付","tba":"未定","video_by":"動画：{ch}","no_match":"「{q}」に一致するものはありません。アーティスト名・番組名・俳優名で探してみてください。","no_picks":"まだおすすめはありません。上の{c}の動画をすべてご覧ください。","no_feed_q":"「{q}」に一致する動画はまだ読み込まれていません。リストをスクロールするか、チャンネル名で探してみてください。","no_feed":"まだ動画はありません。","all_official":"公式動画すべて","official_video":"公式動画","open_on":"{p}で開く","via":"{ch}より","no_official":"公式動画はまだありません。公開日にまたチェックしてください。","sh_note":"すべての動画は投稿者自身のチャンネルから再生・リンクしています。ここで再アップロードはしていません。","verified":"認証済み・公式チャンネル","ft1_h":"公式ソース","ft1_p":"動画はYouTube、TikTok、NAVER TVからリンク・埋め込みしています。音楽・ドラマ・映画はレーベル、放送局、認証チャンネルから、ビューティー、旅行、フードはクリエイター本人のチャンネルから。再アップロードは一切していません。","ft2_h":"公開時刻","ft2_p":"韓国の公開時刻は韓国時間（日本時間と同じ）で発表されます。お使いの地域の時刻に合わせて表示し、この端末に記憶します。","ft3_h":"リンクの報告","ft3_p":"リンク切れや非公式のリンクを見つけたら、{addr} までお知らせください。1日以内に修正します。","like":"いいね","cm_title":"コメント","cm_name":"ニックネーム","cm_body":"コメントを追加…","cm_post":"投稿","cm_empty":"まだコメントはありません。最初のコメントをどうぞ！","cm_rules":"コメントは公開されます。思いやりを持って、リンクは貼らないでください。","cm_need":"ニックネームとコメントを入力してください。","cm_nolinks":"コメントにリンクは貼れません。","cm_slow":"コメントの間隔が短すぎます。1分ほどしてから再度お試しください。","cm_err":"問題が発生しました。もう一度お試しください。","cm_del":"削除","tap_play":"動画の▶をタップすると音ありで再生されます","tap_unmute":"動画のスピーカーアイコンをタップすると音が出ます"};
+I18N.ja={"ft4_h": "お問い合わせ", "ft4_p": "KREELZについてのご質問は {addr} までメールでどうぞ。サイトへのご意見や不具合は、こちらから送れます：", "fb_btn": "フィードバックを送る", "fb_title": "フィードバックを送る", "fb_sub": "KREELZの使い心地はいかがですか？いただいたメッセージはすべて読んでいます。", "fb_kind": "種類", "fb_k_feedback": "ご意見・ご感想", "fb_k_bug": "うまく動かない", "fb_k_request": "見たいコンテンツのリクエスト", "fb_k_other": "その他", "fb_msg": "メッセージを入力…", "fb_email": "メールアドレス（任意・返信をご希望の場合）", "fb_send": "送信", "fb_ok": "ありがとうございます！メッセージを送信しました。", "fb_err": "送信できませんでした。もう一度お試しいただくか、{addr} までメールでお送りください。", "fb_short": "もう少し詳しく書いてください。", "fb_bademail": "メールアドレスをご確認ください。", "fb_limit": "本日はすでに何件か送信されています。明日もう一度お試しいただくか、{addr} までメールでお送りください。", "fb_note": "メールアドレスは返信のためだけに使います。","ja_badge":"日本語","lang_note":"メニューと動画タイトルは日本語で表示されます（タイトルは自動翻訳）。動画の音声と字幕は元のままなので、日本語字幕のない動画も多くあります。\u0001マークの動画は、日本の公式チャンネルや日本のクリエイターによる日本語の動画です。","share":"シェア","copied":"リンクをコピーしました","lg_terms":"利用規約","lg_privacy":"プライバシーポリシー","lg_mkt":"マーケティング利用の同意","lg_email":"広告メール受信の同意","nav_screen":"ドラマ","nav_beauty":"美容","nav_ent":"バラエティ","tagline":"韓国エンタメを、日本のファンへ毎日お届け","login":"ログイン","signup":"新規登録","mypage":"マイページ","logout":"ログアウト","lang":"言語","search_ph":"アーティスト・番組・俳優で検索","cat_all":"すべて","cat_music":"音楽","cat_drama":"ドラマ","cat_film":"映画","cat_beauty":"ビューティー","cat_mukbang":"Kフード","cat_events":"イベント","kpop":"K-POP","onair":"本日公開","comingup":"近日公開","next14":"今後14日間 · 現地時間","allvideos":"すべての動画","catvideos":"{c}の動画","nvideos":"{n}本の動画","nvideo1":"動画1本","sort_new":"新着順","sort_views":"再生回数順","sort_hot":"急上昇","sort_rel":"関連度順","official_only":"公式・認証チャンネルのみ","showmore":"もっと見る · 残り{n}本","feednote":"動画はYouTubeからリンクしており、投稿者自身のチャンネルで再生されます。再生回数と日付は最終更新時点のものです。","latestpicks":"最新のおすすめ","catpicks":"{c}のおすすめ","titles_count":"{n}作品 · 公式動画{v}本","views":"{n}回視聴","loading":"タイトルを読み込み中","wall_title":"無料登録で全{n}本の動画を視聴","wall_body":"ゲストは最初の{g}本をお試しで見られます。無料アカウントを作ると、すべての動画とマイページが使えます。","wall_btn":"無料アカウントを作成","wall_login":"会員の方はログイン","wall_more":"+ 会員限定あと{n}本","signup_title":"無料アカウントを作成","signup_sub":"すべての動画が見放題。無料です。","login_title":"おかえりなさい","login_sub":"ログインしてすべての動画を見る","name":"名前","email":"メールアドレス","password":"パスワード","pw_hint":"英字と数字を含む8文字以上","agree_all":"任意項目を含め、すべてに同意する","req":"必須","opt":"任意","c_terms":"利用規約に同意します","c_privacy":"個人情報の収集・利用に同意します","c_age":"16歳以上です","c_mkt":"サービスのお知らせや会員特典のために個人情報を利用することに同意します","c_email":"プロモーションメールを受け取る","view":"見る","opt_note":"任意項目は登録に必須ではありません。マイページでいつでも変更できます。","legal_note":"規約などの法的文書は日本語で表示しています（英語版が原文です）。","btn_signup":"アカウントを作成","to_login":"アカウントをお持ちの方はログイン","to_signup":"KREELZは初めてですか？無料で登録","err_req":"必須項目にすべて同意してください。","err_name":"名前を入力してください。","err_email":"正しいメールアドレスを入力してください。","err_pw":"英字と数字を含む8文字以上にしてください。","err_exists":"このメールアドレスはすでに登録されています。ログインしてください。","err_login":"メールアドレスまたはパスワードが正しくありません。","err_crypto":"お使いのブラウザでは安全にアカウントを作成できません。ブラウザを更新してください。","welcome":"{name}さん、ようこそ！すべての動画が見られるようになりました。","welcome_back":"{name}さん、おかえりなさい！","close":"閉じる","agree_btn":"同意する","cancel":"キャンセル","mp_hello":"こんにちは、{name}さん","mp_since":"{d}から会員","mp_unlocked":"全動画見放題 · {n}本","mp_profile":"プロフィール","mp_save":"保存","mp_saved":"保存しました","mp_prefs":"設定","mp_lang":"表示言語","mp_city":"公開時刻の表示地域","mp_consents":"同意事項","mp_agreed":"{d}に同意","mp_changed":"{d}に変更","mp_never":"未同意","mp_account":"アカウント","mp_delete":"アカウントを削除","mp_delete_q":"アカウントとデータを削除しますか？元に戻せません。","mp_delete_yes":"削除する","mp_deleted":"アカウントを削除しました。","tr_offer":"韓国語の動画タイトルを{lang}で表示しますか？","tr_btn":"タイトルを翻訳","tr_link":"翻訳","tr_on":"タイトルはお使いの端末で翻訳されています。","desc_h":"この動画について","tr_auto":"自動翻訳","more":"もっと見る","shorts_h":"ショート","shorts_sub":"公式チャンネルと韓国クリエイターの縦型ショート動画","nshorts":"ショート{n}本","sort_mix":"ミックス","prev":"前へ","next":"次へ","wall_title_s":"無料登録で全{n}本のショートを視聴","upd":"毎日0:00（日本時間）更新 · 最終更新 {d}","new_badge":"NEW","cat_screen":"ドラマ・映画","cat_ent":"バラエティ","nav_ent":"バラエティ","orig_btn":"原題で表示","orig_on":"投稿時のタイトルで表示中（翻訳なし）","orig_off":"翻訳タイトルで表示中","tr_orig":"原題：{t}","out_today":"本日公開","today_at":"今日 {t}","just":"公開されたばかり","tomorrow":"明日","in_days":"{n}日後","new_week":"今週の新作","out_now":"公開中","weekly":"毎週新しい動画","ongoing":"放送中","watch_mv":"MVを見る","watch_trailer":"予告編を見る","watch":"見る","find_mv":"MVを探す","find_trailer":"予告編を探す","find_video":"動画を探す","nothing_today":"{city}では今日の予定はありません。近日公開の作品はこちら。","no_releases":"今後2週間の公開予定はありません。","show_all":"すべて表示（{n}件）","show_less":"閉じる","all_day":"終日","kst_date":"韓国時間の日付","tba":"未定","video_by":"動画：{ch}","no_match":"「{q}」に一致するものはありません。アーティスト名・番組名・俳優名で探してみてください。","no_picks":"まだおすすめはありません。上の{c}の動画をすべてご覧ください。","no_feed_q":"「{q}」に一致する動画はまだ読み込まれていません。リストをスクロールするか、チャンネル名で探してみてください。","no_feed":"まだ動画はありません。","all_official":"公式動画すべて","official_video":"公式動画","open_on":"{p}で開く","via":"{ch}より","no_official":"公式動画はまだありません。公開日にまたチェックしてください。","sh_note":"すべての動画は投稿者自身のチャンネルから再生・リンクしています。ここで再アップロードはしていません。","verified":"認証済み・公式チャンネル","ft1_h":"公式ソース","ft1_p":"動画はYouTube、TikTok、NAVER TVからリンク・埋め込みしています。音楽・ドラマ・映画はレーベル、放送局、認証チャンネルから、ビューティー、旅行、フードはクリエイター本人のチャンネルから。再アップロードは一切していません。","ft2_h":"公開時刻","ft2_p":"韓国の公開時刻は韓国時間（日本時間と同じ）で発表されます。お使いの地域の時刻に合わせて表示し、この端末に記憶します。","ft3_h":"リンクの報告","ft3_p":"リンク切れや非公式のリンクを見つけたら、{addr} までお知らせください。1日以内に修正します。","like":"いいね","cm_title":"コメント","cm_name":"ニックネーム","cm_body":"コメントを追加…","cm_post":"投稿","cm_empty":"まだコメントはありません。最初のコメントをどうぞ！","cm_rules":"コメントは公開されます。思いやりを持って、リンクは貼らないでください。","cm_need":"ニックネームとコメントを入力してください。","cm_nolinks":"コメントにリンクは貼れません。","cm_slow":"コメントの間隔が短すぎます。1分ほどしてから再度お試しください。","cm_err":"問題が発生しました。もう一度お試しください。","cm_del":"削除","tap_play":"動画の▶をタップすると音ありで再生されます","tap_unmute":"動画のスピーカーアイコンをタップすると音が出ます"};
 const LEGAL_INFO = {
   service:"KREELZ",
   operator:"David Lee",
@@ -2485,6 +2514,28 @@ sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); clearTimeout(spChk
 window.addEventListener("resize",()=>{ const el=$("#spFeed")&&$("#spFeed").querySelector(`[data-i="${spIdx}"]`); if(el) spPlace(el) });
 sp.addEventListener("click",e=>{ if(e.target===sp) sp.close() });
 
+/* ===== Feedback (both editions): a short message to the team, kept in Supabase (table feedback, setup/feedback.sql) and
+   read on the admin page; anyone can send, nobody can read it back from the site ===== */
+const fbDlg=$("#fb");
+$("#fbOpen").addEventListener("click",()=>{ $("#fbMsgOut").textContent=""; $("#fbMsgOut").classList.remove("ok"); fbDlg.showModal(); setTimeout(()=>$("#fbMsg").focus(),50) });
+fbDlg.addEventListener("click",e=>{ if(e.target===fbDlg || e.target.closest("[data-fb-close]")) fbDlg.close() });
+$("#fbForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const out=$("#fbMsgOut"), msg=$("#fbMsg").value.trim(), email=$("#fbEmail").value.trim(), addr="kreelzkorea@gmail.com";
+  out.classList.remove("ok");
+  if(msg.length<2){ out.textContent=t("fb_short"); return }
+  if(email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ out.textContent=t("fb_bademail"); return }
+  if(!SOC_ON){ out.textContent=t("fb_err",{addr}); return }
+  $("#fbSend").disabled=true;
+  try{
+    const r=await fetch(SB_URL+"/rest/v1/feedback",{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+      body:JSON.stringify({kind:$("#fbKind").value, message:msg.slice(0,2000), email:email||null, lang:state.lang, region:REGION, page:(location.pathname+location.search).slice(0,200), visitor:VID||null})});
+    if(r.ok){ out.textContent=t("fb_ok"); out.classList.add("ok"); $("#fbMsg").value=""; setTimeout(()=>{ if(fbDlg.open) fbDlg.close() },1800) }
+    else { const txt=await r.text().catch(()=>""); out.textContent=/too many/.test(txt)?t("fb_limit",{addr}):t("fb_err",{addr}) }
+  }catch(err){ out.textContent=t("fb_err",{addr}) }
+  $("#fbSend").disabled=false;
+});
+
 /* ===== Likes & comments (stored in Supabase; hidden until SB_URL/SB_KEY are set) =====
    Reading needs no sign-in. Liking or commenting signs the browser in anonymously (no account, no e-mail). */
 const SB_URL = "https://fvtvpjsveughnhnfjcef.supabase.co";            // e.g. https://xxxx.supabase.co
@@ -2946,6 +2997,7 @@ function applyStatic(){
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{ el.placeholder=t(el.dataset.i18nPh) });
   document.querySelectorAll("[data-i18n-aria]").forEach(el=>{ el.setAttribute("aria-label",t(el.dataset.i18nAria)) });
   $("#ft3p").innerHTML = esc(t("ft3_p",{addr:"\u0000"})).replace("\u0000",'<span class="addr">kreelzkorea@gmail.com</span>');
+  $("#ft4p").innerHTML = esc(t("ft4_p",{addr:"\u0000"})).replace("\u0000",'<a class="addr" href="mailto:kreelzkorea@gmail.com">kreelzkorea@gmail.com</a>');
   $("#langSel").value = state.lang;
   $("#lgExt").hidden = state.lang!=="ja";
   const ln=$("#langNote"); if(ln){ ln.hidden = REGION!=="jp"; if(REGION==="jp") ln.innerHTML = esc(t("lang_note")).replace("\u0001",`<b>${esc(t("ja_badge"))}</b>`) }
