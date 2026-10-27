@@ -22,6 +22,8 @@ jobs:
         run: |
           set -o pipefail
           node scripts/japan.mjs --check 2>&1 | tee jp_check.log
+          echo "---- konbini (global) ----" >> jp_check.log
+          node scripts/konbini.mjs --check 2>&1 | tee -a jp_check.log
       - name: Save the channel ids
         run: |
           git config user.name "kreelz-bot"

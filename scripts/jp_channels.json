@@ -258,5 +258,19 @@
   ],
   "done": true
  },
- "_note_quota": "Searches cost 100 YouTube API units each and share the nightly quota with the global edition, so only a few run each night (first_run on the first night, then per_night in rotation)."
+ "_note_quota": "Searches cost 100 YouTube API units each and share the nightly quota with the global edition, so only a few run each night (first_run on the first night, then per_night in rotation).",
+ "konbini": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: Japanese shorts of Korean convenience-store finds (drink combos, cup-ramyeon machines, new snacks) and Han River ramyeon / picnics. Added 2026-10-27 (per David).",
+  "first_run": 3,
+  "per_night": 2,
+  "min_views": 20000,
+  "queries": [
+   "韓国 コンビニ グルメ",
+   "韓国コンビニ 飲み物 組み合わせ",
+   "漢江ラーメン",
+   "漢江 ピクニック",
+   "韓国 コンビニ 爆買い",
+   "韓国 コンビニ 新商品"
+  ]
+ }
 }

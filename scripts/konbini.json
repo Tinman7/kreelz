@@ -1,0 +1,20 @@
+{
+ "_note": "K-Food tab (both editions): popular shorts of Korean convenience-store tours and finds — drink combos, cup-ramyeon machines, new snacks — and Han River ramyeon / picnics, from Korean and foreign creators. YouTube searches (100 API units each): first_run on the first night, then per_night in rotation. Added 2026-10-27 (per David).",
+ "first_run": 6,
+ "per_night": 3,
+ "min_views": 50000,
+ "queries": [
+  "korean convenience store food",
+  "편의점 꿀조합",
+  "한강라면",
+  "korea convenience store tour",
+  "편의점 음료 조합",
+  "han river ramyeon",
+  "한강 피크닉",
+  "GS25 CU 신상",
+  "korean convenience store drink",
+  "한강 편의점",
+  "seoul convenience store haul",
+  "편의점 털기"
+ ]
+}
