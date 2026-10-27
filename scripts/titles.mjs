@@ -73,7 +73,7 @@ Rules:
 - Keep emojis, #hashtags, numbers, episode markers like [EP.12] and punctuation style. Keep text already in the target language as it is.
 - Do not add explanations, quotes or extra words. Keep it about as long as the original.
 - Output ONLY a JSON object: {"<key>": {"en": "...", "tl": "...", "th": "...", "id": "...", "es": "..."}, ...} with exactly the keys you were given.`;
-let outTok = 0, inTok = 0, calls = 0, failedBatches = 0;
+let outTok = 0, inTok = 0, calls = 0, failedBatches = 0, logged = 0;
 const SYSTEM_JA = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food, travel) into natural Japanese for Japanese fans.
 Rules:
 - Use the names Japanese fans use: Korean people in katakana with a middle dot between family and given name (차은우 → チャ・ウヌ, 변우석 → ビョン・ウソク); groups and brands in their usual Latin form (BTS, IVE, SEVENTEEN, Olive Young); dramas, films and shows by their official Japanese title when one is widely used (나 혼자 산다 → 私は一人で暮らす, 런닝맨 → ランニングマン), otherwise a natural Japanese rendering.
@@ -90,14 +90,15 @@ async function claude(items, system = SYSTEM) {
         headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
         body: JSON.stringify({ model: MODEL, max_tokens: 16000, system, messages: [{ role: "user", content: user }] }),
       });
-    } catch (e) { await sleep(3000 * (t + 1)); continue; }
-    if (r.status === 429 || r.status >= 500) { await sleep((+(r.headers.get("retry-after") || 0) * 1000) || 4000 * (t + 1)); continue; }
+    } catch (e) { if (logged++ < 8) console.log("fetch failed:", e.message); await sleep(3000 * (t + 1)); continue; }
+    if (r.status === 429 || r.status >= 500) { if (logged++ < 8) console.log("Claude API", r.status, (await r.text().catch(() => "")).slice(0, 300));
+      await sleep((+(r.headers.get("retry-after") || 0) * 1000) || 4000 * (t + 1)); continue; }
     const d = await r.json();
     if (!r.ok) throw new Error("Claude API " + r.status + ": " + JSON.stringify(d.error || d).slice(0, 300));
     calls++; inTok += d.usage?.input_tokens || 0; outTok += d.usage?.output_tokens || 0;
     let txt = (d.content || []).map(c => c.text || "").join("").trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
     const a = txt.indexOf("{"), b = txt.lastIndexOf("}");
-    try { return JSON.parse(txt.slice(a, b + 1)); } catch (e) { if (t >= 1) return null; }
+    try { return JSON.parse(txt.slice(a, b + 1)); } catch (e) { if (logged++ < 8) console.log("unreadable answer:", e.message, txt.slice(0, 300)); if (t >= 1) return null; }
   }
   return null;
 }

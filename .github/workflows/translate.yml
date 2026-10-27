@@ -8,6 +8,9 @@ on:
         default: "ja"
         type: choice
         options: [ja, all]
+      minutes:
+        description: "translation time limit (minutes)"
+        default: "170"
 
 permissions:
   contents: write
@@ -30,10 +33,10 @@ jobs:
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TX_MINUTES: "170"
+          TX_MINUTES: ${{ inputs.minutes }}
           TX_PAR: "10"
           TX_PASSES: ${{ inputs.passes }}
-        run: node scripts/titles.mjs index.html | tee tx.log
+        run: node scripts/titles.mjs index.html 2>&1 | tee tx.log
       - name: Commit and publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,3 +49,12 @@ jobs:
           git pull --rebase -q
           git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+      - name: Log (branch tx-log)
+        if: always()
+        run: |
+          cp tx.log /tmp/tx.log 2>/dev/null || echo "no log" > /tmp/tx.log
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git stash -q -u || true
+          git checkout -q --orphan tx-log && git rm -rfq . && cp /tmp/tx.log tx.log
+          git add tx.log && git commit -qm "translate log" && git push -qf origin tx-log
