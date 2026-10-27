@@ -1,0 +1,27 @@
+name: Probe Naver Clip
+# Diagnostics: fetch Naver Clip search pages (as a browser would) and save them to branch "probe-naver" to see how
+# clips can be found and embedded. No site data.
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "space-separated URLs (default: clip search pages)"
+        default: ""
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p /tmp/p; UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
+          MUA="Mozilla/5.0 (Linux; Android 14; SM-S928N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Mobile Safari/537.36"
+          Q=$(python3 -c "import urllib.parse;print(urllib.parse.quote('아일릿'))")
+          URLS="${{ inputs.urls }}"
+          if [ -z "$URLS" ]; then URLS="https://search.naver.com/search.naver?ssc=tab.clip.all&query=$Q https://m.search.naver.com/search.naver?ssc=tab.m_clip.all&query=$Q https://clip.naver.com/ https://m.naver.com/shorts/"; fi
+          i=0; for u in $URLS; do i=$((i+1)); curl -sL -A "$( [ $((i%2)) = 0 ] && echo "$MUA" || echo "$UA" )" -H "Accept-Language: ko-KR,ko;q=0.9" -o /tmp/p/$i.html -w "$i %{http_code} %{size_download} %{url_effective}\n" "$u" >> /tmp/p/index.txt; done
+          cat /tmp/p/index.txt
+          git config user.name "kreelz-bot"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan probe-naver && git rm -rfq . && cp /tmp/p/* . && git add -A && git commit -qm probe && git push -qf origin probe-naver
