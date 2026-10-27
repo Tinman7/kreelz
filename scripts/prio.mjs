@@ -12,6 +12,8 @@ const JPO = new Set(fs.existsSync("data/jp_only.json") ? JSON.parse(fs.readFileS
 try { for (const c of JSON.parse(fs.readFileSync("scripts/jp_channels.json", "utf8")).channels) {
   const a = c.id && c.artist && JP_ARTISTS.find(x => x[0] === c.artist); if (a && !a[1].includes(c.id)) a[1].push(c.id); } } catch (e) {}
 const jpo = [];
+// kreelz.com/jp K-Travel & Food tab: these channels come first ("어서와 한국은 처음이지 / Welcome, First Time in Korea?", per David 2026-10-27)
+const TRAVEL_FIRST = new Set(["UC4i1qf8CUH93DLSbD9efqig"]), welcome = [];
 // Japan edition: these two dramas go to the very end of every list on /jp (index.html moves PRIO_LAST_JP ids last)
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i, lastJ = [];
 const OTT = /netflix|넷플릭스|tving|티빙|disney ?(plus|\+)|디즈니 ?(플러스|\+)|coupang ?play|쿠팡플레이|wavve|웨이브|prime ?video|watcha|왓챠/i;
@@ -24,6 +26,7 @@ for (const n of ["SHORTS", "FEED"]) {
   for (let i = 0; i + 16 <= s.length; i += 16) {
     const cc = s[i + 11].toLowerCase();
     if (JPO.has(s.slice(i, i + 11))) jpo.push(s.slice(i, i + 11));
+    { const mm = M[s.slice(i, i + 11)]; if (mm && TRAVEL_FIRST.has(mm[1])) welcome.push(s.slice(i, i + 11)); }
     { const m = M[s.slice(i, i + 11)]; if (m && LAST_JP.test(m[0] + " " + (m[5] || []).join(" "))) lastJ.push(s.slice(i, i + 11)); }
     if ("dfe".includes(cc)) { const m = M[s.slice(i, i + 11)]; if (m && ((OTT.test(m[2]) && !OTT_NOT.test(m[2])) || JPO.has(s.slice(i, i + 11)))) ott.push(s.slice(i, i + 11));
       const sc = actorScore(m) || (rank(m) ? 1 : 0);   // priority idols' interviews / TV appearances join the focus pool
@@ -49,4 +52,4 @@ h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);
-console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_last: lastJ.length }));
+console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_travel_first: welcome.length, jp_last: lastJ.length }));

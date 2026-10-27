@@ -130,6 +130,13 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/backfill.mjs ott.json UCNIiH_4ArJNd_cDZApZ7AFg:300 UCiEEF51uRAeZeCo8CJFhGWw:300 UCtdz9LWNNQKUg4Xpma_40Ug:300 UCjn-VbcIkAeXQKCmLJV8YwQ:300 UCpiCK8c6PBktcxq7Az_t4RQ:300 UCym5538xAEEppbridXozfgw:300
 
+      - name: One-time catch-up of "어서와 한국은 처음이지" (first in the /jp K-Travel & Food tab from 2026-10-28)
+        if: steps.day.outputs.skip != '1' && steps.day.outputs.build == '2026-10-28'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/backfill.mjs welcome.json UC4i1qf8CUH93DLSbD9efqig:400
+
       - name: One-time catch-up of SEVENTEEN's official channel (added to the Music priority list on 2026-10-23)
         if: steps.day.outputs.skip != '1' && steps.day.outputs.build == '2026-10-24'
         continue-on-error: true
@@ -152,7 +159,7 @@ jobs:
           grep -q 'const FEED = "' index.next.html
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
-          for extra in fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json twice.json idol_shows.json jp.json konbini.out.json; do
+          for extra in fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json twice.json idol_shows.json jp.json konbini.out.json welcome.json; do
             if [ -s "$extra" ]; then
               python3 scripts/daily_merge.py index.html "$extra" "${{ steps.day.outputs.build }}" index.next.html | tee -a merge.log
               grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
@@ -177,7 +184,7 @@ jobs:
       - name: Statistics for the admin page
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
-        run: node scripts/catalog_stats.mjs index.html daily.json fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json twice.json idol_shows.json jp.json konbini.out.json
+        run: node scripts/catalog_stats.mjs index.html daily.json fans.json ott.json creators.json actors.json actor_fancams.json seventeen.json twice.json idol_shows.json jp.json konbini.out.json welcome.json
 
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'
