@@ -502,10 +502,6 @@ em.op{background:var(--soft);color:var(--muted)}
 
 dialog.sp{background:#0B0C0F;color:#fff;border:0;padding:0;border-radius:18px;width:min(860px,calc(100vw - 32px));max-width:100%;overflow:hidden}
 dialog.sp::backdrop{background:rgba(5,6,8,.82)}
-/* PC, a short prepared on hover: the closed player window is laid out at its real size, in place but fully transparent
-   and behind the page (a player inside a hidden window starts at a tiny quality and buffers again when shown; one moved
-   off-screen is throttled by the browser and took ~20 s to start) */
-dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;opacity:0;pointer-events:none;z-index:-1}
 .sp-in{display:grid;grid-template-columns:auto minmax(0,1fr)}
 .sp-stage{position:relative;height:min(88dvh,860px);aspect-ratio:9/16;background:#000}
 .sp-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -521,7 +517,6 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
 @keyframes spSpin{to{transform:rotate(360deg)}}
 .sp-feed .sp-player{position:absolute;left:0;top:0;width:100%;height:100%;border:0;z-index:1;background:#000;transition:opacity .12s}
 .sp-feed .sp-player.sp-hide{opacity:0;visibility:hidden;pointer-events:none;clip-path:inset(0 0 100% 0)}   /* clip too: Android can draw a video layer through opacity */
-.sp-fixed .sp-player.sp-off{transform:translate(-400%,-50%)!important}   /* Android: the short loading ahead waits outside the screen (the feed clips it) */
 /* iPhone/iPad: no scrolling feed. One fixed screen; swipe up/down swaps the short (WebKit draws iframes in a scrolling
    box late, so a scrolling feed showed the previous short over the next one) */
 .sp-fixed{overflow:hidden;touch-action:none;scroll-snap-type:none}
@@ -2398,26 +2393,23 @@ function spHide(){ if(spPl && !spPl.classList.contains("sp-hide")){ spPl.classLi
 function spShow(){ clearTimeout(spShowT); spWait=false; if(spPl) spPl.classList.remove("sp-hide"); const f=$("#spFeed"); if(f) f.classList.remove("sp-loading") }
 function spCmd(func,args){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:1,channel:"widget"}),"*") }
 function spListen(){ const w=spPl&&spPl.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:1,channel:"widget"}),"*") }
-/* The next short is loaded ahead in a second, muted player; moving on swaps the two players, so the next short starts
-   at once. PC: the second player sits on the next slide (it shows that short's first frame there). Android (fixed
-   screen): it waits off-screen, hidden and clipped, and after the swap stays hidden until it really plays — so it can
-   never be drawn over the short on screen. iPhone/iPad keep one player (Apple only allows sound in the player the user
-   tapped). Skipped on data saver / 2G. */
-const SP_SLOW = (()=>{ try{ const c=navigator.connection; return !!(c && (c.saveData || /2g/.test(c.effectiveType||""))) }catch(e){ return false } })();
-const SP_PRE = !SP_FIX && !IOS && !SP_SLOW;   // phones: one player (2026-10-28: on real Android phones the off-screen second player showed a frozen picture with sound; PC keeps the preload)
+/* PC: the next short is loaded ahead in a second, muted player placed on the next slide (it shows that short's first
+   frame there); moving on swaps the two players, so the next short starts at once. Phones keep one player (Apple only
+   allows sound in the player the user tapped, and Android drew the second player over the first). */
+const SP_PRE = !SP_FIX && !IOS;
 let spNx=null, spNxId="", spNxPrimed=false;
 function nxCmd(func,args){ const w=spNx&&spNx.contentWindow; if(w) w.postMessage(JSON.stringify({event:"command",func,args:args||[],id:2,channel:"widget"}),"*") }
 function spPreNext(){
   if(!SP_PRE || !spPl) return; const f=$("#spFeed"); if(!f) return;
   let j=spIdx+1; while(j<spMax() && sstate.list[j] && sstate.list[j].tt) j++;
-  const v=sstate.list[j], el=SP_FIX ? null : f.querySelector(`[data-i="${j}"]`); if(!v || (!SP_FIX && !el) || v.id===spNxId) return;
+  const v=sstate.list[j], el=f.querySelector(`[data-i="${j}"]`); if(!v || !el || v.id===spNxId) return;
   spNxId=v.id; spNxPrimed=false;
   if(!spNx){
-    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player sp-hide sp-nx${SP_FIX?" sp-off":""}" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
+    f.insertAdjacentHTML("beforeend",`<iframe class="sp-player sp-hide sp-nx" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
     spNx=f.querySelector(".sp-nx");
     spNx.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ const w=spNx&&spNx.contentWindow; if(w) w.postMessage(JSON.stringify({event:"listening",id:2,channel:"widget"}),"*"); if(++n>=6) clearInterval(t) },250) });
-  } else { spNx.classList.add("sp-hide","sp-nx"); if(SP_FIX) spNx.classList.add("sp-off"); nxCmd("mute"); nxCmd("loadVideoById",[{videoId:v.id,startSeconds:0}]) }
-  if(el){ spNx.style.top=el.offsetTop+"px"; spNx.style.height=el.offsetHeight+"px" }
+  } else { spNx.classList.add("sp-hide","sp-nx"); nxCmd("mute"); nxCmd("loadVideoById",[{videoId:v.id,startSeconds:0}]) }
+  spNx.style.top=el.offsetTop+"px"; spNx.style.height=el.offsetHeight+"px";
 }
 window.addEventListener("message",e=>{
   if(spNx && e.source===spNx.contentWindow){   // the player loading the next short: let it buffer, then hold on its first frame
@@ -2426,16 +2418,12 @@ window.addEventListener("message",e=>{
     if(d.event==="onReady"){ nxCmd("addEventListener",["onStateChange"]); nxCmd("mute"); nxCmd("playVideo") }
     const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
     const vid = d.info && d.info.videoData && d.info.videoData.video_id;
-    if(st===1 && !spNxPrimed && (!vid || vid===spNxId)){ spNxPrimed=true; nxCmd("pauseVideo"); if(!SP_FIX) setTimeout(()=>{ if(spNx && spNxPrimed) spNx.classList.remove("sp-hide") },150) }
+    if(st===1 && !spNxPrimed && (!vid || vid===spNxId)){ spNxPrimed=true; nxCmd("pauseVideo"); nxCmd("seekTo",[0,true]); setTimeout(()=>{ if(spNx && spNxPrimed) spNx.classList.remove("sp-hide") },150) }
     return;
   }
   if(!spPl||e.source!==spPl.contentWindow) return;
   let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
   if(!d) return;
-  if(!sp.open){   // prepared on hover (PC): load and hold, muted, until the short is opened (dialog.sp-prep)
-    if(d.event==="onReady") spCmd("addEventListener",["onStateChange"]);
-    const st0 = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
-    if(st0===1) spCmd("pauseVideo"); return }
   if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); if(!IOS){ spCmd("unMute"); spCmd("playVideo") } else if(spSound){ spCmd("unMute"); spCmd("playVideo") } }
   if(d.event==="infoDelivery" && d.info && typeof d.info.muted==="boolean") spMuted=d.info.muted;
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
@@ -2443,7 +2431,7 @@ window.addEventListener("message",e=>{
   const vid = d.info && d.info.videoData && d.info.videoData.video_id;
   if(vid && spCur && vid!==spCur) return;
   if(st!==null){ spState=st; if(st===0){ spCmd("seekTo",[0,true]); spCmd("playVideo") }
-    if(st===1 && SP_PRE) setTimeout(spPreNext,SP_FIX?400:800);   // get the next short ready while this one plays
+    if(st===1 && SP_PRE) setTimeout(spPreNext,600);   // PC: get the next short ready while this one plays
     /* reveal only once the new short is really playing: while buffering (3), Android's player still shows the last frame
        of the previous short. iOS waiting for the tap on ▶ (5 = cued) shows the new short's own play button. */
     if(spWait && (st===1 || (!SP_FIX && st===3) || (IOS && !spSound && st===5))) spShow() }   // desktop: reveal as soon as the new short buffers
@@ -2471,9 +2459,7 @@ function spGestures(){
   if(!SP_FIX || sp.dataset.g) return; sp.dataset.g="1";
   const on=()=>sp.open && $("#spFeed.sp-fixed");
   sp.addEventListener("touchstart",e=>{ if(!on()||e.touches.length>1) return; const t=e.touches[0]; spTx=t.clientX; spTy=t.clientY; spTt=Date.now(); spTon=true },{passive:true});
-  sp.addEventListener("touchmove",e=>{ if(!spTon || !on()) return; if(e.target.closest(".sp-stage,.sp-side")) e.preventDefault();
-    const t=e.touches[0], dx=t.clientX-spTx, dy=t.clientY-spTy;   // a clear swipe moves on at once, before the finger lifts
-    if(Math.abs(dy)>70 && Math.abs(dy)>Math.abs(dx)*1.5){ spTon=false; spGo(dy<0?1:-1) } },{passive:false});
+  sp.addEventListener("touchmove",e=>{ if(spTon && on() && e.target.closest(".sp-stage,.sp-side")) e.preventDefault() },{passive:false});
   sp.addEventListener("touchend",e=>{ if(!spTon||!on()) return; spTon=false;
     const t=e.changedTouches[0], dx=t.clientX-spTx, dy=t.clientY-spTy;
     if(Math.abs(dy)>45 && Math.abs(dy)>Math.abs(dx)*1.2){ spGo(dy<0?1:-1); return }
@@ -2506,18 +2492,11 @@ function spPlay(v,el){
     spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
     spCur=v.id; spState=-1; spPlace(el); spAutoplayCheck(); return;
   }
-  if(SP_PRE && SP_FIX && spNx && spNxId===v.id && spCur!==v.id){   // Android: the next short is loaded off-screen — swap,
-    // keep it hidden (thumbnail + spinner) until it reports playing, which is almost at once since it is buffered
-    spCmd("pauseVideo"); const old=spPl; old.classList.add("sp-hide","sp-nx","sp-off");
-    spPl=spNx; spNx=old; spNxId=""; spNxPrimed=false; spPl.classList.remove("sp-nx","sp-off");
-    spCur=v.id; spState=-1; spWait=true; f.classList.add("sp-loading"); clearTimeout(spShowT); spShowT=setTimeout(spShow,3500);
-    spCmd("unMute"); spCmd("playVideo"); spAutoplayCheck(); return;
-  }
   if(SP_PRE && spNx && spNxId===v.id && spCur!==v.id){   // PC: the next short is already loaded — swap players and play
     spCmd("pauseVideo"); const old=spPl; spPl=spNx; spNx=old; spNxId=""; spNxPrimed=false;
     spNx.classList.add("sp-hide","sp-nx"); spPl.classList.remove("sp-hide","sp-nx");
     spCur=v.id; spState=-1; spWait=false; clearTimeout(spShowT); f.classList.remove("sp-loading"); spPlace(el);
-    spCmd("unMute"); spCmd("playVideo"); spAutoplayCheck(); return;
+    spCmd("seekTo",[0,true]); spCmd("unMute"); spCmd("playVideo"); spAutoplayCheck(); return;
   }
   spPlace(el);
   if(spCur!==v.id){ spCur=v.id; spState=-1; spHide(); spWait=true; f.classList.add("sp-loading"); clearTimeout(spShowT); spShowT=setTimeout(spShow,3500);   // fallback if autoplay is blocked: by then the new short is loaded
@@ -2550,30 +2529,8 @@ function spInfo(){
   $("#spPos").textContent=`${num(spIdx+1)} / ${num(sstate.cap)}`;
   $("#spGate").hidden = ME || spIdx<sstate.cap-1 || sstate.list.length<=sstate.cap;
 }
-/* PC: resting the mouse on a short builds its player (muted, held on its first frame) inside the closed player window,
-   so a click only has to show it and unmute — the slow part (YouTube's player starting up) is already done */
-let spPrepK=-1, spPrepT=0;
-function spPrep(k){
-  if(SP_FIX || !SP_PRE || sp.open || spPrepK===k || !state.embeds) return; const v=sstate.list[k]; if(!v || v.tt) return;
-  spPrepK=k; spIdx=-1; spN=0; spNx=null; spNxId=""; spState=-1; spWait=false; clearTimeout(spShowT);
-  sp.classList.add("sp-prep");
-  $("#spStage").innerHTML='<div class="sp-feed" id="spFeed"></div>'; const f=$("#spFeed"); let h="";
-  for(; spN<Math.min(k+10,spMax()); spN++) h+=spSlide(spN);
-  f.insertAdjacentHTML("beforeend", h + `<iframe class="sp-player" src="https://www.youtube-nocookie.com/embed/${v.id}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&rel=0&hl=${GTCODE[state.lang]}&cc_lang_pref=${GTCODE[state.lang]}${YT_ORIGIN}" ${REFPOL} title="YouTube Shorts" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`);
-  spPl=f.querySelector(".sp-player"); spCur=v.id;
-  const el=f.querySelector(`[data-i="${k}"]`); if(el){ f.scrollTop=el.offsetTop; spPlace(el) }
-  spPl.addEventListener("load",()=>{ let n=0; const t=setInterval(()=>{ spListen(); if(++n>=6) clearInterval(t) },250) });
-}
 function spOpen(k){
-  const prep = !SP_FIX && spPrepK===k && spPl && $("#spFeed"); spPrepK=-1;
-  if(prep){ spIdx=-1; spState=-1; spWait=false; clearTimeout(spShowT);
-    if(spIO) spIO.disconnect();
-    spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
-    $("#spFeed").querySelectorAll(".sp-slide").forEach(el=>{ el.dataset.o="1"; spIO.observe(el) });
-    sp.classList.remove("sp-prep"); if(!sp.open) sp.showModal(); spScrollWatch(); ttThumbFill($("#spFeed"));
-    const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
-    spActivate(k); spCmd("addEventListener",["onStateChange"]); spCmd("unMute"); spCmd("playVideo"); spAutoplayCheck(); spFill(k+10); return }
-  spIdx=-1; spN=0; spPl=null; spNx=null; spNxId=""; spCur=""; spState=-1; spWait=false; clearTimeout(spShowT); sp.classList.remove("sp-prep");
+  spIdx=-1; spN=0; spPl=null; spNx=null; spNxId=""; spCur=""; spState=-1; spWait=false; clearTimeout(spShowT);
   if(SP_FIX){
     if(spIO) spIO.disconnect();
     $("#spStage").innerHTML='<div class="sp-feed sp-fixed" id="spFeed"><div class="sp-swipe" hidden></div></div>';
@@ -2584,28 +2541,20 @@ function spOpen(k){
   if(spIO) spIO.disconnect();
   spIO=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && e.intersectionRatio>=0.6) spActivate(+e.target.dataset.i) }) },{root:$("#spFeed"),threshold:[0.6]});
   if(!sp.open) sp.showModal();
-  spScrollWatch();
+  let spT=0, spY=0; $("#spFeed").addEventListener("scroll",e=>{ const f=e.target;
+    if(Math.abs(f.scrollTop-spY)>8) spHide();      // a real swipe, not a 1-px settle
+    clearTimeout(spT); spT=setTimeout(()=>{ const H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); spY=f.scrollTop;
+      if(Math.abs(f.scrollTop-i*H)<H*0.4){ if(i===spIdx && !spWait && !(sstate.list[i]||{}).tt){ spShow(); spCmd("playVideo") } else spActivate(i) } },140) },{passive:true});
   spFill(k+10);
   const el=$("#spFeed").querySelector(`[data-i="${k}"]`); if(el) $("#spFeed").scrollTop=el.offsetTop;
   spActivate(k);
-}
-let spJump=0;
-function spScrollWatch(){
-  let spT=0, spY=0, paused=false; $("#spFeed").addEventListener("scroll",e=>{ const f=e.target;
-    // a real swipe, not a 1-px settle: the short on screen pauses and scrolls away with its slide (the player sits in the
-    // slide's place inside the scroller, so it cannot cover the next one)
-    if(Math.abs(f.scrollTop-spY)>8 && !paused && Date.now()-spJump>500){ paused=true; spCmd("pauseVideo") }   // not for a button / key jump: that one already plays
-    clearTimeout(spT); spT=setTimeout(()=>{ const H=f.clientHeight||1; const i=Math.round(f.scrollTop/H); spY=f.scrollTop; paused=false;
-      if(Math.abs(f.scrollTop-i*H)<H*0.4){ if(i===spIdx && !spWait && !(sstate.list[i]||{}).tt){ spShow(); spCmd("playVideo") } else spActivate(i) } },140) },{passive:true});
 }
 function spGo(d){
   const n=spIdx+d; if(n<0||n>=spMax()) return;
   if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
-  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el){ spJump=Date.now(); $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"}); spActivate(n) }   // start it now, not on the next scroll check
+  const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el) $("#spFeed").scrollTo({top:el.offsetTop,behavior:"smooth"});
 }
-$("#sgrid").addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const a=e.target.closest("[data-sv]"); if(!a) return;
-  clearTimeout(spPrepT); const k=+a.dataset.sv; spPrepT=setTimeout(()=>spPrep(k),150) },{passive:true});
 $("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; if(!state.embeds) return; e.preventDefault(); spOpen(+a.dataset.sv) });
 /* Share: the KREELZ link of this short (kreelz.com/?s=<id>, /jp/ on the Japan edition), so friends land on the site */
 $("#spShare").addEventListener("click",async()=>{
@@ -2642,7 +2591,7 @@ $("#spShare").addEventListener("click",async()=>{
 $("#spPrev").addEventListener("click",()=>spGo(-1));
 $("#spNext").addEventListener("click",()=>spGo(1));
 sp.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();spGo(1)} if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();spGo(-1)} });
-sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); clearTimeout(spChk); $("#spStage").innerHTML=""; spPl=null; spNx=null; spNxId=""; spCur=""; spIdx=-1; spPrepK=-1 });
+sp.addEventListener("close",()=>{ if(spIO) spIO.disconnect(); clearTimeout(spChk); $("#spStage").innerHTML=""; spPl=null; spNx=null; spNxId=""; spCur=""; spIdx=-1 });
 window.addEventListener("resize",()=>{ const el=$("#spFeed")&&$("#spFeed").querySelector(`[data-i="${spIdx}"]`); if(el) spPlace(el) });
 sp.addEventListener("click",e=>{ if(e.target===sp) sp.close() });
 
