@@ -2293,11 +2293,11 @@ NCLIP.forEach(([mid,c,title,ch,views,up,img,ok])=>{ const cat=FCAT[c]; if(!cat||
   SV.push({id,vid:mid,tt:"nc",nc:true,thumb:img||"",cat,ok:!!ok,views:+views||0,days:liveDays(up),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 });
 /* NAVER's clip viewer starts muted; in embed mode it takes "shorts-viewer.action.mute" from the page (per David
    2026-10-28: clips play with sound). It is sent once the viewer reports in, until it says it is unmuted. */
-const ncUnmuted=new Set();
+const ncUnmuted=new WeakSet();   // per viewer window
 window.addEventListener("message",e=>{ const d=e.data; if(!d || typeof d!=="object" || typeof d.messageType!=="string" || !d.messageType.startsWith("shorts-viewer.event.")) return;
   const tid=String(d.targetId||""); if(!tid.startsWith("kz-") || !e.source) return;
-  if(d.messageType==="shorts-viewer.event.mute" && d.payload && d.payload.muted===false){ ncUnmuted.add(tid); return }
-  if(ncUnmuted.has(tid)) return;
+  if(d.messageType==="shorts-viewer.event.mute" && d.payload && d.payload.muted===false){ ncUnmuted.add(e.source); return }
+  if(ncUnmuted.has(e.source)) return;
   e.source.postMessage({messageType:"shorts-viewer.action.mute", targetId:tid, payload:{muted:false}}, "*") });
 const ncURL = v => `https://m.naver.com/shorts/?serviceType=CLIP&mediaType=VOD&seedMediaId=${v.vid}`;
 const ttURL = v => v.nc ? ncURL(v) : `https://www.tiktok.com/${v.tt}`;
