@@ -3,11 +3,14 @@
 // usage: YT_API_KEY=... node scripts/konbini.mjs konbini.out.json      (config: scripts/konbini.json)
 import fs from "node:fs"; import zlib from "node:zlib";
 import { hasThumb } from "./thumbs.mjs";
-import { ARTISTS, EXTRA_MALE } from "./hybe.mjs";
+import { ARTISTS, EXTRA_MALE, JP_ARTISTS, rank, rankIn } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");   // show what would be taken; writes nothing, 2 searches
 const HOT_ONLY = process.argv.includes("--hot");   // only the "hot" groups (a viral moment, run at once when asked)
-const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "konbini.out.json";
+// --live <file>: write the finds to live.js (shown by the page at once, both editions) instead of the site data — no
+// change to index.html / data / config, so it never collides with a nightly refresh that is already running
+const LIVE_AT = process.argv.indexOf("--live"), LIVE_F = LIVE_AT > 0 ? process.argv[LIVE_AT + 1] : "";
+const outPath = process.argv.slice(2).find((a, i, A) => !a.startsWith("--") && A[i - 1] !== "--live") || "konbini.out.json";
 const CFG = "scripts/konbini.json", VMETA = "data/vmeta.json.gz";
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
 let used = 0;
@@ -87,7 +90,7 @@ for (let i = 0; i < ids.length; i += 50) {
     if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
     if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
     vmeta[v.id] = meta;
-    cand.push({ g: g.name, cat: g.cat, id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
+    cand.push({ g: g.name, cat: g.cat, meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
 const good = new Set(), q = cand.map(c => c.id);
@@ -95,7 +98,15 @@ await Promise.all(Array.from({ length: 16 }, async () => { while (q.length) { co
 for (const c of cand) { if (!good.has(c.id)) continue;
   const k = c.cat || "k";
   if (c.short) out.shorts[c.id] = [k, c.views, 0, c.days]; else out.videos[c.id] = [k, c.views, c.days, 0]; }
-if (!CHECK) {
+if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/jp), title, channel]
+  const old = (() => { try { return JSON.parse(fs.readFileSync(LIVE_F, "utf8").replace(/^window\.LIVE=/, "").replace(/;\s*$/, "")) } catch (e) { return { v: [], s: [] } } })();
+  const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
+  for (const c of cand) { if (!good.has(c.id)) continue;
+    keep.set(c.id, [c.id, c.cat || "k", c.views, c.up, rank(c.meta) || 0, rankIn(JP_ARTISTS, c.meta) || 0, c.meta[0].slice(0, 150), c.meta[2], c.short ? 1 : 0]); }
+  const all = [...keep.values()].filter(x => Date.now() - Date.parse(x[3]) < 14 * DAY);
+  const L = { built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]) };
+  fs.writeFileSync(LIVE_F, "window.LIVE=" + JSON.stringify(L) + ";\n");
+} else if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(outPath, JSON.stringify(out));
   for (const g of groups) if (g.ran) { g.done = true; delete g.ran; } fs.writeFileSync(CFG, JSON.stringify(cfg.groups ? cfg : groups[0], null, 1) + "\n");

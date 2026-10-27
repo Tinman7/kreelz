@@ -1,0 +1,38 @@
+# During the day: the "hot" groups of scripts/konbini.json (a viral moment David points at) are searched now and the
+# finds written to live.js, which the page (both editions) shows at once. Touches nothing the nightly refresh writes,
+# so it can run while a nightly run is waiting for midnight; that refresh then takes the finds into the site data.
+name: Live clips now
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: live
+  cancel-in-progress: false
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Search the hot groups, write live.js
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/konbini.mjs --hot --live live.js | tee live.log
+      - name: Publish live.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add live.js
+          git commit -m "Live clips: $(node -e 'const s=require("fs").readFileSync("live.js","utf8");const L=JSON.parse(s.slice(12,-2));console.log(L.v.length+" videos, "+L.s.length+" shorts")')" || echo "nothing new"
+          git pull --rebase -q && git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          tail -30 live.log
