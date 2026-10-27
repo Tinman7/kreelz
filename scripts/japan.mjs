@@ -72,9 +72,10 @@ for (const c of cfg.channels) {
 //   beauty — Beauty tab: Olive Young shopping and Korean cosmetics, as Japanese fans watch them
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
 const BE = cfg.beauty || { queries: [] }, BEAUTY = { name: "Olive Young / Korean cosmetics (search)", cat: "beauty", search: true };
-async function searchGroup(G, tag, days) {
-  const L = G.queries || []; if (!L.length) return;
-  const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length);
+async function searchGroup(G, tag, days, limit = Infinity) {
+  const L = G.queries || []; if (!L.length || limit <= 0) return 0;
+  const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length, limit);
+  G.ran = true;
   const start = G.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;   // the first night takes the top of the list
   const qs = Array.from({ length: n }, (_, i) => L[(start + i) % L.length]);
   const since = new Date(Date.now() - (G.done ? days[1] : days[0]) * DAY).toISOString();
@@ -85,13 +86,17 @@ async function searchGroup(G, tag, days) {
     for (const x of d.items || []) if (x.id?.videoId && !chOf[x.id.videoId]) { chOf[x.id.videoId] = tag; got++; } } }
   catch (e) { console.log(tag.name, "search stopped:", e.message); }
   console.log(tag.name, JSON.stringify(qs), "found", got);
+  return n;
 }
-await searchGroup(TR, TRAVEL, [365, 60]);
-await searchGroup(BE, BEAUTY, [180, 30]);
 const KB = cfg.konbini || { queries: [] };   // convenience stores and the Han River: same tab and checks as travel & food
-await searchGroup(KB, TRAVEL, [365, 60]);
-const PG = cfg.pilgrimage || { queries: [] };   // idols' places in Korea (聖地巡礼): same tab and checks as travel & food
-await searchGroup(PG, TRAVEL, [365, 60]);
+const PG = cfg.pilgrimage || { queries: [] };   // idols' places in Korea (聖地巡礼)
+const HG = cfg.heritage || { queries: [] }, BG = cfg.busan_jp || { queries: [] };   // traditional Seoul, Busan
+// These searches share the nightly YouTube quota with the global edition: at most JP_SEARCHES a night, the groups
+// taking turns (a group that did not get a turn keeps its first-run size for a later night).
+{ const G = [[TR, TRAVEL, [365, 60]], [BE, BEAUTY, [180, 30]], [KB, TRAVEL, [365, 60]], [PG, TRAVEL, [365, 60]], [HG, TRAVEL, [365, 60]], [BG, TRAVEL, [365, 60]]];
+  let budget = +(process.env.JP_SEARCHES || 6);
+  const off = Math.floor(Date.now() / DAY) % G.length;
+  for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
 // Ranked actors (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes, fan meetings,
 // visits to Japan / events / fancams and fan-made videos. Actor and kind both rotate (22 actors x 7 kinds, coprime), so every
 // night covers different actors and a mix of kinds; the top of the ranking comes first on the first night.
@@ -158,8 +163,8 @@ const cat = v => {
   return "d";
 };
 const KANA = /[ぁ-んァ-ヶ]/;
-const KPLACE = /韓国|ソウル|漢江|ハンガン|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|慶州|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
-const TRAVELW = /旅行|旅|vlog|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
+const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|慶州|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
+const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
 const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
@@ -207,10 +212,12 @@ console.log(report);
 if (CHECK) fs.writeFileSync("jp_check.txt", report + "\n");
 if (!CHECK) {
   for (const c of cfg.channels) if (c.id) c.done = true;
-  if (cfg.travel) cfg.travel.done = true;
-  if (cfg.beauty) cfg.beauty.done = true;
-  if (cfg.konbini) cfg.konbini.done = true;
-  if (cfg.pilgrimage) cfg.pilgrimage.done = true;
+  if (cfg.travel && cfg.travel.ran) { cfg.travel.done = true; delete cfg.travel.ran; }
+  if (cfg.beauty && cfg.beauty.ran) { cfg.beauty.done = true; delete cfg.beauty.ran; }
+  if (cfg.konbini && cfg.konbini.ran) { cfg.konbini.done = true; delete cfg.konbini.ran; }
+  if (cfg.pilgrimage && cfg.pilgrimage.ran) { cfg.pilgrimage.done = true; delete cfg.pilgrimage.ran; }
+  if (cfg.heritage && cfg.heritage.ran) { cfg.heritage.done = true; delete cfg.heritage.ran; }
+  if (cfg.busan_jp && cfg.busan_jp.ran) { cfg.busan_jp.done = true; delete cfg.busan_jp.ran; }
   if (cfg.fans) cfg.fans.done = true;
   if (cfg.actors) cfg.actors.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");

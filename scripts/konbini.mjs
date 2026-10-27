@@ -24,9 +24,13 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 const groups = cfg.groups || [{ ...cfg, name: "konbini", topic: "konbini" }];
 const found = new Map(), asked = [];   // id -> group
-try { for (const g of groups) {
+// these searches share the nightly YouTube quota: at most KF_SEARCHES a night, the groups taking turns
+let budget = +(process.env.KF_SEARCHES || 5);
+const off = Math.floor(Date.now() / DAY) % Math.max(1, groups.length);
+try { for (let gi = 0; gi < groups.length && budget > 0; gi++) { const g = groups[(off + gi) % groups.length];
   const L = g.queries || []; if (!L.length) continue;
-  const n = Math.min(CHECK ? 2 : g.done ? (g.per_night || 3) : (g.first_run || 6), L.length);
+  const n = Math.min(CHECK ? 2 : g.done ? (g.per_night || 3) : (g.first_run || 6), L.length, budget);
+  budget -= n; g.ran = true;
   const start = g.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;
   const since = new Date(Date.now() - (g.done ? 60 : 365) * DAY).toISOString();
   for (let i = 0; i < n; i++) { const q = L[(start + i) % L.length]; asked.push(q);
@@ -45,7 +49,15 @@ const KOREA = /[가-힣]|korea|seoul|busan|한국|서울/i;
 // pilgrimage: fans at an idol's (or a drama's) filming location, or at a restaurant / cafe the idols went to
 const PILGRIM = /성지순례|pilgrimage|filming (location|spot)s?|촬영지|촬영 ?장소|단골|다녀간|갔던|방문한|visited|went to|favou?rite (restaurant|cafe|spot|place)|(restaurant|cafe|spot|place)s? (of|by|where)|where .{0,25}(ate|eat|went|filmed)|성지|뮤비 ?촬영/i;
 const IDOL = t => /kpop|k-pop|idol|아이돌|케이팝|k-?drama|드라마/i.test(t) || [...ARTISTS, ...EXTRA_MALE].some(a => a[2].test(t));
-const onTopic = (g, text) => g.topic === "pilgrimage" ? PILGRIM.test(text) && IDOL(text) : TOPIC.test(text);
+// traditional Seoul and Busan: the place named, and a visit / tour / food / cafe / hanbok angle (not a drama scene or a stage)
+const HERITAGE = /경복궁|창덕궁|덕수궁|창경궁|고궁|궁궐|palace|gyeongbok|changdeok|deoksu|북촌|bukchon|서촌|seochon|부암동|buam|익선동|ikseon|인사동|insadong|종로|jongno|포차|pocha|한옥|hanok|한복|hanbok/i;
+const BUSAN = /부산|busan|해운대|haeundae|광안리|gwangalli|감천|gamcheon|흰여울|huinnyeoul|자갈치|jagalchi|남포|nampo|해동용궁사|haedong|송도|songdo|전포|jeonpo|서면|seomyeon|영도|yeongdo|기장|gijang|깡통시장|kkangtong|국제시장|gukje|블루라인|blueline|스카이캡슐|sky ?capsule|밀락|millac/i;
+const VISIT = /체험|투어|tour|vlog|브이로그|여행|travel|trip|맛집|카페|cafe|café|food|먹|eat|대여|rental|rent|헤어|hair|산책|walk|가이드|guide|추천|things to do|코스|시장|market|야경|night|드론쇼|drone|구경|방문|visit|explor|첫 ?방문|first time/i;
+const NOT_PLACE = /\bmv\b|m\/v|직캠|fancam|무대|stage|드라마 ?(리뷰|결말)|ep\.? ?\d|회차|예고|teaser|trailer/i;
+const onTopic = (g, text) => g.topic === "pilgrimage" ? PILGRIM.test(text) && IDOL(text)
+  : g.topic === "heritage" ? HERITAGE.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
+  : g.topic === "busan" ? BUSAN.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
+  : TOPIC.test(text);
 const NOT = /full ?(ver|version|episode)|풀버전|\bmv\b|m\/v|music video|뉴스|news|사건|사고|lyrics?|가사|playlist/i;
 const out = { videos: {}, shorts: {} }, cand = [];
 for (let i = 0; i < ids.length; i += 50) {
@@ -68,7 +80,7 @@ for (const c of cand) { if (!good.has(c.id)) continue;
 if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(outPath, JSON.stringify(out));
-  for (const g of groups) g.done = true; fs.writeFileSync(CFG, JSON.stringify(cfg.groups ? cfg : groups[0], null, 1) + "\n");
+  for (const g of groups) if (g.ran) { g.done = true; delete g.ran; } fs.writeFileSync(CFG, JSON.stringify(cfg.groups ? cfg : groups[0], null, 1) + "\n");
 }
 console.log(cand.filter(c => good.has(c.id)).sort((x, y) => x.g < y.g ? -1 : 1).slice(0, CHECK ? 40 : 12).map(c => `  [${c.g}] ${c.short ? "short" : "video"} ${c.views} ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ searches: qs, found: found.size, new: ids.length, videos: Object.keys(out.videos).length, shorts: Object.keys(out.shorts).length, quota_used: used }));

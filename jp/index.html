@@ -1631,7 +1631,8 @@ function pickLang(){
 window.ssTh=function(img,err){if(!err&&img.naturalWidth>120)return;var a=img.getAttribute("data-alt");if(a){img.removeAttribute("data-alt");img.src=a;return}var c=img.closest(".sv,.fv");if(c)c.remove();else img.remove()};
 const state = {cat:"all", q:"", tz: (()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"Asia/Seoul"}catch(e){return "Asia/Seoul"}})(), embeds:false, lang:pickLang()};
 /* kreelz.com/jp: the K-Food tab is "K-Travel & Food" (Korea trips, cafes, street food and markets for Japanese fans) */
-const REGION_TXT = REGION==="jp" ? {cat_mukbang:{ja:"Kトラベル＆フード",en:"K-Travel & Food",tl:"K-Travel & Food",th:"K-Travel & Food",id:"K-Travel & Food",es:"K-Viajes y comida"}} : {};
+/* both editions since 2026-10-27: the tab also holds trips, traditional Seoul, Busan and idols' places */
+const REGION_TXT = {cat_mukbang:{ja:"Kトラベル＆フード",en:"K-Travel & Food",tl:"K-Travel & Food",th:"K-Travel & Food",id:"K-Travel & Food",es:"K-Viajes y comida"}};
 function t(k,v){
   let s=REGION_TXT[k]&&(REGION_TXT[k][state.lang]||REGION_TXT[k].en);
   if(s==null) s=I18N[state.lang]&&I18N[state.lang][k]; if(s==null) s=I18N.en[k]; if(s==null) return k;

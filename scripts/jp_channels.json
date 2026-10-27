@@ -288,5 +288,41 @@
    "韓国ドラマ ロケ地 ソウル",
    "SEVENTEEN 聖地巡礼"
   ]
+ },
+ "heritage": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: traditional Seoul for Japanese visitors — palaces, Bukchon / Seochon / Buam-dong / Ikseon-dong, Jongno pojangmacha, hanbok rental with hair styling, hanbok shopping, nearby cafes and restaurants. Added 2026-10-27 (per David).",
+  "first_run": 3,
+  "per_night": 2,
+  "min_views": 20000,
+  "queries": [
+   "景福宮 韓服 レンタル",
+   "韓服 ヘアセット",
+   "北村韓屋村 散策",
+   "西村 カフェ ソウル",
+   "益善洞 カフェ",
+   "鍾路 ポジャンマチャ",
+   "付岩洞 カフェ",
+   "仁寺洞 グルメ",
+   "韓服 体験 ソウル vlog",
+   "昌徳宮"
+  ]
+ },
+ "busan_jp": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: Busan spots, markets, restaurants, cafes and tours (Haeundae Blueline Park, Gwangalli drone show, Gamcheon, Huinnyeoul, Jagalchi, Nampo street food, Haedong Yonggungsa, Jeonpo cafes, Yeongdo). Added 2026-10-27 (per David).",
+  "first_run": 3,
+  "per_night": 2,
+  "min_views": 20000,
+  "queries": [
+   "釜山旅行 vlog",
+   "海雲台 ブルーラインパーク",
+   "広安里 ドローンショー",
+   "甘川文化村",
+   "チャガルチ市場",
+   "釜山 カフェ巡り",
+   "南浦洞 屋台",
+   "白瀬文化村 カフェ",
+   "海東龍宮寺",
+   "田浦 カフェ通り"
+  ]
  }
 }

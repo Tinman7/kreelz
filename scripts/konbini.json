@@ -42,6 +42,52 @@
     "BTS filming locations",
     "SEVENTEEN 단골 맛집"
    ]
+  },
+  {
+   "name": "heritage",
+   "topic": "heritage",
+   "first_run": 4,
+   "per_night": 2,
+   "min_views": 30000,
+   "_note": "Traditional Seoul (both editions): palaces, Bukchon / Seochon / Buam-dong / Ikseon-dong / Insadong, Jongno pojangmacha, hanbok rental with hair styling and hanbok shopping, and nearby cafes and restaurants. Hanbok-wearing palace visitors rose from 0.54M (2022) to 2.0M (2024), +268% (Korea Heritage Service, Hankyung 2025-11-23). Added 2026-10-27 (per David).",
+   "queries": [
+    "gyeongbokgung hanbok experience",
+    "경복궁 한복 체험",
+    "bukchon hanok village vlog",
+    "서촌 맛집 카페",
+    "hanbok rental hair styling seoul",
+    "익선동 카페",
+    "종로 포차 거리",
+    "부암동 카페",
+    "insadong things to do",
+    "한복 헤어 스타일링",
+    "seochon seoul walk",
+    "changdeokgung palace tour"
+   ]
+  },
+  {
+   "name": "busan",
+   "topic": "busan",
+   "first_run": 4,
+   "per_night": 2,
+   "min_views": 30000,
+   "_note": "Busan (both editions): the spots, markets, restaurants, cafes and tours foreign visitors favour — Haeundae (Blueline Park sky capsule), Gwangalli drone show, Gamcheon and Huinnyeoul villages, Jagalchi / Gukje / Kkangtong markets, Nampo-BIFF street food, Haedong Yonggungsa, Jeonpo cafe street, Yeongdo cafes, Millac The Market. Busan had 2.42M foreign visitors in H1 2026 (+43.9%); nearly 60% planned to shop at traditional markets (Korea Times 2026-08-01, Stars and Stripes). Added 2026-10-27 (per David).",
+   "queries": [
+    "busan travel vlog",
+    "부산 여행 브이로그",
+    "haeundae blueline park sky capsule",
+    "광안리 드론쇼",
+    "gamcheon culture village",
+    "부산 맛집 추천",
+    "jagalchi market food",
+    "부산 카페 투어",
+    "busan street food nampo",
+    "흰여울문화마을",
+    "haedong yonggungsa",
+    "전포 카페거리",
+    "busan night market kkangtong",
+    "영도 카페"
+   ]
   }
  ]
 }
