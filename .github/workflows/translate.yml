@@ -36,7 +36,9 @@ jobs:
           TX_MINUTES: ${{ inputs.minutes }}
           TX_PAR: "10"
           TX_PASSES: ${{ inputs.passes }}
-        run: node scripts/titles.mjs index.html 2>&1 | tee tx.log
+        run: |
+          set -o pipefail
+          node scripts/titles.mjs index.html 2>&1 | tee tx.log
       - name: Commit and publish
         env:
           GH_TOKEN: ${{ github.token }}
