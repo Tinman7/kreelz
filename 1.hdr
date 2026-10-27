@@ -1,0 +1,14 @@
+HTTP/2 200 
+content-type: application/javascript; charset=utf-8
+strict-transport-security: max-age=63072000
+access-control-allow-origin: https://m.naver.com
+access-control-allow-credentials: true
+last-modified: Thu, 22 Oct 2026 10:06:57 GMT
+referrer-policy: unsafe-url
+x-protocol: https
+referrer-policy: unsafe-url
+server: nfront
+cache-control: public, max-age=126782
+expires: Thu, 29 Oct 2026 10:21:01 GMT
+date: Tue, 27 Oct 2026 23:07:59 GMT
+
