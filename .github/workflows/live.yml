@@ -24,7 +24,7 @@ jobs:
       - name: Search the hot groups, write live.js
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node scripts/konbini.mjs --hot --live live.js | tee live.log
+        run: node scripts/konbini.mjs --hot --live live.js 2>&1 | tee live.log
       - name: Publish live.js
         env:
           GH_TOKEN: ${{ github.token }}
@@ -36,3 +36,9 @@ jobs:
           git pull --rebase -q && git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
           tail -30 live.log
+      - name: Log (branch live-log)
+        if: always()
+        run: |
+          cp live.log /tmp/live.log 2>/dev/null || true
+          git checkout -q --orphan live-log && git rm -rfq . && cp /tmp/live.log . 2>/dev/null || true
+          git add -A && git commit -qm "live log" && git push -qf origin live-log
