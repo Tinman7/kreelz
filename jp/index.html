@@ -850,7 +850,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
 
 <div class="toast" id="toast" role="status" hidden></div>
 
-<script src="/live.js"></script><!-- videos added during the day (a viral moment), before the next nightly refresh; may be absent -->
+<script>document.write('<script src="/live.js?t='+Math.floor(Date.now()/3e5)+'"><\/script>')</script><!-- videos added during the day (a viral moment), before the next nightly refresh; may be absent; the 5-minute key keeps caches from serving an old copy -->
 <script>
 /* ===== CONTENT — edit this list daily. Times are KST (+09:00). =====
    cat: music | drama | film | events | mukbang
