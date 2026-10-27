@@ -2292,6 +2292,14 @@ const NCLIP=(window.NCLIP&&Array.isArray(window.NCLIP.items))?window.NCLIP.items
 NCLIP.forEach(([mid,c,title,ch,views,up,img,ok])=>{ const cat=FCAT[c]; if(!cat||!mid) return; const id="nc:"+mid;
   meta[id]={t:title||"NAVER Clip",ch:ch||""};
   SV.push({id,vid:mid,tt:"nc",nc:true,thumb:img||"",cat,ok:!!ok,views:+views||0,days:liveDays(up),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 });
+/* NAVER's clip viewer starts muted; in embed mode it takes "shorts-viewer.action.mute" from the page (per David
+   2026-10-28: clips play with sound). It is sent once the viewer reports in, until it says it is unmuted. */
+const ncUnmuted=new Set();
+window.addEventListener("message",e=>{ const d=e.data; if(!d || typeof d!=="object" || typeof d.messageType!=="string" || !d.messageType.startsWith("shorts-viewer.event.")) return;
+  const tid=String(d.targetId||""); if(!tid.startsWith("kz-") || !e.source) return;
+  if(d.messageType==="shorts-viewer.event.mute" && d.payload && d.payload.muted===false){ ncUnmuted.add(tid); return }
+  if(ncUnmuted.has(tid)) return;
+  e.source.postMessage({messageType:"shorts-viewer.action.mute", targetId:tid, payload:{muted:false}}, "*") });
 const ncURL = v => `https://m.naver.com/shorts/?serviceType=CLIP&mediaType=VOD&seedMediaId=${v.vid}`;
 const ttURL = v => v.nc ? ncURL(v) : `https://www.tiktok.com/${v.tt}`;
 /* TikTok thumbnails expire: the nightly refresh brings a fresh one; if it no longer loads, ask TikTok's oEmbed */
@@ -2496,7 +2504,7 @@ function spPlay(v,el){
   if(v.tt){   // TikTok: its own player inside the slide; the YouTube player waits, paused and hidden
     clearTimeout(spChk); f.querySelectorAll(".tapsound").forEach(x=>x.remove()); f.classList.remove("sp-loading");
     if(spPl){ spCmd("pauseVideo"); spPl.style.display="none" }
-    if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",v.nc ? `<iframe class="sp-tt" src="${ncURL(v)}&embed=true" ${REFPOL} title="NAVER Clip" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
+    if(!el.querySelector(".sp-tt")) el.insertAdjacentHTML("beforeend",v.nc ? `<iframe class="sp-tt" src="${ncURL(v)}&embed=true&sdkTargetId=kz-${v.vid}" ${REFPOL} title="NAVER Clip" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>` : `<iframe class="sp-tt" src="https://www.tiktok.com/player/v1/${v.vid}?autoplay=1&loop=1&music_info=1&description=1&rel=0" ${REFPOL} title="TikTok" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
     spCur=v.id; return;
   }
   if(spPl) spPl.style.display="";
