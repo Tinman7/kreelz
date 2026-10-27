@@ -1,0 +1,22 @@
+name: Probe video descriptions
+# Diagnostics: titles and descriptions of the ids in probe/ids.json, pushed to branch "probe" (probe.txt). No site data.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: |
+          node scripts/probe_desc.mjs probe/ids.json > /tmp/probe.txt
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan probe && git rm -rfq . && cp /tmp/probe.txt .
+          git add probe.txt && git commit -qm "probe" && git push -qf origin probe
