@@ -58,7 +58,7 @@ const onTopic = (g, text) => g.topic === "pilgrimage" ? PILGRIM.test(text) && ID
   : g.topic === "heritage" ? HERITAGE.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
   : g.topic === "busan" ? BUSAN.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
   : TOPIC.test(text);
-const NOT = /full ?(ver|version|episode)|풀버전|\bmv\b|m\/v|music video|뉴스|news|사건|사고|lyrics?|가사|playlist/i;
+const NOT = /full ?(ver|version|episode)|풀버전|\bmv\b|m\/v|music video|뉴스|news|사건|사고|lyrics?|가사|playlist|대통령|president|정치|선거|study ?abroad|study ?in ?korea|유학|\/ ?(KNN|KBS|MBC|SBS|YTN|JTBC|MBN|TV조선|채널A|연합뉴스)|승무원/i;   // + politics, study-abroad, local-news clips (2026-10-27 check)
 const out = { videos: {}, shorts: {} }, cand = [];
 for (let i = 0; i < ids.length; i += 50) {
   const d = await call("videos", { part: "snippet,statistics,contentDetails,status,topicDetails", id: ids.slice(i, i + 50).join(","), maxResults: 50 });

@@ -70,9 +70,10 @@ const h = fs.readFileSync("index.html", "utf8");
 const onSite = new Set(); for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
 const only = new Set(fs.existsSync(ONLY) ? JSON.parse(fs.readFileSync(ONLY, "utf8")) : []);
 const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
-const chOf = {}, shortIds = new Set();
+const chOf = {}, shortIds = new Set(), seenCh = new Set();
 for (const c of cfg.channels) {
   if (!c.id || (TOP_ONLY && !c.top)) continue;
+  if (seenCh.has(c.id)) { console.log("same channel listed twice, skipped:", c.name || c.id); continue; } seenCh.add(c.id);
   const max = c.done ? DAILY : (c.first || FIRST);
   const up = await playlist("UU" + c.id.slice(2), max), sh = await playlist("UUSH" + c.id.slice(2), max);
   up.forEach(id => { chOf[id] = c }); sh.forEach(id => { chOf[id] = c; shortIds.add(id) });
