@@ -1,0 +1,59 @@
+# One-off: the "hot" groups of scripts/konbini.json (a viral moment David points at, e.g. ILLIT x Song Kang, 2026-10-27),
+# collected and published at once (both editions); they also run every night until their end date.
+# Uses about 600 YouTube API units (6 searches) plus video details.
+name: Hot clips now
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+jobs:
+  hot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect the hot clips
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          KF_SEARCHES: "0"
+        run: node scripts/konbini.mjs hot.out.json --hot | tee top.log
+      - name: Merge into site (same build day, no ageing)
+        run: |
+          BUILT=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          if [ -s hot.out.json ]; then
+            python3 scripts/daily_merge.py index.html hot.out.json "$BUILT" index.next.html | tee -a top.log
+            grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+          fi
+          node scripts/prio.mjs index.html data/vmeta.json.gz | tee -a top.log
+      - name: Japanese titles for the new videos
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TX_MINUTES: "8"
+          TX_PASSES: "ja"
+        run: node scripts/titles.mjs index.html
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/region.mjs index.html
+          git add index.html data jp scripts/konbini.json
+          [ -d t ] && git add t
+          git commit -m "Hot clips (ILLIT x Song Kang) $(grep -o '"videos":[0-9]*,"shorts":[0-9]*' top.log | tail -1)" || echo "nothing to commit"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          cat top.log | tail -40

@@ -2048,6 +2048,13 @@ const PRIO={};   // id -> rank (1 = first artist in the list)
 (function(){ const s=(REGION==="jp"&&typeof PRIO_LIST_JP==="string")?PRIO_LIST_JP:(typeof PRIO_LIST==="string"?PRIO_LIST:""), RC="123456789abcdefghijklmnopqrstuvwxyz";
   for(let i=0;i+12<=s.length;i+=12) PRIO[s.slice(i,i+11)]=RC.indexOf(s[i+11])+1 })();
 const prioOf=v=>PRIO[v.id]||99;
+/* New releases first: in All and Music, the priority artists' music of the last 2 days (a new MV, its teasers, fan
+   clips) comes before everything else, most viewed per day first, at most 12 — so a comeback leads the page the next morning
+   instead of waiting behind the artist ranking */
+const freshUp=l=>{ if(!(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
+  const sc=v=>v.views/(v.days+1);   // views per day: today's MV beats yesterday's vlog with more views
+  const top=l.filter(v=>PRIO[v.id] && v.days>=0 && v.days<=2).sort((a,b)=>sc(b)-sc(a)).slice(0,12); if(!top.length) return l;
+  const t=new Set(top); return top.concat(l.filter(v=>!t.has(v))) };
 /* Screen and Shows tabs: official OTT channels (Netflix, TVING, Disney+, Coupang Play, wavve…) first */
 const OTTSET=new Set(); (function(){ const s=typeof PRIO_OTT==="string"?PRIO_OTT:""; for(let i=0;i+11<=s.length;i+=11) OTTSET.add(s.slice(i,i+11)) })();
 const prioCmp=(a,b)=> state.cat==="music" ? prioOf(a)-prioOf(b) : 0;
@@ -2138,7 +2145,7 @@ function feedList(){
   const q=state.q.trim().toLowerCase();
   let l=FV.filter(v=>inCat(v)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S1=SORTS[fstate.sort]; return lastJP(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b))));
+  const S1=SORTS[fstate.sort]; return lastJP(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b)))));
 }
 const okIcon=()=>`<span class="fok" title="${esc(t("verified"))}"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>`;
 const isNew = v => v.days>=0 && v.days<=1;
@@ -2249,7 +2256,7 @@ function shortsList(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))));
+  const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b)))));
 }
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){

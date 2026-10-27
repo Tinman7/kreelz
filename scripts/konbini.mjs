@@ -6,6 +6,7 @@ import { hasThumb } from "./thumbs.mjs";
 import { ARTISTS, EXTRA_MALE } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");   // show what would be taken; writes nothing, 2 searches
+const HOT_ONLY = process.argv.includes("--hot");   // only the "hot" groups (a viral moment, run at once when asked)
 const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "konbini.out.json";
 const CFG = "scripts/konbini.json", VMETA = "data/vmeta.json.gz";
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
@@ -26,8 +27,21 @@ const groups = cfg.groups || [{ ...cfg, name: "konbini", topic: "konbini" }];
 const found = new Map(), asked = [];   // id -> group
 // these searches share the nightly YouTube quota: at most KF_SEARCHES a night, the groups taking turns
 let budget = +(process.env.KF_SEARCHES || 5);
-const off = Math.floor(Date.now() / DAY) % Math.max(1, groups.length);
-try { for (let gi = 0; gi < groups.length && budget > 0; gi++) { const g = groups[(off + gi) % groups.length];
+// "hot" groups (a viral moment David points at, e.g. a new MV): every night until their end date, before the rotation,
+// all their queries, newest-first window from their start date; they don't count against KF_SEARCHES
+const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
+try { for (const g of groups) { if (g.topic !== "hot" || (g.until && today > g.until)) continue;
+  const L = (g.queries || []).slice(0, CHECK ? 2 : g.per_night || 6); g.ran = true;
+  const since = new Date(g.since ? g.since + "T00:00:00+09:00" : Date.now() - 7 * DAY).toISOString();
+  for (const q of L) { asked.push(q);
+    let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
+    if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
+    for (const x of d.items || []) if (x.id?.videoId && !found.has(x.id.videoId)) found.set(x.id.videoId, g); } } }
+catch (e) { console.log("hot search stopped:", e.message); }
+if (HOT_ONLY) budget = 0;
+const rot = groups.filter(g => g.topic !== "hot");
+const off = Math.floor(Date.now() / DAY) % Math.max(1, rot.length);
+try { for (let gi = 0; gi < rot.length && budget > 0; gi++) { const g = rot[(off + gi) % rot.length];
   const L = g.queries || []; if (!L.length) continue;
   const n = Math.min(CHECK ? 2 : g.done ? (g.per_night || 3) : (g.first_run || 6), L.length, budget);
   budget -= n; g.ran = true;
@@ -54,7 +68,8 @@ const HERITAGE = /경복궁|창덕궁|덕수궁|창경궁|고궁|궁궐|palace|g
 const BUSAN = /부산|busan|해운대|haeundae|광안리|gwangalli|감천|gamcheon|흰여울|huinnyeoul|자갈치|jagalchi|남포|nampo|해동용궁사|haedong|송도|songdo|전포|jeonpo|서면|seomyeon|영도|yeongdo|기장|gijang|깡통시장|kkangtong|국제시장|gukje|블루라인|blueline|스카이캡슐|sky ?capsule|밀락|millac/i;
 const VISIT = /체험|투어|tour|vlog|브이로그|여행|travel|trip|맛집|카페|cafe|café|food|먹|eat|대여|rental|rent|헤어|hair|산책|walk|가이드|guide|추천|things to do|코스|시장|market|야경|night|드론쇼|drone|구경|방문|visit|explor|첫 ?방문|first time/i;
 const NOT_PLACE = /\bmv\b|m\/v|직캠|fancam|무대|stage|드라마 ?(리뷰|결말)|ep\.? ?\d|회차|예고|teaser|trailer/i;
-const onTopic = (g, text) => g.topic === "pilgrimage" ? PILGRIM.test(text) && IDOL(text)
+const onTopic = (g, text) => g.topic === "hot" ? (g.require || []).every(r => new RegExp(r, "i").test(text))
+  : g.topic === "pilgrimage" ? PILGRIM.test(text) && IDOL(text)
   : g.topic === "heritage" ? HERITAGE.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
   : g.topic === "busan" ? BUSAN.test(text) && VISIT.test(text) && !NOT_PLACE.test(text)
   : TOPIC.test(text);
@@ -68,15 +83,18 @@ for (let i = 0; i < ids.length; i += 50) {
     const text = meta[0] + " " + meta[5].join(" ");
     if (!(st.uploadStatus === "processed" && st.privacyStatus === "public" && st.embeddable !== false && (s.liveBroadcastContent || "none") === "none")) continue;
     const g = found.get(v.id);
-    if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text) || !KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0])) continue;
+    const hot = g.topic === "hot";
+    if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
+    if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
     vmeta[v.id] = meta;
-    cand.push({ g: g.name, id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
+    cand.push({ g: g.name, cat: g.cat, id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
 const good = new Set(), q = cand.map(c => c.id);
 await Promise.all(Array.from({ length: 16 }, async () => { while (q.length) { const id = q.pop(); if (await hasThumb(id, "v")) good.add(id); } }));
 for (const c of cand) { if (!good.has(c.id)) continue;
-  if (c.short) out.shorts[c.id] = ["k", c.views, 0, c.days]; else out.videos[c.id] = ["k", c.views, c.days, 0]; }
+  const k = c.cat || "k";
+  if (c.short) out.shorts[c.id] = [k, c.views, 0, c.days]; else out.videos[c.id] = [k, c.views, c.days, 0]; }
 if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(outPath, JSON.stringify(out));
