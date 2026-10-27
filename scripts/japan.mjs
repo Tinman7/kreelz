@@ -191,6 +191,19 @@ const RECO_W = /여행|여행지|가볼만한|가볼 ?만한|추천|맛집|식�
 const RECO_NOT = /\bmv\b|m\/v|직캠|fancam|드라마|예고|teaser|trailer|뉴스|news|사건|사고|일본|도쿄|오사카|후쿠오카|대만|베트남|태국|유럽|미국/i;
 const recoOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return (/[가-힣]/.test(t) || /korea|seoul|busan/i.test(t)) && RECO_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
+// restaurant visits only (channels with "visit": 최자로드, per David 2026-10-27): long videos must be a visit series
+// (온더웨이, 다시 쓰는 최자로드 — not the 배부른 소리 talk show); shorts need a restaurant write-up in the description,
+// or a restaurant / dish in the title and none of the talk-clip signs (guests' names, debates, tips, behind-the-scenes)
+const VISIT = {
+  ep: /온더웨이|다시 쓰는/, epNot: /배부른 소리|\[LIVE\]/,
+  intro: d => d.length >= 60 && !/^#|^돼지들 안녕/.test(d),
+  not: /배부른 소리|\[LIVE\]|미공개|비하인드|논란|\bVS\b|꿀팁|PPL|해명|레시피|입맛|식성|특집|많관부|고충|역사|챌린지|청문회|w\/|feat|이벤트|커밍순|공개|갑론을박|기준|후계자|스킬|특\)|ASMR|루틴|징크스|피셜|소신발언|인스타|박사|주민|홍보대사|수제자|조합|페어링|부부|남편|임신|최후|픽|거미|우찬|오승환|김용무|하입프린세스|니코|유주|돼그맨|가오가이|개코|신기루|맛타고라스|비밀이야|소주안주|JY투어|해리포터|얼미부부|최지형|바비정|성규|인피니트|조정석|이민정|손민수|민규|에스쿱스|홍어|나카메구로|하라주쿠|도쿄|오사카|일본|원조가 아니었어|먹는 법|사실상|1타|탑티어|맛 차이|짜고 치는|무슨 그런 말|맛있게 먹는|유래|주님들/i,
+  place: /맛집|식당|중국집|이자카야|오마카세|카세|점심 뭐 먹는대|Seoul Classic|흑백요리사 시리즈|폭염로드|부산로드|횟집|고깃집|국밥집|순댓집|만둣집|음식점|노포집|여기가 답|여기로|명물|명소|성지|가볼|소주마시기|해장|한식당|#광고 \(|버거|케밥|해물|갈비|곰탕|대구탕|닭한마리|국밥|순대국|순댓국|막국수|콩국수|육칼|짬뽕|감자탕|쌀국수|초밥|스시|생고기|쪽갈비|장어|방어|대광어|광어회|돌돔|굴찜|비빔밥|우족탕|설렁탕|녹두전|교자|명동교자|오향가|두루치기|불고기|닭도리탕|회춘탕|마파면|뽈락|접짝뼈국|메밀|갈매기살|닭고기|볶음밥|태국 음식/,
+};
+const visitOK = (t, secs, d) => { d = (d || "").trim();
+  if (secs > 180) return VISIT.ep.test(t) && !VISIT.epNot.test(t);
+  if (VISIT.intro(d)) return true;
+  return !VISIT.not.test(t) && VISIT.place.test(t); };
 const travelOK = v => KANA.test(v.meta[0]) && (KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) || (/聖地|行きつけ|ゆかり|ロケ地|撮影地/.test(v.meta[0]) && idols.some(re => re.test(v.meta[0] + " " + v.meta[5].join(" "))))) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
 for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
 // fan uploads: one of the fan-search artists, not a full re-upload, and Japanese fans in the comments
@@ -220,6 +233,7 @@ for (const id of cand) {
   if (c.korean && !korean(v)) { notKorean++; continue; }
   if (c.only && !new RegExp(c.only, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. only the 먹을텐데 episodes of 성시경's channel
   if (c.skip && new RegExp(c.skip, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. 최자로드's concert promos and Japan restaurants
+  if (c.visit && !visitOK(v.meta[0], v.meta[6], v.desc)) { notTravel++; continue; }
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
