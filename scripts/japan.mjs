@@ -205,6 +205,11 @@ const visitOK = (t, secs, d) => { d = (d || "").trim();
   if (secs > 180) return VISIT.ep.test(t) && !VISIT.epNot.test(t);
   if (VISIT.intro(d)) return true;
   return !VISIT.not.test(t) && VISIT.place.test(t); };
+// food and restaurants only (channels with "food": 맛집남자 foodman, per David 2026-10-27): a dish, drink, shop or
+// restaurant in the title; no shopping tips, gossip, scams or food abroad (Japan, Thailand ...)
+const FOOD = /맛집|식당|가게|사장님|장인|먹|음식|요리|김치|찌개|라면|라멘|국수|냉면|떡볶이|김밥|피자|치킨|통닭|닭|곱창|고기|갈비|삼겹|수육|족발|횟집|초밥|스시|장어|복어|아구|도다리|조개|굴|오징어|꽃게|만두|국밥|짬뽕|탕수육|비빔|장사|여기 모르면|짜장|토스트|빵|카스테라|크레페|팬케이크|수플레|푸딩|케이크|디저트|빙수|아이스크림|젤리|사탕|캔디|솜사탕|호떡|꽈배기|떡|당고|로띠|오믈렛|계란말이|튀김|꼬치|두부|감자전|잡채|팥죽|주먹밥|뷔페|오마카세|버거|스테이크|우동|덮밥|카이막|과자|초코파이|커피|주스|쥬스|맥주|막걸리|쏘맥|폭탄주|와인|사케|위스키|복분자|콜라|포장마차|분식|무한리필|두끼|소스|한상|바텐더|봉봉|수박|망고|바나나|(?<![가-힣])회(?![가-힣])|횟|탕(?![가-힣])|집(?=[을이은도]|$| )/;
+const NOT_FOOD = /일본(가서|에서 오|여행)|돈키호테|태국|베트남|인도에서|네팔|사무라이|린도린도|사기|물치기|할인|다이소|올리브영|추천템|여친|남편|빚|강동원|황정민|하정우|낚시|미래시대|일본 손기술/;
+const foodOK = t => FOOD.test(t) && !NOT_FOOD.test(t);
 const travelOK = v => KANA.test(v.meta[0]) && (KPLACE.test(v.meta[0] + " " + v.meta[5].join(" ")) || (/聖地|行きつけ|ゆかり|ロケ地|撮影地/.test(v.meta[0]) && idols.some(re => re.test(v.meta[0] + " " + v.meta[5].join(" "))))) && TRAVELW.test(v.meta[0] + " " + v.meta[5].join(" ")) && !NOT_TRAVEL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60;
 for (const id of Object.keys(chOf)) if (chOf[id].search && info[id] && info[id].meta[6] <= 180 && (info[id].meta[6] <= 60 || /#shorts?\b/i.test(info[id].meta[0] + " " + info[id].meta[5].join(" ")))) shortIds.add(id);
 // fan uploads: one of the fan-search artists, not a full re-upload, and Japanese fans in the comments
@@ -235,6 +240,7 @@ for (const id of cand) {
   if (c.only && !new RegExp(c.only, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. only the 먹을텐데 episodes of 성시경's channel
   if (c.skip && new RegExp(c.skip, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. 최자로드's concert promos and Japan restaurants
   if (c.visit && !visitOK(v.meta[0], v.meta[6], v.desc)) { notTravel++; continue; }
+  if (c.food && !foodOK(v.meta[0])) { notTravel++; continue; }
   if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }

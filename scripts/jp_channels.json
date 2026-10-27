@@ -1,5 +1,5 @@
 {
- "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels. cat: screen = OTT (drama/film, shows and music by keywords), tv = Korean TV channel in Japan (same rules), music = an artist's channel. handle / video = find the channel by its @handle or by one of its videos (exact, 1 API unit); playlist = also take that playlist; reco = Korean creator lifted in the /jp K-Travel & Food tab (not Japan-only). top = one of the top picked creators: first places in the /jp K-Travel & Food tab (JP_TOP_ONLY=1 collects just these); only = keep only titles matching this; first = videos to take on the first run. skip = drop titles matching this. visit = restaurant-visit videos only (scripts/japan.mjs visitOK).",
+ "_note": "Japan edition (kreelz.com/jp) channels, collected by scripts/japan.mjs. Their videos are shown only on /jp. q = YouTube channel search used once to find the channel; title = the channel name must match this; min = minimum subscribers; korean = the channel also posts non-Korean content, keep only Korean titles; artist = Music priority artist the channel belongs to. id is filled in when found. not = reject channels whose name matches this. searched = last day a search found nothing (tried again after 7 days). ENHYPEN, TXT, LE SSERAFIM, BOYNEXTDOOR, ILLIT and TWS have no separate Japan channel (checked 2026-10-26): their Japanese releases are on the main channels. cat: screen = OTT (drama/film, shows and music by keywords), tv = Korean TV channel in Japan (same rules), music = an artist's channel. handle / video = find the channel by its @handle or by one of its videos (exact, 1 API unit); playlist = also take that playlist; reco = Korean creator lifted in the /jp K-Travel & Food tab (not Japan-only). top = one of the top picked creators: first places in the /jp K-Travel & Food tab (JP_TOP_ONLY=1 collects just these); only = keep only titles matching this; first = videos to take on the first run. skip = drop titles matching this. visit = restaurant-visit videos only (scripts/japan.mjs visitOK). food = food and restaurant videos only (scripts/japan.mjs foodOK).",
  "actors": {
   "_note": "Ranked actors on kreelz.com/jp (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes (3 of 7 kinds), fan meetings, visits to Japan / events / fancams and fan-made videos. Queries = Japanese actor name + kind, rotating. Taken only when the actor is named and it is not a full re-upload (max 30 min).",
   "first_run": 12,
@@ -177,7 +177,8 @@
    "reco": true,
    "note": "맛집남자 foodman, picked by David 2026-10-27",
    "id": "UCeEd6KA0gOX63vIEvsQDS0Q",
-   "name": "맛집남자 foodman"
+   "name": "맛집남자 foodman",
+   "food": true
   },
   {
    "handle": "@okspoon",
