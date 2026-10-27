@@ -1,0 +1,31 @@
+name: TikTok links check
+# Diagnostics: lists the admin page's TikTok links (Supabase tiktok_links) with what the nightly step does with each
+# (kept / rejected and why), pushed to branch "tiktok-check" (tiktok_check.txt). No site data.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: |
+          cat > /tmp/c.mjs <<'JS'
+          const SB_URL = "https://fvtvpjsveughnhnfjcef.supabase.co", SB_KEY = "sb_publishable_wFuEzcauXuYWkCpgZSWJ3A_5XYvDwQ2";
+          const r = await fetch(`${SB_URL}/rest/v1/tiktok_links?select=*&order=created_at.desc&limit=5000`, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+          console.log("HTTP", r.status); const rows = await r.json(); console.log("rows", Array.isArray(rows) ? rows.length : JSON.stringify(rows).slice(0, 300));
+          if (Array.isArray(rows)) { if (rows[0]) console.log("columns", Object.keys(rows[0]).join(", "));
+            for (const x of rows) { const why = [!/^\d{8,25}$/.test(x.vid) && "vid", !/^[\w.]{1,40}$/.test(x.author) && "author", !("mdfebk".includes(x.cat) && String(x.cat).length === 1) && "cat"].filter(Boolean);
+              console.log(why.length ? "REJECT(" + why.join("+") + ")" : "ok", JSON.stringify({ vid: x.vid, author: x.author, cat: x.cat, added: x.added, created_at: x.created_at, url: x.url })); } }
+          JS
+          node /tmp/c.mjs > /tmp/tiktok_check.txt 2>&1 || true
+          echo "--- site" >> /tmp/tiktok_check.txt; grep -o '^const TIKTOK = .\{0,300\}' index.html >> /tmp/tiktok_check.txt
+          git config user.name "kreelz-bot"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q --orphan tiktok-check && git rm -rfq . && cp /tmp/tiktok_check.txt . && git add -A && git commit -qm check && git push -qf origin tiktok-check
