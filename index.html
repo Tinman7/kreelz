@@ -2606,14 +2606,20 @@ function spScrollWatch(){
       if(Math.abs(f.scrollTop-i*H)<H*0.4){ if(i===spIdx && !spWait && !(sstate.list[i]||{}).tt){ spShow(); spCmd("playVideo") } else spActivate(i) } },140) },{passive:true});
 }
 function spGo(d){
-  const n=spIdx+d; if(n<0||n>=spMax()) return;
+  let n=spIdx+d;
+  // phones: NAVER Clip shorts are skipped while swiping — inside the shorts player NAVER's viewer stayed muted and took
+  // the sound away from the shorts after it (2026-10-28); on phones they open in NAVER from their card instead
+  if(SP_FIX) while(n>=0 && n<spMax() && sstate.list[n] && sstate.list[n].nc) n+=d;
+  if(n<0||n>=spMax()) return;
   if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
   const el=$("#spFeed")?.querySelector(`[data-i="${n}"]`); if(el){ spJump=Date.now(); $("#spFeed").scrollTo({top:el.offsetTop,behavior:"instant"}); spActivate(n) }   // start it now, not on the next scroll check
 }
 $("#sgrid").addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const a=e.target.closest("[data-sv]"); if(!a) return;
   clearTimeout(spPrepT); const k=+a.dataset.sv; spPrepT=setTimeout(()=>spPrep(k),150) },{passive:true});
-$("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; if(!state.embeds) return; e.preventDefault(); spOpen(+a.dataset.sv) });
+$("#sgrid").addEventListener("click",e=>{ const a=e.target.closest("[data-sv]"); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; if(!state.embeds) return;
+  const v=sstate.list[+a.dataset.sv]; if(SP_FIX && v && v.nc) return;   // phones: a NAVER Clip card opens the clip in NAVER (sound with a tap there)
+  e.preventDefault(); spOpen(+a.dataset.sv) });
 /* Share: the KREELZ link of this short (kreelz.com/?s=<id>, /jp/ on the Japan edition), so friends land on the site */
 $("#spShare").addEventListener("click",async()=>{
   const v=sstate.list[spIdx]; if(!v) return;
