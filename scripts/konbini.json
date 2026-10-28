@@ -22,7 +22,8 @@
     "アイリット ソンガン",
     "체포하겠어 뮤비 송강"
    ],
-   "pin": true
+   "pin": true,
+   "done": true
   },
   {
    "name": "illit_arrest",
@@ -107,7 +108,8 @@
     "한복 헤어 스타일링",
     "seochon seoul walk",
     "changdeokgung palace tour"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "busan",
@@ -131,7 +133,8 @@
     "전포 카페거리",
     "busan night market kkangtong",
     "영도 카페"
-   ]
+   ],
+   "done": true
   }
  ]
 }
