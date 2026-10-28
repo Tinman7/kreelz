@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /setup/
+Disallow: /probe/
+Disallow: /stats/
+
+Sitemap: https://kreelz.com/sitemap.xml

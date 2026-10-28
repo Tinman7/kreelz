@@ -31,6 +31,9 @@ for (const e of EDITIONS) {
   h = swap(h, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${e.url}">`, "canonical");
   // edition badge after the wordmark (the tagline itself comes from the Japanese UI text)
   h = swap(h, /KREELZ<small data-i18n="tagline">/, `KREELZ<b class="rg">${e.badge}</b><small data-i18n="tagline">`, "logo");
+  // the edition's own footer topic links (written by scripts/seo.mjs) are kept from the current copy
+  const TOP = /<!--topics-->[\s\S]*?<!--\/topics-->/;
+  try { const old = (TOP.exec(fs.readFileSync(`${e.dir}/index.html`, "utf8")) || [])[0]; if (old && TOP.test(h)) h = h.replace(TOP, () => old); } catch (err) {}
   fs.mkdirSync(e.dir, { recursive: true });
   fs.writeFileSync(`${e.dir}/index.html`, h);
   console.log(`${e.dir}/index.html written (${(h.length / 1e6).toFixed(2)} MB)`);

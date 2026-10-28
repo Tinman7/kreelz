@@ -203,7 +203,9 @@ jobs:
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
+          node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json
+          git add -A k sitemap.xml robots.txt
           [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
