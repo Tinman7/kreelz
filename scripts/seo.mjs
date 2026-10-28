@@ -10,6 +10,7 @@ import { ARTISTS, JP_ARTISTS } from "./hybe.mjs";
 import { ACTORS, JP_ACTORS, JP_ACTOR_JA } from "./actors.mjs";
 
 const SITE = "https://kreelz.com";
+const XJP = "KREELZ77";   // the Japan edition's X account (David, 2026-10-29)
 const html = fs.readFileSync("index.html", "utf8");
 const str = name => (new RegExp(`const ${name} = "([^"]*)"`).exec(html) || [])[1] || "";
 const BUILT = str("FEED_BUILT") || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
@@ -182,7 +183,7 @@ function page(ed, p) {
 <meta property="og:type" content="website">
 <meta property="og:locale" content="${E.locale}">
 <meta property="og:image" content="${img}">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image">${ed === "ja" ? `\n<meta name="twitter:site" content="@${XJP}">` : ""}
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -197,7 +198,7 @@ function page(ed, p) {
 <p class="lead">${esc(lead)}</p>
 <p class="meta">${L.updated(BUILT)}${n ? ` · ${L.count(n)}` : ""}${!isHub && newest ? ` · ${ed === "en" ? "newest" : "最新"} ${newest}` : ""}</p>
 ${body}
-${isHub ? "" : `<footer>${linksBlock(ed, p.slug)}<p class="note">${L.note}</p></footer>`}
+${isHub ? "" : `<footer>${linksBlock(ed, p.slug)}${ed === "ja" ? `<p class="note"><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a> で毎日の注目クリップをお知らせ</p>` : ""}<p class="note">${L.note}</p></footer>`}
 </div>
 </body>
 </html>
@@ -232,7 +233,7 @@ Sitemap: ${SITE}/sitemap.xml
 const block = ed => `<!--topics--><nav class="topics" aria-label="${ed === "en" ? "Browse" : "一覧"}">` +
   [["today", ...PAGES[ed].filter(p => p.kind === "today")], ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
     .map(([, ...ps]) => ps.map(p => `<a href="/${ED[ed].dir}/${p.slug}/">${esc(p.name)}</a>`).join("")).filter(Boolean).join(`<i></i>`) +
-  `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a></nav><!--/topics-->`;
+  `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a>` + (ed === "ja" ? `<i></i><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a>` : "") + `</nav><!--/topics-->`;
 for (const [file, ed] of [["index.html", "en"], ["jp/index.html", "ja"]]) {
   let h = fs.readFileSync(file, "utf8");
   if (!/<!--topics-->[\s\S]*?<!--\/topics-->/.test(h)) { console.log(`${file}: no <!--topics--> marker, footer links skipped`); continue; }

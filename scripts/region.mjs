@@ -27,7 +27,7 @@ for (const e of EDITIONS) {
   h = swap(h, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${attr(e.description)}">`, "description");
   h = swap(h, /<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${attr(e.ogTitle)}">`, "og:title");
   h = swap(h, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${attr(e.ogDescription)}">`, "og:description");
-  h = swap(h, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${e.url}">\n<meta property="og:locale" content="ja_JP">`, "og:url");
+  h = swap(h, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${e.url}">\n<meta property="og:locale" content="ja_JP">\n<meta name="twitter:site" content="@KREELZ77">`, "og:url");
   h = swap(h, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${e.url}">`, "canonical");
   // edition badge after the wordmark (the tagline itself comes from the Japanese UI text)
   h = swap(h, /KREELZ<small data-i18n="tagline">/, `KREELZ<b class="rg">${e.badge}</b><small data-i18n="tagline">`, "logo");
