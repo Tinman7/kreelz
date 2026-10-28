@@ -2271,6 +2271,10 @@ $("#fgrid").addEventListener("click",e=>{
 
 /* ===== Shorts (shown first) — same 16-char packing as FEED; days are unknown for shorts ===== */
 const SV=[]; const SBYCAT={};
+/* Shorts YouTube refuses to play for this visitor (not available in their country, removed, embedding turned off):
+   remembered in this browser, skipped in the player and left out of the lists (2026-10-28) */
+const BAD=new Set(); try{ (JSON.parse(localStorage.getItem("ss-bad")||"[]")||[]).forEach(x=>BAD.add(x)) }catch(e){}
+function markBad(id){ if(!id||BAD.has(id)) return; BAD.add(id); try{ localStorage.setItem("ss-bad", JSON.stringify([...BAD].slice(-500))) }catch(e){} }
 for(let i=0;i+16<=SHORTS.length;i+=16){
   const c=SHORTS[i+11], vc=dec2(SHORTS.substr(i+12,2)), dc=dec2(SHORTS.substr(i+14,2));
   const cat=FCAT[c.toLowerCase()]; if(!cat || regionSkip(SHORTS.substr(i,11))) continue;
@@ -2317,7 +2321,7 @@ const SSORTS={ new:(a,b)=>(a.days<0)-(b.days<0)||a.days-b.days||b.views-a.views,
   SV.push({id:x[0],cat,ok:false,views:+x[2]||0,days:liveDays(x[3]),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 }) })();
 function shortsList(){
   const q=state.q.trim().toLowerCase();
-  let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok));
+  let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&!BAD.has(v.id));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
   const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(ncMix(hotMix(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b)))))));
 }
@@ -2398,7 +2402,7 @@ const SOUND_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5
 const soundHint = (k="tap_play") => SP_FIX ? `<span class="tapsound">${SOUND_SVG}${esc(t(k))}</span>` : "";
 /* tapping into a player moves focus into its frame: hide the hint then */
 window.addEventListener("blur",()=>{ setTimeout(()=>{ if(document.activeElement && document.activeElement.tagName==="IFRAME") document.querySelectorAll(".tapsound").forEach(x=>x.remove()) },0) });
-let spPl=null, spCur="", spState=-1, spChk=0, spWait=false, spShowT=0;
+let spSkip="", spPl=null, spCur="", spState=-1, spChk=0, spWait=false, spShowT=0;
 /* The shared player is hidden while the feed scrolls and while a newly loaded short has not started, so the previous
    short never shows on top of the next one. */
 function spHide(){ if(spPl && !spPl.classList.contains("sp-hide")){ spPl.classList.add("sp-hide"); if(!spPl.style.display) spCmd("pauseVideo") } }
@@ -2430,7 +2434,8 @@ window.addEventListener("message",e=>{
   if(spNx && e.source===spNx.contentWindow){   // the player loading the next short: let it buffer, then hold on its first frame
     let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
     if(!d) return;
-    if(d.event==="onReady"){ nxCmd("addEventListener",["onStateChange"]); nxCmd("mute"); nxCmd("playVideo") }
+    { const ec = d.event==="onError" ? d.info : (d.info && d.info.videoData && d.info.videoData.errorCode); if(ec && spNxId){ markBad(spNxId); spNxId=""; return } }
+    if(d.event==="onReady"){ nxCmd("addEventListener",["onStateChange"]); nxCmd("addEventListener",["onError"]); nxCmd("mute"); nxCmd("playVideo") }
     const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
     const vid = d.info && d.info.videoData && d.info.videoData.video_id;
     if(st===1 && !spNxPrimed && (!vid || vid===spNxId)){ spNxPrimed=true; nxCmd("pauseVideo"); if(!SP_FIX) setTimeout(()=>{ if(spNx && spNxPrimed) spNx.classList.remove("sp-hide") },150) }
@@ -2440,10 +2445,14 @@ window.addEventListener("message",e=>{
   let d; try{ d=typeof e.data==="string"?JSON.parse(e.data):e.data }catch(_){ return }
   if(!d) return;
   if(!sp.open){   // prepared on hover (PC): load and hold, muted, until the short is opened (dialog.sp-prep)
-    if(d.event==="onReady") spCmd("addEventListener",["onStateChange"]);
+    if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("addEventListener",["onError"]) }
+    if(d.event==="onError" && spCur) markBad(spCur);
     const st0 = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
     if(st0===1) spCmd("pauseVideo"); return }
-  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); if(!IOS){ spCmd("unMute"); spCmd("playVideo") } else if(spSound){ spCmd("unMute"); spCmd("playVideo") } }
+  { const ec = d.event==="onError" ? d.info : (d.info && d.info.videoData && d.info.videoData.errorCode);
+    const cv=sstate.list[spIdx]; if(ec && spCur && cv && cv.id===spCur && !cv.tt && spSkip!==spCur){ const bad=spSkip=spCur; markBad(bad);   // can't play here: next one
+      setTimeout(()=>{ if(spCur===bad && sp.open){ if(spIdx<spMax()-1) spGo(1); else spGo(-1) } },400); return } }
+  if(d.event==="onReady"){ spCmd("addEventListener",["onStateChange"]); spCmd("addEventListener",["onError"]); if(!IOS){ spCmd("unMute"); spCmd("playVideo") } else if(spSound){ spCmd("unMute"); spCmd("playVideo") } }
   if(d.event==="infoDelivery" && d.info && typeof d.info.muted==="boolean") spMuted=d.info.muted;
   const st = d.event==="onStateChange" ? d.info : (d.event==="infoDelivery"&&d.info&&typeof d.info.playerState==="number" ? d.info.playerState : null);
   /* a late message about the short that was just left must not reveal the player: check the video id when YouTube sends it */
@@ -2609,7 +2618,7 @@ function spGo(d){
   let n=spIdx+d;
   // phones: NAVER Clip shorts are skipped while swiping — inside the shorts player NAVER's viewer stayed muted and took
   // the sound away from the shorts after it (2026-10-28); on phones they open in NAVER from their card instead
-  if(SP_FIX) while(n>=0 && n<spMax() && sstate.list[n] && sstate.list[n].nc) n+=d;
+  while(n>=0 && n<spMax() && sstate.list[n] && ((SP_FIX && sstate.list[n].nc) || BAD.has(sstate.list[n].id))) n+=d;   // + videos that can't play here
   if(n<0||n>=spMax()) return;
   if(SP_FIX){ spShowIdx(n,d); return }
   spFill(n+10);
