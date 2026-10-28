@@ -240,3 +240,42 @@ for (const [file, ed] of [["index.html", "en"], ["jp/index.html", "ja"]]) {
   fs.writeFileSync(file, h);
 }
 console.log(`sitemap.xml: ${written.length + 2} urls`);
+
+// ---------- X (Twitter) drafts for the Japan account ----------
+// data/xposts.json: today's ready-to-post Japanese posts built from the same pages (shown on the admin page with an
+// "X에 올리기" button that opens X with the text filled in — David posts them himself; nothing is posted automatically).
+{
+  const xlen = s => { let n = 0; s = s.replace(/https?:\/\/\S+/g, () => { n += 23; return ""; });
+    for (const ch of s) { const c = ch.codePointAt(0); n += (c <= 0x10FF || (c >= 0x2000 && c <= 0x200D) || (c >= 0x2010 && c <= 0x201F) || (c >= 0x2032 && c <= 0x2037)) ? 1 : 2; } return n; };
+  const clean = t => t.replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
+  const cut = (t, w) => { t = clean(t); if (xlen(t) <= w) return t; let o = ""; for (const ch of t) { if (xlen(o + ch + "…") > w) break; o += ch; } return o + "…"; };
+  const fit = (build, w0) => { for (let w = w0; w >= 16; w -= 4) { const s = build(w); if (xlen(s) <= 280) return s; } return build(16); };
+  const TAG = { "BTS": "#BTS #防弾少年団", "Stray Kids": "#StrayKids #スキズ", "TWICE": "#TWICE", "TXT": "#TXT #トゥバ", "LE SSERAFIM": "#LE_SSERAFIM #ルセラフィム",
+    "ILLIT": "#ILLIT #アイリット", "SEVENTEEN": "#SEVENTEEN #セブチ", "ENHYPEN": "#ENHYPEN", "&TEAM": "#andTEAM", "BOYNEXTDOOR": "#BOYNEXTDOOR #ボイネク",
+    "ATEEZ": "#ATEEZ", "TWS": "#TWS", "aespa": "#aespa", "NCT WISH": "#NCTWISH", "CORTIS": "#CORTIS" };
+  const CTAG = { music: "#KPOP", drama: "#韓国ドラマ", film: "#韓国映画", variety: "#韓国バラエティ", beauty: "#韓国コスメ #Kビューティー", food: "#韓国グルメ #韓国旅行" };
+  const CEMO = { music: "🎤", drama: "📺", film: "🎬", variety: "😂", beauty: "💄", food: "🍜" };
+  const actorTag = k => "#" + (ACTOR_JA[k] || k).replace(/[・ ]|俳優/g, "");
+  let prev = {}; try { prev = JSON.parse(fs.readFileSync("data/xposts.json", "utf8")); } catch (e) {}
+  const P = PAGES.ja, top = (p, n) => pick(p.list, n), recent = p => p.list.filter(x => x.days >= 0 && x.days <= 2);
+  const hot = kind => P.filter(p => p.kind === kind).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
+    .filter(o => o.n >= 2).sort((a, b) => b.v - a.v);
+  const choose = (kind, last) => { const h = hot(kind); return (h.find(o => o.p.key !== last) || h[0] || {}).p; };
+  const best = p => { const s = [...recent(p)].sort((a, b) => b.views - a.views)[0] || [...top(p, 3).s, ...top(p, 3).v][0]; return s ? ED.ja.title(s) : ""; };
+  const md = BUILT.slice(5).replace("-", "/").replace(/^0/, "").replace("/0", "/");
+  const posts = [];
+  const today = P.find(p => p.kind === "today");
+  if (today) { const t3 = [...today.list].sort((a, b) => b.views - a.views).slice(0, 3);
+    posts.push({ time: "12:00", label: "오늘의 인기 TOP3", text: fit(w => `📈今日の韓国エンタメ人気クリップ（${md}）\n${t3.map((x, i) => `${i + 1}. ${cut(ED.ja.title(x), w)}`).join("\n")}\n▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) }); }
+  const a = choose("artist", prev.artist);
+  if (a) posts.push({ time: "19:00", label: `아티스트: ${a.key}`, text: fit(w => `🔥${a.name}の最新ショート・動画まとめ\nいま話題：${cut(best(a), w)}\n▶ ${url("ja", a.slug)}\n${TAG[a.key] || ""} #KPOP`, 110) });
+  const ac = choose("actor", prev.actor);
+  if (ac) posts.push({ time: "22:00", label: `배우: ${ac.key}`, text: fit(w => `🎬${(ACTOR_JA[ac.key] || ac.key).replace(/ 俳優/, "")}の最新動画まとめ\nいま話題：${cut(best(ac), w)}\nドラマ名場面・インタビュー・ファンミまで👇\n▶ ${url("ja", ac.slug)}\n${actorTag(ac.key)} #韓国俳優`, 100) });
+  const ck = ["drama", "variety", "beauty", "food", "film", "music", "drama"][new Date(BUILT + "T00:00:00Z").getUTCDay() === 0 ? 6 : new Date(BUILT + "T00:00:00Z").getUTCDay() - 1];
+  const cp = P.find(p => p.kind === "cat" && p.key === ck);
+  if (cp) posts.push({ time: "08:00", label: `카테고리: ${CAT_TXT.ja[ck]}`, text: fit(w => `${CEMO[ck]}${CAT_TXT.ja[ck]}でいま見られているクリップ\n注目：${cut(best(cp), w)}\n▶ ${url("ja", ck)}\n${CTAG[ck]}`, 110) });
+  posts.sort((x, y) => x.time.localeCompare(y.time));
+  for (const p of posts) p.len = xlen(p.text);
+  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts }, null, 1) + "\n");
+  console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
+}

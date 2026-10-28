@@ -105,6 +105,9 @@ tfoot td{font-weight:800;border-bottom:0}
 .ttlist button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:8px;font:inherit;font-size:12.5px;padding:6px 10px;cursor:pointer;min-height:34px}
 [hidden]{display:none!important}
 @media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}}
+.xp-h{display:flex;gap:8px;align-items:baseline;font-size:13.5px}.xp-h small{margin-left:auto;color:var(--muted)}
+.xp-t{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:14px;line-height:1.6;background:var(--soft,#F5F6F8);border-radius:10px;padding:12px;margin:10px 0}
+.xp .row{display:flex;gap:8px}.xp .btn{text-decoration:none}
 </style>
 </head>
 <body>
@@ -164,6 +167,9 @@ tfoot td{font-weight:800;border-bottom:0}
 
   <h2>사용자 피드백 <small id="fbNote">사이트 아래쪽 "피드백 보내기"로 들어온 메시지 · 영어판·일본판 모두</small></h2>
   <div class="card"><ul class="fbl" id="fbList"><li class="empty">불러오는 중…</li></ul></div>
+
+  <h2>X(트위터) 일본 계정 · 오늘 올릴 글 <small id="xpDate">매일 00:00(KST) 새로 만들어짐 · 버튼을 누르면 X가 글이 채워진 채로 열립니다</small></h2>
+  <div class="grid two" id="xpList"><div class="card note">불러오는 중…</div></div>
 
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
@@ -332,6 +338,21 @@ function stacked(rows){
 
 /* ---------- where the links come from (stats/sources.json, written at each 00:00 KST refresh) ---------- */
 const PLATS=["YouTube","TikTok","NAVER Clip"];
+/* X drafts for the Japan account (data/xposts.json, written nightly by scripts/seo.mjs): David posts them himself */
+(async function xposts(){
+  const box=$("#xpList"); if(!box) return;
+  try{
+    const d=await fetch("/data/xposts.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!d||!d.posts) throw 0;
+    $("#xpDate").textContent=`${d.date} 분 · 일본 시간 = 한국 시간 · 버튼을 누르면 X가 글이 채워진 채로 열립니다 (올리기 전에 한 번 확인)`;
+    const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    box.innerHTML=d.posts.map((p,i)=>`<div class="card xp"><div class="xp-h"><b>${esc(p.time)}</b> <span>${esc(p.label)}</span> <small>${p.len}/280</small></div>
+      <pre class="xp-t">${esc(p.text)}</pre>
+      <div class="row"><a class="btn primary" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(p.text)}">X에 올리기</a>
+      <button class="btn" type="button" data-xcopy="${i}">복사</button></div></div>`).join("");
+    box.addEventListener("click",e=>{ const b=e.target.closest("[data-xcopy]"); if(!b) return;
+      navigator.clipboard.writeText(d.posts[+b.dataset.xcopy].text).then(()=>{ b.textContent="복사됨"; setTimeout(()=>b.textContent="복사",1500) }).catch(()=>{}) });
+  }catch(e){ box.innerHTML='<div class="card note">오늘 글이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
+})();
 function chList(ul,btn,items,empty){
   let shown=20;
   const draw=()=>{ ul.innerHTML=items.length?items.slice(0,shown).map(c=>`<li><span class="nm">${c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)}<span class="badge">${esc(c.platform)}</span></span><span class="n">${nf(c.n)}</span></li>`).join(""):`<li class="empty" style="display:block">${empty}</li>`;
