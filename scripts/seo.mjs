@@ -262,7 +262,8 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const hot = kind => P.filter(p => p.kind === kind).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
     .filter(o => o.n >= 2).sort((a, b) => b.v - a.v);
   const choose = (kind, last) => { const h = hot(kind); return (h.find(o => o.p.key !== last) || h[0] || {}).p; };
-  const best = p => { const s = [...recent(p)].sort((a, b) => b.views - a.views)[0] || [...top(p, 3).s, ...top(p, 3).v][0]; return s ? ED.ja.title(s) : ""; };
+  const good = t => (clean(t).match(/[\p{L}]/gu) || []).length >= 6;   // skip titles that are only symbols / hashtags
+  const best = p => { const s = [...[...recent(p)].sort((a, b) => b.views - a.views), ...top(p, 5).s, ...top(p, 5).v].find(x => good(ED.ja.title(x))); return s ? ED.ja.title(s) : ""; };
   const md = BUILT.slice(5).replace("-", "/").replace(/^0/, "").replace("/0", "/");
   const posts = [];
   const today = P.find(p => p.kind === "today");
@@ -275,8 +276,32 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const ck = ["drama", "variety", "beauty", "food", "film", "music", "drama"][new Date(BUILT + "T00:00:00Z").getUTCDay() === 0 ? 6 : new Date(BUILT + "T00:00:00Z").getUTCDay() - 1];
   const cp = P.find(p => p.kind === "cat" && p.key === ck);
   if (cp) posts.push({ time: "08:00", label: `카테고리: ${CAT_TXT.ja[ck]}`, text: fit(w => `${CEMO[ck]}${CAT_TXT.ja[ck]}でいま見られているクリップ\n注目：${cut(best(cp), w)}\n▶ ${url("ja", ck)}\n${CTAG[ck]}`, 110) });
+  // one post a day without a link (question to fans: replies lift the account's reach), rotating by day
+  const shortA = a ? (TAG[a.key] || "").split(" ")[0] : "#KPOP", acName = ac ? (ACTOR_JA[ac.key] || ac.key).replace(/ 俳優/, "") : "";
+  const QS = [
+    a && `${a.key}の曲で、いま一番リピートしてるのは？🎧\nリプで教えてください！\n${TAG[a.key] || ""}`,
+    a && `${a.key}を好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n${TAG[a.key] || ""}`,
+    ac && `${acName}の出演作で、一番好きなドラマは？📺\nおすすめの名場面もぜひ！\n${actorTag(ac.key)} #韓国ドラマ`,
+    `今期見てる韓国ドラマ、教えてください！📺\nおすすめも大歓迎です🙌\n#韓国ドラマ #韓ドラ好きさんと繋がりたい`,
+    `最近ハマってるK-POPの曲は？🎧\n1曲だけ選ぶなら？リプで教えてください！\n#KPOP #KPOP好きさんと繋がりたい`,
+    `韓国に行ったら絶対食べたいもの、何ですか？🍜\n私はまずトッポッキ…！\n#韓国グルメ #韓国旅行`,
+    ac && `${acName}の一番好きなビジュアルの瞬間は？✨\n${actorTag(ac.key)} #韓国俳優`,
+  ].filter(Boolean);
+  const dayN = Math.floor(Date.parse(BUILT) / 864e5);
+  posts.push({ time: "15:00", label: "질문 글 (링크 없음)", text: QS[dayN % QS.length] });
+  // engagement kit: where to find today's Japanese posts to reply to, and short replies to adapt (David replies himself)
+  const xs = q => `https://x.com/search?q=${encodeURIComponent(q + " lang:ja")}&f=live`;
+  const engage = { search: [
+      a && { label: `${a.key} 최신 일본어 글`, url: xs(shortA) },
+      ac && { label: `${acName} 최신 일본어 글`, url: xs(actorTag(ac.key)) },
+      { label: "K-POP 화제 글 (일본어)", url: xs("#KPOP") },
+      { label: "한국 드라마 화제 글 (일본어)", url: xs("#韓国ドラマ") },
+      { label: "팔로우할 K-POP 정보 계정 찾기", url: `https://x.com/search?q=${encodeURIComponent("K-POP 情報")}&f=user` },
+    ].filter(Boolean),
+    replies: [ "わかります…！何回見ても飽きないですよね🥹", "このステージ本当に最高でした🔥", "ビジュが強すぎて内容が入ってこない😂",
+      "教えてくれてありがとうございます！今から見てきます👀", "この組み合わせは反則です…🫶", "次のカムバも楽しみすぎる✨" ] };
   posts.sort((x, y) => x.time.localeCompare(y.time));
   for (const p of posts) p.len = xlen(p.text);
-  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts }, null, 1) + "\n");
+  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage }, null, 1) + "\n");
   console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
 }
