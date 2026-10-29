@@ -25,6 +25,41 @@
  ],
  "targets": [
   {
+   "handle": "kstyle_news",
+   "name": "Kstyle（韓流ニュース）",
+   "type": "media",
+   "followers": "대형",
+   "note": "일본 최대급 K엔터 뉴스(LINE 계열) — 협업/유료 광고 문의 대상. 사이트 kstyle.com"
+  },
+  {
+   "handle": "wow_ko",
+   "name": "WoW!Korea（ワウコリア）",
+   "type": "media",
+   "followers": "대형",
+   "note": "韓ドラ·K-POP 뉴스 — 협업/광고 문의 대상. 사이트 wowkorea.jp"
+  },
+  {
+   "handle": "danmee17",
+   "name": "Danmee（ダンミ）",
+   "type": "media",
+   "followers": "중형",
+   "note": "K-POP·韓ドラ 뉴스 — 자료 제공 협업 제안"
+  },
+  {
+   "handle": "kpopmonsterjp",
+   "name": "KPOP monster",
+   "type": "media",
+   "followers": "중형",
+   "note": "K-POP 전문 뉴스 — 자료 제공 협업 제안"
+  },
+  {
+   "handle": "konest",
+   "name": "韓国旅行「コネスト」",
+   "type": "travel",
+   "followers": "대형",
+   "note": "渡韓 정보 최대급 — 여행 탭(한옥·체험·등산) 소개 부탁"
+  },
+  {
    "handle": "seoulnavii",
    "name": "韓国旅行「ソウルナビ」",
    "type": "travel",
@@ -39,5 +74,5 @@
    "note": "서울 스폿·환율 정보 — 여행 탭 소개 부탁"
   }
  ],
- "todo": "X 로그인 후 일본 K-POP·韓ドラ 정보 계정, 아티스트 팬 계정, 渡韓 계정을 검색해 30~50개로 채움"
+ "todo": "X 공식 계정은 각 사이트에 걸린 링크로 확인함 (2026-10-29). 아티스트 팬 계정·渡韓 개인 계정은 X 검색이 로그인 필요라, 관리자 브라우저에서 X 로그인 후 30~50개로 채울 예정"
 }
