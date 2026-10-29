@@ -447,5 +447,21 @@
    "峨嵯山 登山 ソウル",
    "明洞 屋台"
   ]
+ },
+ "cooking_class": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp, priority: Korean cooking-class experiences popular with visitors — making kimchi, kimbap, jeon (pancakes), tteokbokki, bulgogi at classes in Seoul / Busan / Jeonju. Added 2026-10-29 (per David).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 5000,
+  "queries": [
+   "キムチ作り体験",
+   "韓国料理教室 ソウル",
+   "キンパ作り体験",
+   "韓国 クッキングクラス",
+   "チヂミ 作り 体験 韓国",
+   "トッポッキ 料理教室",
+   "韓国 料理体験 旅行",
+   "全州 ビビンバ 作り 体験"
+  ]
  }
 }

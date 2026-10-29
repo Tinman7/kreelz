@@ -114,6 +114,8 @@ const KR = cfg.kr_reco || { queries: [] }, RECO = { name: "Korean travel & resta
 // hotel-class hanok hotels — Japanese videos (hanok_stay, travel checks) and Korean ones (hanok_kr, region KR, hanokKrOK)
 // the places foreign visitors like best (KTO visitor survey; per David 2026-10-29): Japanese videos, travel checks, first after hanok
 const KT = cfg.kto_top || { queries: [] };
+// Korean cooking classes (kimchi, kimbap, jeon, tteokbokki; per David 2026-10-29): Japanese videos, travel checks + a cooking word
+const CC = cfg.cooking_class || { queries: [] }, COOK = { name: "Korean cooking classes (search, ja)", cat: "travel", search: true };
 const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
 const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "travel", search: true, lift: true },
   HANOK_KR = { name: "Hanok stays: Jeonju, hanok hotels (search, KR)", cat: "travel", search: true, lift: true };
@@ -125,6 +127,8 @@ const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "tr
   budget -= await searchGroup(HK, HANOK_KR, [730, 90], budget) || 0;
   if (!KT.done) budget += 3;   // first run of the survey places: 3 extra searches
   budget -= await searchGroup(KT, TRAVEL, [365, 60], budget) || 0;
+  if (!CC.done) budget += 2;   // first run of the cooking classes: 2 extra searches
+  budget -= await searchGroup(CC, COOK, [730, 120], budget) || 0;
   budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
@@ -195,7 +199,7 @@ const cat = v => {
 };
 const KANA = /[ぁ-んァ-ヶ]/;
 const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|駱山|ナクサン|峨嵯山|アチャサン|DDP|東大門デザインプラザ|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
-const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー/i;
+const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー|料理教室|クッキング|作り体験|料理体験/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
 const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
@@ -249,7 +253,7 @@ const jaC = {};
 const actorOK = v => !!jpActorKind(v.meta) && !FULL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 30 * 60;
 const fanOK = v => (jaC[v.id] || 0) >= (FN.min_ja_comments || 3);
 const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0, notFan = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= ((chOf[id] === HANOK || chOf[id] === HANOK_KR) ? (HS.min_views || 3000) : chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= ((chOf[id] === HANOK || chOf[id] === HANOK_KR) ? (HS.min_views || 3000) : chOf[id] === COOK ? (CC.min_views || 5000) : chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
@@ -260,7 +264,8 @@ for (const id of cand) {
   if (c.skip && new RegExp(c.skip, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. 최자로드's concert promos and Japan restaurants
   if (c.visit && !visitOK(v.meta[0], v.meta[6], v.desc)) { notTravel++; continue; }
   if (c.food && !foodOK(v.meta[0])) { notTravel++; continue; }
-  if ((c === TRAVEL || c === HANOK) && !travelOK(v)) { notTravel++; continue; }
+  if ((c === TRAVEL || c === HANOK || c === COOK) && !travelOK(v)) { notTravel++; continue; }
+  if (c === COOK && !/料理|クッキング|作り|作る|体験|教室|キムチ|キンパ|チヂミ|トッポ|ビビンバ|プルコギ|cooking|class/i.test(v.meta[0])) { notTravel++; continue; }
   if (c === HANOK && !HANOK_W.test(v.meta[0] + " " + v.meta[5].join(" "))) { notTravel++; continue; }
   if (c === HANOK_KR && !hanokKrOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
@@ -286,6 +291,7 @@ if (!CHECK) {
   if (cfg.busan_jp && cfg.busan_jp.ran) { cfg.busan_jp.done = true; delete cfg.busan_jp.ran; }
   if (HS.ran && cfg.hanok_stay) cfg.hanok_stay.done = true;
   if (cfg.kto_top && cfg.kto_top.ran) { cfg.kto_top.done = true; delete cfg.kto_top.ran; }
+  if (cfg.cooking_class && cfg.cooking_class.ran) { cfg.cooking_class.done = true; delete cfg.cooking_class.ran; }
   if (HK.ran && cfg.hanok_kr) cfg.hanok_kr.done = true;
   if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
   if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;
