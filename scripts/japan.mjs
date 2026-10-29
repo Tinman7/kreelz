@@ -203,7 +203,7 @@ const RECO_NOT = /\bmv\b|m\/v|직캠|fancam|드라마|예고|teaser|trailer|뉴�
 const HANOK_W = /韓屋|ハノク|hanok|한옥|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ/i;
 const STAY_W = /宿|泊|ステイ|ホテル|ゲストハウス|ルームツアー|숙소|호텔|스테이|stay|hotel|1박|룸 ?투어|객실|게스트하우스|고택|펜션|room ?tour/i;
 const hanokKrOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
-  return /[가-힣]/.test(v.meta[0]) && HANOK_W.test(t) && STAY_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
+  return /[가-힣]/.test(v.meta[0]) && HANOK_W.test(t) && STAY_W.test(t) && !RECO_NOT.test(v.meta[0]) && !/부동산|매매|매물|월 ?\d|수익|투자|인형 ?뽑기/.test(v.meta[0] + " " + v.meta[1]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 const recoOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return (/[가-힣]/.test(t) || /korea|seoul|busan/i.test(t)) && RECO_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 // restaurant visits only (channels with "visit": 최자로드, per David 2026-10-27): long videos must be a visit series
