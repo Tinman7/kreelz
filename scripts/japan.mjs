@@ -114,6 +114,8 @@ const KR = cfg.kr_reco || { queries: [] }, RECO = { name: "Korean travel & resta
 // hotel-class hanok hotels — Japanese videos (hanok_stay, travel checks) and Korean ones (hanok_kr, region KR, hanokKrOK)
 // the places foreign visitors like best (KTO visitor survey; per David 2026-10-29): Japanese videos, travel checks, first after hanok
 const KT = cfg.kto_top || { queries: [] };
+// experiences foreign visitors choose (survey) and K-hiking (per David 2026-10-29): Japanese videos, travel checks
+const AV = cfg.activities || { queries: [] }, HI = cfg.hiking || { queries: [] };
 // Korean cooking classes (kimchi, kimbap, jeon, tteokbokki; per David 2026-10-29): Japanese videos, travel checks + a cooking word
 const CC = cfg.cooking_class || { queries: [] }, COOK = { name: "Korean cooking classes (search, ja)", cat: "travel", search: true };
 const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
@@ -129,6 +131,7 @@ const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "tr
   budget -= await searchGroup(KT, TRAVEL, [365, 60], budget) || 0;
   if (!CC.done) budget += 2;   // first run of the cooking classes: 2 extra searches
   budget -= await searchGroup(CC, COOK, [730, 120], budget) || 0;
+  for (const g of [AV, HI]) { if (!g.done) budget += 2; budget -= await searchGroup(g, TRAVEL, [730, 120], budget) || 0; }   // first runs: 2 extra searches each
   budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
@@ -198,8 +201,8 @@ const cat = v => {
   return "d";
 };
 const KANA = /[ぁ-んァ-ヶ]/;
-const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|駱山|ナクサン|峨嵯山|アチャサン|DDP|東大門デザインプラザ|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
-const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー|料理教室|クッキング|作り体験|料理体験/i;
+const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|駱山|ナクサン|峨嵯山|アチャサン|北漢山|プッカンサン|仁王山|イナンサン|冠岳山|クァナクサン|漢拏山|ハルラサン|雪岳山|ソラクサン|道峰山|トボンサン|水落山|DDP|東大門デザインプラザ|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
+const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー|料理教室|クッキング|作り体験|料理体験|登山|ハイキング|トレッキング|紅葉|チムジルバン|アカスリ|レッスン|診断|写真館|テンプルステイ|ネイル|絶景/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
 const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
@@ -292,6 +295,7 @@ if (!CHECK) {
   if (HS.ran && cfg.hanok_stay) cfg.hanok_stay.done = true;
   if (cfg.kto_top && cfg.kto_top.ran) { cfg.kto_top.done = true; delete cfg.kto_top.ran; }
   if (cfg.cooking_class && cfg.cooking_class.ran) { cfg.cooking_class.done = true; delete cfg.cooking_class.ran; }
+  for (const k of ["activities", "hiking"]) if (cfg[k] && cfg[k].ran) { cfg[k].done = true; delete cfg[k].ran; }
   if (HK.ran && cfg.hanok_kr) cfg.hanok_kr.done = true;
   if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
   if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;

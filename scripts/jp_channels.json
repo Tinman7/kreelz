@@ -473,5 +473,39 @@
    "韓国 料理体験 旅行",
    "全州 ビビンバ 作り 体験"
   ]
+ },
+ "activities": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: experiences foreign visitors choose — 2024 외래관광객조사 (MCST): shopping 20.6%, food 18.8%, natural scenery 12.0%, Hallyu sites 8.0%, historic sites 7.9%, beauty 6.7%; Hana research 2026 'live like a local' trend: K-beauty / idol makeup classes, hanbok, 세신 (scrub), nail, personal colour, one-day idol dance class, photo-shoot tours. Added 2026-10-29 (per David).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 5000,
+  "queries": [
+   "韓国 体験 おすすめ",
+   "チムジルバン 体験",
+   "韓国 アカスリ 体験",
+   "K-POP ダンスレッスン 体験 ソウル",
+   "アイドルメイク 体験 ソウル",
+   "パーソナルカラー診断 ソウル",
+   "韓国 写真館 体験",
+   "テンプルステイ 韓国",
+   "韓国 ネイル 体験",
+   "韓国 絶景 自然"
+  ]
+ },
+ "hiking": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp: K-hiking, popular with foreign visitors — 2025 national-park visits by foreigners: Hallasan 303,367, Seoraksan 169,284, Bukhansan 135,830 (Hankook Ilbo 2026-04-15); Seoul Hiking Week (Suraksan, Bukhansan, Gwanaksan); Achasan, Inwangsan. Added 2026-10-29 (per David).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 5000,
+  "queries": [
+   "北漢山 登山",
+   "仁王山 ハイキング",
+   "漢拏山 登山",
+   "雪岳山 紅葉",
+   "冠岳山 登山",
+   "ソウル 登山 vlog",
+   "韓国 登山 外国人",
+   "道峰山 登山"
+  ]
  }
 }
