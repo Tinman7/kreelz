@@ -221,6 +221,16 @@
    "skip": "콘서트|컴백|\\[CRASH\\]|목 관리|Hater|도쿄|오사카|일본|후쿠오카|교토|츠케멘|라멘",
    "visit": true,
    "playlist": "PLRYcYLwK_HlV5EHWGoHHTGw0lkgGhyy0z"
+  },
+  {
+   "id": "UCM7GjNAeqrwrEou4TLQy2AA",
+   "name": "FOXandBEAR 여우곰채널",
+   "handle": "@foxandbear_kr",
+   "cat": "travel",
+   "korean": false,
+   "lift": true,
+   "first": 150,
+   "note": "FOXandBEAR 여우곰채널 (hanbok travel around Korea, Korean culture and local trips), picked by David 2026-10-29 — Japan edition only, lifted in K-Travel & Food; titles translated to Japanese nightly"
   }
  ],
  "travel": {
