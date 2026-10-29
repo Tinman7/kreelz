@@ -1,48 +1,48 @@
 {
- "date": "2026-10-29",
- "artist": "ILLIT",
- "actor": "Choo Young-woo",
+ "date": "2026-10-30",
+ "artist": "Stray Kids",
+ "actor": "Song Kang",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: Kトラベル＆フード",
-   "text": "🍜Kトラベル＆フードでいま見られているクリップ\n注目：一晩で…ソックハウスの石垣が崩れた😱\n▶ https://kreelz.com/jp/k/food/\n#韓国グルメ #韓国旅行",
-   "len": 137
+   "label": "카테고리: 韓国映画",
+   "text": "🎬韓国映画でいま見られているクリップ\n注目：[デューン 砂の惑星 PART3] 第3弾予告編\n▶ https://kreelz.com/jp/k/film/\n#韓国映画",
+   "len": 117
   },
   {
    "time": "12:00",
    "label": "오늘의 인기 TOP3",
-   "text": "📈今日の韓国エンタメ人気クリップ（10/29）\n1. RIIZE ライズ 'Insomnia' MV\n2. ILLIT (アイリット) '逮捕しちゃうぞ (You're Under Arrest)' Offi…\n3. 僕は🐰🐶🦊になるんだ！\n▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 212
+   "text": "📈今日の韓国エンタメ人気クリップ（10/30）\n1. AND2BLE (アンドゥブル) 'French Kissing' MV\n2. 僕は🐰🐶🦊になるんだ！\n3. HUNTR/X Dance Rehearsal | 「How It's Done」| KPop Demon Hunter…\n▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 228
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "ILLITの曲で、いま一番リピートしてるのは？🎧\nリプで教えてください！\n#ILLIT #アイリット",
-   "len": 85
+   "text": "Stray Kidsを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#StrayKids #スキズ",
+   "len": 112
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ILLIT (アイリット) '逮捕しちゃうぞ (You're Under Arrest)' Official MV\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 179
+   "label": "아티스트: Stray Kids",
+   "text": "🔥Stray Kids（ストレイキッズ）の最新ショート・動画まとめ\nいま話題：僕は🐰🐶🦊になるんだ！\n▶ https://kreelz.com/jp/k/stray-kids/\n#StrayKids #スキズ #KPOP",
+   "len": 141
   },
   {
    "time": "22:00",
-   "label": "배우: Choo Young-woo",
-   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[7話ハイライト] 「お母さんが一番大事だから…」 チュ・ヨンウを傷つけたキム・ソヒョンの予想外の答え…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
-   "len": 232
+   "label": "배우: Song Kang",
+   "text": "🎬ソン・ガンの最新動画まとめ\nいま話題：ソン・ガンのバフでアイリットの「逮捕する」の順位がすごい勢いで上がってる件\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/song-kang/\n#ソンガン #韓国俳優",
+   "len": 203
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "Stray Kids 최신 일본어 글",
+    "url": "https://x.com/search?q=%23StrayKids%20lang%3Aja&f=live"
    },
    {
-    "label": "チュ・ヨンウ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
+    "label": "ソン・ガン 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%BD%E3%83%B3%E3%82%AC%E3%83%B3%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "10/29",
+  "date": "10/30",
   "rows": [
    {
-    "t": "RIIZE ライズ 'Insomnia' MV",
-    "ch": "SMTOWN",
-    "v": 10340651
-   },
-   {
-    "t": "ILLIT (アイリット) '逮捕しちゃうぞ (You're Under Arrest)' Official MV",
-    "ch": "HYBE LABELS",
-    "v": 9174624
+    "t": "AND2BLE (アンドゥブル) 'French Kissing' MV",
+    "ch": "AND2BLE",
+    "v": 13373993
    },
    {
     "t": "僕は🐰🐶🦊になるんだ！",
     "ch": "Stray Kids",
-    "v": 5355130
+    "v": 6369589
    },
    {
-    "t": "AND2BLE (アンドゥブル) 'French Kissing' MV",
-    "ch": "AND2BLE",
-    "v": 5197327
+    "t": "🚨 with @ENHYPENOFFICIAL",
+    "ch": "ILLIT",
+    "v": 2944231
    },
    {
-    "t": "XIAOJUN シャオジュン 'Hey, Somebody (English Ver.)' MV",
-    "ch": "SMTOWN",
-    "v": 3695687
+    "t": "アイブレンジャー",
+    "ch": "IVE",
+    "v": 2675495
+   },
+   {
+    "t": "🚨 with @dlwlrma",
+    "ch": "ILLIT",
+    "v": 1960239
    }
   ],
   "url": "kreelz.com/jp",
