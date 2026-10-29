@@ -49,7 +49,7 @@ const DRAMA_CH = /drama|드라마|ドラマ|tving|티빙|netflix|넷플릭스|di
 
 // food-tab clips count only from TV channels (a restaurant creator naming 흑백요리사 is still a food video)
 const TV_CH = /디글|tvn|sbs|mbc|kbs|jtbc|ena|netflix|넷플릭스|tving|티빙|채널a|채널에이드|mbn|wavve|웨이브|쿠팡|coupang|tv ?chosun|tv조선|mnet/i;
-// Shows-tab videos that are not variety move to their own tab (per David 2026-10-30): K-pop stages and fancams → Music,
+// Shows-tab videos that are not variety move to their own tab, and the rest leave the site (per David 2026-10-30): K-pop stages and fancams → Music,
 // actors' fan meetings, events and drama clips → Screen. Both editions; the category letter is rewritten in FEED/SHORTS.
 const esc_ = x => String(x).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const ACTOR_RE = new RegExp([...ACTORS, ...JP_ACTORS].flatMap(a => [a[0], a[1], JP_ACTOR_JA[a[0]]]).filter(Boolean).map(n => esc_(n).replace(/[- ・]/g, "[- ・]?")).join("|"), "i");
@@ -93,7 +93,8 @@ if (process.argv[1] && process.argv[1].endsWith("jpvariety.mjs")) {
       if (e) {
         if (isVariety(e[0], e[1], cat)) { ids.push(id); byCh[e[1]] = (byCh[e[1]] || 0) + 1; if (dry) ex.push(`${cat} ${e[1]} :: ${e[0].slice(0, 80)}`) }
         else if (cat === "e") { const to = moveTo(e[0], e[1]); if (to) { moved[to]++; if (dry && mex.length < 3000) mex.push(`${to} ${e[1]} :: ${e[0].slice(0, 80)}`);
-          row = id + (c0 === c0.toUpperCase() ? to.toUpperCase() : to) + row.slice(12) } }
+          row = id + (c0 === c0.toUpperCase() ? to.toUpperCase() : to) + row.slice(12) }
+          else { moved.dropped = (moved.dropped || 0) + 1; continue } }   // neither variety, K-pop nor actors (health info, crime re-enactments, news clips…): off the site (per David 2026-10-30)
       }
       out += row;
     }
