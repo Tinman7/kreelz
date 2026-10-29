@@ -392,5 +392,40 @@
    "요즘핫한식당"
   ],
   "done": true
+ },
+ "hanok_stay": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp, lifted to the top: Japanese videos of hanok stays — Jeonju Hanok Village guesthouses and hotel-class hanok hotels (Gyeongwonjae Ambassador Incheon, Rakkojae Seoul, Bonum 1957 Bukchon, Lahan / Nabijam Jeonju, Gyeongju, Andong Gurume). Added 2026-10-29 (per David).",
+  "first_run": 4,
+  "per_night": 2,
+  "min_views": 3000,
+  "queries": [
+   "全州韓屋村 宿泊",
+   "韓屋ステイ",
+   "韓屋ホテル",
+   "全州 韓屋 ホテル",
+   "韓屋 宿 ソウル 北村",
+   "楽古斎 ソウル",
+   "鏡源斎 アンバサダー 仁川",
+   "慶州 韓屋 宿",
+   "安東 韓屋ステイ",
+   "全州韓屋村 vlog"
+  ]
+ },
+ "hanok_kr": {
+  "_note": "Korean videos of the same hanok stays (region KR), Japan edition only, lifted; titles translated to Japanese nightly. Added 2026-10-29 (per David).",
+  "first_run": 3,
+  "per_night": 1,
+  "min_views": 3000,
+  "region": "KR",
+  "lang": "ko",
+  "queries": [
+   "전주한옥마을 숙소",
+   "한옥호텔 추천",
+   "한옥스테이 추천",
+   "경원재 앰배서더",
+   "락고재",
+   "전주 한옥 호텔",
+   "경주 한옥 숙소"
+  ]
  }
 }

@@ -11,6 +11,8 @@ const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missin
 const CHECK = process.argv.includes("--check");
 // JP_TOP_ONLY=1: only the top picked creators (jp_channels.json "top": 성시경의 먹을텐데, 최자로드) — no searches, other channels untouched
 const TOP_ONLY = process.env.JP_TOP_ONLY === "1";
+// JP_HANOK_ONLY=1: only the hanok-stay searches (jp_channels.json hanok_stay / hanok_kr) — David asked for them "now", 2026-10-29
+const HANOK_ONLY = process.env.JP_HANOK_ONLY === "1";
 const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "jp.json";
 const CFG = "scripts/jp_channels.json", VMETA = "data/vmeta.json.gz", ONLY = "data/jp_only.json";
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
@@ -41,7 +43,7 @@ const dur = s => { const m = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(s || "")
 // ---- 1) find each channel once (search + name and subscriber check), then remember its id
 const cfg = JSON.parse(fs.readFileSync(CFG, "utf8"));
 for (const c of cfg.channels) {
-  if (c.id || (TOP_ONLY && !c.top)) continue;
+  if (c.id || (TOP_ONLY && !c.top) || HANOK_ONLY) continue;
   if (c.handle || c.video) {   // exact: by @handle, or by one of the channel's videos
     try {
       const d = c.handle ? await call("channels", { part: "snippet", forHandle: c.handle }) : await call("videos", { part: "snippet", id: c.video });
@@ -72,7 +74,7 @@ const only = new Set(fs.existsSync(ONLY) ? JSON.parse(fs.readFileSync(ONLY, "utf
 const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
 const chOf = {}, shortIds = new Set(), seenCh = new Set();
 for (const c of cfg.channels) {
-  if (!c.id || (TOP_ONLY && !c.top)) continue;
+  if (!c.id || (TOP_ONLY && !c.top) || HANOK_ONLY) continue;
   if (seenCh.has(c.id)) { console.log("same channel listed twice, skipped:", c.name || c.id); continue; } seenCh.add(c.id);
   const max = c.done ? DAILY : (c.first || FIRST);
   const up = await playlist("UU" + c.id.slice(2), max), sh = await playlist("UUSH" + c.id.slice(2), max);
@@ -87,7 +89,7 @@ for (const c of cfg.channels) {
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
 const BE = cfg.beauty || { queries: [] }, BEAUTY = { name: "Olive Young / Korean cosmetics (search)", cat: "beauty", search: true };
 async function searchGroup(G, tag, days, limit = Infinity) {
-  const L = G.queries || []; if (!L.length || limit <= 0 || TOP_ONLY) return 0;
+  const L = G.queries || []; if (!L.length || limit <= 0 || TOP_ONLY || (HANOK_ONLY && !G.hanok)) return 0;
   const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length, limit);
   G.ran = true;
   const start = G.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;   // the first night takes the top of the list
@@ -107,10 +109,17 @@ const PG = cfg.pilgrimage || { queries: [] };   // idols' places in Korea (聖�
 const HG = cfg.heritage || { queries: [] }, BG = cfg.busan_jp || { queries: [] };   // traditional Seoul, Busan
 // Korean-language picks for travel spots and restaurants (Korean creators, region KR): shown on both editions, lifted on /jp
 const KR = cfg.kr_reco || { queries: [] }, RECO = { name: "Korean travel & restaurant picks (search, KR)", cat: "travel", search: true, reco: true };
+// Hanok stays (/jp only, lifted to the top of K-Travel & Food; per David 2026-10-29): Jeonju Hanok Village stays and
+// hotel-class hanok hotels — Japanese videos (hanok_stay, travel checks) and Korean ones (hanok_kr, region KR, hanokKrOK)
+const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
+const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "travel", search: true, lift: true },
+  HANOK_KR = { name: "Hanok stays: Jeonju, hanok hotels (search, KR)", cat: "travel", search: true, lift: true };
 // These searches share the nightly YouTube quota with the global edition: at most JP_SEARCHES a night, the groups
 // taking turns (a group that did not get a turn keeps its first-run size for a later night).
 { const G = [[TR, TRAVEL, [365, 60]], [BE, BEAUTY, [180, 30]], [KB, TRAVEL, [365, 60]], [PG, TRAVEL, [365, 60]], [HG, TRAVEL, [365, 60]], [BG, TRAVEL, [365, 60]]];
-  let budget = +(process.env.JP_SEARCHES || 6);
+  let budget = +(process.env.JP_SEARCHES || 6) + (HS.done && HK.done ? 0 : 3);   // the hanok groups' first run gets 3 extra searches
+  budget -= await searchGroup(HS, HANOK, [730, 90], budget) || 0;   // hanok stays first (per David)
+  budget -= await searchGroup(HK, HANOK_KR, [730, 90], budget) || 0;
   budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
@@ -124,7 +133,7 @@ const AC = cfg.actors || { kinds: [] }, ACTS = { name: "Ranked actors: romance, 
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = [...(FN.extra || [])]; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // extra first, then artists alternate
-  const n = TOP_ONLY ? 0 : Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
+  const n = (TOP_ONLY || HANOK_ONLY) ? 0 : Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
   const start = FN.done ? Math.floor(Date.now() / DAY) * n % Math.max(1, Q.length) : 0;   // the first night takes the top of the list
   const qs = Array.from({ length: n }, (_, i) => Q[(start + i) % Q.length]);
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
@@ -180,8 +189,8 @@ const cat = v => {
   return "d";
 };
 const KANA = /[ぁ-んァ-ヶ]/;
-const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|慶州|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
-const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe/i;
+const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
+const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
 const BEAUTYW = /購入品|爆買い|おすすめ|オススメ|新作|レビュー|ランキング|買ってよかった|使ってみた|比較|スキンケア|メイク|コスメ|クッション|リップ|ティント|美容液|クリーム|パック|日焼け止め|haul|review/i;
@@ -190,6 +199,11 @@ const beautyOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return KANA.test(v.meta[0]) && COSME.test(t) && BEAUTYW.test(t) && !NOT_BEAUTY.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 const RECO_W = /여행|여행지|가볼만한|가볼 ?만한|추천|맛집|식당|카페|코스|투어|핫플|먹방|음식|브이로그|vlog|travel|trip|food|restaurant|must ?visit|places to/i;
 const RECO_NOT = /\bmv\b|m\/v|직캠|fancam|드라마|예고|teaser|trailer|뉴스|news|사건|사고|일본|도쿄|오사카|후쿠오카|대만|베트남|태국|유럽|미국/i;
+// hanok stays: a hanok word and a stay word (Japanese videos also pass the travel checks; Korean ones the Korean checks)
+const HANOK_W = /韓屋|ハノク|hanok|한옥|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ/i;
+const STAY_W = /宿|泊|ステイ|ホテル|ゲストハウス|ルームツアー|숙소|호텔|스테이|stay|hotel|1박|룸 ?투어|객실|게스트하우스|고택|펜션|room ?tour/i;
+const hanokKrOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
+  return /[가-힣]/.test(v.meta[0]) && HANOK_W.test(t) && STAY_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 const recoOK = v => { const t = v.meta[0] + " " + v.meta[5].join(" ");
   return (/[가-힣]/.test(t) || /korea|seoul|busan/i.test(t)) && RECO_W.test(t) && !RECO_NOT.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 40 * 60; };
 // restaurant visits only (channels with "visit": 최자로드, per David 2026-10-27): long videos must be a visit series
@@ -230,7 +244,7 @@ const jaC = {};
 const actorOK = v => !!jpActorKind(v.meta) && !FULL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 30 * 60;
 const fanOK = v => (jaC[v.id] || 0) >= (FN.min_ja_comments || 3);
 const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0, notFan = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= (chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= ((chOf[id] === HANOK || chOf[id] === HANOK_KR) ? (HS.min_views || 3000) : chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
@@ -241,7 +255,9 @@ for (const id of cand) {
   if (c.skip && new RegExp(c.skip, "i").test(v.meta[0])) { notTravel++; continue; }   // e.g. 최자로드's concert promos and Japan restaurants
   if (c.visit && !visitOK(v.meta[0], v.meta[6], v.desc)) { notTravel++; continue; }
   if (c.food && !foodOK(v.meta[0])) { notTravel++; continue; }
-  if (c === TRAVEL && !travelOK(v)) { notTravel++; continue; }
+  if ((c === TRAVEL || c === HANOK) && !travelOK(v)) { notTravel++; continue; }
+  if (c === HANOK && !HANOK_W.test(v.meta[0] + " " + v.meta[5].join(" "))) { notTravel++; continue; }
+  if (c === HANOK_KR && !hanokKrOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
   if (c === FANS && !fanOK(v)) { notFan++; continue; }
@@ -249,7 +265,7 @@ for (const id of cand) {
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
-  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); }   // Korean picks are not Japan-only
+  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); if (c.lift) reco.add(id); }   // hanok stays: Japan-only and lifted   // Korean picks are not Japan-only
 }
 const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
 console.log(report);
@@ -263,6 +279,8 @@ if (!CHECK) {
   if (cfg.pilgrimage && cfg.pilgrimage.ran) { cfg.pilgrimage.done = true; delete cfg.pilgrimage.ran; }
   if (cfg.heritage && cfg.heritage.ran) { cfg.heritage.done = true; delete cfg.heritage.ran; }
   if (cfg.busan_jp && cfg.busan_jp.ran) { cfg.busan_jp.done = true; delete cfg.busan_jp.ran; }
+  if (HS.ran && cfg.hanok_stay) cfg.hanok_stay.done = true;
+  if (HK.ran && cfg.hanok_kr) cfg.hanok_kr.done = true;
   if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
   if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;
   fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");

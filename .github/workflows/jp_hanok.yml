@@ -1,0 +1,59 @@
+# One-off: only the hanok-stay searches of the kreelz.com/jp K-Travel & Food tab (jp_channels.json hanok_stay, hanok_kr:
+# Jeonju Hanok Village stays, hotel-class hanok hotels), published right away (David asked for these "now", 2026-10-29).
+# Uses about 7-10 YouTube searches (100 units each) plus video details.
+name: JP hanok stays now
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+jobs:
+  top:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect the hanok-stay searches only
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          JP_HANOK_ONLY: "1"
+        run: node scripts/japan.mjs jp_hanok.json | tee hanok.log
+      - name: Merge into site (same build day, no ageing)
+        run: |
+          BUILT=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          if [ -s jp_hanok.json ]; then
+            python3 scripts/daily_merge.py index.html jp_hanok.json "$BUILT" index.next.html | tee -a hanok.log
+            grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+          fi
+          node scripts/prio.mjs index.html data/vmeta.json.gz | tee -a hanok.log
+      - name: Japanese titles for the new videos
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TX_MINUTES: "8"
+          TX_PASSES: "ja"
+        run: node scripts/titles.mjs index.html
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/region.mjs index.html
+          git add index.html data jp scripts/jp_channels.json
+          [ -d t ] && git add t
+          git commit -m "kreelz.com/jp K-Travel & Food: hanok stays (Jeonju, hanok hotels) $(grep -o '"videos":[0-9]*,"shorts":[0-9]*' hanok.log | tail -1)" || echo "nothing to commit"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          cat hanok.log | tail -40
