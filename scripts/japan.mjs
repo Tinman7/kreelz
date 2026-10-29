@@ -13,6 +13,8 @@ const CHECK = process.argv.includes("--check");
 const TOP_ONLY = process.env.JP_TOP_ONLY === "1";
 // JP_HANOK_ONLY=1: only the hanok-stay searches (jp_channels.json hanok_stay / hanok_kr) — David asked for them "now", 2026-10-29
 const HANOK_ONLY = process.env.JP_HANOK_ONLY === "1";
+// JP_NEW_ONLY=1: only what has not run yet (new channels, new search groups' first run) — "apply it now", per David 2026-10-29
+const NEW_ONLY = process.env.JP_NEW_ONLY === "1";
 const outPath = process.argv.slice(2).find(a => !a.startsWith("--")) || "jp.json";
 const CFG = "scripts/jp_channels.json", VMETA = "data/vmeta.json.gz", ONLY = "data/jp_only.json";
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
@@ -75,7 +77,7 @@ const HANOK_F = "data/jp_hanok.json", hanokIds = new Set(fs.existsSync(HANOK_F) 
 const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
 const chOf = {}, shortIds = new Set(), seenCh = new Set();
 for (const c of cfg.channels) {
-  if (!c.id || (TOP_ONLY && !c.top) || HANOK_ONLY) continue;
+  if (!c.id || (TOP_ONLY && !c.top) || HANOK_ONLY || (NEW_ONLY && c.done)) continue;
   if (seenCh.has(c.id)) { console.log("same channel listed twice, skipped:", c.name || c.id); continue; } seenCh.add(c.id);
   const max = c.done ? DAILY : (c.first || FIRST);
   const up = await playlist("UU" + c.id.slice(2), max), sh = await playlist("UUSH" + c.id.slice(2), max);
@@ -90,7 +92,7 @@ for (const c of cfg.channels) {
 const TR = cfg.travel || { queries: [] }, TRAVEL = { name: "Japanese travel & food videos (search)", cat: "travel", search: true };
 const BE = cfg.beauty || { queries: [] }, BEAUTY = { name: "Olive Young / Korean cosmetics (search)", cat: "beauty", search: true };
 async function searchGroup(G, tag, days, limit = Infinity) {
-  const L = G.queries || []; if (!L.length || limit <= 0 || TOP_ONLY || (HANOK_ONLY && !G.hanok)) return 0;
+  const L = G.queries || []; if (!L.length || limit <= 0 || TOP_ONLY || (HANOK_ONLY && !G.hanok) || (NEW_ONLY && G.done)) return 0;
   const n = Math.min(CHECK ? 2 : G.done ? (G.per_night || 2) : (G.first_run || L.length), L.length, limit);
   G.ran = true;
   const start = G.done ? Math.floor(Date.now() / DAY) * n % L.length : 0;   // the first night takes the top of the list
@@ -124,7 +126,7 @@ const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "tr
 // These searches share the nightly YouTube quota with the global edition: at most JP_SEARCHES a night, the groups
 // taking turns (a group that did not get a turn keeps its first-run size for a later night).
 { const G = [[TR, TRAVEL, [365, 60]], [BE, BEAUTY, [180, 30]], [KB, TRAVEL, [365, 60]], [PG, TRAVEL, [365, 60]], [HG, TRAVEL, [365, 60]], [BG, TRAVEL, [365, 60]]];
-  let budget = +(process.env.JP_SEARCHES || 6) + (HS.done && HK.done ? 0 : 3);   // the hanok groups' first run gets 3 extra searches
+  let budget = NEW_ONLY ? 40 : +(process.env.JP_SEARCHES || 6) + (HS.done && HK.done ? 0 : 3);   // the hanok groups' first run gets 3 extra searches
   budget -= await searchGroup(HS, HANOK, [730, 90], budget) || 0;   // hanok stays first (per David)
   budget -= await searchGroup(HK, HANOK_KR, [730, 90], budget) || 0;
   if (!KT.done) budget += 3;   // first run of the survey places: 3 extra searches
@@ -145,7 +147,7 @@ const AC = cfg.actors || { kinds: [] }, ACTS = { name: "Ranked actors: romance, 
 // Fan uploads of the artists strongest in Japan (fancams, Japan events, airport, fan meetings, Japanese TV and music shows)
 const FN = cfg.fans || { artists: {}, kinds: [] }, FANS = { name: "Japanese fan uploads (search, Japanese comments)", cat: "fans", search: true };
 { const Q = [...(FN.extra || [])]; for (const k of FN.kinds) for (const [a, q] of Object.entries(FN.artists)) Q.push(q + " " + k);   // extra first, then artists alternate
-  const n = (TOP_ONLY || HANOK_ONLY) ? 0 : Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
+  const n = (TOP_ONLY || HANOK_ONLY || NEW_ONLY) ? 0 : Math.min(CHECK ? 3 : FN.done ? (FN.per_night || 4) : (FN.first_run || 8), Q.length);
   const start = FN.done ? Math.floor(Date.now() / DAY) * n % Math.max(1, Q.length) : 0;   // the first night takes the top of the list
   const qs = Array.from({ length: n }, (_, i) => Q[(start + i) % Q.length]);
   const since = new Date(Date.now() - (FN.done ? 30 : 180) * DAY).toISOString();
