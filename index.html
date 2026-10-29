@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript><!-- the web font no longer holds up the first paint or the page script -->
 <style>
 /* Layout: white, editorial-clean. Hairline header with underline tabs → "on air today" + 14-day list → borderless media grid.
    Mobile: compact header, sticky search, swipe strip, list rows, bottom tab bar. Single light theme by design. */
@@ -734,6 +734,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
       <p id="gridCount"></p>
     </div>
     <div class="grid" id="grid"></div>
+    <div id="gridEnd" aria-hidden="true"></div>
     <div class="wall pwall" id="pwall" hidden></div>
   </section>
 
@@ -2001,11 +2002,24 @@ function renderGrid(){
   $("#gridTitle").textContent = state.cat==="all" ? t("latestpicks") : t("catpicks",{c:catLabel(state.cat)});
   $("#gridCount").textContent = t("titles_count",{n:num(items.length),v:num(items.reduce((n,i)=>n+i.videos.length,0))});
   const shown = ME ? items : items.slice(0,GUEST_PICKS);
-  $("#grid").innerHTML = shown.length ? shown.map(card).join("") : (state.q?`<div class="none">${esc(t("no_match",{q:state.q}))}</div>`:`<div class="none">${esc(t("no_picks",{c:flabel(state.cat)||""}))}</div>`);
+  /* Built a few cards at a time as the reader nears them (290 cards at once = 8,000+ page elements and seconds of
+     layout on phones before anything could be tapped) */
+  GR.items=shown; GR.n=0;
+  if(shown.length){ $("#grid").innerHTML=""; gridMore() }
+  else $("#grid").innerHTML = state.q?`<div class="none">${esc(t("no_match",{q:state.q}))}</div>`:`<div class="none">${esc(t("no_picks",{c:flabel(state.cat)||""}))}</div>`;
   const pw=$("#pwall"), hidden=items.length-shown.length;
   pw.hidden = hidden<=0;
   if(hidden>0) pw.innerHTML = wallHTML(hidden, items.slice(GUEST_PICKS).filter(i=>i.yt).map(i=>i.yt));
   observeTx();
+}
+const GR={items:[],n:0};
+const gio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)) gridMore() },{rootMargin:"1500px 0px"}) : null;
+function gridMore(){
+  const step = gio ? (mobile()?6:12) : GR.items.length, next=GR.items.slice(GR.n, GR.n+step);
+  if(!next.length) return;
+  $("#grid").insertAdjacentHTML("beforeend", next.map(card).join("")); GR.n+=next.length;
+  const s=$("#gridEnd"); if(gio && s){ gio.unobserve(s); if(GR.n<GR.items.length) gio.observe(s) }   // observing again re-checks at once, so a fast scroll keeps filling
+  if(GR.n>step) observeTx();
 }
 /* Curated text is translated only when a card scrolls into view, to save translation quota */
 const xio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){xio.unobserve(e.target); tx(e.target.dataset.tx)}})},{rootMargin:"200px"}) : null;
@@ -2195,11 +2209,19 @@ const SORTS={
   hot:(a,b)=>hot(b)-hot(a),
   rel:(a,b)=>a.r-b.r
 };
-function feedList(){
+/* Sorting and mixing 26,000 videos / 80,000 shorts takes a moment on phones, so each tab's order is kept once worked out
+   (same tab, sort, filter and day = same list) and switching back is instant */
+const LMEMO={};
+const metaNow=()=>state.q.trim()?Object.keys(meta).length:0;   // a search matches titles, which keep arriving
+const memoList=(kind,fn)=>{ const k=[kind,state.cat,kind==="s"?sstate.sort:fstate.sort,fstate.official,state.q.trim().toLowerCase(),kstDay(),SV.length,FV.length,BAD.size,metaNow()].join("|");
+  const m=LMEMO[kind]||(LMEMO[kind]=new Map()); if(m.has(k)) return m.get(k);
+  const l=fn(); m.set(k,l); if(m.size>10) m.delete(m.keys().next().value); return l };
+function feedList(){ return lastJP(pinUp(memoList("f",feedList0))) }   // pinUp reads titles (/jp: Japanese clips first), so it runs every time
+function feedList0(){
   const q=state.q.trim().toLowerCase();
   let l=FV.filter(v=>inCat(v)&&(!fstate.official||v.ok));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S1=SORTS[fstate.sort]; return lastJP(pinUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b))))));
+  const S1=SORTS[fstate.sort]; return freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b))));
 }
 const okIcon=()=>`<span class="fok" title="${esc(t("verified"))}"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>`;
 const isNew = v => v.days>=0 && v.days<=1;
@@ -2329,11 +2351,12 @@ const SSORTS={ new:(a,b)=>(a.days<0)-(b.days<0)||a.days-b.days||b.views-a.views,
 /* live.js shorts (see FV above) */
 (function(){ const have=new Set(SV.map(v=>v.id)); (LIVE.s||[]).forEach(x=>{ const cat=FCAT[x[1]]; if(!cat||have.has(x[0])) return;
   SV.push({id:x[0],cat,ok:false,views:+x[2]||0,days:liveDays(x[3]),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 }) })();
-function shortsList(){
+function shortsList(){ return lastJP(ncMix(hotMix(memoList("s",shortsList0)))) }   // hotMix reads titles, so it runs every time
+function shortsList0(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&!BAD.has(v.id));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S2=SSORTS[sstate.sort]||SSORTS.views; return lastJP(ncMix(hotMix(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b)))))));
+  const S2=SSORTS[sstate.sort]||SSORTS.views; return freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))));
 }
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
 function scard(v,k){
