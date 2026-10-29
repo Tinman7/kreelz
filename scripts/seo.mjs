@@ -358,6 +358,8 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
       comment: `Watch here 👉 ${url("en", ac.slug)}` }); }
   if (a) out.group = { label: "팬 그룹용 (관리자 허락받은 그룹에만, 그룹당 주 1~2회)",
     text: `Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated every midnight (KST) — no sign-up.\n\nHere's today's ${a.key} page: ${url("en", a.slug)}\n\nFeedback welcome! 💜` };
+  if (a) out.groupId = { label: "인도네시아 그룹용 (Bahasa Indonesia)",
+    text: `Halo K-fam! 👋 Kami bikin situs gratis yang ngumpulin shorts & video K-pop dan K-drama terbaru di satu tempat, update tiap tengah malam (KST) — tanpa daftar, bisa pilih Bahasa Indonesia.\n\nHalaman ${a.key} hari ini: ${url("en", a.slug)}\n\nMasukan kalian sangat berarti! 💜` };
   out.posts.sort((x, y) => x.kst.localeCompare(y.kst));
   out.artist = a && a.key; out.actor = ac && ac.key;
   fs.writeFileSync("data/fbposts.json", JSON.stringify(out, null, 1) + "\n");

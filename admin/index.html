@@ -118,6 +118,7 @@ tfoot td{font-weight:800;border-bottom:0}
 .xp-t{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:14px;line-height:1.6;background:var(--soft,#F5F6F8);border-radius:10px;padding:12px;margin:10px 0}
 .xp-how{font-size:13.5px;line-height:1.7;margin-bottom:12px}.xp-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.xp-links .btn{font-size:13px;text-decoration:none}
 .xp-rep{list-style:none;margin:0;padding:0}.xp-rep li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:13.5px}.xp-rep .btn{padding:4px 10px;font-size:12.5px}
+.fbg{width:100%;border-collapse:collapse}.fbg td{text-align:left;padding:9px 6px;border-top:1px solid var(--line);vertical-align:top;font-size:14px}.fbg tr:first-child td{border-top:0}.fbg a{color:var(--ink)}.pill{background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap}
 .fb-card{width:100%;border-radius:10px;border:1px solid var(--line);margin-top:10px;display:block}.xp .row{flex-wrap:wrap;align-items:center}
 .xp .row{display:flex;gap:8px}.xp .btn{text-decoration:none}
 </style>
@@ -462,10 +463,20 @@ function fbCard(c){
       <pre class="xp-t">${esc(p.text)}</pre>
       <div class="row"><button class="btn primary" type="button" data-xrep="${esc(p.text)}">본문 복사</button>${p.comment?`<button class="btn" type="button" data-xrep="${esc(p.comment)}">첫 댓글 복사</button>`:""}</div>
       ${p.comment?`<p class="note" style="margin:8px 0 0">첫 댓글: ${esc(p.comment)}</p>`:""}</div>`);
+    if(d.groupId) cards.push(`<div class="card xp"><div class="xp-h"><b>그룹</b> <span>${esc(d.groupId.label)}</span></div><pre class="xp-t">${esc(d.groupId.text)}</pre>
+      <div class="row"><button class="btn primary" type="button" data-xrep="${esc(d.groupId.text)}">복사</button></div></div>`);
     if(d.group) cards.push(`<div class="card xp"><div class="xp-h"><b>그룹</b> <span>${esc(d.group.label)}</span></div><pre class="xp-t">${esc(d.group.text)}</pre>
       <div class="row"><button class="btn primary" type="button" data-xrep="${esc(d.group.text)}">복사</button></div></div>`);
     box.innerHTML=cards.join("");
   }catch(e){ box.innerHTML='<div class="card note">오늘 글이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
+  try{   // target fan groups (data/fbgroups.json)
+    const G=await fetch("/data/fbgroups.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!G) return;
+    const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    const FL={PH:"🇵🇭",ID:"🇮🇩",Global:"🌏"};
+    const rows=[...G.groups].sort((a,b)=>({PH:0,Global:1,ID:2}[a.c]-{PH:0,Global:1,ID:2}[b.c])||(a.p-b.p)).map(g=>`<tr><td>${FL[g.c]||g.c}</td><td><a href="https://www.facebook.com/groups/${esc(g.id)}" target="_blank" rel="noopener"><b>${esc(g.name)}</b></a><br><small class="note">${esc(g.k)} · 멤버 ${esc(g.members)}${g.daily?` · 하루 글 ${esc(g.daily)}`:""}</small></td><td>${g.p===1?'<span class="pill">1순위</span>':'2순위'}</td></tr>`).join("");
+    $("#fbpList").insertAdjacentHTML("afterend",`<h2 style="margin-top:22px">팬 그룹 목록 <small>${esc(G.checked)} 조사 · Man Tin 프로필로 가입 → 그룹 규칙 확인 → 하루 1~2개 그룹에만 글</small></h2>
+      <div class="card"><table class="fbg"><tbody>${rows}</tbody></table><p class="note" style="margin:10px 0 0">${esc(G.note)}</p></div>`);
+  }catch(e){}
 })();
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-xrep]"); if(!b) return;
   navigator.clipboard.writeText(b.dataset.xrep).then(()=>{ const t=b.textContent; b.textContent="복사됨"; setTimeout(()=>b.textContent=t,1500) }).catch(()=>{}) });
