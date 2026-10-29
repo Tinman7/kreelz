@@ -120,6 +120,20 @@ const KT = cfg.kto_top || { queries: [] };
 const AV = cfg.activities || { queries: [] }, HI = cfg.hiking || { queries: [] };
 // Korean cooking classes (kimchi, kimbap, jeon, tteokbokki; per David 2026-10-29): Japanese videos, travel checks + a cooking word
 const CC = cfg.cooking_class || { queries: [] }, COOK = { name: "Korean cooking classes (search, ja)", cat: "travel", search: true };
+// National Museum of Korea (introductions, its MU:DS goods) and hanbok-rental shops (foreigners getting their hair done and
+// choosing a hanbok) — Japanese (ja) and Korean (KR) videos, /jp only, lifted in K-Travel & Food (per David 2026-10-30)
+const MUSEUM_W = /国立中央博物館|中央博物館|국립중앙박물관|중앙박물관|national museum of korea|뮷즈|ミュッズ|mu:?ds|博物館 ?(グッズ|ショップ)|박물관 ?(굿즈|샵)|반가사유상|半跏思惟像/i;
+const HANBOK_W = /韓服|ハンボク|チマチョゴリ|한복|hanbok/i, RENT_W = /レンタル|ヘア|髪|着付け|대여|헤어|rental|hair|お店|샵/i;
+const tx_ = v => v.meta[0] + " " + v.meta[5].join(" "), short_ = v => v.meta[6] > 0 && v.meta[6] <= 40 * 60;
+const MU = cfg.museum || { queries: [] }, MK = cfg.museum_kr || { queries: [] }, HB = cfg.hanbok_rent || { queries: [] }, HBK = cfg.hanbok_rent_kr || { queries: [] };
+const MUSEUM = { name: "National Museum of Korea & goods (search, ja)", cat: "travel", search: true, lift: true, minv: MU.min_views || 3000,
+    check: v => KANA.test(v.meta[0]) && MUSEUM_W.test(tx_(v)) && short_(v) },
+  MUSEUM_KR = { name: "National Museum of Korea & goods (search, KR)", cat: "travel", search: true, lift: true, minv: MK.min_views || 5000,
+    check: v => /[가-힣]/.test(v.meta[0]) && MUSEUM_W.test(tx_(v)) && short_(v) },
+  HANBOK = { name: "Hanbok rental: hair & choosing (search, ja)", cat: "travel", search: true, lift: true, minv: HB.min_views || 5000,
+    check: v => KANA.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && RENT_W.test(tx_(v)) && short_(v) },
+  HANBOK_KR = { name: "Hanbok rental: hair & choosing (search, KR)", cat: "travel", search: true, lift: true, minv: HBK.min_views || 5000,
+    check: v => /[가-힣]/.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && RENT_W.test(tx_(v)) && /외국인|외국|foreigner|일본인|관광객/i.test(tx_(v)) && short_(v) };
 const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
 const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "travel", search: true, lift: true },
   HANOK_KR = { name: "Hanok stays: Jeonju, hanok hotels (search, KR)", cat: "travel", search: true, lift: true };
@@ -129,12 +143,14 @@ const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "tr
   let budget = NEW_ONLY ? 40 : +(process.env.JP_SEARCHES || 6) + (HS.done && HK.done ? 0 : 3);   // the hanok groups' first run gets 3 extra searches
   budget -= await searchGroup(HS, HANOK, [730, 90], budget) || 0;   // hanok stays first (per David)
   budget -= await searchGroup(HK, HANOK_KR, [730, 90], budget) || 0;
+  for (const [g, tag] of [[MU, MUSEUM], [HB, HANBOK]]) { if (!g.done) budget += 2; budget -= await searchGroup(g, tag, [1095, 180], budget) || 0; }   // museum and hanbok rental (per David 2026-10-30)
   if (!KT.done) budget += 3;   // first run of the survey places: 3 extra searches
   budget -= await searchGroup(KT, TRAVEL, [365, 60], budget) || 0;
   if (!CC.done) budget += 2;   // first run of the cooking classes: 2 extra searches
   budget -= await searchGroup(CC, COOK, [730, 120], budget) || 0;
   for (const g of [AV, HI]) { if (!g.done) budget += 2; budget -= await searchGroup(g, TRAVEL, [730, 120], budget) || 0; }   // first runs: 2 extra searches each
   budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
+  for (const [g, tag] of [[MK, MUSEUM_KR], [HBK, HANBOK_KR]]) { if (!g.done) budget += 2; budget -= await searchGroup(g, tag, [1095, 180], budget) || 0; }
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
 // Ranked actors (scripts/actors.mjs JP_ACTORS, Japanese fan ranking): Japanese uploads of their romance scenes, fan meetings,
@@ -259,7 +275,7 @@ const jaC = {};
 const actorOK = v => !!jpActorKind(v.meta) && !FULL.test(v.meta[0]) && v.meta[6] > 0 && v.meta[6] <= 30 * 60;
 const fanOK = v => (jaC[v.id] || 0) >= (FN.min_ja_comments || 3);
 const out = { videos: {}, shorts: {} }, per = {}; let skipped = 0, notKorean = 0, notTravel = 0, notFan = 0;
-const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= ((chOf[id] === HANOK || chOf[id] === HANOK_KR) ? (HS.min_views || 3000) : chOf[id] === COOK ? (CC.min_views || 5000) : chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300));
+const cand = all.filter(id => info[id] && info[id].usable && info[id].views >= ((chOf[id] && chOf[id].minv) || ((chOf[id] === HANOK || chOf[id] === HANOK_KR) ? (HS.min_views || 3000) : chOf[id] === COOK ? (CC.min_views || 5000) : chOf[id] === TRAVEL ? (TR.min_views || 20000) : chOf[id] === BEAUTY ? (BE.min_views || 50000) : chOf[id] === ACTS ? (AC.min_views || 10000) : chOf[id] === FANS ? (FN.min_views || 10000) : 300)));
 const good = new Set(), checks = [...cand];
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
@@ -275,6 +291,7 @@ for (const id of cand) {
   if (c === HANOK && !HANOK_W.test(v.meta[0] + " " + v.meta[5].join(" "))) { notTravel++; continue; }
   if (c === HANOK_KR && !hanokKrOK(v)) { notTravel++; continue; }
   if (c === RECO && !recoOK(v)) { notTravel++; continue; }
+  if (c.check && !c.check(v)) { notTravel++; continue; }
   if (c === BEAUTY && !beautyOK(v)) { notTravel++; continue; }
   if (c === FANS && !fanOK(v)) { notFan++; continue; }
   if (c === ACTS && !actorOK(v)) { notFan++; continue; }
@@ -298,7 +315,7 @@ if (!CHECK) {
   if (HS.ran && cfg.hanok_stay) cfg.hanok_stay.done = true;
   if (cfg.kto_top && cfg.kto_top.ran) { cfg.kto_top.done = true; delete cfg.kto_top.ran; }
   if (cfg.cooking_class && cfg.cooking_class.ran) { cfg.cooking_class.done = true; delete cfg.cooking_class.ran; }
-  for (const k of ["activities", "hiking"]) if (cfg[k] && cfg[k].ran) { cfg[k].done = true; delete cfg[k].ran; }
+  for (const k of ["activities", "hiking", "museum", "museum_kr", "hanbok_rent", "hanbok_rent_kr"]) if (cfg[k] && cfg[k].ran) { cfg[k].done = true; delete cfg[k].ran; }
   if (HK.ran && cfg.hanok_kr) cfg.hanok_kr.done = true;
   if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
   if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;
