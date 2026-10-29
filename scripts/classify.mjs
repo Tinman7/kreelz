@@ -26,6 +26,8 @@ const KW = {
     [R("기초 ?(화장|케어|루틴)|스킨 ?로션|로션|수분 ?크림|보습|아이 ?크림|나이트 ?크림|세안|이중 ?세안|폼클렌징|홈 ?케어|각질|미백|탄력|주름|안티 ?에이징|anti-?aging|얼굴 ?마사지|페이스 ?마사지|face ?massage|facial ?massage|괄사|gua ?sha|림프 ?(순환|마사지)|lymphatic|붓기|토너 ?패드|toner ?pad|시트 ?마스크|sheet ?mask|수면 ?팩|sleeping ?mask|모델링 ?팩|moisturi[sz]|skin ?routine|glass ?skin|물광|피부 ?(관리|결|톤|장벽|좋아지는|꿀팁)"), 3],
   ],
   k: [
+    // travel in Korea (K-Travel & Food, 2026-10-29): the places foreign visitors like best, plus plain travel words (홍대 left out: busking fancams)
+    [R("여행|관광지|가볼 ?만한|travel|\\btrip\\b|\\btour\\b|투어|한복 ?(체험|대여)|hanbok|명동|myeong-?dong|광장시장|gwangjang|남이섬|nami ?island|해운대|haeundae|경복궁|gyeongbok|북촌|bukchon|익선동|성수동|seongsu|남산 ?타워|n ?seoul ?tower|설악산|seoraksan|감천|gamcheon|롯데월드|lotte ?world"), 2],
     [R("먹방|mukbang|먹는 ?(소리|방송)|먹어 ?(봤|보|요)|먹었|먹기 ?챌린지|리얼 ?사운드|asmr ?(eating|먹)|eating ?(show|sounds?|asmr)|\\beating\\b|대식가|맛집|맛있|맛탐|food|푸드|요리|레시피|recipe|cooking|cook\\b|\\bchef\\b|셰프|쿡방|라면|ramen|ramyeon|치킨|chicken|떡볶이|tteok|삼겹살|고기|bbq|바베큐|국밥|짜장|짬뽕|피자|pizza|햄버거|burger|초밥|sushi|생선회|모듬회|광어|연어|해산물|seafood|곱창|마라탕|탕후루|디저트|dessert|빵|케이크|cake|편의점|convenience store|분식|김밥|kimbap|kimchi|김치|비빔밥|bibimbap|불닭|buldak|간식|snack|길거리 ?음식|street ?food|시장 ?(먹|음식)|뷔페|buffet|술안주|혼술|혼밥|집밥|도시락|반찬"), 3],
   ],
 };

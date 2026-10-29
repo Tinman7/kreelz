@@ -63,7 +63,7 @@ const ARTIST_JA = { "BTS": "BTS（防弾少年団）", "Stray Kids": "Stray Kids
 const ACTOR_JA = { ...JP_ACTOR_JA, "Ji Sung": "チ・ソン", "Kim Seon-ho": "キム・ソンホ", "Nam Joo-hyuk": "ナム・ジュヒョク", "Woo Do-hwan": "ウ・ドファン",
   "Lee Do-hyun": "イ・ドヒョン", "Hwang In-youp": "ファン・イニョプ", "Choo Young-woo": "チュ・ヨンウ", "Lomon": "ロモン", "Lee Jong-suk": "イ・ジョンソク" };
 const CAT_TXT = {
-  en: { music: "K-pop", drama: "K-drama", film: "Korean film", variety: "Korean variety", beauty: "K-beauty", food: "K-food" },
+  en: { music: "K-pop", drama: "K-drama", film: "Korean film", variety: "Korean variety", beauty: "K-beauty", food: "K-travel & food" },
   ja: { music: "K-POP", drama: "韓国ドラマ", film: "韓国映画", variety: "韓国バラエティ", beauty: "Kビューティー", food: "Kトラベル＆フード" },
 };
 const ED = {
