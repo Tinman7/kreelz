@@ -72,7 +72,231 @@
    "type": "travel",
    "followers": "約2.2万 (2023)",
    "note": "서울 스폿·환율 정보 — 여행 탭 소개 부탁"
+  },
+  {
+   "handle": "kanndorajouhou",
+   "name": "韓ドラ情報局",
+   "type": "drama",
+   "followers": "",
+   "note": "韓ドラ 신작·방송 정보 계정 — 클립 인용 RT로 교류"
+  },
+  {
+   "handle": "iotmafia",
+   "name": "韓ドラ沼",
+   "type": "drama",
+   "followers": "",
+   "note": "VOD 배신 정보 중심 — 오늘 화제 클립 공유하기 좋음"
+  },
+  {
+   "handle": "konkatuland",
+   "name": "韓ドラ情報発信局",
+   "type": "drama",
+   "followers": "",
+   "note": "韓ドラ 정보 발신 — 리플·인용 교류"
+  },
+  {
+   "handle": "sokudrama",
+   "name": "速韓ドラ",
+   "type": "drama",
+   "followers": "",
+   "note": "속보형 韓ドラ 뉴스 — 화제 장면 클립과 궁합"
+  },
+  {
+   "handle": "kan_dorapr",
+   "name": "韓ドラ情報切り抜きメディア",
+   "type": "drama",
+   "followers": "",
+   "note": "클립(切り抜き) 미디어 — 쇼츠 큐레이션과 성격이 가장 비슷, 협업 1순위"
+  },
+  {
+   "handle": "kandorarium",
+   "name": "韓ドラリウム",
+   "type": "drama",
+   "followers": "",
+   "note": "韓ドラ 리뷰/정보 — 교류 대상"
+  },
+  {
+   "handle": "netflix_kdrama",
+   "name": "Netflix 韓ドラ情報",
+   "type": "drama",
+   "followers": "",
+   "note": "넷플릭스 韓ドラ 정보 — 교류 대상(공식 아님 확인 후)"
+  },
+  {
+   "handle": "takoyakikandora",
+   "name": "たこ焼き韓ドラ",
+   "type": "drama",
+   "followers": "",
+   "note": "韓ドラ 감상·정보 — 교류 대상"
+  },
+  {
+   "handle": "asiandramasfun",
+   "name": "韓国と中国の俳優とドラマの関連情報",
+   "type": "drama",
+   "followers": "",
+   "note": "배우·드라마 정보 — 배우 클립 공유"
+  },
+  {
+   "handle": "K_P_O_P_YYP",
+   "name": "関西K-POP情報",
+   "type": "kpop",
+   "followers": "",
+   "note": "관서 K-POP 정보 — 교류 대상"
+  },
+  {
+   "handle": "KPopInsiderJp",
+   "name": "K-POP Insider JP",
+   "type": "kpop",
+   "followers": "",
+   "note": "K-POP 뉴스 — 협업 문의 후보"
+  },
+  {
+   "handle": "kpophiroe",
+   "name": "ひろえ（K-POPまとめ）",
+   "type": "kpop",
+   "followers": "",
+   "note": "まとめ 계정 — 오늘 TOP 클립 소개 제안"
+  },
+  {
+   "handle": "KPOP_JHK",
+   "name": "K-POP情報局",
+   "type": "kpop",
+   "followers": "",
+   "note": "K-POP 정보 — 교류 대상"
+  },
+  {
+   "handle": "kpop_entame",
+   "name": "K-POPエンタメ",
+   "type": "kpop",
+   "followers": "",
+   "note": "K-POP 엔타메 정보 — 교류 대상"
+  },
+  {
+   "handle": "dongurikoro5656",
+   "name": "K-POP来日公演情報",
+   "type": "kpop",
+   "followers": "",
+   "note": "일본 공연 정보 — 공연 직캠 클립과 궁합"
+  },
+  {
+   "handle": "posvt17",
+   "name": "SEVENTEEN情報まとめ",
+   "type": "fan",
+   "followers": "",
+   "note": "SEVENTEEN 중심 まとめ 사이트 — 세븐틴 클립 소개"
+  },
+  {
+   "handle": "info_seventeen",
+   "name": "SEVENTEEN情報局",
+   "type": "fan",
+   "followers": "",
+   "note": "세븐틴 TV·정보 — 세븐틴 클립 공유"
+  },
+  {
+   "handle": "TWICE_joho_",
+   "name": "TWICE最新情報局",
+   "type": "fan",
+   "followers": "",
+   "note": "TWICE 정보 — 트와이스 클립 공유"
+  },
+  {
+   "handle": "twice_johokan",
+   "name": "TWICE♡全力情報館！",
+   "type": "fan",
+   "followers": "",
+   "note": "TWICE 팬 정보(비공식) — 교류 대상"
+  },
+  {
+   "handle": "mama123mama6271",
+   "name": "スキズ中心KPOPカムバ情報",
+   "type": "fan",
+   "followers": "",
+   "note": "스키즈 중심 컴백 정보 — 스키즈 클립 공유"
+  },
+  {
+   "handle": "nene_travelkr",
+   "name": "ねねトラベル",
+   "type": "travel",
+   "followers": "",
+   "note": "渡韓 정보 — 한옥·여행 클립 공유"
+  },
+  {
+   "handle": "npyvely",
+   "name": "渡韓情報",
+   "type": "travel",
+   "followers": "",
+   "note": "渡韓·서울 정보 — 교류 대상"
+  },
+  {
+   "handle": "korea_pocky_jp",
+   "name": "韓国ポケット",
+   "type": "travel",
+   "followers": "",
+   "note": "한국 여행·생활 정보 — 교류 대상"
+  },
+  {
+   "handle": "cosupa_korea",
+   "name": "韓国コスパ旅",
+   "type": "travel",
+   "followers": "",
+   "note": "가성비 한국 여행 — 먹방·여행 클립과 궁합"
+  },
+  {
+   "handle": "Linkkorea_",
+   "name": "LINK KOREA",
+   "type": "travel",
+   "followers": "",
+   "note": "한국 여행 정보 미디어 — 협업 문의 후보"
+  },
+  {
+   "handle": "Matjib_Otaku",
+   "name": "韓国グルメオタク",
+   "type": "travel",
+   "followers": "",
+   "note": "한국 맛집 정보 — K-푸드 클립과 궁합"
+  },
+  {
+   "handle": "kishu_in_seoul",
+   "name": "ソウル在住",
+   "type": "travel",
+   "followers": "",
+   "note": "서울 거주 정보 — 교류 대상"
+  },
+  {
+   "handle": "kankoku_asia",
+   "name": "ジウ（韓国旅行）",
+   "type": "travel",
+   "followers": "",
+   "note": "한국 여행 정보 — 교류 대상"
+  },
+  {
+   "handle": "K_Localtravel",
+   "name": "韓国ローカル旅",
+   "type": "travel",
+   "followers": "",
+   "note": "지방 여행 — 한옥·산행 클립과 궁합"
+  },
+  {
+   "handle": "pusannavi",
+   "name": "プサンナビ",
+   "type": "travel",
+   "followers": "",
+   "note": "부산 여행 정보 — 부산 클립 공유"
+  },
+  {
+   "handle": "YsSky_official",
+   "name": "渡韓情報",
+   "type": "travel",
+   "followers": "",
+   "note": "渡韓 정보 — 교류 대상"
+  },
+  {
+   "handle": "uyu_nikkan",
+   "name": "うゆ（日韓）",
+   "type": "travel",
+   "followers": "",
+   "note": "한일 생활·여행 — 교류 대상"
   }
  ],
- "todo": "X 공식 계정은 각 사이트에 걸린 링크로 확인함 (2026-10-29). 아티스트 팬 계정·渡韓 개인 계정은 X 검색이 로그인 필요라, 관리자 브라우저에서 X 로그인 후 30~50개로 채울 예정"
+ "todo": "순서: ① 전부 팔로우 → ② 1~2주 동안 링크 없이 좋아요·리플·인용 → ③ 반응 온 계정부터 템플릿으로 DM(協業 제안). 대형 미디어(Kstyle·WoW!Korea)는 유료 PR 시 「PR」표기 필수. 티켓 양도·성형·클럽 계정은 제외함."
 }
