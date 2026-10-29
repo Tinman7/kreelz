@@ -148,9 +148,10 @@
    "_note": "Hot, kreelz.com/jp only: fancams and videos of BTS's ARIRANG world tour shows in São Paulo, Brazil (MorumBIS, 28 / 30 / 31 Oct 2026). Must name BTS and Brazil/São Paulo. Added 2026-10-29 (per David).",
    "require": [
     "방탄|BTS|bangtan|防弾少年団|バンタン",
-    "브라질|상파울루|brazil|brasil|s[ãa]o ?paulo|morumbi|ブラジル|サンパウロ"
+    "브라질|상파울루|brazil|brasil|s[ãa]o ?paulo|morumbi|ブラジル|サンパウロ",
+    "show|concert|콘서트|공연|fancam|직캠|soundcheck|사운드체크|ライブ|コンサート|公演|morumbi|arirang|아리랑|stage|무대|setlist|세트리스트|ment|멘트|encore|앵콜|day ?[123]|d[123]\\b|ao vivo|live"
    ],
-   "not": "lyrics?|가사|playlist|1 ?hour|loop|ticket|티켓|チケット|news|뉴스|ニュース|prediction",
+   "not": "lyrics?|가사|playlist|1 ?hour|loop|ticket|티켓|チケット|news|뉴스|ニュース|prediction|just now|속보|논란|검찰|민원|attack|stone|parents|father|mother|reunit|rumou?r|dating|열애|대통령|president|presidente|preconceito|polêmica|🚨|\\?!|!\\?|edit\\b|jikook|taekook|congestionamento|trânsito",
    "queries": [
     "BTS São Paulo",
     "BTS Brazil concert",
