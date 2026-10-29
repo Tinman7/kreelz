@@ -2,22 +2,155 @@
  "checked": "2026-10-29",
  "note": "Facebook group search (members and posts per day as Facebook showed them on 2026-10-29). Buy & sell marketplaces and groups built around watching full episodes are left out.",
  "groups": [
-  {"c": "PH", "k": "K-pop", "name": "Philippine KPOP Society", "members": "28만", "daily": "40", "id": "1010494666593393", "p": 1},
-  {"c": "PH", "k": "K-drama", "name": "All about kdrama(Group)", "members": "25만", "daily": "90+", "id": "530884624344624", "p": 1},
-  {"c": "PH", "k": "K-drama", "name": "K-DRAMA COMMUNITY", "members": "12만", "daily": "90+", "id": "343987915176123", "p": 1},
-  {"c": "PH", "k": "K-pop", "name": "ALL ABOUT KPOP & PPOP", "members": "12만", "daily": "80+", "id": "1600586614064522", "p": 1},
-  {"c": "PH", "k": "K-drama", "name": "KDRAMA LOVERS TAGALOG DUBBED", "members": "36만", "daily": "4", "id": "418493653602004", "p": 2},
-  {"c": "PH", "k": "K-drama", "name": "Drama Philippines", "members": "1.7만", "daily": "60+", "id": "3048075242118183", "p": 2},
-  {"c": "PH", "k": "K-drama", "name": "KDRAMA HOMES COLLECTION", "members": "14만", "daily": "8", "id": "5764685993652525", "p": 2},
-  {"c": "Global", "k": "K-pop", "name": "Kpop Fans : International", "members": "17만", "daily": "90+", "id": "1289432384726614", "p": 1},
-  {"c": "ID", "k": "K-pop", "name": "K O C A : Kpopers Camp", "members": "22만", "daily": "10+", "id": "1317616478896436", "p": 1},
-  {"c": "ID", "k": "K-pop", "name": "ZKR: Zona Kpopers Random", "members": "5.4만", "daily": "20+", "id": "3489322677984255", "p": 2},
-  {"c": "ID", "k": "K-pop", "name": "KPOP INDONESIA MULTIFANDOM", "members": "1.8만", "daily": "", "id": "600171071546273", "p": 2},
-  {"c": "ID", "k": "K-drama", "name": "DRAKOR & DRACIN LOVERS", "members": "28만", "daily": "", "id": "262060291930746", "p": 1},
-  {"c": "ID", "k": "K-drama", "name": "Pecinta Film Drakor", "members": "21만", "daily": "90+", "id": "978886873018305", "p": 1},
-  {"c": "ID", "k": "K-drama", "name": "DRAKOR INDONESIA", "members": "2.2만", "daily": "30", "id": "749251562406625", "p": 2}
+  {
+   "c": "PH",
+   "k": "K-pop",
+   "name": "Philippine KPOP Society",
+   "members": "28만",
+   "daily": "40",
+   "id": "1010494666593393",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "PH",
+   "k": "K-drama",
+   "name": "All about kdrama(Group)",
+   "members": "25만",
+   "daily": "90+",
+   "id": "530884624344624",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "PH",
+   "k": "K-drama",
+   "name": "K-DRAMA COMMUNITY",
+   "members": "12만",
+   "daily": "90+",
+   "id": "343987915176123",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "PH",
+   "k": "K-pop",
+   "name": "ALL ABOUT KPOP & PPOP",
+   "members": "12만",
+   "daily": "80+",
+   "id": "1600586614064522",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "PH",
+   "k": "K-drama",
+   "name": "KDRAMA LOVERS TAGALOG DUBBED",
+   "members": "36만",
+   "daily": "4",
+   "id": "418493653602004",
+   "p": 2,
+   "s": ""
+  },
+  {
+   "c": "PH",
+   "k": "K-drama",
+   "name": "Drama Philippines",
+   "members": "1.7만",
+   "daily": "60+",
+   "id": "3048075242118183",
+   "p": 2,
+   "s": ""
+  },
+  {
+   "c": "PH",
+   "k": "K-drama",
+   "name": "KDRAMA HOMES COLLECTION",
+   "members": "14만",
+   "daily": "8",
+   "id": "5764685993652525",
+   "p": 2,
+   "s": ""
+  },
+  {
+   "c": "Global",
+   "k": "K-pop",
+   "name": "Kpop Fans : International",
+   "members": "17만",
+   "daily": "90+",
+   "id": "1289432384726614",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "ID",
+   "k": "K-pop",
+   "name": "K O C A : Kpopers Camp",
+   "members": "22만",
+   "daily": "10+",
+   "id": "1317616478896436",
+   "p": 1,
+   "s": "가입됨 · 글쓰기 전 규칙 동의 필요 (아이돌 '로스팅'·논쟁 그룹)"
+  },
+  {
+   "c": "ID",
+   "k": "K-pop",
+   "name": "ZKR: Zona Kpopers Random",
+   "members": "5.4만",
+   "daily": "20+",
+   "id": "3489322677984255",
+   "p": 2,
+   "s": ""
+  },
+  {
+   "c": "ID",
+   "k": "K-pop",
+   "name": "KPOP INDONESIA MULTIFANDOM",
+   "members": "1.8만",
+   "daily": "",
+   "id": "600171071546273",
+   "p": 2,
+   "s": ""
+  },
+  {
+   "c": "ID",
+   "k": "K-drama",
+   "name": "DRAKOR & DRACIN LOVERS",
+   "members": "28만",
+   "daily": "",
+   "id": "262060291930746",
+   "p": 1,
+   "s": "가입됨 · 글쓰기 전 질문 답변·규칙 동의 필요"
+  },
+  {
+   "c": "ID",
+   "k": "K-drama",
+   "name": "Pecinta Film Drakor",
+   "members": "21만",
+   "daily": "90+",
+   "id": "978886873018305",
+   "p": 1,
+   "s": "가입됨"
+  },
+  {
+   "c": "ID",
+   "k": "K-drama",
+   "name": "DRAKOR INDONESIA",
+   "members": "2.2만",
+   "daily": "30",
+   "id": "749251562406625",
+   "p": 2,
+   "s": ""
+  }
  ],
  "pages": [
-  {"c": "PH", "name": "KPop philippines (커뮤니티 페이지)", "followers": "5.5만", "url": "https://www.facebook.com/search/pages/?q=kpop%20philippines", "why": "협업·소개 요청 DM 대상"}
- ]
+  {
+   "c": "PH",
+   "name": "KPop philippines (커뮤니티 페이지)",
+   "followers": "5.5만",
+   "url": "https://www.facebook.com/search/pages/?q=kpop%20philippines",
+   "why": "협업·소개 요청 DM 대상"
+  }
+ ],
+ "joined": "2026-10-29 (Man Tin)"
 }

@@ -473,7 +473,7 @@ function fbCard(c){
     const G=await fetch("/data/fbgroups.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!G) return;
     const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
     const FL={PH:"🇵🇭",ID:"🇮🇩",Global:"🌏"};
-    const rows=[...G.groups].sort((a,b)=>({PH:0,Global:1,ID:2}[a.c]-{PH:0,Global:1,ID:2}[b.c])||(a.p-b.p)).map(g=>`<tr><td>${FL[g.c]||g.c}</td><td><a href="https://www.facebook.com/groups/${esc(g.id)}" target="_blank" rel="noopener"><b>${esc(g.name)}</b></a><br><small class="note">${esc(g.k)} · 멤버 ${esc(g.members)}${g.daily?` · 하루 글 ${esc(g.daily)}`:""}</small></td><td>${g.p===1?'<span class="pill">1순위</span>':'2순위'}</td></tr>`).join("");
+    const rows=[...G.groups].sort((a,b)=>({PH:0,Global:1,ID:2}[a.c]-{PH:0,Global:1,ID:2}[b.c])||(a.p-b.p)).map(g=>`<tr><td>${FL[g.c]||g.c}</td><td><a href="https://www.facebook.com/groups/${esc(g.id)}" target="_blank" rel="noopener"><b>${esc(g.name)}</b></a><br><small class="note">${esc(g.k)} · 멤버 ${esc(g.members)}${g.daily?` · 하루 글 ${esc(g.daily)}`:""}${g.s?`<br><b style="color:var(--good)">${esc(g.s)}</b>`:""}</small></td><td>${g.p===1?'<span class="pill">1순위</span>':'2순위'}</td></tr>`).join("");
     $("#fbpList").insertAdjacentHTML("afterend",`<h2 style="margin-top:22px">팬 그룹 목록 <small>${esc(G.checked)} 조사 · Man Tin 프로필로 가입 → 그룹 규칙 확인 → 하루 1~2개 그룹에만 글</small></h2>
       <div class="card"><table class="fbg"><tbody>${rows}</tbody></table><p class="note" style="margin:10px 0 0">${esc(G.note)}</p></div>`);
   }catch(e){}
