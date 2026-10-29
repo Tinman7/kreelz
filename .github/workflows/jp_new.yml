@@ -49,10 +49,12 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/noeat.mjs index.html || true
+          node scripts/jpvariety.mjs index.html || true   # /jp Shows tab = variety only
           node scripts/region.mjs index.html
           git add index.html data jp scripts/jp_channels.json
           [ -d t ] && git add t
-          git commit -m "kreelz.com/jp K-Travel & Food: new groups now (survey places, cooking classes, experiences, hiking, FOXandBEAR, ...) $(grep -o '"videos":[0-9]*,"shorts":[0-9]*' new.log | tail -1)" || echo "nothing to commit"
+          git commit -m "kreelz.com/jp: new channels and groups now $(grep -o '"videos":[0-9]*,"shorts":[0-9]*' new.log | tail -1)" || echo "nothing to commit"
           git pull --rebase -q
           git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

@@ -192,6 +192,7 @@ const FILM = /映画|劇場|ムービー|\bmovie\b|\bfilm\b|영화/i;
 const SHOW = /バラエティ|リアリティ|恋愛リアリティ|サバイバル|オーディション|密着|ドキュメンタリー|インタビュー|interview|ビハインド|behind|メイキング|making|vlog|リアクション|reaction|ゲーム|トーク|出演回|驚きの土曜日|ユ・?クイズ|ランニングマン|知ってるお兄さん|私は一人で暮らす|예능|리얼리티|인터뷰|비하인드/i;
 const cat = v => {
   const c = chOf[v.id], text = v.meta[0] + " " + v.meta[5].join(" ");
+  if (c.cat === "variety") return "e";   // Korean variety channels → /jp Shows tab (per David 2026-10-30)
   if (c.cat === "travel") return "k";   // also the picked Korean food / travel creators
   if (c.cat === "beauty") return "b";
   if (c.cat === "actors") return jpActorKind(v.meta) === "r" ? "d" : "e";   // romance scenes to Screen; fan meetings, events, fancams, fan-made to Shows

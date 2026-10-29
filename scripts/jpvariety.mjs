@@ -30,7 +30,7 @@ const SHOWS = [
 export const VAR = new RegExp(SHOWS.join("|"), "i");
 // channels that post only variety
 const VAR_CH = new Set(["MBCentertainment", "SBS Entertainment", "KBS Entertain", "JTBC Entertainment", "JTBC Voyage", "뜬뜬 DdeunDdeun",
-  "채널 십오야", "짠한형 신동엽", "피식대학Psick Univ", "TEO 테오", "MMTG 문명특급", "워크맨-Workman", "빠더너스 BDNS", "놀면 뭐하니?",
+  "채널 십오야", "채널십오야", "라디오스타", "아는형님 Knowingbros", "KBS Entertain: 깔깔티비", "짠한형 신동엽", "피식대학Psick Univ", "TEO 테오", "MMTG 문명특급", "워크맨-Workman", "빠더너스 BDNS", "놀면 뭐하니?",
   "MBC every1", "MBN Entertainment", "tvN STORY 티비엔 스토리", "SBS Running Man", "런닝맨 - 스브스 공식 채널", "1박2일 공식 유튜브",
   "올끌 (All of MBClassic)", "TV-People", "K-STAR 케이스타", "TVCHOSUN JOY"].map(s => s.toLowerCase()));
 // not variety even when a show is named: drama scenes and making-of, music stages, fancams, fan meetings, award shows, idol web shows
