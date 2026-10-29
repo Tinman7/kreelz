@@ -3,6 +3,7 @@
 // shorts. Runs every few hours (.github/workflows/naverclip.yml) and touches nothing the nightly refresh writes.
 // usage: node scripts/naverclip.mjs [nclip.js] [--check]        (config: scripts/naverclip.json)
 import fs from "node:fs";
+import { eatBlocked } from "./noeat.mjs";   // no big-eating mukbang (per David)
 const CHECK = process.argv.includes("--check");
 const OUT = process.argv.slice(2).find(a => !a.startsWith("--")) || "nclip.js";
 const cfg = JSON.parse(fs.readFileSync("scripts/naverclip.json", "utf8"));
@@ -47,9 +48,9 @@ for (const g of cfg.groups) for (const q of (CHECK ? g.queries.slice(0, 2) : g.q
 }
 // keep last runs' clips (fresh view counts win) for up to max_keep days
 let prev = []; try { prev = JSON.parse(fs.readFileSync(OUT, "utf8").replace(/^window\.NCLIP=/, "").replace(/;\s*$/, "")).items || []; } catch (e) {}
-const keep = new Map(prev.map(x => [x[0], x]));
+const keep = new Map(prev.filter(x => !eatBlocked(x[2], x[3], x[1])).map(x => [x[0], x]));
 const today = new Date(now + 9 * 3600e3).toISOString().slice(0, 10), up = d => new Date(now + 9 * 3600e3 - d * DAY).toISOString().slice(0, 10);
-for (const x of found.values()) keep.set(x.id, [x.id, x.c, x.t, x.ch, x.v, up(x.d), x.img, x.ok ? 1 : 0]);
+for (const x of found.values()) if (!eatBlocked(x.t, x.ch, x.c)) keep.set(x.id, [x.id, x.c, x.t, x.ch, x.v, up(x.d), x.img, x.ok ? 1 : 0]);
 // per category: the most watched first, at most cap_per_cat; older than max_keep days drop out
 const byCat = {};
 for (const x of keep.values()) if ((now - Date.parse(x[5] + "T00:00:00+09:00")) / DAY <= cfg.max_keep) (byCat[x[1]] = byCat[x[1]] || []).push(x);

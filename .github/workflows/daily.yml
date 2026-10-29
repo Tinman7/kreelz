@@ -202,6 +202,7 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node scripts/noeat.mjs index.html || echo "eating-show filter skipped"   # no big-eating mukbang on either edition (per David 2026-10-29)
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json

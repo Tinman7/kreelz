@@ -3,6 +3,7 @@
 // usage: YT_API_KEY=... node scripts/konbini.mjs konbini.out.json      (config: scripts/konbini.json)
 import fs from "node:fs"; import zlib from "node:zlib";
 import { hasThumb } from "./thumbs.mjs";
+import { eatBlocked } from "./noeat.mjs";   // no big-eating mukbang (per David)
 import { ARTISTS, EXTRA_MALE, JP_ARTISTS, rank, rankIn } from "./hybe.mjs";
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const CHECK = process.argv.includes("--check");   // show what would be taken; writes nothing, 2 searches
@@ -95,14 +96,14 @@ for (let i = 0; i < ids.length; i += 50) {
 }
 const good = new Set(), q = cand.map(c => c.id);
 await Promise.all(Array.from({ length: 16 }, async () => { while (q.length) { const id = q.pop(); if (await hasThumb(id, "v")) good.add(id); } }));
-for (const c of cand) { if (!good.has(c.id) || c.on) continue;
+for (const c of cand) { if (!good.has(c.id) || c.on || eatBlocked(c.meta && c.meta[0], c.meta && c.meta[2], c.cat || "k")) continue;
   const k = c.cat || "k";
   if (c.short) out.shorts[c.id] = [k, c.views, 0, c.days]; else out.videos[c.id] = [k, c.views, c.days, 0]; }
 if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/jp), title, channel]
   const old = (() => { try { return JSON.parse(fs.readFileSync(LIVE_F, "utf8").replace(/^window\.LIVE=/, "").replace(/;\s*$/, "")) } catch (e) { return { v: [], s: [] } } })();
   const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
   const pin = new Set((old.pin && old.pin.ids) || []); let until = (old.pin && old.pin.until) || "";
-  for (const c of cand) { if (!good.has(c.id)) continue;
+  for (const c of cand) { if (!good.has(c.id) || eatBlocked(c.meta && c.meta[0], c.meta && c.meta[2], c.cat || "k")) continue;
     if (c.pin) { pin.add(c.id); if (c.until > until) until = c.until; }
     if (c.on) continue;
     keep.set(c.id, [c.id, c.cat || "k", c.views, c.up, rank(c.meta) || 0, rankIn(JP_ARTISTS, c.meta) || 0, c.meta[0].slice(0, 150), c.meta[2], c.short ? 1 : 0, c.jp ? 1 : 0]); }   // [9]: Japan edition only
