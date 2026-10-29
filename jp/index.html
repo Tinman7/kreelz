@@ -2080,11 +2080,14 @@ const pinUp=l=>{ if(!PINS.size || !(state.cat==="all"||state.cat==="music") || s
 /* Shorts, All and Music, while a hot moment is on: the first screen (12) is 6 of it — the pinned clips (Song Kang) and
    the other clips of the same release (ILLIT) taking turns — then 6 popular shorts of other artists (one each, most
    viewed per day of the last week); below that the hot clips come back every 3rd place and the same artist's other shorts wait 30 places, so the rest stays mixed */
+const JPHOT=new Set((LIVE.v||[]).concat(LIVE.s||[]).filter(x=>x[9]).map(x=>x[0]));
 const HOTSET=new Set((LIVE.v||[]).concat(LIVE.s||[]).map(x=>x[0]).filter(id=>!PINS.has(id)));
 const hotMix=l=>{ if(!PINS.size || !(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
   const ja=v=>REGION==="jp" && /[ぁ-んァ-ヶ]/.test((meta[v.id]||{}).t||"") ? 1 : 0;
   const by=(a,b)=>ja(b)-ja(a)||b.views-a.views;
-  const S=l.filter(v=>PINS.has(v.id)).sort(by), I=l.filter(v=>HOTSET.has(v.id)).sort(by); if(!S.length && !I.length) return l;
+  const S=l.filter(v=>PINS.has(v.id)).sort(by); let I=l.filter(v=>HOTSET.has(v.id)).sort(by); if(!S.length && !I.length) return l;
+  if(REGION==="jp"){ const a=I.filter(v=>JPHOT.has(v.id)), o=I.filter(v=>!JPHOT.has(v.id)), m=[];   // /jp: the Japan-only hot clips (BTS in São Paulo) take turns with the others
+    for(let k=0;k<a.length||k<o.length;k++){ if(k<a.length) m.push(a[k]); if(k<o.length) m.push(o[k]) } I=m }
   const head=[]; for(let k=0; head.length<6 && (k<S.length||k<I.length); k++){ if(k<S.length) head.push(S[k]); if(head.length<6 && k<I.length) head.push(I[k]) }
   const used=new Set(head), hotRanks=new Set(S.concat(I).map(v=>PRIO[v.id]).filter(Boolean));
   const sc=v=>v.views/(Math.max(v.days,0)+1), seen=new Set(), others=[];
