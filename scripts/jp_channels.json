@@ -321,7 +321,8 @@
    "cat": "travel",
    "korean": false,
    "first": 150,
-   "note": "VISITKOREA — Korea Tourism Organization's official global channel (1.28M subscribers, English): destinations, festivals, the Park Bo Gum 'Korea Sound Journey' campaign. Japan edition only; titles translated to Japanese nightly. Reviewed and added 2026-10-30 (per David)"
+   "note": "VISITKOREA — Korea Tourism Organization's official global channel (1.28M subscribers, English): destinations, festivals, the Park Bo Gum 'Korea Sound Journey' campaign. Japan edition only; titles translated to Japanese nightly. Reviewed and added 2026-10-30 (per David)",
+   "done": true
   }
  ],
  "travel": {
@@ -618,7 +619,8 @@
    "国立中央博物館 ミュージアムショップ",
    "ミュッズ 韓国",
    "国立中央博物館 半跏思惟像"
-  ]
+  ],
+  "done": true
  },
  "museum_kr": {
   "_note": "Korean videos of the same (region KR), Japan edition only, lifted; titles translated to Japanese nightly. Added 2026-10-30 (per David).",
@@ -633,7 +635,8 @@
    "국립중앙박물관 투어",
    "국립중앙박물관 사유의방",
    "외국인 국립중앙박물관"
-  ]
+  ],
+  "done": true
  },
  "hanbok_rent": {
   "_note": "K-Travel & Food tab of kreelz.com/jp, lifted: hanbok-rental shops — getting the hair done, choosing a hanbok, then walking the palace. Japanese videos. Added 2026-10-30 (per David).",
@@ -646,7 +649,8 @@
    "チマチョゴリ レンタル",
    "韓服レンタル 体験 vlog",
    "韓服 ヘアアレンジ ソウル"
-  ]
+  ],
+  "done": true
  },
  "hanbok_rent_kr": {
   "_note": "Korean videos of foreigners at hanbok-rental shops (hair styling, choosing a hanbok), region KR, Japan edition only, lifted; titles translated. Added 2026-10-30 (per David).",
@@ -660,6 +664,7 @@
    "한복대여 외국인 반응",
    "경복궁 한복대여 외국인",
    "한복 대여점 헤어 메이크업 외국인"
-  ]
+  ],
+  "done": true
  }
 }
