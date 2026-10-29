@@ -230,7 +230,8 @@
    "korean": false,
    "lift": true,
    "first": 150,
-   "note": "FOXandBEAR 여우곰채널 (hanbok travel around Korea, Korean culture and local trips), picked by David 2026-10-29 — Japan edition only, lifted in K-Travel & Food; titles translated to Japanese nightly"
+   "note": "FOXandBEAR 여우곰채널 (hanbok travel around Korea, Korean culture and local trips), picked by David 2026-10-29 — Japan edition only, lifted in K-Travel & Food; titles translated to Japanese nightly",
+   "done": true
   }
  ],
  "travel": {
@@ -333,7 +334,8 @@
    "漢江 ピクニック",
    "韓国 コンビニ 爆買い",
    "韓国 コンビニ 新商品"
-  ]
+  ],
+  "done": true
  },
  "pilgrimage": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: Japanese fans visiting idols' places in Korea — filming locations, restaurants and cafes they went to (聖地巡礼). Added 2026-10-27 (per David).",
@@ -349,7 +351,8 @@
    "推し活 韓国旅行",
    "韓国ドラマ ロケ地 ソウル",
    "SEVENTEEN 聖地巡礼"
-  ]
+  ],
+  "done": true
  },
  "heritage": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: traditional Seoul for Japanese visitors — palaces, Bukchon / Seochon / Buam-dong / Ikseon-dong, Jongno pojangmacha, hanbok rental with hair styling, hanbok shopping, nearby cafes and restaurants. Added 2026-10-27 (per David).",
@@ -367,7 +370,8 @@
    "仁寺洞 グルメ",
    "韓服 体験 ソウル vlog",
    "昌徳宮"
-  ]
+  ],
+  "done": true
  },
  "busan_jp": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: Busan spots, markets, restaurants, cafes and tours (Haeundae Blueline Park, Gwangalli drone show, Gamcheon, Huinnyeoul, Jagalchi, Nampo street food, Haedong Yonggungsa, Jeonpo cafes, Yeongdo). Added 2026-10-27 (per David).",
@@ -456,7 +460,8 @@
    "駱山公園 夜景",
    "峨嵯山 登山 ソウル",
    "明洞 屋台"
-  ]
+  ],
+  "done": true
  },
  "cooking_class": {
   "_note": "K-Travel & Food tab of kreelz.com/jp, priority: Korean cooking-class experiences popular with visitors — making kimchi, kimbap, jeon (pancakes), tteokbokki, bulgogi at classes in Seoul / Busan / Jeonju. Added 2026-10-29 (per David).",
@@ -472,7 +477,8 @@
    "トッポッキ 料理教室",
    "韓国 料理体験 旅行",
    "全州 ビビンバ 作り 体験"
-  ]
+  ],
+  "done": true
  },
  "activities": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: experiences foreign visitors choose — 2024 외래관광객조사 (MCST): shopping 20.6%, food 18.8%, natural scenery 12.0%, Hallyu sites 8.0%, historic sites 7.9%, beauty 6.7%; Hana research 2026 'live like a local' trend: K-beauty / idol makeup classes, hanbok, 세신 (scrub), nail, personal colour, one-day idol dance class, photo-shoot tours. Added 2026-10-29 (per David).",
@@ -490,7 +496,8 @@
    "テンプルステイ 韓国",
    "韓国 ネイル 体験",
    "韓国 絶景 自然"
-  ]
+  ],
+  "done": true
  },
  "hiking": {
   "_note": "K-Travel & Food tab of kreelz.com/jp: K-hiking, popular with foreign visitors — 2025 national-park visits by foreigners: Hallasan 303,367, Seoraksan 169,284, Bukhansan 135,830 (Hankook Ilbo 2026-04-15); Seoul Hiking Week (Suraksan, Bukhansan, Gwanaksan); Achasan, Inwangsan. Added 2026-10-29 (per David).",
@@ -506,6 +513,7 @@
    "ソウル 登山 vlog",
    "韓国 登山 外国人",
    "道峰山 登山"
-  ]
+  ],
+  "done": true
  }
 }
