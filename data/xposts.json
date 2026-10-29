@@ -65,5 +65,39 @@
    "この組み合わせは反則です…🫶",
    "次のカムバも楽しみすぎる✨"
   ]
+ },
+ "card": {
+  "title": "韓国で今日いちばん見られている",
+  "big": "TOP 5",
+  "date": "10/29",
+  "rows": [
+   {
+    "t": "RIIZE ライズ 'Insomnia' MV",
+    "ch": "SMTOWN",
+    "v": 10340651
+   },
+   {
+    "t": "ILLIT (アイリット) '逮捕しちゃうぞ (You're Under Arrest)' Official MV",
+    "ch": "HYBE LABELS",
+    "v": 9174624
+   },
+   {
+    "t": "僕は🐰🐶🦊になるんだ！",
+    "ch": "Stray Kids",
+    "v": 5355130
+   },
+   {
+    "t": "AND2BLE (アンドゥブル) 'French Kissing' MV",
+    "ch": "AND2BLE",
+    "v": 5197327
+   },
+   {
+    "t": "XIAOJUN シャオジュン 'Hey, Somebody (English Ver.)' MV",
+    "ch": "SMTOWN",
+    "v": 3695687
+   }
+  ],
+  "url": "kreelz.com/jp",
+  "foot": "出典：KREELZ JAPAN ・ 毎日0時更新"
  }
 }

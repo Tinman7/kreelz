@@ -302,7 +302,11 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
       "教えてくれてありがとうございます！今から見てきます👀", "この組み合わせは反則です…🫶", "次のカムバも楽しみすぎる✨" ] };
   posts.sort((x, y) => x.time.localeCompare(y.time));
   for (const p of posts) p.len = xlen(p.text);
-  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage }, null, 1) + "\n");
+  // free-to-use card for Japanese K-content accounts (credit: KREELZ JAPAN): today's top 5 clips with Japanese titles
+  const jt = x => clean(ED.ja.title(x)).replace(/\s*[|｜].*$/, "");
+  const t5 = today ? [...today.list].filter(x => good(ED.ja.title(x)) && /[ぁ-んァ-ヶ一-龯]/.test(ED.ja.title(x))).sort((p, q) => q.views - p.views).slice(0, 5) : [];
+  const card = t5.length ? { title: "韓国で今日いちばん見られている", big: "TOP 5", date: md, rows: t5.map(x => ({ t: jt(x).slice(0, 60), ch: x.ch, v: x.views })), url: "kreelz.com/jp", foot: "出典：KREELZ JAPAN ・ 毎日0時更新" } : null;
+  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage, card }, null, 1) + "\n");
   console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
 }
 

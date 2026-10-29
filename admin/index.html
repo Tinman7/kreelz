@@ -404,12 +404,22 @@ const PLATS=["YouTube","TikTok","NAVER Clip"];
       <button class="btn" type="button" data-xcopy="${i}">복사</button></div></div>`).join("");
     box.addEventListener("click",e=>{ const b=e.target.closest("[data-xcopy]"); if(!b) return;
       navigator.clipboard.writeText(d.posts[+b.dataset.xcopy].text).then(()=>{ b.textContent="복사됨"; setTimeout(()=>b.textContent="복사",1500) }).catch(()=>{}) });
+    if(d.card){ const img=fbCard({...d.card,brand:"KREELZ JAPAN"});
+      $("#xpMore").insertAdjacentHTML("afterbegin",`<div class="card xp"><div class="xp-h"><b>TOP5 카드</b> <span>일본 계정에 "출처 표기하면 자유 사용"으로 주는 이미지 · 우리 X 글에 첨부해도 좋아요</span></div>
+        <img class="fb-card" src="${img}" alt="TOP5"><div class="row" style="margin-top:8px"><a class="btn" download="kreelz-jp-top5-${esc(d.date)}.png" href="${img}">카드 이미지 저장</a><small class="note" style="margin:0">휴대폰은 길게 눌러 저장</small></div></div>`) }
     if(d.engage){ const E=d.engage;
       $("#xpMore").insertAdjacentHTML("beforeend",`<div class="card xp"><div class="xp-h"><b>교류</b> <span>일본어 글 찾아서 좋아요·답글 (하루 5~10분)</span></div>
         <div class="xp-links">${E.search.map(x=>`<a class="btn" target="_blank" rel="noopener" href="${esc(x.url)}">${esc(x.label)}</a>`).join("")}</div>
         <p class="note" style="margin:10px 0 6px">답글 예시 (상황에 맞게 골라 복사 → 붙여넣기)</p>
         <ul class="xp-rep">${E.replies.map(r=>`<li><span>${esc(r)}</span><button class="btn" type="button" data-xrep="${esc(r)}">복사</button></li>`).join("")}</ul></div>`) }
   }catch(e){ box.innerHTML='<div class="card note">오늘 글이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
+  try{   // outreach to Japanese K-content accounts (data/xoutreach.json)
+    const O=await fetch("/data/xoutreach.json?"+Date.now()).then(r=>r.ok?r.json():null);
+    if(O){ const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+      $("#xpMore").insertAdjacentHTML("afterend",`<h2 style="margin-top:22px">일본 K-콘텐츠 계정 홍보 <small>${esc(O.updated)} · ${esc(O.steps)}</small></h2>
+      <div class="card"><table class="fbg"><tbody>${(O.targets||[]).map(t=>`<tr><td><a href="https://x.com/${esc(t.handle)}" target="_blank" rel="noopener"><b>@${esc(t.handle)}</b></a> ${esc(t.name||"")}<br><small class="note">${esc(t.type)} · ${esc(t.followers||"")} · ${esc(t.note||"")}${t.s?` · <b style="color:var(--good)">${esc(t.s)}</b>`:""}</small></td></tr>`).join("")}</tbody></table>${O.todo?`<p class="note" style="margin:8px 0 0">${esc(O.todo)}</p>`:""}</div>
+      <div class="grid two" style="margin-top:12px">${(O.templates||[]).map(m=>`<div class="card xp"><div class="xp-h"><b>템플릿</b> <span>${esc(m.label)}</span></div><pre class="xp-t">${esc(m.text)}</pre><div class="row"><button class="btn primary" type="button" data-xrep="${esc(m.text)}">복사</button></div></div>`).join("")}</div>`) }
+  }catch(e){}
   try{
     const w=await fetch("/data/xweekly.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!w||!w.posts) return;
     const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
@@ -421,17 +431,17 @@ const PLATS=["YouTube","TikTok","NAVER Clip"];
 /* Facebook drafts for the Philippine Page (data/fbposts.json, written nightly by scripts/seo.mjs) + the Top 5 card image */
 function fbCard(c){
   const W=1080,H=1350,cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
-  const F='"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif', AC="#E8445A", INK="#111318", MU="#7A808C";
-  const wrap=(t,x,y,maxW,lh,lines)=>{ const w=t.split(" "); let line="", n=0;
-    for(let i=0;i<w.length;i++){ const test=line?line+" "+w[i]:w[i];
+  const F='"Plus Jakarta Sans","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif', AC="#E8445A", INK="#111318", MU="#7A808C";
+  const wrap=(t,x,y,maxW,lh,lines)=>{ const w=/\s/.test(t)&&!/[ぁ-んァ-ヶ一-龯]/.test(t)?t.split(" "):[...t]; let line="", n=0;
+    for(let i=0;i<w.length;i++){ const sep=/[ぁ-んァ-ヶ一-龯]/.test(t)?"":" ", test=line?line+sep+w[i]:w[i];
       if(g.measureText(test).width>maxW && line){ if(n===lines-1){ let l=line; while(g.measureText(l+"…").width>maxW) l=l.slice(0,-1); g.fillText(l+"…",x,y+n*lh); return n+1 } g.fillText(line,x,y+n*lh); n++; line=w[i] } else line=test }
     g.fillText(line,x,y+n*lh); return n+1 };
   g.fillStyle="#fff"; g.fillRect(0,0,W,H); g.fillStyle=AC; g.fillRect(0,0,W,14);
   g.fillStyle=AC; g.beginPath(); g.arc(84,92,11,0,7); g.fill();
-  g.fillStyle=INK; g.font=`800 46px ${F}`; g.textBaseline="middle"; g.fillText("KREELZ",108,94);
+  g.fillStyle=INK; g.font=`800 46px ${F}`; g.textBaseline="middle"; g.fillText(c.brand||"KREELZ",108,94);
   g.fillStyle=MU; g.font=`600 32px ${F}`; g.textAlign="right"; g.fillText(c.date,W-72,94); g.textAlign="left";
-  g.textBaseline="alphabetic"; g.fillStyle=INK; g.font=`800 104px ${F}`; g.fillText("TODAY'S TOP 5",72,250);
-  g.fillStyle=AC; g.font=`800 40px ${F}`; g.fillText("K-POP · K-DRAMA · K-CLIPS",76,308);
+  g.textBaseline="alphabetic"; g.fillStyle=INK; g.font=`800 104px ${F}`; g.fillText(c.big||"TODAY'S TOP 5",72,250);
+  g.fillStyle=AC; g.font=`800 40px ${F}`; g.fillText(c.big?c.title:"K-POP · K-DRAMA · K-CLIPS",76,308);
   const fmt=v=>v>=1e6?(v/1e6).toFixed(1).replace(/\.0$/,"")+"M":v>=1e3?Math.round(v/1e3)+"K":String(v);
   const rows=c.rows.slice(0,5), X0=170, TW=W-X0-72, LH=48, TOP=372, BOT=H-200;
   g.font=`700 40px ${F}`;
@@ -447,8 +457,8 @@ function fbCard(c){
     g.fillStyle=MU; g.font=`500 28px ${F}`; g.fillText(`${r.ch}${r.v>0?" · "+fmt(r.v)+" views":""}`.slice(0,60),X0,top+n*LH+6);
     g.textBaseline="alphabetic"; y+=hs[i]+gap });
   g.fillStyle=INK; const bx=72,by=H-170,bw=W-144,bh=96; g.beginPath(); g.roundRect(bx,by,bw,bh,48); g.fill();
-  g.fillStyle="#fff"; g.font=`800 40px ${F}`; g.textAlign="center"; g.textBaseline="middle"; g.fillText(`Watch all → ${c.url}`,W/2,by+bh/2+2);
-  g.fillStyle=MU; g.font=`600 28px ${F}`; g.fillText("New picks every midnight (KST) · Free",W/2,H-40);
+  g.fillStyle="#fff"; g.font=`800 40px ${F}`; g.textAlign="center"; g.textBaseline="middle"; g.fillText(c.big?`▶ ${c.url}`:`Watch all → ${c.url}`,W/2,by+bh/2+2);
+  g.fillStyle=MU; g.font=`600 28px ${F}`; g.fillText(c.foot||"New picks every midnight (KST) · Free",W/2,H-40);
   return cv.toDataURL("image/png");
 }
 (async function fbposts(){
