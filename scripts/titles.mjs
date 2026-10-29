@@ -106,10 +106,14 @@ async function claude(items, system = SYSTEM) {
 }
 // Japan-only videos (scripts/japan.mjs) are shown only on kreelz.com/jp, already in Japanese: no translation needed
 const jpOnly = new Set(fs.existsSync("data/jp_only.json") ? JSON.parse(fs.readFileSync("data/jp_only.json", "utf8")) : []);
-for (const id of jpOnly) if (store.o[id] && store.o[id][0]) store.ja[id] = store.o[id][0];   // already Japanese
+// (Korean-titled ones — hanok stays searched in Korean, 2026-10-29 — do get a Japanese translation)
+const HAN = /[가-힣]/;
+for (const id of jpOnly) { const t = store.o[id] && store.o[id][0]; if (!t) continue;
+  if (!HAN.test(t)) store.ja[id] = t;                          // already Japanese
+  else if (store.ja[id] === t) delete store.ja[id]; }           // a Korean title stored as "Japanese" earlier: translate it
 for (const id of site_ids) { const t = store.o[id] && store.o[id][0]; if (t && !store.ja[id] && /[ぁ-んァ-ヶ]/.test(t)) store.ja[id] = t; }   // titles already written in Japanese
 // pass A — Japanese first (kreelz.com/jp shows these; phones have no built-in translator)
-const todoJa = AK ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && !store.ja[id]) : [];
+const todoJa = AK ? site_ids.filter(id => (!jpOnly.has(id) || HAN.test(store.o[id] && store.o[id][0] || "")) && store.o[id] && store.o[id][0] && !store.ja[id]) : [];
 let doneJa = 0;
 { const q = []; for (let i = 0; i < todoJa.length; i += 50) q.push(todoJa.slice(i, i + 50));
   await Promise.all(Array.from({ length: PAR }, async () => {
