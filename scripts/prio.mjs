@@ -15,6 +15,8 @@ const jpo = [];
 // kreelz.com/jp K-Travel & Food tab: these channels come first ("어서와 한국은 처음이지 / Welcome, First Time in Korea?", per David 2026-10-27)
 const TRAVEL_FIRST = new Set(["UC4i1qf8CUH93DLSbD9efqig"]), welcome = [];
 // Korean-language travel & restaurant picks (scripts/japan.mjs kr_reco): lifted in the /jp K-Travel & Food tab
+// hanok stays (scripts/japan.mjs hanok_stay / hanok_kr): their own share of the /jp K-Travel & Food tab (per David 2026-10-29)
+const HANOK = new Set(fs.existsSync("data/jp_hanok.json") ? JSON.parse(fs.readFileSync("data/jp_hanok.json", "utf8")) : []), hanok = [];
 const RECO = new Set(fs.existsSync("data/jp_reco.json") ? JSON.parse(fs.readFileSync("data/jp_reco.json", "utf8")) : []), reco = [];
 // and every video of the Korean creators picked for that tab (jp_channels.json channels with reco), already on the site or new
 // (only = just the titles matching it, e.g. the 먹을텐데 episodes of 성시경's channel; skip = not these)
@@ -42,6 +44,7 @@ for (const n of ["SHORTS", "FEED"]) {
     if (JPO.has(s.slice(i, i + 11))) jpo.push(s.slice(i, i + 11));
     { const mm = M[s.slice(i, i + 11)]; if (mm && TRAVEL_FIRST.has(mm[1])) welcome.push(s.slice(i, i + 11)); }
     // top picked creators (성시경의 먹을텐데, 최자로드): id + which creator, so /jp can alternate them at the head of the tab
+    if (HANOK.has(s.slice(i, i + 11))) hanok.push(s.slice(i, i + 11));
     { const id = s.slice(i, i + 11), m = M[id]; if (chHit(TOP_CH, m)) top.push(id + TOP_CH.get(m[1]));
       else if ((RECO.has(id) && !(m && TOP_CH.has(m[1]))) || chHit(RECO_CH, m)) reco.push(id); }
     { const m = M[s.slice(i, i + 11)]; if (m && LAST_JP.test(m[0] + " " + (m[5] || []).join(" "))) lastJ.push(s.slice(i, i + 11)); }
@@ -64,11 +67,11 @@ for (const n of ["SHORTS", "FEED"]) {
     if (r) { list.push(id + RC[r - 1]); const nm = ARTISTS[r - 1] ? ARTISTS[r - 1][0] : "other boy groups"; counts[nm] = (counts[nm] || 0) + 1; if (cam) fan.push(id); }
   }
 }
-const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}";`;
+const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}"; const PRIO_JPHANOK = "${hanok.join("")}";`;
 h = h.replace(/const PRIO_BTS = "[^"]*"; const PRIO_HYBE = "[^"]*";/, line);
 h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]*";/, "").replace(/ const PRIO_FAN = "[^"]*";/, "")
   .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "")
-  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "");
+  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "").replace(/ const PRIO_JPHANOK = "[^"]*";/, "");
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);

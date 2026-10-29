@@ -71,6 +71,7 @@ fs.writeFileSync(CFG, JSON.stringify(cfg, null, 1) + "\n");
 const h = fs.readFileSync("index.html", "utf8");
 const onSite = new Set(); for (const n of ["SHORTS", "FEED"]) { const s = h.match(new RegExp(`const ${n} = "([^"]*)";`))[1]; for (let i = 0; i + 16 <= s.length; i += 16) onSite.add(s.slice(i, i + 11)); }
 const only = new Set(fs.existsSync(ONLY) ? JSON.parse(fs.readFileSync(ONLY, "utf8")) : []);
+const HANOK_F = "data/jp_hanok.json", hanokIds = new Set(fs.existsSync(HANOK_F) ? JSON.parse(fs.readFileSync(HANOK_F, "utf8")) : []);
 const RECO_F = "data/jp_reco.json", reco = new Set(fs.existsSync(RECO_F) ? JSON.parse(fs.readFileSync(RECO_F, "utf8")) : []);
 const chOf = {}, shortIds = new Set(), seenCh = new Set();
 for (const c of cfg.channels) {
@@ -265,7 +266,7 @@ for (const id of cand) {
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
-  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); if (c.lift) reco.add(id); }   // hanok stays: Japan-only and lifted   // Korean picks are not Japan-only
+  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); if (c.lift) { reco.add(id); hanokIds.add(id); } }   // hanok stays: Japan-only and lifted   // Korean picks are not Japan-only
 }
 const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
 console.log(report);
@@ -287,6 +288,7 @@ if (!CHECK) {
   fs.writeFileSync(VMETA, zlib.gzipSync(JSON.stringify(vmeta)));
   fs.writeFileSync(ONLY, JSON.stringify([...only]));
   fs.writeFileSync(RECO_F, JSON.stringify([...reco]));
+  fs.writeFileSync(HANOK_F, JSON.stringify([...hanokIds]));
   fs.writeFileSync(outPath, JSON.stringify(out));
 }
 const summary = JSON.stringify({ check: CHECK, channels_found: cfg.channels.filter(c => c.id).length, of: cfg.channels.length, new_candidates: all.length,
