@@ -51,6 +51,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           node scripts/noeat.mjs index.html || true
           node scripts/jpvariety.mjs index.html || true   # /jp Shows tab = variety only
+          node scripts/nowdrama.mjs index.html || true   # Screen tab: dramas airing now first
           node scripts/region.mjs index.html
           git add index.html data jp scripts/jp_channels.json
           [ -d t ] && git add t
