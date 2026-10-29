@@ -26,6 +26,10 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;fl
 .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:40px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 h2{font-size:16px;font-weight:800;margin:28px 0 12px;letter-spacing:-.01em}
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:4px;overflow-x:auto;background:var(--bg,#F5F6F8);padding:8px 0;margin:0 0 10px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;background:none;font:inherit;font-size:14.5px;font-weight:700;color:var(--muted);padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--card)}
 h2 small{font-weight:500;color:var(--muted);font-size:13px;margin-left:6px}
 .grid{display:grid;gap:12px}
 .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -176,9 +180,9 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="grid two" id="xpList"><div class="card note">불러오는 중…</div></div>
   <div class="grid two" id="xpMore"></div>
 
-  <h2>페이스북 필리핀 · 오늘 올릴 글 <small id="fbDate">Kreelz 페이지용 · 매일 00:00(KST) 새로 만들어짐</small></h2>
+  <h2>페이스북 필리핀 · 오늘 올릴 글 <small id="fbpDate">Kreelz 페이지용 · 매일 00:00(KST) 새로 만들어짐</small></h2>
   <div class="card xp-how"><b>매일 할 일</b> ① 페이스북을 <b>Kreelz 페이지</b>로 전환(프로필 사진 → Kreelz) ② 시간에 맞춰 <b>본문 복사</b> → 새 게시물에 붙여넣기 (TOP 5는 <b>카드 이미지 저장</b> 후 함께 첨부) → 게시 ③ 게시 직후 <b>첫 댓글</b>에 링크 붙여넣기 (본문에 링크를 넣으면 노출이 줄어요) ④ 댓글에 답하기 · <a href="https://business.facebook.com/latest/posts" target="_blank" rel="noopener">메타 비즈니스 스위트</a>에서 미리 예약해도 됩니다</div>
-  <div class="grid two" id="fbList"><div class="card note">불러오는 중…</div></div>
+  <div class="grid two" id="fbpList"><div class="card note">불러오는 중…</div></div>
 
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
@@ -291,6 +295,31 @@ tfoot td{font-weight:800;border-bottom:0}
   </div>
   <p class="note">방문자는 브라우저마다 한 번씩, 한국 시간 하루 기준으로 셉니다. 이름·이메일은 저장하지 않고, IP 주소는 원본 대신 매일 바뀌는 복원 불가능한 코드로만 저장해 하루 단위 고유 IP 수를 셉니다. 국가는 접속 네트워크 기준이며, 알 수 없을 때는 방문자 브라우저의 시간대로 판단합니다. 방문 · 재생 · 인기 영상은 어제(00:00~23:59)까지 마감된 수치이고, 자정이 지나면 새 하루가 반영됩니다.</p>
 </main>
+<script>
+/* Admin sections as tabs (David, 2026-10-29: "섹션별로 구분"): the h2 blocks of #app are grouped into tabs; the last tab is remembered */
+(function(){
+  const app=document.getElementById("app"), head=app.querySelector("header"); if(!app||!head) return;
+  const TABS=[["stats","통계",["지금 실시간","KREELZ 방문","국가별 방문자","KREELZ 인기 영상"]],["content","콘텐츠",["콘텐츠 현황","링크 출처","틱톡 쇼츠 추가"]],
+    ["members","회원·피드백",["회원 통계","사용자 피드백"]],["x","X (트위터)",["X(트위터)"]],["fb","페이스북",["페이스북"]]];
+  const panes={}; TABS.forEach(([id])=>{ const d=document.createElement("div"); d.className="tabpane"; d.dataset.tab=id; panes[id]=d });
+  let cur=null; const tail=[];
+  [...app.children].forEach(el=>{ if(el===head) return;
+    if(el.tagName==="H2"){ const t=el.textContent.trim(); const hit=TABS.find(([,,ks])=>ks.some(k=>t.startsWith(k))); cur=hit?hit[0]:"stats" }
+    if(!cur){ tail.push(el); return }
+    if(el.tagName==="P" && el.classList.contains("note") && !el.nextElementSibling){ panes.members.appendChild(el); return }   // closing note about counting
+    panes[cur].appendChild(el) });
+  const nav=document.createElement("nav"); nav.className="tabs"; nav.setAttribute("role","tablist");
+  nav.innerHTML=TABS.map(([id,label])=>`<button type="button" role="tab" data-tab="${id}">${label}</button>`).join("");
+  head.after(nav); let after=nav; TABS.forEach(([id])=>{ after.after(panes[id]); after=panes[id] });
+  // inside each pane the first heading needs no top margin
+  Object.values(panes).forEach(p=>{ const h=p.querySelector("h2"); if(h) h.style.marginTop="8px" });
+  const show=id=>{ if(!panes[id]) id="stats"; TABS.forEach(([t])=>{ panes[t].hidden=t!==id }); nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===id));
+    try{ localStorage.setItem("kz-admin-tab",id) }catch(e){} if(location.hash!=="#"+id) history.replaceState(null,"","#"+id); window.scrollTo(0,0) };
+  nav.addEventListener("click",e=>{ const b=e.target.closest("button[data-tab]"); if(b) show(b.dataset.tab) });
+  let start=(location.hash||"").slice(1); if(!panes[start]){ try{ start=localStorage.getItem("kz-admin-tab")||"stats" }catch(e){ start="stats" } }
+  show(start);
+})();
+</script>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
@@ -408,11 +437,11 @@ function fbCard(c){
   return cv.toDataURL("image/png");
 }
 (async function fbposts(){
-  const box=$("#fbList"); if(!box) return;
+  const box=$("#fbpList"); if(!box) return;
   try{
     const d=await fetch("/data/fbposts.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!d||!d.posts) throw 0;
     const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
-    $("#fbDate").innerHTML=`${esc(d.date)} 분 · 필리핀 시간 = 한국 시간 −1시간 · <a href="${esc(d.page)}" target="_blank" rel="noopener">Kreelz 페이지 열기</a>`;
+    $("#fbpDate").innerHTML=`${esc(d.date)} 분 · 필리핀 시간 = 한국 시간 −1시간 · <a href="${esc(d.page)}" target="_blank" rel="noopener">Kreelz 페이지 열기</a>`;
     const img=d.card?fbCard(d.card):"";
     const cards=d.posts.map(p=>`<div class="card xp"><div class="xp-h"><b>${esc(p.kst)}</b> <span>${esc(p.label)}</span> <small>필리핀 ${esc(p.pht)}</small></div>
       ${p.card&&img?`<img class="fb-card" src="${img}" alt="Top 5 card"><div class="row" style="margin-top:8px"><a class="btn" download="kreelz-top5-${esc(d.date)}.png" href="${img}">카드 이미지 저장</a><small class="note" style="margin:0">휴대폰은 이미지를 길게 눌러 저장</small></div>`:""}
