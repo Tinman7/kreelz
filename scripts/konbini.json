@@ -135,6 +135,32 @@
     "영도 카페"
    ],
    "done": true
+  },
+  {
+   "name": "bts_brazil",
+   "topic": "hot",
+   "cat": "m",
+   "region": "jp",
+   "since": "2026-10-27",
+   "until": "2026-11-07",
+   "per_night": 8,
+   "min_views": 3000,
+   "_note": "Hot, kreelz.com/jp only: fancams and videos of BTS's ARIRANG world tour shows in São Paulo, Brazil (MorumBIS, 28 / 30 / 31 Oct 2026). Must name BTS and Brazil/São Paulo. Added 2026-10-29 (per David).",
+   "require": [
+    "방탄|BTS|bangtan|防弾少年団|バンタン",
+    "브라질|상파울루|brazil|brasil|s[ãa]o ?paulo|morumbi|ブラジル|サンパウロ"
+   ],
+   "not": "lyrics?|가사|playlist|1 ?hour|loop|ticket|티켓|チケット|news|뉴스|ニュース|prediction",
+   "queries": [
+    "BTS São Paulo",
+    "BTS Brazil concert",
+    "BTS Morumbis",
+    "방탄소년단 브라질 콘서트",
+    "방탄 상파울루",
+    "BTS ブラジル",
+    "BTS サンパウロ",
+    "BTS fancam Brazil"
+   ]
   }
  ]
 }
