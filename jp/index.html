@@ -2360,11 +2360,14 @@ function shortsList0(){
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
   const S2=SSORTS[sstate.sort]||SSORTS.views; return freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))));
 }
-const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;
+const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;   // full-screen player: the 1080×1920 cover
+/* Shorts cards: the 640×480 cover (same picture in the card, cropped the same) is about 55 KB against 130–310 KB for
+   the 1080×1920 one — the first screen of shorts went from ~2.5 MB of pictures to ~0.6 MB */
+const sCard = id => `https://i.ytimg.com/vi/${id}/sddefault.jpg`;
 function scard(v,k){
   const m=meta[v.id];
   return `<a class="sv" data-cat="${v.cat}" href="${v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`}" target="_blank" rel="noopener" data-sv="${k}">
-    <span class="sth">${v.tt?ttImg(v):`<img src="${sThumb(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
+    <span class="sth">${v.tt?ttImg(v):`<img src="${sCard(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}${jaBadge(v)}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
     <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
