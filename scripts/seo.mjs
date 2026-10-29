@@ -305,3 +305,61 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage }, null, 1) + "\n");
   console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
 }
+
+// ---------- Facebook drafts for the Philippine audience (Kreelz Page) ----------
+// data/fbposts.json: English/Taglish posts for the Page, links meant for the FIRST COMMENT (Facebook cuts the reach of
+// posts with links in the text), the "Top 5" card rows (drawn as an image on the admin page), a link-free question and a
+// fan-group post (honest: "we made"). David posts them himself.
+{
+  const FB_PAGE = "https://www.facebook.com/profile.php?id=61595710154104";
+  const P = PAGES.en, recent = p => p.list.filter(x => x.days >= 0 && x.days <= 2);
+  const cleanT = t => t.replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
+  // English title: the translation, or the original when it is already mostly in Latin letters (English-language
+  // translations are not made nightly — only Japanese — so Korean-only titles are left out of the Philippine posts)
+  const latin = t => { const c = cleanT(t || "").replace(/@\S+/g, "").replace(/[가-힣][가-힣\s]*\(([^)]*[A-Za-z][^)]*)\)/g, "$1").replace(/\s*\(\s*[가-힣][가-힣\s]*\)|\s+[가-힣]+(?=\s)/g, "").replace(/\s+/g, " ").trim(),
+    l = (c.match(/[A-Za-z]/g) || []).length, h = (c.match(/[가-힣ぁ-んァ-ヶ一-龯]/g) || []).length; return l >= 10 && h <= l * 0.25 ? c : ""; };
+  const title = x => latin(x.en) || latin(x.t);
+  const enOK = x => !!title(x);
+  const cut = (t, n) => t.length > n ? t.slice(0, n - 1).trim() + "…" : t;
+  let prev = {}; try { prev = JSON.parse(fs.readFileSync("data/fbposts.json", "utf8")); } catch (e) {}
+  const hot = kind => P.filter(p => p.kind === kind).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
+    .filter(o => o.n >= 2).sort((a, b) => b.v - a.v);
+  const choose = (kind, last) => { const h = hot(kind); return (h.find(o => o.p.key !== last) || h[0] || {}).p; };
+  const bestOf = p => [...recent(p)].sort((a, b) => b.views - a.views).concat(pick(p.list, 5).s, pick(p.list, 5).v).find(enOK);
+  const tag = s => "#" + s.replace(/[^A-Za-z0-9]/g, "");
+  const dd = new Date(BUILT + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const out = { date: BUILT, page: FB_PAGE, posts: [] };
+  const today = P.find(p => p.kind === "today");
+  if (today) {
+    const t5 = [...today.list].filter(enOK).sort((a, b) => b.views - a.views).slice(0, 5);
+    out.card = { title: "TODAY'S TOP 5 K-CLIPS", date: dd, rows: t5.map(x => ({ t: cut(title(x), 70), ch: x.ch, v: x.views })), url: "kreelz.com/k/today" };
+    out.posts.push({ kst: "13:00", pht: "12:00", label: "오늘의 TOP 5 (카드 이미지와 함께)", card: true,
+      text: `🔥 Today's Top 5 K-Clips (${dd})\n\n${t5.map((x, i) => `${i + 1}. ${cut(title(x), 60)}`).join("\n")}\n\nAlin ang fave mo? Comment below! 👇\n\n#KPop #KDrama #Kreelz`,
+      comment: `Panoorin lahat dito 👉 ${url("en", "today")}` });
+  }
+  const a = choose("artist", prev.artist), ac = choose("actor", prev.actor);
+  if (a) { const b = bestOf(a);
+    out.posts.push({ kst: "21:00", pht: "20:00", label: `메인 글: ${a.key}`,
+      text: `🚨 ${a.key} is trending today!\n${b ? `\nLatest: “${cut(title(b), 80)}”\n` : ""}\nAll the newest ${a.key} shorts & videos in one place — updated every midnight 🇰🇷\nLink sa comments 👇\n\n${tag(a.key)} #KPop #Kreelz`,
+      comment: `Watch here 👉 ${url("en", a.slug)}` }); }
+  const dayN = Math.floor(Date.parse(BUILT) / 864e5);
+  const QS = [
+    a && `Sino ang bias mo sa ${a.key}? 💜\nComment mo na! 👇\n\n${tag(a.key)} #KPop`,
+    `Anong K-drama ang pinapanood mo ngayon? 📺\nRecommend naman diyan! 👇\n\n#KDrama #Kreelz`,
+    `Kung pupunta ka sa Korea, ano ang unang kakainin mo? 🍜🇰🇷\n\n#KFood #Korea`,
+    `Top 3 K-pop songs mo this week? 🎧\nShare mo sa comments! 👇\n\n#KPop #Kreelz`,
+    ac && `${ac.key} fans, nasaan kayo? 🙋‍♀️\nAnong favorite drama mo niya? 😍\n\n${tag(ac.key)} #KDrama`,
+    `Weekend plans: K-drama marathon o K-pop concert videos? 🍿🎤\n\n#KDrama #KPop`,
+  ].filter(Boolean);
+  out.posts.push({ kst: "22:30", pht: "21:30", label: "질문 글 (링크 없음)", text: QS[dayN % QS.length] });
+  if (ac) { const b = bestOf(ac);
+    out.posts.push({ kst: "19:00", pht: "18:00", label: `배우 글: ${ac.key}`,
+      text: `😍 ${ac.key} moments you shouldn't miss${b ? `\n\n“${cut(title(b), 80)}”` : ""}\n\nDrama scenes, interviews & fan meetings — all in one place, updated daily. Link sa comments 👇\n\n${tag(ac.key)} #KDrama #Kreelz`,
+      comment: `Watch here 👉 ${url("en", ac.slug)}` }); }
+  if (a) out.group = { label: "팬 그룹용 (관리자 허락받은 그룹에만, 그룹당 주 1~2회)",
+    text: `Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated every midnight (KST) — no sign-up.\n\nHere's today's ${a.key} page: ${url("en", a.slug)}\n\nFeedback welcome! 💜` };
+  out.posts.sort((x, y) => x.kst.localeCompare(y.kst));
+  out.artist = a && a.key; out.actor = ac && ac.key;
+  fs.writeFileSync("data/fbposts.json", JSON.stringify(out, null, 1) + "\n");
+  console.log(`data/fbposts.json: ${out.posts.length} posts, card ${out.card ? out.card.rows.length : 0} rows`);
+}

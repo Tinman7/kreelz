@@ -109,6 +109,7 @@ tfoot td{font-weight:800;border-bottom:0}
 .xp-t{white-space:pre-wrap;word-break:break-word;font:inherit;font-size:14px;line-height:1.6;background:var(--soft,#F5F6F8);border-radius:10px;padding:12px;margin:10px 0}
 .xp-how{font-size:13.5px;line-height:1.7;margin-bottom:12px}.xp-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.xp-links .btn{font-size:13px;text-decoration:none}
 .xp-rep{list-style:none;margin:0;padding:0}.xp-rep li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:13.5px}.xp-rep .btn{padding:4px 10px;font-size:12.5px}
+.fb-card{width:100%;border-radius:10px;border:1px solid var(--line);margin-top:10px;display:block}.xp .row{flex-wrap:wrap;align-items:center}
 .xp .row{display:flex;gap:8px}.xp .btn{text-decoration:none}
 </style>
 </head>
@@ -174,6 +175,10 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="card xp-how"><b>매일 할 일</b> ① 아래 글을 시간에 맞춰 <b>X에 올리기</b> → 내용 확인 → 게시 ② 하루 5~10분: <b>교류</b> 칸의 검색 버튼으로 일본어 글을 열어 2~3개에 좋아요·짧은 답글 (링크 붙이지 않기) ③ 월요일: <b>주간 고정 코너</b> 글 올리기 (두 번째 글은 첫 글에 <b>답글</b>로)</div>
   <div class="grid two" id="xpList"><div class="card note">불러오는 중…</div></div>
   <div class="grid two" id="xpMore"></div>
+
+  <h2>페이스북 필리핀 · 오늘 올릴 글 <small id="fbDate">Kreelz 페이지용 · 매일 00:00(KST) 새로 만들어짐</small></h2>
+  <div class="card xp-how"><b>매일 할 일</b> ① 페이스북을 <b>Kreelz 페이지</b>로 전환(프로필 사진 → Kreelz) ② 시간에 맞춰 <b>본문 복사</b> → 새 게시물에 붙여넣기 (TOP 5는 <b>카드 이미지 저장</b> 후 함께 첨부) → 게시 ③ 게시 직후 <b>첫 댓글</b>에 링크 붙여넣기 (본문에 링크를 넣으면 노출이 줄어요) ④ 댓글에 답하기 · <a href="https://business.facebook.com/latest/posts" target="_blank" rel="noopener">메타 비즈니스 스위트</a>에서 미리 예약해도 됩니다</div>
+  <div class="grid two" id="fbList"><div class="card note">불러오는 중…</div></div>
 
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
@@ -368,6 +373,56 @@ const PLATS=["YouTube","TikTok","NAVER Clip"];
       ${w.posts.map(p=>`<p class="note" style="margin:10px 0 0">${esc(p.label)} · ${p.len}/280</p><pre class="xp-t">${esc(p.text)}</pre>
       <div class="row"><a class="btn primary" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(p.text)}">X에 올리기</a><button class="btn" type="button" data-xrep="${esc(p.text)}">복사</button></div>`).join("")}</div>`);
   }catch(e){}
+})();
+/* Facebook drafts for the Philippine Page (data/fbposts.json, written nightly by scripts/seo.mjs) + the Top 5 card image */
+function fbCard(c){
+  const W=1080,H=1350,cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
+  const F='"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif', AC="#E8445A", INK="#111318", MU="#7A808C";
+  const wrap=(t,x,y,maxW,lh,lines)=>{ const w=t.split(" "); let line="", n=0;
+    for(let i=0;i<w.length;i++){ const test=line?line+" "+w[i]:w[i];
+      if(g.measureText(test).width>maxW && line){ if(n===lines-1){ let l=line; while(g.measureText(l+"…").width>maxW) l=l.slice(0,-1); g.fillText(l+"…",x,y+n*lh); return n+1 } g.fillText(line,x,y+n*lh); n++; line=w[i] } else line=test }
+    g.fillText(line,x,y+n*lh); return n+1 };
+  g.fillStyle="#fff"; g.fillRect(0,0,W,H); g.fillStyle=AC; g.fillRect(0,0,W,14);
+  g.fillStyle=AC; g.beginPath(); g.arc(84,92,11,0,7); g.fill();
+  g.fillStyle=INK; g.font=`800 46px ${F}`; g.textBaseline="middle"; g.fillText("KREELZ",108,94);
+  g.fillStyle=MU; g.font=`600 32px ${F}`; g.textAlign="right"; g.fillText(c.date,W-72,94); g.textAlign="left";
+  g.textBaseline="alphabetic"; g.fillStyle=INK; g.font=`800 104px ${F}`; g.fillText("TODAY'S TOP 5",72,250);
+  g.fillStyle=AC; g.font=`800 40px ${F}`; g.fillText("K-POP · K-DRAMA · K-CLIPS",76,308);
+  const fmt=v=>v>=1e6?(v/1e6).toFixed(1).replace(/\.0$/,"")+"M":v>=1e3?Math.round(v/1e3)+"K":String(v);
+  const rows=c.rows.slice(0,5), X0=170, TW=W-X0-72, LH=48, TOP=372, BOT=H-200;
+  g.font=`700 40px ${F}`;
+  const lines=(t,max)=>{ const w=t.split(" "); let line="", n=1; for(const x of w){ const tt=line?line+" "+x:x; if(g.measureText(tt).width>TW && line){ n++; line=x } else line=tt } return Math.min(n,max) };
+  let maxL=2, hs=rows.map(r=>lines(r.t,2)*LH+50);
+  if(hs.reduce((a,b)=>a+b,0)+rows.length*36>BOT-TOP){ maxL=1; hs=rows.map(()=>LH+50) }
+  const gap=Math.min(70,(BOT-TOP-hs.reduce((a,b)=>a+b,0))/rows.length);
+  let y=TOP;
+  rows.forEach((r,i)=>{ g.strokeStyle="#ECEEF2"; g.lineWidth=2; g.beginPath(); g.moveTo(72,y); g.lineTo(W-72,y); g.stroke();
+    const top=y+gap/2;
+    g.fillStyle=AC; g.font=`800 80px ${F}`; g.textBaseline="top"; g.fillText(String(i+1),72,top-4);
+    g.fillStyle=INK; g.font=`700 40px ${F}`; const n=wrap(r.t,X0,top,TW,LH,maxL);
+    g.fillStyle=MU; g.font=`500 28px ${F}`; g.fillText(`${r.ch}${r.v>0?" · "+fmt(r.v)+" views":""}`.slice(0,60),X0,top+n*LH+6);
+    g.textBaseline="alphabetic"; y+=hs[i]+gap });
+  g.fillStyle=INK; const bx=72,by=H-170,bw=W-144,bh=96; g.beginPath(); g.roundRect(bx,by,bw,bh,48); g.fill();
+  g.fillStyle="#fff"; g.font=`800 40px ${F}`; g.textAlign="center"; g.textBaseline="middle"; g.fillText(`Watch all → ${c.url}`,W/2,by+bh/2+2);
+  g.fillStyle=MU; g.font=`600 28px ${F}`; g.fillText("New picks every midnight (KST) · Free",W/2,H-40);
+  return cv.toDataURL("image/png");
+}
+(async function fbposts(){
+  const box=$("#fbList"); if(!box) return;
+  try{
+    const d=await fetch("/data/fbposts.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!d||!d.posts) throw 0;
+    const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    $("#fbDate").innerHTML=`${esc(d.date)} 분 · 필리핀 시간 = 한국 시간 −1시간 · <a href="${esc(d.page)}" target="_blank" rel="noopener">Kreelz 페이지 열기</a>`;
+    const img=d.card?fbCard(d.card):"";
+    const cards=d.posts.map(p=>`<div class="card xp"><div class="xp-h"><b>${esc(p.kst)}</b> <span>${esc(p.label)}</span> <small>필리핀 ${esc(p.pht)}</small></div>
+      ${p.card&&img?`<img class="fb-card" src="${img}" alt="Top 5 card"><div class="row" style="margin-top:8px"><a class="btn" download="kreelz-top5-${esc(d.date)}.png" href="${img}">카드 이미지 저장</a><small class="note" style="margin:0">휴대폰은 이미지를 길게 눌러 저장</small></div>`:""}
+      <pre class="xp-t">${esc(p.text)}</pre>
+      <div class="row"><button class="btn primary" type="button" data-xrep="${esc(p.text)}">본문 복사</button>${p.comment?`<button class="btn" type="button" data-xrep="${esc(p.comment)}">첫 댓글 복사</button>`:""}</div>
+      ${p.comment?`<p class="note" style="margin:8px 0 0">첫 댓글: ${esc(p.comment)}</p>`:""}</div>`);
+    if(d.group) cards.push(`<div class="card xp"><div class="xp-h"><b>그룹</b> <span>${esc(d.group.label)}</span></div><pre class="xp-t">${esc(d.group.text)}</pre>
+      <div class="row"><button class="btn primary" type="button" data-xrep="${esc(d.group.text)}">복사</button></div></div>`);
+    box.innerHTML=cards.join("");
+  }catch(e){ box.innerHTML='<div class="card note">오늘 글이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
 })();
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-xrep]"); if(!b) return;
   navigator.clipboard.writeText(b.dataset.xrep).then(()=>{ const t=b.textContent; b.textContent="복사됨"; setTimeout(()=>b.textContent=t,1500) }).catch(()=>{}) });
