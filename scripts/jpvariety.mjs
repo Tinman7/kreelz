@@ -41,7 +41,7 @@ const VAR_CH = new Set(["MBCentertainment", "SBS Entertainment", "KBS Entertain"
   "MBC every1", "MBN Entertainment", "tvN STORY 티비엔 스토리", "SBS Running Man", "런닝맨 - 스브스 공식 채널", "1박2일 공식 유튜브",
   "올끌 (All of MBClassic)", "TV-People", "K-STAR 케이스타", "TVCHOSUN JOY"].map(s => s.toLowerCase()));
 // not variety even when a show is named: drama scenes and making-of, music stages, fancams, fan meetings, award shows, idol web shows
-const NOT = /드라마|ドラマ|韓ドラ|k-?drama|\bdrama\b|메이킹|making|ost\b|직캠|fancam|팬미팅|fan ?meeting|ファンミ|来日|입국|출국|공항|airport|백상|baeksang|aaa\b|asia artist|mama awards?|골든디스크|golden disc|시상식|award|어워즈|어워드|뮤직뱅크|music bank|인기가요|inkigayo|엠카운트다운|m ?countdown|쇼 ?챔피언|show champion|음악중심|music core|더쇼|the show|\bmv\b|m\/v|music video|teaser|티저|official audio|stage|무대|주간 ?아이돌|weekly idol|아이돌 ?룸|idol room|재친구|run bts|달려라 ?방탄|going seventeen|고잉 ?세븐틴|강추 ?리뷰|무대 ?인사|시사회|혈관|혈당|건강 ?(정보|비법|상식)|질환|어서와 ?한국은 ?처음이지|연애 ?박사|금쪽같은 ?내 ?스타|금스타|살롱 ?드 ?홈즈|\bep\.? ?\d+ ?(예고|선공개)/i;
+const NOT = /드라마|ドラマ|韓ドラ|k-?drama|\bdrama\b|메이킹|making|ost\b|직캠|fancam|팬미팅|fan ?meeting|ファンミ|来日|입국|출국|공항|airport|백상|baeksang|aaa\b|asia artist|mama awards?|골든디스크|golden disc|시상식|award|어워즈|어워드|뮤직뱅크|music bank|인기가요|inkigayo|엠카운트다운|m ?countdown|쇼 ?챔피언|show champion|음악중심|music core|더쇼|the show|\bmv\b|m\/v|music video|teaser|티저|official audio|stage|무대|주간 ?아이돌|weekly idol|아이돌 ?룸|idol room|재친구|run bts|달려라 ?방탄|going seventeen|고잉 ?세븐틴|강추 ?리뷰|무대 ?인사|시사회|혈관|혈당|건강 ?(정보|비법|상식)|질환|어서와 ?한국은 ?처음이지|연애 ?박사|이 ?사랑 ?통역 ?되나요|금쪽같은 ?내 ?스타|금스타|살롱 ?드 ?홈즈|\bep\.? ?\d+ ?(예고|선공개)/i;
 // drama channels / pages that post scenes (their variety clips still pass with a show name)
 const DRAMA_CH = /drama|드라마|ドラマ|tving|티빙|netflix|넷플릭스|disney|디즈니|coupang|쿠팡|wavve|웨이브|스튜디오지니|genie|ena drama|kntv|u-next|hulu|abema|채널에이드/i;
 

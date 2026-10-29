@@ -298,7 +298,7 @@ for (const id of cand) {
   const k = cat(v), p = per[c.name || c.q] = per[c.name || c.q] || { videos: 0, shorts: 0, sample: [] };
   if (shortIds.has(id)) { out.shorts[id] = [k, v.views, 1, v.days]; p.shorts++; } else { out.videos[id] = [k, v.views, v.days, 1]; p.videos++; }
   if (p.sample.length < (CHECK ? 10 : 4)) p.sample.push(`[${k}${c.korean ? " " + why(v) : ""}${c === FANS ? " ja" + jaC[id] : ""}] ${v.meta[0].slice(0, 70)}`);
-  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else only.add(id); if (c.lift) reco.add(id); if (c === HANOK || c === HANOK_KR) hanokIds.add(id); }   // hanok stays: Japan-only and lifted   // Korean picks are not Japan-only
+  if (!CHECK) { vmeta[id] = v.meta; if (c === RECO || c.reco) reco.add(id); else if (!c.both) only.add(id); /* c.both: variety channels, shown on both editions */ if (c.lift) reco.add(id); if (c === HANOK || c === HANOK_KR) hanokIds.add(id); }   // hanok stays: Japan-only and lifted   // Korean picks are not Japan-only
 }
 const report = Object.entries(per).map(([n, p]) => `${n}: videos ${p.videos}, shorts ${p.shorts}\n   ` + p.sample.join("\n   ")).join("\n");
 console.log(report);
