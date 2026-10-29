@@ -640,31 +640,33 @@
  },
  "hanbok_rent": {
   "_note": "K-Travel & Food tab of kreelz.com/jp, lifted: hanbok-rental shops — getting the hair done, choosing a hanbok, then walking the palace. Japanese videos. Added 2026-10-30 (per David).",
-  "first_run": 4,
+  "first_run": 3,
   "per_night": 1,
-  "min_views": 5000,
+  "min_views": 1000,
   "queries": [
+   "韓服レンタル",
    "韓服レンタル ヘアセット",
-   "韓服 レンタル 景福宮 おすすめ",
+   "韓服 レンタル 景福宮",
    "チマチョゴリ レンタル",
    "韓服レンタル 体験 vlog",
    "韓服 ヘアアレンジ ソウル"
   ],
-  "done": true
+  "done": false
  },
  "hanbok_rent_kr": {
   "_note": "Korean videos of foreigners at hanbok-rental shops (hair styling, choosing a hanbok), region KR, Japan edition only, lifted; titles translated. Added 2026-10-30 (per David).",
   "first_run": 3,
   "per_night": 1,
-  "min_views": 5000,
+  "min_views": 3000,
   "region": "KR",
   "lang": "ko",
   "queries": [
-   "외국인 한복대여 헤어",
-   "한복대여 외국인 반응",
+   "외국인 한복대여",
    "경복궁 한복대여 외국인",
-   "한복 대여점 헤어 메이크업 외국인"
+   "한복대여 헤어 외국인 반응",
+   "한복대여 브이로그",
+   "한복 체험 외국인"
   ],
-  "done": true
+  "done": false
  }
 }

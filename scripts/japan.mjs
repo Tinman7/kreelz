@@ -130,10 +130,10 @@ const MUSEUM = { name: "National Museum of Korea & goods (search, ja)", cat: "tr
     check: v => KANA.test(v.meta[0]) && MUSEUM_W.test(tx_(v)) && short_(v) },
   MUSEUM_KR = { name: "National Museum of Korea & goods (search, KR)", cat: "travel", search: true, lift: true, minv: MK.min_views || 5000,
     check: v => /[가-힣]/.test(v.meta[0]) && MUSEUM_W.test(tx_(v)) && short_(v) },
-  HANBOK = { name: "Hanbok rental: hair & choosing (search, ja)", cat: "travel", search: true, lift: true, minv: HB.min_views || 5000,
-    check: v => KANA.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && RENT_W.test(tx_(v)) && short_(v) },
+  HANBOK = { name: "Hanbok rental: hair & choosing (search, ja)", cat: "travel", search: true, lift: true, minv: HB.min_views || 1000,
+    check: v => KANA.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && (RENT_W.test(tx_(v)) || /体験|景福宮/.test(tx_(v))) && short_(v) },
   HANBOK_KR = { name: "Hanbok rental: hair & choosing (search, KR)", cat: "travel", search: true, lift: true, minv: HBK.min_views || 5000,
-    check: v => /[가-힣]/.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && RENT_W.test(tx_(v)) && /외국인|외국|foreigner|일본인|관광객/i.test(tx_(v)) && short_(v) };
+    check: v => /[가-힣]/.test(v.meta[0]) && HANBOK_W.test(tx_(v)) && (RENT_W.test(tx_(v)) || /체험|경복궁/.test(tx_(v))) && /외국인|외국|foreigner|일본인|관광객|여행/i.test(tx_(v)) && short_(v) };
 const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
 const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "travel", search: true, lift: true },
   HANOK_KR = { name: "Hanok stays: Jeonju, hanok hotels (search, KR)", cat: "travel", search: true, lift: true };
