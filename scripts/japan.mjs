@@ -112,6 +112,8 @@ const HG = cfg.heritage || { queries: [] }, BG = cfg.busan_jp || { queries: [] }
 const KR = cfg.kr_reco || { queries: [] }, RECO = { name: "Korean travel & restaurant picks (search, KR)", cat: "travel", search: true, reco: true };
 // Hanok stays (/jp only, lifted to the top of K-Travel & Food; per David 2026-10-29): Jeonju Hanok Village stays and
 // hotel-class hanok hotels — Japanese videos (hanok_stay, travel checks) and Korean ones (hanok_kr, region KR, hanokKrOK)
+// the places foreign visitors like best (KTO visitor survey; per David 2026-10-29): Japanese videos, travel checks, first after hanok
+const KT = cfg.kto_top || { queries: [] };
 const HS = { ...(cfg.hanok_stay || { queries: [] }), hanok: true }, HK = { ...(cfg.hanok_kr || { queries: [] }), hanok: true };
 const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "travel", search: true, lift: true },
   HANOK_KR = { name: "Hanok stays: Jeonju, hanok hotels (search, KR)", cat: "travel", search: true, lift: true };
@@ -121,6 +123,8 @@ const HANOK = { name: "Hanok stays: Jeonju, hanok hotels (search, ja)", cat: "tr
   let budget = +(process.env.JP_SEARCHES || 6) + (HS.done && HK.done ? 0 : 3);   // the hanok groups' first run gets 3 extra searches
   budget -= await searchGroup(HS, HANOK, [730, 90], budget) || 0;   // hanok stays first (per David)
   budget -= await searchGroup(HK, HANOK_KR, [730, 90], budget) || 0;
+  if (!KT.done) budget += 3;   // first run of the survey places: 3 extra searches
+  budget -= await searchGroup(KT, TRAVEL, [365, 60], budget) || 0;
   budget -= await searchGroup(KR, RECO, [365, 60], budget) || 0;   // Korean travel & restaurant picks first (priority, per David)
   const off = Math.floor(Date.now() / DAY) % G.length;
   for (let i = 0; i < G.length; i++) { const [g, tag, days] = G[(off + i) % G.length]; budget -= await searchGroup(g, tag, days, budget) || 0; } }
@@ -190,7 +194,7 @@ const cat = v => {
   return "d";
 };
 const KANA = /[ぁ-んァ-ヶ]/;
-const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
+const KPLACE = /韓国|ソウル|漢江|ハンガン|西村|ソチョン|付岩洞|プアムドン|鍾路|チョンノ|仁寺洞|インサドン|昌徳宮|徳寿宮|韓屋|韓服|白瀬|ヒンヨウル|ブルーラインパーク|ドローンショー|田浦|チョンポ|影島|ヨンド|海東龍宮寺|BIFF|釜山|プサン|済州|チェジュ|明洞|ミョンドン|弘大|ホンデ|聖水|ソンス|江南|カンナム|漢南|ハンナム|梨泰院|イテウォン|東大門|南大門|広蔵市場|乙支路|ウルチロ|新堂|シンダン|安国|アングク|益善洞|イクソンドン|延南|ヨンナム|望遠|マンウォン|狎鴎亭|アックジョン|新沙|カロスキル|北村|景福宮|南山|Nソウルタワー|汝矣島|ヨイド|ロッテワールド|仁川|大邱|全州|チョンジュ|慶州|キョンジュ|安東|アンドン|河回|ハフェ|楽古斎|ラクコジェ|鏡源斎|キョンウォンジェ|松島|ソンド|駱山|ナクサン|峨嵯山|アチャサン|DDP|東大門デザインプラザ|海雲台|ヘウンデ|広安里|クァンアンリ|甘川|カムチョン|西面|ソミョン|南浦|ナンポ|チャガルチ|海東竜宮寺|城山|ロンドンベーグル|london bagel|korea|seoul|busan|jeju/i;
 const TRAVELW = /旅行|旅|vlog|レンタル|ヘアセット|ヘアアレンジ|体験|散策|ポジャンマチャ|屋台|聖地巡礼|聖地|行きつけ|ゆかり|推し活|ロケ地|撮影地|ピクニック|ラミョン|ラーメン|ドリンク|飲み物|組み合わせ|新商品|GS25|\bCU\b|セブンイレブン|観光|グルメ|食べ|飯|カフェ|屋台|市場|コンビニ|ホテル|おすすめ|モッパン|爆食|ランチ|ディナー|朝ごはん|焼肉|サムギョプサル|チキン|トッポギ|キンパ|ビビンバ|スンドゥブ|ケジャン|冷麺|チヂミ|ホットク|スイーツ|パン|お土産|買い物|ショッピング|オリーブヤング|散策|街歩き|ひとり旅|女子旅|家族旅行|穴場|行き方|空港|地下鉄|両替|日帰り|泊|day ?trip|travel|food|cafe|宿|宿泊|ステイ|ゲストハウス|ルームツアー/i;
 const NOT_TRAVEL = /mv\b|m\/v|music video|直撮り|ファンカム|fancam|ドラマ|映画|予告|full ?ver|フル|歌ってみた|踊ってみた|cover|反応|リアクション|ニュース|news|政治|事件|事故|コリアンタウン|新大久保|鶴橋|大阪|名古屋|日本で|自宅|家で|一人暮らし|作ってみた|レシピ|再現/i;
 const COSME = /オリーブヤング|オリヤン|olive ?young|올리브영|韓国コスメ|韓コス|kコスメ|k-?beauty|korean (makeup|skincare|beauty)/i;
@@ -281,6 +285,7 @@ if (!CHECK) {
   if (cfg.heritage && cfg.heritage.ran) { cfg.heritage.done = true; delete cfg.heritage.ran; }
   if (cfg.busan_jp && cfg.busan_jp.ran) { cfg.busan_jp.done = true; delete cfg.busan_jp.ran; }
   if (HS.ran && cfg.hanok_stay) cfg.hanok_stay.done = true;
+  if (cfg.kto_top && cfg.kto_top.ran) { cfg.kto_top.done = true; delete cfg.kto_top.ran; }
   if (HK.ran && cfg.hanok_kr) cfg.hanok_kr.done = true;
   if (cfg.fans && !TOP_ONLY) cfg.fans.done = true;
   if (cfg.actors && !TOP_ONLY) cfg.actors.done = true;

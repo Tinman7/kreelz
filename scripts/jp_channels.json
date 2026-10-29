@@ -429,5 +429,23 @@
    "경주 한옥 숙소"
   ],
   "done": true
+ },
+ "kto_top": {
+  "_note": "K-Travel & Food tab of kreelz.com/jp, given priority: the places foreign visitors like best, in Japanese videos — KTO / 한국문화관광연구원 외래관광객조사 2024 Q3 'most enjoyed place': 명동 16.2%, 경복궁 7.8%, 홍대 7.5%, 강남 4.5%, 해운대 2.9%; Seoul AI Foundation 2025 fastest-growing: DDP, 아차산, 홍대, 낙산공원, 광장시장, 경복궁. Added 2026-10-29 (per David; first applied to the global edition, moved here the same day).",
+  "first_run": 5,
+  "per_night": 2,
+  "min_views": 20000,
+  "queries": [
+   "明洞 食べ歩き",
+   "景福宮 韓服 散策",
+   "弘大 グルメ カフェ",
+   "江南 グルメ",
+   "広蔵市場 食べ歩き",
+   "海雲台 グルメ",
+   "DDP 東大門 夜",
+   "駱山公園 夜景",
+   "峨嵯山 登山 ソウル",
+   "明洞 屋台"
+  ]
  }
 }

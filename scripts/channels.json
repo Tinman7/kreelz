@@ -1042,18 +1042,17 @@
   "모공 관리"
  ],
  "mukbangQ": [
-  "명동 길거리음식",
-  "광장시장 먹방",
-  "홍대 맛집",
-  "경복궁 한복 체험",
   "먹방",
+  "먹방 ASMR",
+  "리얼사운드 먹방",
+  "대식가 먹방",
   "맛집 먹방",
   "편의점 먹방",
   "라면 먹방",
   "시장 먹방",
   "분식 먹방",
   "고기 먹방",
-  "디저트 먹방"
- ],
- "_note_travel": "2026-10-29 (per David): the global K-Food tab leans to the places foreign visitors like best — KTO/한국문화관광연구원 외래관광객조사 2024 Q3 'most enjoyed place': 명동 16.2%, 경복궁 7.8%, 홍대 7.5%, 강남 4.5%, 해운대 2.9%; Seoul AI Foundation 2025 growth: DDP, 아차산, 홍대, 낙산공원, 광장시장, 경복궁. Four mukbang searches were swapped for these places (same API units)."
+  "디저트 먹방",
+  "집밥 먹방"
+ ]
 }
