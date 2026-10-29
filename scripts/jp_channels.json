@@ -409,7 +409,8 @@
    "慶州 韓屋 宿",
    "安東 韓屋ステイ",
    "全州韓屋村 vlog"
-  ]
+  ],
+  "done": true
  },
  "hanok_kr": {
   "_note": "Korean videos of the same hanok stays (region KR), Japan edition only, lifted; titles translated to Japanese nightly. Added 2026-10-29 (per David).",
@@ -426,6 +427,7 @@
    "락고재",
    "전주 한옥 호텔",
    "경주 한옥 숙소"
-  ]
+  ],
+  "done": true
  }
 }
