@@ -1,7 +1,7 @@
 {
  "date": "2026-10-30",
- "artist": "Stray Kids",
- "actor": "Song Kang",
+ "artist": "ILLIT",
+ "actor": "Choo Young-woo",
  "posts": [
   {
    "time": "08:00",
@@ -11,38 +11,38 @@
   },
   {
    "time": "12:00",
-   "label": "오늘의 인기 TOP3",
-   "text": "📈今日の韓国エンタメ人気クリップ（10/30）\n1. AND2BLE (アンドゥブル) 'French Kissing' MV\n2. 僕は🐰🐶🦊になるんだ！\n3. HUNTR/X Dance Rehearsal | 「How It's Done」| KPop Demon Hunter…\n▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 228
+   "label": "오늘의 3분 요약 TOP3",
+   "text": "📰3分でわかる今日の韓国エンタメ（10/30）\n1. AND2BLE「French Kissing」MV\n2. Stray Kids「THIS & THAT」MV・公式映像\n3. ラジオスター 金ミン 初出演回\n解説つき10本はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 211
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "Stray Kidsを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#StrayKids #スキズ",
-   "len": 112
+   "text": "ILLITを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#ILLIT #アイリット",
+   "len": 107
   },
   {
    "time": "19:00",
-   "label": "아티스트: Stray Kids",
-   "text": "🔥Stray Kids（ストレイキッズ）の最新ショート・動画まとめ\nいま話題：僕は🐰🐶🦊になるんだ！\n▶ https://kreelz.com/jp/k/stray-kids/\n#StrayKids #スキズ #KPOP",
-   "len": 141
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：🚨 with @ENHYPENOFFICIAL\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 134
   },
   {
    "time": "22:00",
-   "label": "배우: Song Kang",
-   "text": "🎬ソン・ガンの最新動画まとめ\nいま話題：ソン・ガンのバフでアイリットの「逮捕する」の順位がすごい勢いで上がってる件\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/song-kang/\n#ソンガン #韓国俳優",
-   "len": 203
+   "label": "배우: Choo Young-woo",
+   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[7話ハイライト] 「お母さんが一番大事だから…」 チュ・ヨンウを傷つけたキム・ソヒョンの予想外の答え…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
+   "len": 232
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "Stray Kids 최신 일본어 글",
-    "url": "https://x.com/search?q=%23StrayKids%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "ソン・ガン 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%BD%E3%83%B3%E3%82%AC%E3%83%B3%20lang%3Aja&f=live"
+    "label": "チュ・ヨンウ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
