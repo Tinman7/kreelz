@@ -204,6 +204,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           node scripts/noeat.mjs index.html || echo "eating-show filter skipped"   # no big-eating mukbang on either edition (per David 2026-10-29)
           node scripts/jpvariety.mjs index.html || echo "jp variety list skipped"   # kreelz.com/jp Shows tab = Korean variety shows only (per David 2026-10-30)
+          node scripts/korfilm.mjs index.html || true   # Film tab: Korean films only (per David 2026-10-30)
           node scripts/nowdrama.mjs index.html || echo "airing dramas skipped"   # Screen tab: dramas airing now first (per David 2026-10-30)
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
