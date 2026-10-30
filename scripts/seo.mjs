@@ -105,10 +105,13 @@ const pick = (list, n) => ({ s: list.filter(x => x.short).sort((a, b) => score(b
 // ---------- "today in 3 minutes" (scripts/digest.mjs) ----------
 const DIG = {}; try { for (const f of fs.readdirSync("data/digest")) { const d = JSON.parse(fs.readFileSync(`data/digest/${f}`, "utf8")); if (d.date && d.items && d.items.length) DIG[d.date] = d; } } catch (e) {}
 const DAYS_ = Object.keys(DIG).sort().reverse().slice(0, 30);
+// the Japan edition keeps 100 Days of Deception and Doctor X out of its lists' first places (per David): not in its digest either
+const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;
+const dItems = (ed, d) => d ? d.items.filter(x => ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) : [];
 function digestBlock(ed, d, withPast) {
-  if (!d) return "";
+  if (!d || !dItems(ed, d).length) return "";
   const L = T[ed], E = ED[ed], ja = ed === "ja";
-  const li = d.items.map((x, i) => `<li><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a></li>`).join("");
+  const li = dItems(ed, d).map((x, i) => `<li><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a></li>`).join("");
   const past = withPast ? DAYS_.filter(k => k !== d.date).slice(0, 14).map(k => `<a href="/${E.dir}/today/${k}/">${k}</a>`).join("") : "";
   return `<section class="dg"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
 }
@@ -290,7 +293,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const posts = [];
   const today = P.find(p => p.kind === "today");
   const dg = DIG[DAYS_[0]];
-  if (dg && dg.date === BUILT) posts.push({ time: "12:00", label: "오늘의 3분 요약 TOP3", text: fit(w => `📰3分でわかる今日の韓国エンタメ（${md}）\n${dg.items.slice(0, 3).map((x, i) => `${i + 1}. ${cut(x.ja_title, w)}`).join("\n")}\n解説つき10本はこちら▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) });
+  if (dg && dg.date === BUILT) posts.push({ time: "12:00", label: "오늘의 3분 요약 TOP3", text: fit(w => `📰3分でわかる今日の韓国エンタメ（${md}）\n${dItems("ja", dg).slice(0, 3).map((x, i) => `${i + 1}. ${cut(x.ja_title, w)}`).join("\n")}\n解説つきの全部はこちら▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) });
   else if (today) { const t3 = [...today.list].sort((a, b) => b.views - a.views).slice(0, 3);
     posts.push({ time: "12:00", label: "오늘의 인기 TOP3", text: fit(w => `📈今日の韓国エンタメ人気クリップ（${md}）\n${t3.map((x, i) => `${i + 1}. ${cut(ED.ja.title(x), w)}`).join("\n")}\n▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) }); }
   const a = choose("artist", prev.artist);

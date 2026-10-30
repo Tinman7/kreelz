@@ -26,7 +26,7 @@ for (const [name, short] of [["FEED", false], ["SHORTS", true]]) {
     const id = s.slice(i, i + 11), c = s[i + 11], vc = dec2(s.slice(i + 12, i + 14)), days = dec2(s.slice(i + 14, i + 16));
     if (days > 2 || vc === 4095 || JPO.has(id) || c !== c.toUpperCase()) continue;   // last 2 days, official channels, on both editions
     const o = tf("o", id) || [], v = vm[id] || [], t = o[0] || v[0]; if (!t) continue;
-    const cat = c === "E" && !VAR.has(id) ? "" : FC[c.toLowerCase()]; if (!cat) continue;
+    const cat = VAR.has(id) ? "variety" : c === "E" ? "" : FC[c.toLowerCase()]; if (!cat) continue;   // variety shows filed elsewhere count as variety
     const views = Math.round(Math.pow(1.006, vc) - 1);
     cand.push({ id, short, cat, t, ch: o[1] || v[2] || "", views, sc: views / (days + 1) * (NOW.has(id) ? 1.5 : 1) });
   }
@@ -48,9 +48,9 @@ if (YT) try {
 const SYSTEM = `You write a daily digest of Korean entertainment clips for fans in Japan and worldwide.
 For each clip you get its YouTube title, channel, category and description. For each, write:
 - "ja_title": a short natural Japanese title (max 40 characters) naming the artist/actor/show as Japanese fans know them (katakana names, Japanese show names when they exist).
-- "ja": 1–2 Japanese sentences (max 80 characters) saying what the clip is and why fans would watch it.
+- "ja": 1–2 short Japanese sentences (max 70 characters in all) saying what the clip is and why fans would watch it.
 - "en_title": a short natural English title (max 70 characters).
-- "en": 1–2 English sentences (max 150 characters), same content.
+- "en": 1–2 short English sentences (max 140 characters in all), same content.
 Rules: use ONLY facts in the given title, channel and description. Do not invent plot details, rankings, dates, numbers or reactions. If the description says little, describe the clip plainly (e.g. "the official preview of episode 5"). No hashtags, no emojis, no hype words like "legendary".
 Output ONLY a JSON object {"<key>": {"ja_title":…, "ja":…, "en_title":…, "en":…}, …} with exactly the keys given.`;
 const user = JSON.stringify(Object.fromEntries(pick.map((x, k) => [String(k), { title: x.t, channel: x.ch, category: x.cat, description: x.desc || "" }])));
