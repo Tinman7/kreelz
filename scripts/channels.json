@@ -129,7 +129,7 @@
   {
    "id": "UCAP8OK0GHFbnL5OkY3j04Xw",
    "name": "ENA 이엔에이",
-   "cat": "mukbang"
+   "cat": "entertainment"
   },
   {
    "id": "UCv3fQ4Jt1fTq18Ck5IsqiFA",
@@ -795,6 +795,16 @@
    "id": "UC2e4Ukj5Pfr7cb3KpJAFBdQ",
    "name": "ATEEZ",
    "cat": "music"
+  },
+  {
+   "id": "UC9qrbRdZvyqiMTIuncx1fiA",
+   "name": "TVCHOSUN DRAMA",
+   "cat": "drama"
+  },
+  {
+   "id": "UCuw1hxBo5mDVUhgMzRDk3aw",
+   "name": "TVCHOSUN - TV조선",
+   "cat": "entertainment"
   }
  ],
  "beautyQ": [
