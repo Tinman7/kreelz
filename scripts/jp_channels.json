@@ -660,7 +660,7 @@
    "韓服レンタル 体験 vlog",
    "韓服 ヘアアレンジ ソウル"
   ],
-  "done": false
+  "done": true
  },
  "hanbok_rent_kr": {
   "_note": "Korean videos of foreigners at hanbok-rental shops (hair styling, choosing a hanbok), region KR, Japan edition only, lifted; titles translated. Added 2026-10-30 (per David).",
@@ -676,6 +676,6 @@
    "한복대여 브이로그",
    "한복 체험 외국인"
   ],
-  "done": false
+  "done": true
  }
 }
