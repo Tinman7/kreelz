@@ -2819,8 +2819,11 @@ let KZ_TZ="", KZ_CC=null, KZ_GEO=true;
 try{ KZ_TZ=Intl.DateTimeFormat().resolvedOptions().timeZone||""; KZ_CC=KZ_TZ_CC[KZ_TZ]||null;
   if(!KZ_CC){ const m=/-([A-Z]{2})\b/.exec(navigator.language||""); if(m) KZ_CC=m[1] }
   if(!KZ_CC && /^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage)$/.test(KZ_TZ)) KZ_CC="US" }catch(e){}
+/* Search-engine robots, previewers and automated browsers are not counted (per David 2026-10-30): Googlebot and others open
+   the page in a real Chrome from US servers, each time as a new "visitor", which made the US look big on the admin page */
+const KZ_BOT=(()=>{ try{ return !!navigator.webdriver || /bot\b|bot\/|crawl|spider|slurp|mediapartners|adsbot|apis-google|google-inspectiontool|storebot|lighthouse|pagespeed|headlesschrome|phantomjs|puppeteer|playwright|selenium|prerender|facebookexternalhit|facebookcatalog|embedly|whatsapp|telegram|discord|skypeuripreview|bytespider|petalbot|yandex|baiduspider|applebot|semrush|ahrefs|mj12|dotbot|gptbot|claudebot|perplexity|ccbot|amazonbot|duckduck|bingpreview|ia_archiver|archive\.org/i.test(navigator.userAgent||"") }catch(e){ return false } })();
 function track(kind,video){
-  if(!SOC_ON||!VID) return;
+  if(!SOC_ON||!VID||KZ_BOT) return;
   const send=(geo)=>fetch(SB_URL+"/rest/v1/events",{method:"POST",keepalive:true,headers:{apikey:SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
     body:JSON.stringify(geo?{kind,visitor:VID,video_id:video||null,country:KZ_CC,tz:(KZ_TZ||"").slice(0,40)||null}:{kind,visitor:VID,video_id:video||null})});
   try{ send(KZ_GEO).then(r=>{ if(r.status===400 && KZ_GEO){ KZ_GEO=false; send(false).catch(()=>{}) } }).catch(()=>{}) }catch(e){}   // older database without the country columns
