@@ -13,7 +13,7 @@ const vm = JSON.parse(zlib.gunzipSync(fs.readFileSync("data/vmeta.json.gz")));
 const B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", dec2 = s => B.indexOf(s[0]) * 64 + B.indexOf(s[1]);
 const DAYS = 21;
 // channels that re-post old dramas (archives, clip and recap channels)
-const ARCHIVE = /mnet|k-?pop|클래식|classic|올끌|tv-?people|디글|wavve|웨이브|스튜디오지니|잇츠뉴|빵터짐|요약|고몽|리뷰|드라마 ?맛집|숏드|kbs drama classic|mbc ?classic|sbs ?catch/i;
+const ARCHIVE = /mnet|k-?pop|클래식|classic|올끌|tv-?people|디글|wavve|웨이브|스튜디오지니|잇츠뉴|빵터짐|요약|고몽|리뷰|드라마 ?맛집|숏드|kbs drama classic|mbc ?classic/i;   // SBS Catch stays in: it posts the current and coming SBS dramas
 // words that are not a drama's name
 const GENERIC = /^(선공개|후공개|예고|예고편|티저|메인 ?티저|티저 ?예고편|공식 ?예고편|메인 ?예고편|하이라이트|\d+ ?(화|회)( ?(예고|하이라이트|선공개|클립|메이킹))?|ep\.? ?\d+.*|메이킹|비하인드|스페셜|special|shorts?|쇼츠|클립|clip|tving|티빙|넷플릭스|netflix|디즈니\+?|disney\+?.*|웨이브|wavve|쿠팡플레이|coupang ?play|eng ?sub|sub|eng|kor|jpn|official|trailer|teaser|preview|now playing|kbs.*|mbc.*|sbs.*|jtbc.*|tvn.*|ena.*|\d{6} ?방송|방송|drama|드라마|k-?drama|韓国ドラマ|韓ドラ|kdrama|번개클립|실시간|습픽.*|.*\b(mlb|kbo|kespa|lol|nba|epl)\b.*|\d+-\d*.*|.*10주년.*|통합 ?티저|\d+차 ?티저|넷플릭스 ?\d+주년|넷플잔치|오늘의 ?.*|.{0,1})$/i;
 const keyOf = t => {
