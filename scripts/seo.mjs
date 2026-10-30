@@ -80,6 +80,8 @@ const T = {
     shorts: "Shorts", videos: "Videos", updated: d => `Updated ${d} (KST)`, count: n => `${n} clips`, views: v => `${fmt(v)} views`,
     open: "Open KREELZ", artistsH: "K-pop artists", actorsH: "Actors", catsH: "Categories", todayL: "Today", hubL: "All topics",
     note: "Videos belong to their creators and play from YouTube. KREELZ picks and translates titles; it does not host any video.",
+    dgH: "Today in 3 minutes", dgSub: "The 10 clips Korea watched most, each explained in a line", pastH: "Earlier days",
+    day: d => [`Korean entertainment on ${d} — 10 clips in 3 minutes`, `The 10 clips Korea watched most on ${d}: K-pop, dramas on air, variety, film and food, each with a one-line explanation.`],
   },
   ja: {
     artist: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。MV、ダンス、直カム、ビハインド、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
@@ -90,6 +92,8 @@ const T = {
     shorts: "ショート", videos: "動画", updated: d => `${d} 更新（日本時間0時）`, count: n => `${n}本`, views: v => `${fmtJa(v)}回視聴`,
     open: "KREELZ JAPANを開く", artistsH: "K-POPアーティスト", actorsH: "俳優", catsH: "カテゴリー", todayL: "今日の人気", hubL: "一覧",
     note: "動画の権利は各制作者に帰属し、YouTubeから再生されます。KREELZは動画を選んでタイトルを翻訳しているだけで、動画をホスティングしていません。",
+    dgH: "3分でわかる今日の韓国エンタメ", dgSub: "韓国でいちばん見られた10本を、ひとこと解説つきで", pastH: "過去のまとめ",
+    day: d => [`${d}の韓国エンタメ 3分まとめ`, `${d}に韓国でいちばん見られたK-POP、放送中のドラマ、バラエティ、映画、グルメの10本を、ひとこと解説つきで紹介。`],
   },
 };
 const fmt = v => v >= 1e6 ? (v / 1e6).toFixed(v >= 1e7 ? 0 : 1).replace(/\.0$/, "") + "M" : v >= 1e3 ? Math.round(v / 1e3) + "K" : String(v);
@@ -97,6 +101,17 @@ const fmtJa = v => v >= 1e8 ? (v / 1e8).toFixed(1).replace(/\.0$/, "") + "億" :
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const score = x => Math.max(0, x.views) / Math.pow((x.days < 0 ? 20 : x.days) + 2, 0.8);
 const pick = (list, n) => ({ s: list.filter(x => x.short).sort((a, b) => score(b) - score(a)).slice(0, n), v: list.filter(x => !x.short).sort((a, b) => score(b) - score(a)).slice(0, n) });
+
+// ---------- "today in 3 minutes" (scripts/digest.mjs) ----------
+const DIG = {}; try { for (const f of fs.readdirSync("data/digest")) { const d = JSON.parse(fs.readFileSync(`data/digest/${f}`, "utf8")); if (d.date && d.items && d.items.length) DIG[d.date] = d; } } catch (e) {}
+const DAYS_ = Object.keys(DIG).sort().reverse().slice(0, 30);
+function digestBlock(ed, d, withPast) {
+  if (!d) return "";
+  const L = T[ed], E = ED[ed], ja = ed === "ja";
+  const li = d.items.map((x, i) => `<li><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a></li>`).join("");
+  const past = withPast ? DAYS_.filter(k => k !== d.date).slice(0, 14).map(k => `<a href="/${E.dir}/today/${k}/">${k}</a>`).join("") : "";
+  return `<section class="dg"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
+}
 
 // ---------- pages ----------
 function topics(ed) {
@@ -112,7 +127,7 @@ function topics(ed) {
   }
   for (const k of Object.keys(CAT_TXT.en)) out.push({ kind: "cat", key: k, slug: k, name: CAT_TXT[ed][k], list: pool.filter(x => x.cat === k && (x.days < 0 || x.days <= 14)) });
   out.push({ kind: "today", key: "today", slug: "today", name: T[ed].todayL, list: pool.filter(x => x.days >= 0 && x.days <= 2) });
-  return out.filter(p => p.list.length >= 6);   // no thin pages
+  return [...out.filter(p => p.list.length >= 6), ...DAYS_.map(d => ({ kind: "day", key: d, slug: `today/${d}`, name: d, list: [] }))];   // no thin pages; one page per day of the 3-minute digest
 }
 const PAGES = { en: topics("en"), ja: topics("ja") };
 const has = (ed, s) => PAGES[ed].some(p => p.slug === s);
@@ -139,7 +154,13 @@ h2{font-size:17px;margin:26px 0 12px}
 footer{margin:40px 0 30px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
 footer h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
 .links{display:flex;flex-wrap:wrap;gap:6px 14px}.links a:hover{color:var(--accent)}
-.note{color:var(--muted);font-size:12px;margin-top:18px}`;
+.note{color:var(--muted);font-size:12px;margin-top:18px}
+.dg h2 small{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-top:4px}.dgl{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.dgc{display:grid;grid-template-columns:168px 1fr;gap:12px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:14px}.dgc:hover{border-color:var(--ink2)}
+.dgc img{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:cover;border-radius:9px;background:var(--soft)}.dgc b{display:block;font-size:15px;line-height:1.35}
+.dgc em{display:block;font-style:normal;color:var(--ink2);font-size:13.5px;margin-top:4px}.dgc small{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+.dgp{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+@media(max-width:560px){.dgc{grid-template-columns:112px 1fr;gap:10px;padding:8px}.dgc b{font-size:14px}}`;
 
 function card(ed, x) {
   const E = ED[ed], t = E.title(x), href = `${E.base}?${x.short ? "s" : "v"}=${x.id}`;
@@ -153,9 +174,9 @@ function linksBlock(ed, cur) {
 }
 function page(ed, p) {
   const E = ED[ed], L = T[ed], isHub = !p;
-  const [h1, lead] = isHub ? L.hub() : p.kind === "artist" ? L.artist(p.name) : p.kind === "actor" ? L.actor(p.name) : p.kind === "cat" ? L.cat(p.name, p.key) : L.today();
-  const sel = isHub ? { s: [], v: [] } : pick(p.list, p.kind === "today" ? 36 : 24);
-  const n = sel.s.length + sel.v.length, newest = isHub ? BUILT : (p.list.map(x => x.date).filter(Boolean).sort().pop() || BUILT);
+  const [h1, lead] = isHub ? L.hub() : p.kind === "artist" ? L.artist(p.name) : p.kind === "actor" ? L.actor(p.name) : p.kind === "cat" ? L.cat(p.name, p.key) : p.kind === "day" ? L.day(p.key) : L.today();
+  const sel = isHub || p.kind === "day" ? { s: [], v: [] } : pick(p.list, p.kind === "today" ? 36 : 24);
+  const n = (p && p.kind === "day" && DIG[p.key] ? DIG[p.key].items.length : 0) + sel.s.length + sel.v.length, newest = isHub ? BUILT : (p.list.map(x => x.date).filter(Boolean).sort().pop() || BUILT);
   const title = `${h1}｜${E.brand}`.replace("｜", ed === "en" ? " | " : "｜");
   const self = url(ed, p && p.slug), other = ed === "en" ? "ja" : "en";
   const alt = (!p || has(other, p.slug)) ? `\n<link rel="alternate" hreflang="${ED[other].lang}" href="${url(other, p && p.slug)}">\n<link rel="alternate" hreflang="${E.lang}" href="${self}">\n<link rel="alternate" hreflang="x-default" href="${url("en", p && p.slug)}">` : "";
@@ -166,6 +187,7 @@ function page(ed, p) {
     { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: E.brand, item: SITE + E.base }, { "@type": "ListItem", position: 2, name: L.hubL, item: url(ed) },
       ...(p ? [{ "@type": "ListItem", position: 3, name: p.name, item: self }] : [])] }] };
   const body = isHub ? `<footer style="border:0;margin-top:0;padding-top:0">${linksBlock(ed, "")}</footer>` :
+    (p.kind === "today" ? digestBlock(ed, DIG[DAYS_[0]], true) : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
     (sel.s.length ? `<h2>${L.shorts}</h2><div class="grid sh">${sel.s.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.v.length ? `<h2>${L.videos}</h2><div class="grid">${sel.v.map(x => card(ed, x)).join("")}</div>` : "");
   return `<!doctype html>
@@ -267,7 +289,9 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const md = BUILT.slice(5).replace("-", "/").replace(/^0/, "").replace("/0", "/");
   const posts = [];
   const today = P.find(p => p.kind === "today");
-  if (today) { const t3 = [...today.list].sort((a, b) => b.views - a.views).slice(0, 3);
+  const dg = DIG[DAYS_[0]];
+  if (dg && dg.date === BUILT) posts.push({ time: "12:00", label: "오늘의 3분 요약 TOP3", text: fit(w => `📰3分でわかる今日の韓国エンタメ（${md}）\n${dg.items.slice(0, 3).map((x, i) => `${i + 1}. ${cut(x.ja_title, w)}`).join("\n")}\n解説つき10本はこちら▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) });
+  else if (today) { const t3 = [...today.list].sort((a, b) => b.views - a.views).slice(0, 3);
     posts.push({ time: "12:00", label: "오늘의 인기 TOP3", text: fit(w => `📈今日の韓国エンタメ人気クリップ（${md}）\n${t3.map((x, i) => `${i + 1}. ${cut(ED.ja.title(x), w)}`).join("\n")}\n▶ ${url("ja", "today")}\n#韓国エンタメ #KPOP`, 64) }); }
   const a = choose("artist", prev.artist);
   if (a) posts.push({ time: "19:00", label: `아티스트: ${a.key}`, text: fit(w => `🔥${a.name}の最新ショート・動画まとめ\nいま話題：${cut(best(a), w)}\n▶ ${url("ja", a.slug)}\n${TAG[a.key] || ""} #KPOP`, 110) });
