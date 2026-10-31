@@ -1,48 +1,48 @@
 {
- "date": "2026-10-31",
- "artist": "ILLIT",
- "actor": "Choo Young-woo",
+ "date": "2026-11-01",
+ "artist": "ENHYPEN",
+ "actor": "Song Kang",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: K-POP",
-   "text": "🎤K-POPでいま見られているクリップ\n注目：pop pop @ILLIT_official\n▶ https://kreelz.com/jp/k/music/\n#KPOP",
-   "len": 96
+   "label": "카테고리: 韓国ドラマ",
+   "text": "📺韓国ドラマでいま見られているクリップ\n注目：ケ・スジョンを捕まえようとする教授たちとの鬼ごっこの始まり?!成り行きで当直を買って出てしまった定時退社の達人…\n▶ https://kreelz.com/jp/k/drama/\n#韓国ドラマ",
+   "len": 194
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（10/31）\n1. ENHYPEN・ILLITによる「pop pop」公式クリップ\n2. BTS、iHeartRadio Music Festival 2026のスケッチ\n3. ILLIT「体ポリス（You're Under Arrest）」パフォーマンス版MV\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 268
+   "text": "📰3分でわかる今日の韓国エンタメ（11/1）\n1. ILLIT「You're Under Arrest」ダンス動画\n2. 「一人で暮らす」キム・ミンの体力対決\n3. ENHYPEN×ILLIT「pop pop」クリップ\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 226
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "チュ・ヨンウの出演作で、一番好きなドラマは？📺\nおすすめの名場面もぜひ！\n#チュヨンウ #韓国ドラマ",
-   "len": 95
+   "text": "今期見てる韓国ドラマ、教えてください！📺\nおすすめも大歓迎です🙌\n#韓国ドラマ #韓ドラ好きさんと繋がりたい",
+   "len": 103
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：pop pop @ILLIT_official\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 133
+   "label": "아티스트: ENHYPEN",
+   "text": "🔥ENHYPEN（エンハイプン）の最新ショート・動画まとめ\nいま話題：pop pop @ILLIT_official\n▶ https://kreelz.com/jp/k/enhypen/\n#ENHYPEN #KPOP",
+   "len": 127
   },
   {
    "time": "22:00",
-   "label": "배우: Choo Young-woo",
-   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[9話先行公開] 1年ぶりに偶然出会った二人❣️ 9話\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
-   "len": 180
+   "label": "배우: Song Kang",
+   "text": "🎬ソン・ガンの最新動画まとめ\nいま話題：神がかった手術で患者の命を救ったキム・ジウォン、ついに一生つかんでいた兄と別れるハ・ソンガン\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/song-kang/\n#ソンガン #韓国俳優",
+   "len": 221
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "ENHYPEN 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ENHYPEN%20lang%3Aja&f=live"
    },
    {
-    "label": "チュ・ヨンウ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
+    "label": "ソン・ガン 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%BD%E3%83%B3%E3%82%AC%E3%83%B3%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "10/31",
+  "date": "11/1",
   "rows": [
    {
-    "t": "🚨 with @dlwlrma",
+    "t": "with @h_evva_n",
     "ch": "ILLIT",
-    "v": 2093567
+    "v": 2823488
+   },
+   {
+    "t": "[私は一人で暮らす] 二人を一度に追い越し！？キム・ミンの圧倒的フィジカルリレー🏃‍♂️、MBC 261030放送",
+    "ch": "MBCentertainment",
+    "v": 2345571
    },
    {
     "t": "ILLIT (アイリット)「You're Under Arrest」Official MV (Performance v",
     "ch": "HYBE LABELS",
-    "v": 1667875
+    "v": 2106129
    },
    {
-    "t": "「Golden」公式振付動画",
-    "ch": "Netflix",
-    "v": 1618727
+    "t": "BTS「iHeartRadio Music Festival 2026」スケッチ",
+    "ch": "BANGTANTV",
+    "v": 1995736
    },
    {
-    "t": "『私一人で暮らす』で意外な日常を公開したかと思ったら、トークも意外すぎるwww テトナム、キム・ミンのラジオスター初出撃",
-    "ch": "라디오스타",
-    "v": 1552343
-   },
-   {
-    "t": "逮捕される方",
-    "ch": "ILLIT",
-    "v": 1488682
+    "t": "ILLIT「You're Under Arrest」旧振付と新振付",
+    "ch": "Mai Linhi",
+    "v": 1813574
    }
   ],
   "url": "kreelz.com/jp",
