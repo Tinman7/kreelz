@@ -35,8 +35,11 @@ let budget = +(process.env.KF_SEARCHES || 5);
 // all their queries, newest-first window from their start date; they don't count against KF_SEARCHES
 const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
 try { for (const g of groups) { if (g.topic !== "hot" || ((g.search_until || g.until) && today > (g.search_until || g.until))) continue;   // search_until: stop searching earlier than the pin ends
-  const L = (g.queries || []).slice(0, CHECK ? 2 : g.per_night || 6); g.ran = true;
-  const since = new Date(g.since ? g.since + "T00:00:00+09:00" : Date.now() - 7 * DAY).toISOString();
+  // rotate: a standing search (e.g. idols' commute fancams) takes per_night of its queries a night, in turn
+  const Q = g.queries || [], N = CHECK ? 2 : g.per_night || 6, off = g.rotate ? (Math.floor(Date.parse(today) / DAY) * N) % Math.max(1, Q.length) : 0;
+  const L = g.rotate ? Array.from({ length: Math.min(N, Q.length) }, (_, k) => Q[(off + k) % Q.length]) : Q.slice(0, N); g.ran = true;
+  // since_days: a rolling window (the last n days) instead of a fixed start date
+  const since = new Date(g.since_days ? Date.now() - g.since_days * DAY : g.since ? g.since + "T00:00:00+09:00" : Date.now() - 7 * DAY).toISOString();
   for (const q of L) { asked.push(q);
     let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
     if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });

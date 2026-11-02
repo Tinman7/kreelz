@@ -189,6 +189,61 @@
     "マイ・デーモン キム・ユジョン ソンガン",
     "마이데몬 키스"
    ]
+  },
+  {
+   "name": "wonhee_commute",
+   "topic": "hot",
+   "cat": "m",
+   "since": "2024-03-01",
+   "search_until": "2026-11-04",
+   "until": "2026-11-04",
+   "per_night": 5,
+   "min_views": 30000,
+   "_note": "ILLIT Wonhee's commute fancams (music-show 퇴근길/출근길, e.g. Music Bank), shorts that get very high views — none were on the site (per David 2026-11-02). Searched tonight and tomorrow night, both editions, Music tab.",
+   "require": [
+    "원희|wonhee|ウォニ",
+    "퇴근|출근|commute|退勤|出勤"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop",
+   "queries": [
+    "원희 퇴근길",
+    "아일릿 원희 퇴근길",
+    "원희 뮤뱅 퇴근길",
+    "ILLIT Wonhee commute",
+    "ウォニ 退勤"
+   ]
+  },
+  {
+   "name": "idol_commute",
+   "topic": "hot",
+   "cat": "m",
+   "rotate": true,
+   "since_days": 30,
+   "until": "2027-12-31",
+   "per_night": 3,
+   "min_views": 30000,
+   "_note": "Standing search (per David 2026-11-02): the priority idols' music-show commute fancams (퇴근길/출근길 at Music Bank, Inkigayo…), last 30 days, 3 searches a night taking turns, both editions, Music tab.",
+   "require": [
+    "퇴근|출근|commute|退勤|出勤",
+    "아일릿|illit|원희|wonhee|ウォニ|민주|윤아|이로하|모카|스트레이 ?키즈|스키즈|stray ?kids|트와이스|twice|르세라핌|le ?sserafim|투바투|투모로우바이투게더|\\btxt\\b|세븐틴|seventeen|엔하이픈|enhypen|투어스|\\btws\\b|보이넥스트도어|boynextdoor|코르티스|cortis|방탄|\\bbts\\b"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop|직장인|회사원|브이로그|vlog",
+   "queries": [
+    "아일릿 퇴근길",
+    "원희 퇴근길",
+    "아일릿 출근길",
+    "스트레이키즈 퇴근길",
+    "트와이스 퇴근길",
+    "르세라핌 퇴근길",
+    "투바투 퇴근길",
+    "세븐틴 퇴근길",
+    "엔하이픈 퇴근길",
+    "투어스 퇴근길",
+    "보이넥스트도어 퇴근길",
+    "코르티스 퇴근길",
+    "뮤직뱅크 퇴근길",
+    "인기가요 출근길"
+   ]
   }
  ]
 }
