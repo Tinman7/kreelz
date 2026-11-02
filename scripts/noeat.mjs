@@ -32,9 +32,12 @@ const KEEP_CH = new Set(["어서와 한국은 처음이지", "성시경 SUNG SI 
   "韓国観光公社 日本公式チャンネル", "EBSDocumentary (EBS 다큐)", "살찐삼촌 이장우", "김숙티비kimsookTV", "더들리", "옥스푼"].map(norm));
 const EAT_CH_RE = /(mukbang|먹방|eating)\s*(asmr)?$|^(asmr|먹방)/i;   // channel names that are eating shows by name
 
+// any food-tab clip whose title says mukbang, whatever the channel (per David 2026-11-02: "투어앤푸드에서 먹방 타이틀 다 빼")
+export const MUK_T = /먹방|モッパン|mukbang|mokbang|meokbang/i;
 export function eatBlocked(title, channel, cat) {
   const c = norm(channel);
   if (EAT_CHN.has(c)) return true;
+  if ((!cat || /^(k|mukbang)$/i.test(cat)) && MUK_T.test(String(title || ""))) return true;
   if (KEEP_CH.has(c)) return false;
   if (cat && !/^(k|mukbang)$/i.test(cat)) return false;
   const t = String(title || "");
@@ -47,7 +50,9 @@ if (process.argv[1] && process.argv[1].endsWith("noeat.mjs")) {
   const shard = {};
   const B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
   const sh = id => ((B.indexOf(id[0]) * 64 + B.indexOf(id[1])) % 256).toString(16).padStart(2, "0");
-  const T = id => { const k = sh(id); if (!(k in shard)) { try { shard[k] = JSON.parse(fs.readFileSync(`t/o/${k}.json`, "utf8")) } catch { shard[k] = {} } } return shard[k][id] };
+  const load = (d, k) => { const key = d + k; if (!(key in shard)) { try { shard[key] = JSON.parse(fs.readFileSync(`t/${d}/${k}.json`, "utf8")) } catch { shard[key] = {} } } return shard[key] };
+  // original title + channel, with the Japanese title added to the text that is checked (the Japan edition shows that one)
+  const T = id => { const k = sh(id), o = load("o", k)[id]; if (!o) return o; const ja = load("ja", k)[id]; return [o[0] + (ja ? " " + ja : ""), o[1]] };
   const bad = new Set(), why = {};
   for (const name of ["FEED", "SHORTS"]) {
     const m = h.match(new RegExp(`const ${name} = "([^"]*)";`)); const s = m[1]; let keep = "", n = 0;
