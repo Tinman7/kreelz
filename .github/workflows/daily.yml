@@ -165,6 +165,8 @@ jobs:
               grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
             fi
           done
+          # the 50,000 longest-listed shorts taken off both editions (per David 2026-11-02); a no-op once they are gone
+          python3 scripts/drop_ids.py index.html data/dropped_shorts.txt.gz index.next.html SHORTS && grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
           node scripts/prio.mjs index.html data/vmeta.json.gz
 
       - name: TikTok shorts added on the admin page

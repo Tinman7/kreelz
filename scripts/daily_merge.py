@@ -4,8 +4,9 @@ daily.json = {"videos": {id: [cat, views, days, ok]}, "shorts": {id: [cat, views
 - existing items keep their place; their age shifts by the days since the last build
 - new long videos go to the front with their upload age; new shorts get age 0 (first seen today)
 - view counts are refreshed upward when the collector saw a higher number
+- ids in data/dropped_shorts.txt.gz (taken off the site on purpose, per David 2026-11-02) are never added back
 """
-import json, math, re, sys
+import gzip, json, math, os, re, sys
 from datetime import date
 from collections import Counter
 
@@ -14,6 +15,11 @@ enc2 = lambda n: B64[n // 64] + B64[n % 64]
 dec2 = lambda s: B64.index(s[0]) * 64 + B64.index(s[1])
 vcode = lambda v: 4095 if v is None or v < 0 else min(4094, round(math.log(v + 1) / math.log(1.006)))
 vval = lambda c: -1 if c == 4095 else round(1.006 ** c - 1)
+
+DROPPED = set()
+_dp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "dropped_shorts.txt.gz")
+if os.path.exists(_dp):
+    DROPPED = set(gzip.open(_dp, "rt").read().split())
 
 def get(h, name):
     m = re.search(r'const %s = "([^"]*)";' % name, h)
@@ -35,7 +41,7 @@ def merge(rows, new, delta, kind):
         if r[3] != 4095: r[3] = min(4094, r[3] + delta)
     fresh, upd = [], 0
     for vid, val in new.items():
-        if len(vid) != 11: continue
+        if len(vid) != 11 or vid in DROPPED: continue
         if kind == "v": c, views, days, ok = val
         else: c, views, ok = val[:3]; days = val[3] if len(val) > 3 else 0
         if c not in "dfmbke": continue
