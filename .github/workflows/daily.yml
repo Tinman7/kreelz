@@ -203,6 +203,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CAP_MAX: "10000"
+          GSC_KEY: ${{ secrets.GSC_KEY }}
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -212,6 +213,7 @@ jobs:
           node scripts/nowdrama.mjs index.html || echo "airing dramas skipped"   # Screen tab: dramas airing now first (per David 2026-10-30)
           node scripts/captions.mjs index.html || echo "subtitles check skipped"   # 字幕/CC badge + "with subtitles" filter (per David 2026-10-30)
           node scripts/digest.mjs index.html || echo "digest skipped"   # "today in 3 minutes" pages (per David 2026-10-30)
+          node scripts/gsc.mjs || echo "search console skipped"   # admin '검색 노출' (per David 2026-11-02)
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json

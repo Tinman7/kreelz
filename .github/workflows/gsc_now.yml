@@ -1,0 +1,33 @@
+# On demand (2026-11-02, per David): read Google Search Console now for the admin page's '검색 노출' section
+# (the nightly refresh does the same at 00:00). Needs the GSC_KEY secret (a service account added to the property).
+name: Search Console now
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Read Search Console
+        env:
+          GSC_KEY: ${{ secrets.GSC_KEY }}
+        run: node scripts/gsc.mjs | tee gsc.log
+      - name: Commit
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -f data/gsc.json ] && git add data/gsc.json
+          git commit -m "Search Console: $(tail -1 gsc.log | head -c 200)" || echo "nothing to commit"
+          git pull --rebase -q
+          git push
