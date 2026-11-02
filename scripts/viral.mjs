@@ -3,9 +3,10 @@
 // (videos.list statistics, 1 API unit per 50 clips) and compared with the night before: the clips that gained the most
 // views in the last day — weighted up a little when many viewers like or comment — lead the first screen of All, Music,
 // Screen and Shows the next day. YouTube does not publish share counts, so likes and comments stand in for them.
-// Output: PRIO_VIRAL (ids, best first) in index.html; data/views.json keeps the counts of the night before.
+// Screen / Film clips posted for fans abroad count 1.5x. Output: PRIO_VIRAL (ids, best first) in index.html; data/views.json keeps the counts of the night before.
 // The views in FEED/SHORTS are refreshed with the new counts too. usage: YT_API_KEY=... node scripts/viral.mjs index.html
 import fs from "node:fs";
+import zlib from "node:zlib";
 
 const KEY = process.env.YT_API_KEY, site = process.argv[2] || "index.html";
 const WINDOW = +(process.env.VIRAL_DAYS || 14), TOP = +(process.env.VIRAL_TOP || 600);
@@ -14,6 +15,9 @@ const B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const enc2 = n => B[Math.floor(n / 64)] + B[n % 64], dec2 = s => B.indexOf(s[0]) * 64 + B.indexOf(s[1]);
 const vcode = v => v < 0 ? 4095 : Math.min(4094, Math.round(Math.log(v + 1) / Math.log(1.006)));
 const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+let vm = {}; try { vm = JSON.parse(zlib.gunzipSync(fs.readFileSync("data/vmeta.json.gz"))); } catch {}
+// dramas and films posted for fans abroad (a title with no Korean: Netflix global, fan edits) count 1.5x (per David 2026-11-02)
+const abroad = r => (r.cat === "d" || r.cat === "f") && vm[r.id] && vm[r.id][0] && !/[\uac00-\ud7a3]/.test(vm[r.id][0]);
 const prev = fs.existsSync(F) ? JSON.parse(fs.readFileSync(F, "utf8")) : { day: "", v: {} };
 let h = fs.readFileSync(site, "utf8");
 const rows = [];
@@ -39,7 +43,7 @@ for (const r of rows) {
   const n = now[r.id]; if (!n || r.id in score) continue;
   const p = prev.v[r.id], gain = p ? Math.max(0, n[0] - p[0]) / gap : n[0] / (r.days + 1);
   const eng = n[0] ? (n[1] + 3 * n[2]) / n[0] : 0;   // likes and comments per view
-  score[r.id] = gain * (1 + Math.min(1, eng * 10));
+  score[r.id] = gain * (1 + Math.min(1, eng * 10)) * (abroad(r) ? 1.5 : 1);
 }
 const best = Object.keys(score).filter(id => score[id] > 0).sort((a, b) => score[b] - score[a]).slice(0, TOP);
 // fresh view counts into FEED / SHORTS

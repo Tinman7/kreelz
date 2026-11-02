@@ -33,7 +33,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && inputs.dry == 'yes'
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          OVS_MAX: "15"
           VIRAL_DAYS: "1"
           VIRAL_TOP: "20"
         run: |
