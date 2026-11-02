@@ -2087,7 +2087,7 @@ const nowUp=l=>{ if(state.cat!=="screen" || state.q.trim() || !NOWRANK.size) ret
   const t=new Set(n), rest=l.filter(v=>!t.has(v)), out=n.slice(0,18); let i=18, j=0;
   while(i<n.length||j<rest.length){ if(i<n.length) out.push(n[i++]); for(let c=0;c<2&&j<rest.length;c++) out.push(rest[j++]) }
   return out };
-/* Screen tab: a drama couple pinned until a date (My Demon — Kim Yoo-jung × Song Kang love-story moments, Japan edition,
+/* Screen tab: a drama couple pinned until a date (My Demon — Kim Yoo-jung × Song Kang love-story moments, both editions,
    per David 2026-11-02): scripts/prio.mjs writes PRIO_SPIN = "until|region|ids"; two of theirs (most viewed first), then one other */
 const SPINS=new Set(); (function(){ const p=(typeof PRIO_SPIN==="string"?PRIO_SPIN:"").split("|"); if(p.length<3) return;
   if(new Date(Date.now()+9*3600e3).toISOString().slice(0,10)>p[0] || (p[1]==="jp" && REGION!=="jp")) return;
