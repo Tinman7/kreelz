@@ -2095,10 +2095,20 @@ const SPINS=new Set(); (function(){ const p=(typeof PRIO_SPIN==="string"?PRIO_SP
   if(new Date(Date.now()+9*3600e3).toISOString().slice(0,10)>p[0] || (p[1]==="jp" && REGION!=="jp")) return;
   for(let i=0;i+11<=p[2].length;i+=11) SPINS.add(p[2].slice(i,i+11)) })();
 const spinUp=l=>{ if(state.cat!=="screen" || state.q.trim() || !SPINS.size) return l;
-  const p=l.filter(v=>SPINS.has(v.id)).sort((a,b)=>b.views-a.views); if(!p.length) return l;
+  let p=l.filter(v=>SPINS.has(v.id)).sort((a,b)=>b.views-a.views); if(!p.length) return l;
+  { const k=(Math.floor(Date.parse(kstDay())/864e5)*4)%p.length; p=p.slice(k).concat(p.slice(0,k)) }   // a different few on top every day (per David 2026-11-02)
   const t=new Set(p), r=l.filter(v=>!t.has(v)), out=[]; let i=0, j=0;
   while(i<p.length||j<r.length){ for(let c=0;c<2&&i<p.length;c++) out.push(p[i++]); if(j<r.length) out.push(r[j++]) }
   return out };
+/* Taking off now (per David 2026-11-02: the most viewed / most shared clips first, and not the same ones on the first screen
+   every day): scripts/viral.mjs re-reads the view, like and comment counts of the last 14 days every night and lists the clips
+   that gained the most views in a day (PRIO_VIRAL, best first). In All, Music, Screen and Shows (newest-first order, no search)
+   the first 12 places are theirs, at most 2 per priority artist, so the first screen changes every day */
+const VIRAL=new Map(); (function(){ const s=typeof PRIO_VIRAL==="string"?PRIO_VIRAL:""; for(let i=0,k=0;i+11<=s.length;i+=11,k++) VIRAL.set(s.slice(i,i+11),k) })();
+const viralUp=(l,sort)=>{ if(sort!=="new" || !["all","music","screen","ent"].includes(state.cat) || state.q.trim() || !VIRAL.size) return l;
+  const by={}, top=[]; for(const v of l.filter(x=>VIRAL.has(x.id)).sort((a,b)=>VIRAL.get(a.id)-VIRAL.get(b.id))){
+    const r=PRIO[v.id]||0; if(r && (by[r]||0)>=2) continue; by[r]=(by[r]||0)+1; top.push(v); if(top.length>=12) break }
+  if(!top.length) return l; const t=new Set(top); return top.concat(l.filter(x=>!t.has(x))) };
 const LIVEIDS=new Set(((window.LIVE||{}).v||[]).concat((window.LIVE||{}).s||[]).map(x=>x[0]));
 const jpVar = v => VARSET.has(v.id) || (!!VAR_RX && (v.nc || LIVEIDS.has(v.id)) && v.cat!=="music" && v.cat!=="beauty" && !!meta[v.id] && VAR_RX[0].test(meta[v.id].t) && !VAR_RX[1].test(meta[v.id].t));
 const inCat = v => state.cat==="all" || (state.cat==="ent" ? jpVar(v) : (v.cat===state.cat || (REGION==="jp" && state.cat==="mukbang" && (WELSET.has(v.id)||TOPMAP.has(v.id)))));
@@ -2270,7 +2280,7 @@ function feedList0(){
   const q=state.q.trim().toLowerCase();
   let l=FV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&(!fstate.cc||CAPSET.has(v.id)));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S1=SORTS[fstate.sort]; return spinUp(nowUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b))))));
+  const S1=SORTS[fstate.sort]; return spinUp(viralUp(nowUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S1(a,b))))),fstate.sort));
 }
 const okIcon=()=>`<span class="fok" title="${esc(t("verified"))}"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>`;
 const isNew = v => v.days>=0 && v.days<=1;
@@ -2414,7 +2424,7 @@ function shortsList0(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&!BAD.has(v.id)&&(!fstate.cc||CAPSET.has(v.id)));
   if(q) l=l.filter(v=>{const m=meta[v.id]; return m && (m.t+" "+txc(m.t)+" "+m.ch).toLowerCase().includes(q)});
-  const S2=SSORTS[sstate.sort]||SSORTS.views; return spinUp(nowUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))))));
+  const S2=SSORTS[sstate.sort]||SSORTS.views; return spinUp(viralUp(nowUp(freshUp(mixOTT(l.sort((a,b)=>prioCmp(a,b)||S2(a,b))))),sstate.sort));
 }
 const sThumb = id => `https://i.ytimg.com/vi/${id}/oardefault.jpg`;   // full-screen player: the 1080×1920 cover
 /* Shorts cards: the 640×480 cover (same picture in the card, cropped the same) is about 55 KB against 130–310 KB for
