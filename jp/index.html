@@ -1504,8 +1504,9 @@ const LEGAL_INFO = {
   operator:"David Lee",
   address:"",   // postal address: given without delay on request (Japan APPI art. 32 allows this)
   contact:"kreelzkorea@gmail.com",
-  version:"1.0",
-  effective:"20 October 2026"
+  version:"1.1",
+  effective:"10 November 2026",   // 1.1 (announced 2026-11-03): YouTube API Services clauses added; mukbang removed from the description
+  effective_ja:"2026年11月10日"
 };
 const LEGAL = (()=>{
 const S=LEGAL_INFO.service, O=LEGAL_INFO.operator, C=`<a href="mailto:${LEGAL_INFO.contact}">${LEGAL_INFO.contact}</a>`;
@@ -1513,13 +1514,14 @@ return {
 terms:{title:"Terms of Service", html:`
 <p>These Terms of Service (“Terms”) govern your use of ${S} (the “Service”), operated by ${O} (“we”, “us”). By creating an account you agree to these Terms. If you do not agree, you may still browse the guest preview, but you may not create an account.</p>
 <h4>1. The Service</h4>
-<p>${S} is a free curation service that helps fans find Korean music, drama, film, beauty and mukbang videos. We organise links to videos published on third-party platforms such as YouTube, TikTok and NAVER Clip, and show release schedules converted to your local time.</p>
+<p>${S} is a free curation service that helps fans find Korean music, drama, film, variety, beauty and travel &amp; food videos. We organise links to videos published on third-party platforms such as YouTube, TikTok and NAVER Clip, and show release schedules converted to your local time.</p>
 <h4>2. Eligibility and accounts</h4>
 <p>You must be at least 16 years old to create an account. You agree to give accurate information, keep your password confidential, and tell us promptly at ${C} if you believe your account has been used without permission. One person may hold one account. You are responsible for activity under your account.</p>
 <h4>3. Membership</h4>
 <p>Guests can view a limited preview. Registered members can access the full video library and My page. Membership is free. If we ever introduce paid features, we will describe the price and terms clearly before you are charged, and nothing will be charged without your separate agreement.</p>
 <h4>4. Third-party videos</h4>
 <p>We do not host, upload or store any video. Videos are embedded or linked from the platform where the rights holder or creator published them, and remain subject to that platform's own terms (for YouTube, the YouTube Terms of Service and Google Privacy Policy). All rights in the videos, thumbnails, titles and channel names belong to their respective owners. Titles may be shown with an automatic translation, which can contain errors; the original title prevails.</p>
+<p><b>YouTube API Services.</b> The Service uses YouTube API Services to find YouTube videos and to show their titles, thumbnails and view counts. By using the Service, you agree to be bound by the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>.</p>
 <h4>5. Acceptable use</h4>
 <p>You agree not to: copy or scrape the Service or its curated lists by automated means; bypass the guest preview limit or any security measure; use the Service for any unlawful purpose; interfere with the Service or other users; or impersonate any person.</p>
 <h4>6. Copyright and link removal</h4>
@@ -1550,6 +1552,8 @@ privacy:{title:"Collection and Use of Personal Information", html:`
 <p>Your information may be stored and processed outside your country, including in the Republic of Korea and the country where our hosting provider operates. We apply safeguards required by applicable law to such transfers.</p>
 <h4>Videos from third parties</h4>
 <p>When you play an embedded video, the platform that hosts it (for example YouTube) may collect information under its own privacy policy. We use YouTube's privacy-enhanced embed mode where available.</p>
+<h4>YouTube API Services</h4>
+<p>${S} uses YouTube API Services. We use them only to read public information about videos — titles, channel names, thumbnails, and view, like and comment counts — to choose and order the videos we show. We do not access, collect or store any information about your YouTube or Google account, and there is no Google sign-in on ${S}. Google's handling of data is described in the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>. YouTube's embedded player may store or read cookies on your device; you can delete or block them in your browser settings. If we ever ask to connect your Google account, you will be able to revoke that access at any time at <a href="https://security.google.com/settings/security/permissions" target="_blank" rel="noopener">Google security settings</a>.</p>
 <h4>Your rights</h4>
 <p>You may access, correct, download or delete your information, withdraw any consent, and object to or restrict processing. You can do most of this in My page, or by emailing ${C}. You may also lodge a complaint with your data protection authority, such as the National Privacy Commission (Philippines) or the Personal Data Protection Committee (Thailand).</p>
 <h4>Your right to refuse</h4>
@@ -1586,13 +1590,14 @@ return {
 terms:{title:"利用規約", html:`
 <p>この利用規約（以下「本規約」）は、${O}（以下「運営者」）が運営する${S}（以下「本サービス」）の利用条件を定めるものです。アカウントを作成した時点で、本規約に同意したものとみなします。同意いただけない場合も、ゲスト用のお試し表示は利用できますが、アカウントは作成できません。</p>
 <h4>1. 本サービスの内容</h4>
-<p>${S}は、韓国の音楽・ドラマ・映画・バラエティ・ビューティー・Kフードの動画を探しやすくする無料のキュレーションサービスです。YouTube、TikTok、NAVERクリップなど外部のプラットフォームで公開された動画へのリンクを整理し、公開スケジュールをお住まいの地域の時刻で表示します。</p>
+<p>${S}は、韓国の音楽・ドラマ・映画・バラエティ・ビューティー・旅行＆グルメの動画を探しやすくする無料のキュレーションサービスです。YouTube、TikTok、NAVERクリップなど外部のプラットフォームで公開された動画へのリンクを整理し、公開スケジュールをお住まいの地域の時刻で表示します。</p>
 <h4>2. 利用資格とアカウント</h4>
 <p>アカウントを作成できるのは16歳以上の方です。18歳未満の方は、保護者の同意を得たうえでご利用ください。正確な情報を登録し、パスワードを他人に知られないよう管理してください。アカウントが不正に使われたおそれがある場合は、速やかに${C}までご連絡ください。アカウントは1人1つまでとし、アカウント上の行為は登録者の責任となります。</p>
 <h4>3. 会員</h4>
 <p>ゲストは一部の動画をお試しで見られます。会員登録（無料）をすると、すべての動画とマイページを利用できます。将来有料の機能を導入する場合は、料金と条件を事前に明示し、別途同意をいただかない限り料金は発生しません。</p>
 <h4>4. 外部の動画について</h4>
 <p>運営者は動画をホスト・アップロード・保存していません。動画は権利者または投稿者が公開したプラットフォームから埋め込み・リンクしており、各プラットフォームの規約（YouTubeの場合はYouTube利用規約およびGoogleプライバシーポリシー）が適用されます。動画、サムネイル、タイトル、チャンネル名に関する権利はそれぞれの権利者に帰属します。タイトルは自動翻訳で表示する場合があり、誤りを含むことがあります。原題が優先します。</p>
+<p><b>YouTube APIサービス：</b>本サービスは、YouTube動画の検索と、タイトル・サムネイル・再生回数の表示のためにYouTube APIサービスを利用しています。本サービスを利用することで、<a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube利用規約</a>に拘束されることに同意したものとみなします。</p>
 <h4>5. 禁止事項</h4>
 <p>本サービスやそのリストを自動的な手段で複製・収集すること、お試し表示の制限やセキュリティ対策を回避すること、法令に違反する目的で利用すること、本サービスや他の利用者を妨害すること、他人になりすますことを禁止します。</p>
 <h4>6. 著作権とリンクの削除</h4>
@@ -1625,6 +1630,8 @@ privacy:{title:"個人情報の取扱いについて（プライバシーポリ�
 <p>通信の暗号化、パスワードのハッシュ化、管理者のアクセス制限、アクセス記録の確認などにより、個人情報の漏えい・滅失・毀損を防止します。運営者は大韓民国で個人データを取り扱っており、同国の個人情報保護制度（個人情報保護法）を把握したうえで安全管理措置を講じています（外的環境の把握）。万一漏えい等が発生した場合は、法令に従い、ご本人と関係機関に報告します。</p>
 <h4>外部の動画</h4>
 <p>埋め込まれた動画を再生すると、動画をホストするプラットフォーム（YouTubeなど）が、それぞれのプライバシーポリシーに基づいて情報を取得することがあります。YouTubeでは、利用可能な場合はプライバシー強化モードを使用しています。詳しくは「外部送信について」をご覧ください。</p>
+<h4>YouTube APIサービス</h4>
+<p>${S}はYouTube APIサービスを利用しています。利用するのは、表示する動画を選び並べるための公開情報（タイトル、チャンネル名、サムネイル、再生回数・高評価数・コメント数）のみで、お客様のYouTubeアカウントやGoogleアカウントの情報を取得・収集・保存することはありません（${S}にGoogleアカウントでのログイン機能はありません）。Googleによるデータの取扱いは<a href="https://policies.google.com/privacy?hl=ja" target="_blank" rel="noopener">Googleプライバシーポリシー</a>をご覧ください。YouTubeの埋め込みプレーヤーは、お使いの端末にCookieを保存・読み取ることがあります。Cookieはブラウザの設定で削除・ブロックできます。将来Googleアカウントとの連携をお願いする場合は、<a href="https://security.google.com/settings/security/permissions" target="_blank" rel="noopener">Googleのセキュリティ設定</a>からいつでもアクセス権を取り消せます。</p>
 <h4>開示等の請求</h4>
 <p>ご本人は、保有個人データの利用目的の通知、開示（第三者提供記録を含む）、訂正・追加・削除、利用停止・消去、第三者提供の停止を請求できます。多くはマイページから行えます。それ以外の請求は${C}までご連絡ください。ご本人確認のうえ、遅滞なく対応します。手数料はいただきません。</p>
 <h4>同意を拒否する権利</h4>
@@ -3197,7 +3204,7 @@ function openLegal(doc, fromForm){
   const JA=state.lang==="ja", d=(JA&&LEGAL_JA[doc])||LEGAL[doc]; if(!d) return;
   legalFor = fromForm ? doc : null;
   $("#lgTitle").textContent=d.title;
-  $("#lgMeta").textContent=JA ? `${LEGAL_INFO.service} · 第${LEGAL_INFO.version}版 · 2026年10月26日施行` : `${LEGAL_INFO.service} · Version ${LEGAL_INFO.version} · Effective ${LEGAL_INFO.effective}`;
+  $("#lgMeta").textContent=JA ? `${LEGAL_INFO.service} · 第${LEGAL_INFO.version}版 · ${LEGAL_INFO.effective_ja}施行` : `${LEGAL_INFO.service} · Version ${LEGAL_INFO.version} · Effective ${LEGAL_INFO.effective}`;
   $("#lgBody").innerHTML=d.html;
   $("#lgAgree").hidden=!fromForm; $("#lgAgree").textContent=t("agree_btn");
   legal.showModal(); $("#lgBody").scrollTop=0;
