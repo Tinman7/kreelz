@@ -285,7 +285,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
 {
   const xlen = s => { let n = 0; s = s.replace(/https?:\/\/\S+/g, () => { n += 23; return ""; });
     for (const ch of s) { const c = ch.codePointAt(0); n += (c <= 0x10FF || (c >= 0x2000 && c <= 0x200D) || (c >= 0x2010 && c <= 0x201F) || (c >= 0x2032 && c <= 0x2037)) ? 1 : 2; } return n; };
-  const clean = t => t.replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
+  const clean = t => t.replace(/(?:\b(?:with|feat\.?|ft\.?)\s*)?@[\w.]+/gi, "").replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
   const cut = (t, w) => { t = clean(t); if (xlen(t) <= w) return t; let o = ""; for (const ch of t) { if (xlen(o + ch + "…") > w) break; o += ch; } return o + "…"; };
   const fit = (build, w0) => { for (let w = w0; w >= 16; w -= 4) { const s = build(w); if (xlen(s) <= 280) return s; } return build(16); };
   const TAG = { "BTS": "#BTS #防弾少年団", "Stray Kids": "#StrayKids #スキズ", "TWICE": "#TWICE", "TXT": "#TXT #トゥバ", "LE SSERAFIM": "#LE_SSERAFIM #ルセラフィム",
@@ -356,7 +356,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
 {
   const FB_PAGE = "https://www.facebook.com/profile.php?id=61595710154104";
   const P = PAGES.en, recent = p => p.list.filter(x => x.days >= 0 && x.days <= 2);
-  const cleanT = t => t.replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
+  const cleanT = t => t.replace(/(?:\b(?:with|feat\.?|ft\.?)\s*)?@[\w.]+/gi, "").replace(/#\S+/g, "").replace(/\s*[|｜]\s*$/, "").replace(/\s+/g, " ").trim();
   // English title: the translation, or the original when it is already mostly in Latin letters (English-language
   // translations are not made nightly — only Japanese — so Korean-only titles are left out of the Philippine posts)
   const latin = t => { const c = cleanT(t || "").replace(/@\S+/g, "").replace(/[가-힣][가-힣\s]*\(([^)]*[A-Za-z][^)]*)\)/g, "$1").replace(/\s*\(\s*[가-힣][가-힣\s]*\)|\s+[가-힣]+(?=\s)/g, "").replace(/\s+/g, " ").trim(),
