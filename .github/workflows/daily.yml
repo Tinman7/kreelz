@@ -224,9 +224,10 @@ jobs:
           node scripts/digest.mjs index.html || echo "digest skipped"   # "today in 3 minutes" pages (per David 2026-10-30)
           node scripts/gsc.mjs || echo "search console skipped"   # admin '검색 노출' (per David 2026-11-02)
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
+          node scripts/legal_pages.mjs index.html || true   # /terms/ /privacy/ (+ /jp/) standalone pages from the same text as the pop-ups
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json
-          git add -A k sitemap.xml robots.txt
+          git add -A k sitemap.xml robots.txt terms privacy
           [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
