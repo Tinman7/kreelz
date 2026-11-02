@@ -10,15 +10,17 @@ const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missin
 const outPath = process.argv[2] || "fans.json";
 const SEARCHES = +(process.env.FAN_SEARCHES || 33);          // 100 quota units each
 const MIN_VIEWS = +(process.env.FAN_MIN_VIEWS || 100000);
+// only clips of the last n days (per David 2026-11-02: what is taking off now, not the same all-time favourites every night); 0 = any time
+const SINCE = +(process.env.FAN_SINCE_DAYS || 0);
 const KO = { "BTS": "방탄소년단", "CORTIS": "코르티스", "LE SSERAFIM": "르세라핌", "ILLIT": "아일릿", "Stray Kids": "스트레이키즈", "TWICE": "트와이스", "TUIDE": "튜이드",
   "TXT": "투모로우바이투게더", "TWS": "투어스", "ENHYPEN": "엔하이픈", "ATEEZ": "에이티즈", "KATSEYE": "캣츠아이",
   "SEVENTEEN": "세븐틴", "NCT DREAM": "엔시티 드림", "NCT 127": "엔시티 127", "RIIZE": "라이즈", "BOYNEXTDOOR": "보이넥스트도어",
   "ZEROBASEONE": "제로베이스원", "TREASURE": "트레저", "EXO": "엑소", "BIGBANG": "빅뱅" };
 // boy groups (priority list + other popular boy groups): performance and concert fancams
-const BOY_KINDS = [n => `${n} fancam`, n => `${KO[n] || n} 직캠`, n => `${n} concert fancam`, n => `${KO[n] || n} 콘서트 직캠`];
+const BOY_KINDS = [n => `${n} fancam`, n => `${KO[n] || n} 직캠`, n => `${n} concert fancam`, n => `${KO[n] || n} 콘서트 직캠`, n => `${KO[n] || n} 퇴근길`];
 // every priority artist: fancams (girl groups) and fan-made covers/edits
 const ALL_KINDS = [n => `${n} dance cover`, n => `${n} fmv`];
-const GIRL_KINDS = [n => `${n} fancam`, n => `${KO[n] || n} 직캠`];
+const GIRL_KINDS = [n => `${n} fancam`, n => `${KO[n] || n} 직캠`, n => `${KO[n] || n} 퇴근길`, n => `${KO[n] || n} 출근길`];   // + music-show commute fancams (per David 2026-11-02)
 const EXCLUDE = /full ?(ver|version|episode|ep|show|concert|performance)|풀버전|풀영상|full\b|eng ?sub|\bep\.? ?\d|episode|\[?mv\]?\b|m\/v|music video|official (audio|video)|lyrics?|가사|audio\b|\b1 ?hour|1시간|playlist|nightcore|8d|sped up|slowed|karaoke|노래방|instrumental|\bremix\b/i;
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
 let used = 0;
@@ -48,7 +50,7 @@ const found = {}, camJob = {};   // id -> artist index; id found by a boy-group 
 try {
   for (const j of today) {
     const d = await call("search", { part: "id", q: j.q, type: "video", order: "viewCount", videoEmbeddable: "true", maxResults: 50,
-      ...(j.since ? { publishedAfter: new Date(Date.now() - j.since * DAY).toISOString() } : {}) }, 100);
+      ...((j.since || SINCE) ? { publishedAfter: new Date(Date.now() - (j.since || SINCE) * DAY).toISOString() } : {}) }, 100);
     for (const x of d.items || []) if (x.id?.videoId && !(x.id.videoId in found)) { found[x.id.videoId] = j.artist; if (j.cam) camJob[x.id.videoId] = 1; }
   }
 } catch (e) { console.log("search stopped:", e.message); }

@@ -75,12 +75,21 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/japan.mjs jp.json
 
+      - name: Searches David asked for (hot groups) + K-Food shorts — before the other searches use up the quota
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/konbini.mjs konbini.out.json
+
       - name: Fan videos (boy-group performance fancams first; covers and fan edits of the priority artists)
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          FAN_SEARCHES: "20"       # was 22; moved to the /jp ranked-actor group in japan.mjs (2026-10-26)
+          FAN_SEARCHES: "18"       # was 22; moved to the /jp ranked-actor group in japan.mjs (2026-10-26)
+          FAN_SINCE_DAYS: "7"      # what is taking off now, not all-time favourites (per David 2026-11-02)
+          FAN_MIN_VIEWS: "30000"
         run: node scripts/fans.mjs fans.json
 
       - name: Priority idols on interviews (Korea and overseas), TV / variety shows and award shows
@@ -88,7 +97,8 @@ jobs:
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          IDOL_SHOW_SEARCHES: "10"
+          IDOL_SHOW_SEARCHES: "8"
+          IDOL_SHOW_SINCE_DAYS: "14"
         run: node scripts/idol_shows.mjs idol_shows.json
 
       - name: Focus actors (young male leads popular in SEA), romance first
@@ -96,7 +106,8 @@ jobs:
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-          ACTOR_SEARCHES: "10"
+          ACTOR_SEARCHES: "8"
+          ACTOR_SINCE_DAYS: "30"
         run: node scripts/actor_videos.mjs actors.json
 
       - name: Fancams of the focus actors (fan meetings, events, airport, concerts), top priority
@@ -116,12 +127,6 @@ jobs:
           CREATOR_SEARCHES: "10"
         run: node scripts/creators.mjs creators.json
 
-      - name: Convenience-store and Han River shorts (K-Food, both editions)
-        if: steps.day.outputs.skip != '1'
-        continue-on-error: true
-        env:
-          YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node scripts/konbini.mjs konbini.out.json
 
       - name: OTT official channels catch-up (Netflix, TVING, Disney+, Coupang Play, wavve)
         if: steps.day.outputs.skip != '1'
@@ -204,7 +209,7 @@ jobs:
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CAP_MAX: "10000"
+          CAP_MAX: "2500"         # subtitles backfill slowed down to make room for viral.mjs and overseas.mjs (2026-11-02)
           GSC_KEY: ${{ secrets.GSC_KEY }}
         run: |
           git config user.name "kreelz-bot"
@@ -212,7 +217,9 @@ jobs:
           node scripts/noeat.mjs index.html || echo "eating-show filter skipped"   # no big-eating mukbang on either edition (per David 2026-10-29)
           node scripts/jpvariety.mjs index.html || echo "jp variety list skipped"   # kreelz.com/jp Shows tab = Korean variety shows only (per David 2026-10-30)
           node scripts/korfilm.mjs index.html || true   # Film tab: Korean films only (per David 2026-10-30)
+          node scripts/overseas.mjs index.html || echo "overseas check skipped"   # Screen/Film: only clips fans abroad respond to (per David 2026-11-02)
           node scripts/nowdrama.mjs index.html || echo "airing dramas skipped"   # Screen tab: dramas airing now first (per David 2026-10-30)
+          node scripts/viral.mjs index.html || echo "viral ranking skipped"   # first screen = what gained the most views in a day (per David 2026-11-02)
           node scripts/captions.mjs index.html || echo "subtitles check skipped"   # 字幕/CC badge + "with subtitles" filter (per David 2026-10-30)
           node scripts/digest.mjs index.html || echo "digest skipped"   # "today in 3 minutes" pages (per David 2026-10-30)
           node scripts/gsc.mjs || echo "search console skipped"   # admin '검색 노출' (per David 2026-11-02)

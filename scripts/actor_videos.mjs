@@ -11,6 +11,7 @@ const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missin
 const outPath = process.argv[2] || "actors.json";
 const FAN = process.env.ACTOR_MODE === "fancam";
 const SEARCHES = +(process.env.ACTOR_SEARCHES || 10);        // 100 quota units each
+const SINCE = +(process.env.ACTOR_SINCE_DAYS || 0);           // only the last n days (what is taking off now, per David 2026-11-02); 0 = any time
 const MIN_VIEWS = +(process.env.ACTOR_MIN_VIEWS || (FAN ? 20000 : 50000));
 const KINDS = FAN ? [a => `${a[1]} 직캠`, a => `${a[0]} fancam`, a => `${a[1]} 팬미팅`, a => `${a[0]} fan meeting`]
                   : [a => `${a[1]} 드라마`, a => `${a[0]} kdrama romance`];
@@ -35,7 +36,8 @@ const today = Array.from({ length: Math.min(SEARCHES, jobs.length) }, (_, i) => 
 const found = {};   // id -> artist index
 try {
   for (const j of today) {
-    const d = await call("search", { part: "id", q: j.q, type: "video", order: "viewCount", videoEmbeddable: "true", maxResults: 50 }, 100);
+    const d = await call("search", { part: "id", q: j.q, type: "video", order: "viewCount", videoEmbeddable: "true", maxResults: 50,
+      ...(SINCE ? { publishedAfter: new Date(Date.now() - SINCE * DAY).toISOString() } : {}) }, 100);
     for (const x of d.items || []) if (x.id?.videoId && !(x.id.videoId in found)) found[x.id.videoId] = j.artist;
   }
 } catch (e) { console.log("search stopped:", e.message); }

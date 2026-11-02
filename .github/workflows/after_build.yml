@@ -1,0 +1,70 @@
+# Applies changes David asked for on the evening of 2026-11-02 to the 2026-11-03 build, whose collection had already started
+# at 20:30 KST before them (the nightly works ahead and publishes at 00:00): mukbang titles off Tour & Food, My Demon pinned in
+# Screen, Screen/Film clips fans abroad don't respond to taken off, and the first screen led by what gained the most views.
+# Runs once after that publish (schedule below, guarded to 2026-11-03 KST); from the next night the nightly does all of it.
+# dry = test the new scripts on a copy (a few API units), nothing committed.
+name: After the nightly build
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "yes = test only, nothing committed"
+        default: "no"
+  schedule:
+    - cron: "25 15 2 11 *"   # 2026-11-03 00:25 KST
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: after-build
+  cancel-in-progress: false
+jobs:
+  after:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Test the new scripts on a copy
+        if: github.event_name == 'workflow_dispatch' && inputs.dry == 'yes'
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          OVS_MAX: "15"
+          VIRAL_DAYS: "1"
+          VIRAL_TOP: "20"
+        run: |
+          cp index.html /tmp/t.html
+          node scripts/overseas.mjs /tmp/t.html --dry
+          node -e 'const k=require("./data/overseas.json");const a=Object.entries(k).filter(([i,v])=>Array.isArray(v));console.log(JSON.stringify(a.slice(0,15)))'
+          node scripts/viral.mjs /tmp/t.html
+          grep -o 'const PRIO_VIRAL = "[^"]\{0,120\}' /tmp/t.html
+      - name: Apply after the 00:00 publish
+        if: github.event_name == 'schedule' || inputs.dry != 'yes'
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=Asia/Seoul date +%F)" != "2026-11-03" ]; then echo "one-time job, not today"; exit 0; fi
+          # wait (up to 40 min) until the 2026-11-03 build is on main
+          for i in $(seq 1 40); do git pull -q --rebase; grep -q 'const FEED_BUILT = "2026-11-03"' index.html && break; echo "waiting for the build…"; sleep 60; done
+          grep -q 'const FEED_BUILT = "2026-11-03"' index.html || { echo "build not there, nothing done"; exit 0; }
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # the ILLIT x Song Kang pin ends now (a week on top; per David the first screen should change every day)
+          node -e 'const fs=require("fs");let t=fs.readFileSync("live.js","utf8");const L=JSON.parse(t.replace(/^window\.LIVE=/,"").replace(/;\s*$/,""));if(L.pin){L.pin.until="2026-11-02";fs.writeFileSync("live.js","window.LIVE="+JSON.stringify(L)+";\n")}' || true
+          node scripts/noeat.mjs index.html || true
+          node scripts/overseas.mjs index.html || echo "overseas check skipped"
+          node scripts/nowdrama.mjs index.html || true
+          node scripts/prio.mjs index.html data/vmeta.json.gz
+          node scripts/viral.mjs index.html || echo "viral ranking skipped"
+          node scripts/region.mjs index.html
+          node scripts/seo.mjs || echo "search pages skipped"
+          git add index.html data jp live.js nclip.js
+          git add -A k sitemap.xml
+          git commit -m "2026-11-03 build: tonight's new rules applied (mukbang titles, My Demon pin, overseas reaction, taking off now)" || exit 0
+          git pull --rebase -q && git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

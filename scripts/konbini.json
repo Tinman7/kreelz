@@ -2,14 +2,63 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "mydemon",
+   "topic": "hot",
+   "cat": "d",
+   "since": "2023-10-01",
+   "search_until": "2026-11-04",
+   "until": "2026-11-16",
+   "per_night": 3,
+   "min_views": 20000,
+   "pin": "screen",
+   "_note": "Screen tab of both editions (per David 2026-11-02; global added the same evening): My Demon (마이 데몬, SBS 2023) love-story moments of Kim Yoo-jung and Song Kang together, mostly shorts. Searched on the nights up to search_until; every clip on the site naming the drama and both leads (or their characters 도도희 / 구원) is pinned in the Screen tab (both editions) until 'until' — two of them, then one other clip.",
+   "require": [
+    "마이 ?데몬|my ?demon|マイ・?デーモン",
+    "김유정|kim ?yoo-?jung|yoo-?jung|キム・?ユジョン|ユジョン|도도희|do ?do-?hee|dohee|ドヒ",
+    "송강(?!호)|song ?kang(?![- ]?ho)|songkang|ソン・?ガン|정구원|구원|gu-?won|juwon|グウォン"
+   ],
+   "not": "reaction|리액션|review|리뷰|lyrics?|가사|playlist|full ?(ver|version)|풀버전|1 ?hour|loop|\\bost\\b|反応|レビュー",
+   "queries": [
+    "마이데몬 김유정 송강",
+    "마이데몬 도도희 구원",
+    "My Demon Kim Yoo-jung Song Kang",
+    "My Demon Do Do-hee Gu-won",
+    "マイ・デーモン キム・ユジョン ソンガン",
+    "마이데몬 키스"
+   ]
+  },
+  {
+   "name": "wonhee_commute",
+   "topic": "hot",
+   "cat": "m",
+   "since": "2024-03-01",
+   "search_until": "2026-11-04",
+   "until": "2026-11-04",
+   "per_night": 3,
+   "min_views": 30000,
+   "_note": "ILLIT Wonhee's commute fancams (music-show 퇴근길/출근길, e.g. Music Bank), shorts that get very high views — none were on the site (per David 2026-11-02). Searched tonight and tomorrow night, both editions, Music tab.",
+   "require": [
+    "원희|wonhee|ウォニ",
+    "퇴근|출근|commute|退勤|出勤"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop",
+   "queries": [
+    "원희 퇴근길",
+    "아일릿 원희 퇴근길",
+    "원희 뮤뱅 퇴근길",
+    "ILLIT Wonhee commute",
+    "ウォニ 退勤"
+   ]
+  },
+  {
    "name": "illit_songkang",
    "topic": "hot",
    "cat": "m",
    "since": "2026-10-26",
-   "until": "2026-11-03",
+   "until": "2026-11-02",
    "per_night": 6,
    "min_views": 5000,
-   "_note": "Hot (both editions): fan shorts and clips of ILLIT's '체포하겠어 (You're Under Arrest)' MV (2026-10-26 18:00 KST) — the ending with actor Song Kang went viral. Pinned at the top of All and Music (both editions) until 'until' (one week, per David); every night until then, all queries, uploads since 'since'; must name both ILLIT/the song and Song Kang. Added 2026-10-27 (per David).",
+   "_note": "Hot (both editions): fan shorts and clips of ILLIT's '체포하겠어 (You're Under Arrest)' MV (2026-10-26 18:00 KST) — the ending with actor Song Kang went viral. Pinned at the top of All and Music (both editions) until 'until' (one week, per David); every night until then, all queries, uploads since 'since'; must name both ILLIT/the song and Song Kang. Added 2026-10-27 (per David). Ended 2026-11-02 (per David: the first screen should change every day).",
    "require": [
     "송강(?!호)|song ?kang(?![- ]?ho)|ソン・?ガン",
     "아일릿|ILLIT|アイリット|아이릿|체포하겠어|under ?arrest"
@@ -162,87 +211,6 @@
     "BTS ブラジル",
     "BTS サンパウロ",
     "BTS fancam Brazil"
-   ]
-  },
-  {
-   "name": "mydemon",
-   "topic": "hot",
-   "cat": "d",
-   "since": "2023-10-01",
-   "search_until": "2026-11-04",
-   "until": "2026-11-16",
-   "per_night": 6,
-   "min_views": 20000,
-   "pin": "screen",
-   "_note": "Screen tab of both editions (per David 2026-11-02; global added the same evening): My Demon (마이 데몬, SBS 2023) love-story moments of Kim Yoo-jung and Song Kang together, mostly shorts. Searched on the nights up to search_until; every clip on the site naming the drama and both leads (or their characters 도도희 / 구원) is pinned in the Screen tab (both editions) until 'until' — two of them, then one other clip.",
-   "require": [
-    "마이 ?데몬|my ?demon|マイ・?デーモン",
-    "김유정|kim ?yoo-?jung|yoo-?jung|キム・?ユジョン|ユジョン|도도희|do ?do-?hee|dohee|ドヒ",
-    "송강(?!호)|song ?kang(?![- ]?ho)|songkang|ソン・?ガン|정구원|구원|gu-?won|juwon|グウォン"
-   ],
-   "not": "reaction|리액션|review|리뷰|lyrics?|가사|playlist|full ?(ver|version)|풀버전|1 ?hour|loop|\\bost\\b|反応|レビュー",
-   "queries": [
-    "마이데몬 김유정 송강",
-    "마이데몬 도도희 구원",
-    "My Demon Kim Yoo-jung Song Kang",
-    "My Demon Do Do-hee Gu-won",
-    "マイ・デーモン キム・ユジョン ソンガン",
-    "마이데몬 키스"
-   ]
-  },
-  {
-   "name": "wonhee_commute",
-   "topic": "hot",
-   "cat": "m",
-   "since": "2024-03-01",
-   "search_until": "2026-11-04",
-   "until": "2026-11-04",
-   "per_night": 5,
-   "min_views": 30000,
-   "_note": "ILLIT Wonhee's commute fancams (music-show 퇴근길/출근길, e.g. Music Bank), shorts that get very high views — none were on the site (per David 2026-11-02). Searched tonight and tomorrow night, both editions, Music tab.",
-   "require": [
-    "원희|wonhee|ウォニ",
-    "퇴근|출근|commute|退勤|出勤"
-   ],
-   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop",
-   "queries": [
-    "원희 퇴근길",
-    "아일릿 원희 퇴근길",
-    "원희 뮤뱅 퇴근길",
-    "ILLIT Wonhee commute",
-    "ウォニ 退勤"
-   ]
-  },
-  {
-   "name": "idol_commute",
-   "topic": "hot",
-   "cat": "m",
-   "rotate": true,
-   "since_days": 30,
-   "until": "2027-12-31",
-   "per_night": 3,
-   "min_views": 30000,
-   "_note": "Standing search (per David 2026-11-02): the priority idols' music-show commute fancams (퇴근길/출근길 at Music Bank, Inkigayo…), last 30 days, 3 searches a night taking turns, both editions, Music tab.",
-   "require": [
-    "퇴근|출근|commute|退勤|出勤",
-    "아일릿|illit|원희|wonhee|ウォニ|민주|윤아|이로하|모카|스트레이 ?키즈|스키즈|stray ?kids|트와이스|twice|르세라핌|le ?sserafim|투바투|투모로우바이투게더|\\btxt\\b|세븐틴|seventeen|엔하이픈|enhypen|투어스|\\btws\\b|보이넥스트도어|boynextdoor|코르티스|cortis|방탄|\\bbts\\b"
-   ],
-   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop|직장인|회사원|브이로그|vlog",
-   "queries": [
-    "아일릿 퇴근길",
-    "원희 퇴근길",
-    "아일릿 출근길",
-    "스트레이키즈 퇴근길",
-    "트와이스 퇴근길",
-    "르세라핌 퇴근길",
-    "투바투 퇴근길",
-    "세븐틴 퇴근길",
-    "엔하이픈 퇴근길",
-    "투어스 퇴근길",
-    "보이넥스트도어 퇴근길",
-    "코르티스 퇴근길",
-    "뮤직뱅크 퇴근길",
-    "인기가요 출근길"
    ]
   }
  ]
