@@ -1,48 +1,48 @@
 {
- "date": "2026-11-02",
- "artist": "BTS",
- "actor": "Song Kang",
+ "date": "2026-11-03",
+ "artist": "ILLIT",
+ "actor": "Ahn Hyo-seop",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: 韓国ドラマ",
-   "text": "📺韓国ドラマでいま見られているクリップ\n注目：最後まで伝説を更新 [職場人たちシーズン3] 最終話ハイライト\n▶ https://kreelz.com/jp/k/drama/\n#韓国ドラマ",
-   "len": 141
+   "label": "카테고리: 韓国バラエティ",
+   "text": "😂韓国バラエティでいま見られているクリップ\n注目：[新人監督 キム・ヨンギョン2] 新しいセッター合流🙌 日本のバレーボール大会で優勝したツバキ・ワンダードッグスに…\n▶ https://kreelz.com/jp/k/variety/\n#韓国バラエティ",
+   "len": 202
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/2）\n1. BESTie「Love Options」Show! MusicCore\n2. ILLIT「ブラック要員紹介」\n3. キム・ミン、圧倒的フィジカルの計走『私一人で暮らす』\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 234
+   "text": "📰3分でわかる今日の韓国エンタメ（11/3）\n1. BESTie「Love Options」MusicCore出演映像\n2. ILLIT「pop x LGS」\n3. NEON「A2O LITE」SBS人気歌謡出演映像\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 212
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "最近ハマってるK-POPの曲は？🎧\n1曲だけ選ぶなら？リプで教えてください！\n#KPOP #KPOP好きさんと繋がりたい",
-   "len": 101
+   "text": "韓国に行ったら絶対食べたいもの、何ですか？🍜\n私はまずトッポッキ…！\n#韓国グルメ #韓国旅行",
+   "len": 89
   },
   {
    "time": "19:00",
-   "label": "아티스트: BTS",
-   "text": "🔥BTS（防弾少年団）の最新ショート・動画まとめ\nいま話題：BTS「iHeartRadio Music Festival 2026」スケッチ\n▶ https://kreelz.com/jp/k/bts/\n#BTS #防弾少年団 #KPOP",
-   "len": 152
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ブラック捜査官を紹介します\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 136
   },
   {
    "time": "22:00",
-   "label": "배우: Song Kang",
-   "text": "🎬ソン・ガンの最新動画まとめ\nいま話題：神がかった手術で患者の命を救ったキム・ジウォン、ついに一生つかんでいた兄と別れるハ・ソンガン\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/song-kang/\n#ソンガン #韓国俳優",
-   "len": 221
+   "label": "배우: Ahn Hyo-seop",
+   "text": "🎬アン・ヒョソプの最新動画まとめ\nいま話題：[第3話先行公開] 頭上から塩をザーッ！基本ができていないホン・ファヨンを叱るアン・ヒョソプ⚡ |〈ファ…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/ahn-hyo-seop/\n#アンヒョソプ #韓国俳優",
+   "len": 237
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "BTS 최신 일본어 글",
-    "url": "https://x.com/search?q=%23BTS%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "ソン・ガン 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%BD%E3%83%B3%E3%82%AC%E3%83%B3%20lang%3Aja&f=live"
+    "label": "アン・ヒョソプ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A2%E3%83%B3%E3%83%92%E3%83%A7%E3%82%BD%E3%83%97%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/2",
+  "date": "11/3",
   "rows": [
-   {
-    "t": "[私は一人で暮らす] 二人を一度に追い越し！？キム・ミンの圧倒的フィジカルリレー🏃‍♂️、MBC 261030放送",
-    "ch": "MBCentertainment",
-    "v": 3201427
-   },
    {
     "t": "BESTie - Love Options (恋愛の条件)",
     "ch": "MBCkpop",
-    "v": 3088558
+    "v": 3900111
    },
    {
     "t": "ブラック捜査官を紹介します",
     "ch": "ILLIT",
-    "v": 2909215
-   },
-   {
-    "t": "BTS「iHeartRadio Music Festival 2026」スケッチ",
-    "ch": "BANGTANTV",
-    "v": 2317675
+    "v": 3201427
    },
    {
     "t": "お姉さんが来た",
     "ch": "ILLIT",
-    "v": 1236700
+    "v": 1385562
+   },
+   {
+    "t": "NEON - A2O LITE",
+    "ch": "SBSKPOP X INKIGAYO",
+    "v": 1312938
+   },
+   {
+    "t": "最後まで伝説を更新 [職場人たちシーズン3] 最終話ハイライト",
+    "ch": "쿠팡플레이 Coupang Play",
+    "v": 1221992
    }
   ],
   "url": "kreelz.com/jp",
