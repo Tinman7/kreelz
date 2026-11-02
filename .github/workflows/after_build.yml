@@ -39,7 +39,6 @@ jobs:
         run: |
           cp index.html /tmp/t.html
           node scripts/overseas.mjs /tmp/t.html --dry
-          node -e 'const k=require("./data/overseas.json");const a=Object.entries(k).filter(([i,v])=>Array.isArray(v));console.log(JSON.stringify(a.slice(0,15)))'
           node scripts/viral.mjs /tmp/t.html
           grep -o 'const PRIO_VIRAL = "[^"]\{0,120\}' /tmp/t.html
       - name: Apply after the 00:00 publish

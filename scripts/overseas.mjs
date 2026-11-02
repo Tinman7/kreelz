@@ -51,5 +51,6 @@ if (!dry) {
   fs.writeFileSync(site, h);
   fs.writeFileSync(F, JSON.stringify(known));
 }
+if (dry) for (const r of todo.slice(0, 20)) console.log(JSON.stringify([r.id, r.views, known[r.id], drop.has(r.id) ? "OFF" : "keep", title(r.id).slice(0, 50)]));
 const judged = rows.filter(r => r.id in known).length;
 console.log(JSON.stringify({ screen_film_clips: rows.length, judged, title_for_abroad: byTitle, comments_read_tonight: read, units, quota_hit: quota, taken_off: drop.size, left_to_judge: rows.filter(r => !(r.id in known)).length }));
