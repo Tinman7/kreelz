@@ -29,7 +29,7 @@ async function q(site, body) {
 }
 // the property: GSC_SITE, else whichever of these the service account can read
 let site = process.env.GSC_SITE || "";
-if (!site) for (const s of ["https://kreelz.com/", "sc-domain:kreelz.com", "https://www.kreelz.com/"]) { try { await q(s, { dimensions: ["date"], rowLimit: 1 }); site = s; break; } catch (e) { console.log("not", s, e.message.slice(0, 80)); } }
+if (!site) for (const s of ["https://kreelz.com/", "sc-domain:kreelz.com", "https://www.kreelz.com/"]) { try { await q(s, { dimensions: ["date"], rowLimit: 1 }); site = s; break; } catch (e) { console.log("not", s, e.message.slice(0, 400)); } }
 if (!site) { console.log("gsc: the service account cannot read the kreelz.com property — add its e-mail in Search Console > Settings > Users and permissions"); process.exit(0); }
 const jp = [{ filters: [{ dimension: "page", operator: "contains", expression: "kreelz.com/jp" }] }];
 const row = r => ({ k: r.keys ? r.keys[0] : "", imp: r.impressions, clk: r.clicks, ctr: Math.round(r.ctr * 1000) / 10, pos: Math.round(r.position * 10) / 10 });
