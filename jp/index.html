@@ -321,6 +321,7 @@ footer p{margin:0;max-width:60ch}
 .fm{font-size:12.5px;color:var(--muted);line-height:1.45;display:flex;flex-direction:column;min-width:0}
 .fm .fch{color:var(--ink-2);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #fmore{display:block;margin:28px auto 8px;padding:11px 26px;width:auto}
+#gmore{display:block;margin:24px auto 8px;padding:11px 26px;width:auto}#gmore[hidden]{display:none}
 .fnote{font-size:12.5px;color:var(--muted);margin:14px 0 0}
 @media (max-width:640px){
   .fgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
@@ -460,6 +461,7 @@ em.op{background:var(--soft);color:var(--muted)}
 .topics a:hover{color:var(--ink)} .topics i{width:1px;height:12px;background:var(--line);margin-inline:2px}
 .legal-links{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;padding-top:16px;border-top:1px solid var(--line)}
 .legal-links .lnk{font-size:12.5px;padding:2px 0;min-height:auto;color:var(--muted)}
+.legal-links a.lnk{text-decoration:none}
 .legal-links span{margin-left:auto;font-size:12.5px}
 
 @media (max-width:640px){
@@ -757,6 +759,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
     </div>
     <div class="grid" id="grid"></div>
     <div id="gridEnd" aria-hidden="true"></div>
+    <button class="more" id="gmore" type="button" hidden></button>
     <div class="wall pwall" id="pwall" hidden></div>
   </section>
 
@@ -766,7 +769,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
     <div><h4 data-i18n="ft3_h"></h4><p id="ft3p"></p></div>
     <div><h4 data-i18n="ft4_h"></h4><p id="ft4p"></p><button type="button" class="fbbtn" id="fbOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg><span data-i18n="fb_btn"></span></button></div>
     <!--topics--><nav class="topics" aria-label="一覧"><a href="/jp/k/today/">今日の人気</a><i></i><a href="/jp/k/bts/">BTS（防弾少年団）</a><a href="/jp/k/stray-kids/">Stray Kids（ストレイキッズ）</a><a href="/jp/k/twice/">TWICE（トゥワイス）</a><a href="/jp/k/txt/">TXT（トゥバ）</a><a href="/jp/k/le-sserafim/">LE SSERAFIM（ルセラフィム）</a><a href="/jp/k/illit/">ILLIT（アイリット）</a><a href="/jp/k/seventeen/">SEVENTEEN（セブチ）</a><a href="/jp/k/enhypen/">ENHYPEN（エンハイプン）</a><a href="/jp/k/andteam/">&amp;TEAM（エンティーム）</a><a href="/jp/k/boynextdoor/">BOYNEXTDOOR（ボイネク）</a><a href="/jp/k/ateez/">ATEEZ（エイティーズ）</a><a href="/jp/k/tws/">TWS（トゥアス）</a><a href="/jp/k/aespa/">aespa（エスパ）</a><a href="/jp/k/nct-wish/">NCT WISH</a><a href="/jp/k/cortis/">CORTIS（コルティス）</a><i></i><a href="/jp/k/park-seo-joon/">パク・ソジュン（박서준）</a><a href="/jp/k/seo-in-guk/">ソ・イングク（서인국）</a><a href="/jp/k/kim-jae-joong/">ジェジュン（김재중）</a><a href="/jp/k/park-hyung-sik/">パク・ヒョンシク（박형식）</a><a href="/jp/k/lee-jun-ki/">イ・ジュンギ（이준기）</a><a href="/jp/k/ji-chang-wook/">チ・チャンウク（지창욱）</a><a href="/jp/k/park-bo-gum/">パク・ボゴム（박보검）</a><a href="/jp/k/byeon-woo-seok/">ビョン・ウソク（변우석）</a><a href="/jp/k/ji-sung/">チ・ソン（지성）</a><a href="/jp/k/gong-yoo/">コン・ユ（공유）</a><a href="/jp/k/kim-nam-gil/">キム・ナムギル（김남길）</a><a href="/jp/k/lee-jun-ho/">イ・ジュノ（이준호）</a><a href="/jp/k/rowoon/">ロウン（로운）</a><a href="/jp/k/kim-soo-hyun/">キム・スヒョン（김수현）</a><a href="/jp/k/heo-nam-jun/">ホ・ナムジュン（허남준）</a><a href="/jp/k/hyun-bin/">ヒョンビン（현빈）</a><a href="/jp/k/cha-eun-woo/">チャ・ウヌ（차은우）</a><a href="/jp/k/ahn-hyo-seop/">アン・ヒョソプ（안효섭）</a><a href="/jp/k/jung-hae-in/">チョン・ヘイン（정해인）</a><a href="/jp/k/song-kang/">ソン・ガン（송강）</a><a href="/jp/k/lee-byung-hun/">イ・ビョンホン（이병헌）</a><a href="/jp/k/lee-min-ho/">イ・ミンホ（이민호）</a><a href="/jp/k/kim-seon-ho/">キム・ソンホ（김선호）</a><a href="/jp/k/lee-do-hyun/">イ・ドヒョン（이도현）</a><a href="/jp/k/hwang-in-youp/">ファン・イニョプ（황인엽）</a><a href="/jp/k/choo-young-woo/">チュ・ヨンウ（추영우）</a><a href="/jp/k/lomon/">ロモン（로몬）</a><a href="/jp/k/lee-jong-suk/">イ・ジョンソク（이종석）</a><i></i><a href="/jp/k/music/">K-POP</a><a href="/jp/k/drama/">韓国ドラマ</a><a href="/jp/k/film/">韓国映画</a><a href="/jp/k/variety/">韓国バラエティ</a><a href="/jp/k/beauty/">Kビューティー</a><a href="/jp/k/food/">Kトラベル＆フード</a><a href="/jp/k/">一覧</a><i></i><a href="https://x.com/KREELZ77" target="_blank" rel="me noopener">X（旧Twitter）@KREELZ77</a></nav><!--/topics-->
-    <div class="legal-links" id="legalLinks"><button type="button" class="lnk" data-doc="terms" data-i18n="lg_terms">Terms of Service</button><button type="button" class="lnk" data-doc="privacy" data-i18n="lg_privacy">Privacy Notice</button><button type="button" class="lnk" data-doc="mkt" data-i18n="lg_mkt">Marketing consent</button><button type="button" class="lnk" data-doc="email" data-i18n="lg_email">Promotional email consent</button><button type="button" class="lnk" data-doc="ext" id="lgExt" hidden>外部送信について</button><span>© 2026 KREELZ</span></div>
+    <div class="legal-links" id="legalLinks"><a class="lnk" href="/terms/" data-doc="terms" data-i18n="lg_terms">Terms of Service</a><a class="lnk" href="/privacy/" data-doc="privacy" data-i18n="lg_privacy">Privacy Notice</a><button type="button" class="lnk" data-doc="mkt" data-i18n="lg_mkt">Marketing consent</button><button type="button" class="lnk" data-doc="email" data-i18n="lg_email">Promotional email consent</button><button type="button" class="lnk" data-doc="ext" id="lgExt" hidden>外部送信について</button><span>© 2026 KREELZ</span></div>
   </footer>
 </div>
 
@@ -1264,7 +1267,7 @@ en:{
   no_official:"No official video yet. Check back on release day.",
   sh_note:"Every video is played or linked from the uploader's own channel. Nothing is re-hosted here.",
   verified:"Verified or official channel",
-  ft1_h:"Official sources", ft1_p:"Videos are linked or embedded from YouTube, TikTok and NAVER Clip. Music, drama and film come from labels, broadcasters and verified channels; beauty and mukbang come from the creators' own channels. We don't host or re-upload anything.",
+  ft1_h:"Official sources", ft1_p:"Videos are linked or embedded from YouTube, TikTok and NAVER Clip. Music, drama and film come from labels, broadcasters and verified channels; beauty, travel and food come from the creators' own channels. We don't host or re-upload anything.",
   ft2_h:"Release times", ft2_p:"Korean releases are announced in KST. We convert each one to the city you choose, and remember your choice on this device.",
   ft3_h:"Report a link", ft3_p:"Spotted a broken or unofficial link? Email {addr} and we'll fix it within a day.",
   ft4_h:"Contact", ft4_p:"Questions about KREELZ? Email {addr}. Ideas, or something on the site not working? Tell us here:", fb_btn:"Send feedback", fb_title:"Send us feedback", fb_sub:"How is KREELZ working for you? We read every message.", fb_kind:"Topic", fb_k_feedback:"Feedback", fb_k_bug:"Something isn't working", fb_k_request:"Content request", fb_k_other:"Other", fb_msg:"Your message…", fb_email:"Your email (optional, if you'd like a reply)", fb_send:"Send", fb_ok:"Thank you! Your message was sent.", fb_err:"Couldn't send. Please try again, or email {addr}.", fb_short:"Please write a little more.", fb_bademail:"Please check the email address.", fb_limit:"You've sent several messages today. Please try again tomorrow or email {addr}.", fb_note:"Your email is used only to reply to you.",
@@ -1318,7 +1321,7 @@ tl:{
   no_official:"Wala pang opisyal na video. Bumalik sa araw ng release.",
   sh_note:"Lahat ng video ay pinapatugtog o naka-link mula sa sariling channel ng nag-upload. Walang nire-host dito.",
   verified:"Verified o opisyal na channel",
-  ft1_h:"Opisyal na source", ft1_p:"Naka-link o naka-embed ang mga video mula sa YouTube, TikTok at NAVER Clip. Ang musika, drama at pelikula ay mula sa labels, broadcasters at verified channels; ang beauty at mukbang ay mula sa sariling channel ng creators. Wala kaming hino-host o nire-upload.",
+  ft1_h:"Opisyal na source", ft1_p:"Naka-link o naka-embed ang mga video mula sa YouTube, TikTok at NAVER Clip. Ang musika, drama at pelikula ay mula sa labels, broadcasters at verified channels; ang beauty, travel at food ay mula sa sariling channel ng creators. Wala kaming hino-host o nire-upload.",
   ft2_h:"Oras ng release", ft2_p:"Inaanunsyo sa KST ang Korean releases. Kino-convert namin ito sa lungsod na pinili mo at tinatandaan sa device na ito.",
   ft3_h:"Mag-report ng link", ft3_p:"May nakitang sira o hindi opisyal na link? Mag-email sa {addr} at aayusin namin sa loob ng isang araw.",
   ft4_h:"Makipag-ugnayan", ft4_p:"May tanong tungkol sa KREELZ? Mag-email sa {addr}. May ideya o may hindi gumagana sa site? Sabihin dito:", fb_btn:"Magpadala ng feedback", fb_title:"Magpadala sa amin ng feedback", fb_sub:"Kumusta ang KREELZ para sa iyo? Binabasa namin ang bawat mensahe.", fb_kind:"Paksa", fb_k_feedback:"Feedback", fb_k_bug:"May hindi gumagana", fb_k_request:"Request ng content", fb_k_other:"Iba pa", fb_msg:"Ang iyong mensahe…", fb_email:"Ang iyong email (opsyonal, kung gusto mo ng sagot)", fb_send:"Ipadala", fb_ok:"Salamat! Naipadala ang iyong mensahe.", fb_err:"Hindi naipadala. Subukang muli, o mag-email sa {addr}.", fb_short:"Pakidagdagan pa nang kaunti.", fb_bademail:"Pakitingnan ang email address.", fb_limit:"Marami ka nang naipadala ngayong araw. Subukang muli bukas o mag-email sa {addr}.", fb_note:"Ginagamit lang ang iyong email para sagutin ka.",
@@ -1372,7 +1375,7 @@ th:{
   no_official:"ยังไม่มีวิดีโอทางการ กลับมาดูในวันปล่อย",
   sh_note:"ทุกวิดีโอเล่นหรือลิงก์จากช่องของผู้อัปโหลดเอง เราไม่ได้โฮสต์ซ้ำ",
   verified:"ช่องทางการหรือช่องที่ยืนยันแล้ว",
-  ft1_h:"แหล่งทางการ", ft1_p:"วิดีโอทั้งหมดลิงก์หรือฝังจาก YouTube, TikTok และ NAVER Clip เพลง ซีรีส์ และภาพยนตร์มาจากค่ายเพลง สถานีโทรทัศน์ และช่องที่ยืนยันแล้ว ส่วนบิวตี้และม็อกบังมาจากช่องของครีเอเตอร์เอง เราไม่ได้โฮสต์หรืออัปโหลดซ้ำ",
+  ft1_h:"แหล่งทางการ", ft1_p:"วิดีโอทั้งหมดลิงก์หรือฝังจาก YouTube, TikTok และ NAVER Clip เพลง ซีรีส์ และภาพยนตร์มาจากค่ายเพลง สถานีโทรทัศน์ และช่องที่ยืนยันแล้ว ส่วนบิวตี้ ท่องเที่ยว และอาหารมาจากช่องของครีเอเตอร์เอง เราไม่ได้โฮสต์หรืออัปโหลดซ้ำ",
   ft2_h:"เวลาปล่อยผลงาน", ft2_p:"ผลงานเกาหลีประกาศตามเวลา KST เราแปลงเป็นเวลาของเมืองที่คุณเลือกและจำไว้ในอุปกรณ์นี้",
   ft3_h:"แจ้งลิงก์", ft3_p:"พบลิงก์เสียหรือไม่เป็นทางการ? อีเมลมาที่ {addr} เราจะแก้ไขภายในหนึ่งวัน",
   ft4_h:"ติดต่อเรา", ft4_p:"มีคำถามเกี่ยวกับ KREELZ? ส่งอีเมลมาที่ {addr} มีไอเดียหรือพบปัญหาในเว็บไซต์ บอกเราได้ที่นี่:", fb_btn:"ส่งความคิดเห็น", fb_title:"ส่งความคิดเห็นถึงเรา", fb_sub:"KREELZ เป็นอย่างไรบ้าง? เราอ่านทุกข้อความ", fb_kind:"หัวข้อ", fb_k_feedback:"ความคิดเห็น", fb_k_bug:"มีบางอย่างใช้งานไม่ได้", fb_k_request:"ขอเนื้อหา", fb_k_other:"อื่นๆ", fb_msg:"ข้อความของคุณ…", fb_email:"อีเมลของคุณ (ไม่บังคับ หากต้องการให้ตอบกลับ)", fb_send:"ส่ง", fb_ok:"ขอบคุณ! ส่งข้อความเรียบร้อยแล้ว", fb_err:"ส่งไม่สำเร็จ ลองอีกครั้ง หรือส่งอีเมลมาที่ {addr}", fb_short:"กรุณาเขียนเพิ่มอีกสักหน่อย", fb_bademail:"กรุณาตรวจสอบอีเมล", fb_limit:"วันนี้คุณส่งข้อความหลายครั้งแล้ว ลองใหม่พรุ่งนี้หรือส่งอีเมลมาที่ {addr}", fb_note:"เราใช้อีเมลของคุณเพื่อตอบกลับเท่านั้น",
@@ -1426,7 +1429,7 @@ id:{
   no_official:"Belum ada video resmi. Cek lagi di hari rilis.",
   sh_note:"Semua video diputar atau ditautkan dari kanal pengunggahnya. Tidak ada yang diunggah ulang di sini.",
   verified:"Kanal resmi atau terverifikasi",
-  ft1_h:"Sumber resmi", ft1_p:"Video ditautkan atau disematkan dari YouTube, TikTok, dan NAVER Clip. Musik, drama, dan film berasal dari label, stasiun TV, dan kanal terverifikasi; kecantikan dan mukbang dari kanal kreatornya sendiri. Kami tidak menghosting atau mengunggah ulang apa pun.",
+  ft1_h:"Sumber resmi", ft1_p:"Video ditautkan atau disematkan dari YouTube, TikTok, dan NAVER Clip. Musik, drama, dan film berasal dari label, stasiun TV, dan kanal terverifikasi; kecantikan, wisata, dan kuliner dari kanal kreatornya sendiri. Kami tidak menghosting atau mengunggah ulang apa pun.",
   ft2_h:"Jam rilis", ft2_p:"Rilis Korea diumumkan dalam KST. Kami mengonversinya ke kota pilihan Anda dan mengingatnya di perangkat ini.",
   ft3_h:"Laporkan tautan", ft3_p:"Menemukan tautan rusak atau tidak resmi? Kirim email ke {addr}, kami perbaiki dalam sehari.",
   ft4_h:"Kontak", ft4_p:"Ada pertanyaan tentang KREELZ? Kirim email ke {addr}. Punya ide atau ada yang tidak berfungsi di situs? Beri tahu kami di sini:", fb_btn:"Kirim masukan", fb_title:"Kirim masukan untuk kami", fb_sub:"Bagaimana pengalamanmu dengan KREELZ? Kami membaca setiap pesan.", fb_kind:"Topik", fb_k_feedback:"Masukan", fb_k_bug:"Ada yang tidak berfungsi", fb_k_request:"Permintaan konten", fb_k_other:"Lainnya", fb_msg:"Pesanmu…", fb_email:"Email kamu (opsional, jika ingin dibalas)", fb_send:"Kirim", fb_ok:"Terima kasih! Pesanmu sudah terkirim.", fb_err:"Gagal mengirim. Coba lagi, atau kirim email ke {addr}.", fb_short:"Tulis sedikit lebih banyak, ya.", fb_bademail:"Periksa kembali alamat email.", fb_limit:"Kamu sudah mengirim beberapa pesan hari ini. Coba lagi besok atau kirim email ke {addr}.", fb_note:"Email kamu hanya dipakai untuk membalas.",
@@ -1480,7 +1483,7 @@ es:{
   no_official:"Aún no hay video oficial. Vuelve el día del estreno.",
   sh_note:"Todos los videos se reproducen o enlazan desde el canal de quien los subió. No alojamos nada.",
   verified:"Canal oficial o verificado",
-  ft1_h:"Fuentes oficiales", ft1_p:"Los videos se enlazan o insertan desde YouTube, TikTok y NAVER Clip. La música, los dramas y el cine provienen de sellos, cadenas y canales verificados; belleza y mukbang, de los canales de sus creadores. No alojamos ni volvemos a subir nada.",
+  ft1_h:"Fuentes oficiales", ft1_p:"Los videos se enlazan o insertan desde YouTube, TikTok y NAVER Clip. La música, los dramas y el cine provienen de sellos, cadenas y canales verificados; belleza, viajes y comida, de los canales de sus creadores. No alojamos ni volvemos a subir nada.",
   ft2_h:"Horarios de estreno", ft2_p:"Los estrenos coreanos se anuncian en KST. Los convertimos a la ciudad que elijas y lo recordamos en este dispositivo.",
   ft3_h:"Reportar un enlace", ft3_p:"¿Has visto un enlace roto o no oficial? Escribe a {addr} y lo arreglaremos en un día.",
   ft4_h:"Contacto", ft4_p:"¿Preguntas sobre KREELZ? Escríbenos a {addr}. ¿Ideas o algo que no funciona en la web? Cuéntanoslo aquí:", fb_btn:"Enviar comentarios", fb_title:"Envíanos tus comentarios", fb_sub:"¿Qué tal te va con KREELZ? Leemos todos los mensajes.", fb_kind:"Tema", fb_k_feedback:"Comentario", fb_k_bug:"Algo no funciona", fb_k_request:"Pedir contenido", fb_k_other:"Otro", fb_msg:"Tu mensaje…", fb_email:"Tu correo (opcional, si quieres respuesta)", fb_send:"Enviar", fb_ok:"¡Gracias! Tu mensaje se ha enviado.", fb_err:"No se pudo enviar. Inténtalo de nuevo o escríbenos a {addr}.", fb_short:"Escribe un poco más, por favor.", fb_bademail:"Revisa la dirección de correo.", fb_limit:"Hoy ya has enviado varios mensajes. Inténtalo mañana o escríbenos a {addr}.", fb_note:"Solo usamos tu correo para responderte.",
@@ -2042,11 +2045,17 @@ function renderGrid(){
 }
 const GR={items:[],n:0};
 const gio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)) gridMore() },{rootMargin:"1500px 0px"}) : null;
-function gridMore(){
-  const step = gio ? (mobile()?6:12) : GR.items.length, next=GR.items.slice(GR.n, GR.n+step);
-  if(!next.length) return;
+/* The picks fill in by themselves up to GR_AUTO cards, then wait for a "Show more" button, so the footer (terms, privacy,
+   contact) can be reached — before 2026-11-02 the list kept growing under the reader and the footer was never seen */
+const GR_AUTO=36;
+function gridMore(byHand){
+  const step = byHand ? 24 : gio ? (mobile()?6:12) : GR.items.length, next=GR.items.slice(GR.n, GR.n+step);
+  const b=$("#gmore"), s=$("#gridEnd");
+  if(!next.length){ if(b) b.hidden=true; return }
   $("#grid").insertAdjacentHTML("beforeend", next.map(card).join("")); GR.n+=next.length;
-  const s=$("#gridEnd"); if(gio && s){ gio.unobserve(s); if(GR.n<GR.items.length) gio.observe(s) }   // observing again re-checks at once, so a fast scroll keeps filling
+  const left=GR.items.length-GR.n, auto=GR.n<GR_AUTO;
+  if(gio && s){ gio.unobserve(s); if(left>0 && auto) gio.observe(s) }   // observing again re-checks at once, so a fast scroll keeps filling
+  if(b){ b.hidden=!(left>0 && !auto); if(!b.hidden) b.textContent=t("showmore",{n:num(left)}) }
   if(GR.n>step) observeTx();
 }
 /* Curated text is translated only when a card scrolls into view, to save translation quota */
@@ -2359,6 +2368,7 @@ function observeTitles(){document.querySelectorAll(".ft.ld").forEach(el=>{if(tio
 const mio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{if(es[0].isIntersecting && fstate.shown<fstate.cap) renderFeed(false)},{rootMargin:"600px"}) : null;
 if(mio) mio.observe($("#fmore"));
 $("#fmore").addEventListener("click",()=>renderFeed(false));
+$("#gmore").addEventListener("click",()=>gridMore(true));
 $("#fsort").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fstate.sort=b.dataset.s;store.set("ss-fsort",fstate.sort);renderFeed()});
 /* "With subtitles" (both lists at once): only videos with uploaded subtitles */
 const ccSync=()=>document.querySelectorAll("[data-ccf]").forEach(b=>{ b.setAttribute("aria-pressed",fstate.cc); b.hidden=!CAPSET.size });
@@ -3135,10 +3145,13 @@ const initial = n => (String(n||"?").trim()[0]||"?").toUpperCase();
 function renderAcct(){
   /* without accounts only the Japanese privacy policy and external transmission notice are shown (videos are embedded
      either way; Japan's Telecommunications Business Act asks for the notice to be published) */
-  const memberDocs=$("#legalLinks").querySelectorAll('[data-doc=terms],[data-doc=mkt],[data-doc=email]');
+  /* Terms and Privacy are always in the footer, as links to their own pages (kreelz.com/terms/, /privacy/; /jp/… on the
+     Japan edition) — the YouTube API audit asks for them on the home page (per David 2026-11-02); a click opens the pop-up */
+  const memberDocs=$("#legalLinks").querySelectorAll('[data-doc=mkt],[data-doc=email]');
   memberDocs.forEach(b=>b.hidden=!MEMBERSHIP);
-  if(!MEMBERSHIP){ $("#acct").innerHTML=""; $("#legalLinks").hidden=state.lang!=="ja"; return }
+  $("#legalLinks").querySelectorAll('a[data-doc]').forEach(a=>a.setAttribute("href",(REGION==="jp"?"/jp/":"/")+a.dataset.doc+"/"));
   $("#legalLinks").hidden=false;
+  if(!MEMBERSHIP){ $("#acct").innerHTML=""; return }
   $("#acct").innerHTML = ME
     ? `<button type="button" class="me" id="btnMe" aria-label="${esc(t("mypage"))}"><span class="av">${esc(initial(ME.name))}</span><b>${esc(t("mypage"))}</b></button>`
     : `<button type="button" class="ghost" data-auth="login">${esc(t("login"))}</button><button type="button" class="solid" data-auth="signup">${esc(t("signup"))}</button>`;
