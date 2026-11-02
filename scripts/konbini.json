@@ -163,6 +163,33 @@
     "BTS サンパウロ",
     "BTS fancam Brazil"
    ]
+  },
+  {
+   "name": "mydemon",
+   "topic": "hot",
+   "cat": "d",
+   "region": "jp",
+   "since": "2023-10-01",
+   "search_until": "2026-11-04",
+   "until": "2026-11-16",
+   "per_night": 6,
+   "min_views": 20000,
+   "pin": "screen",
+   "_note": "Screen tab of the Japan edition (per David 2026-11-02): My Demon (마이 데몬, SBS 2023) love-story moments of Kim Yoo-jung and Song Kang together, mostly shorts. Searched on the nights up to search_until; every clip on the site naming the drama and both leads (or their characters 도도희 / 구원) is pinned in the Screen tab of /jp until 'until' — two of them, then one other clip.",
+   "require": [
+    "마이 ?데몬|my ?demon|マイ・?デーモン",
+    "김유정|kim ?yoo-?jung|yoo-?jung|キム・?ユジョン|ユジョン|도도희|do ?do-?hee|dohee|ドヒ",
+    "송강(?!호)|song ?kang(?![- ]?ho)|songkang|ソン・?ガン|정구원|구원|gu-?won|juwon|グウォン"
+   ],
+   "not": "reaction|리액션|review|리뷰|lyrics?|가사|playlist|full ?(ver|version)|풀버전|1 ?hour|loop|\\bost\\b|反応|レビュー",
+   "queries": [
+    "마이데몬 김유정 송강",
+    "마이데몬 도도희 구원",
+    "My Demon Kim Yoo-jung Song Kang",
+    "My Demon Do Do-hee Gu-won",
+    "マイ・デーモン キム・ユジョン ソンガン",
+    "마이데몬 키스"
+   ]
   }
  ]
 }

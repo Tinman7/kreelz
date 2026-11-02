@@ -27,9 +27,15 @@ const chHit = (C, m) => !!m && C.has(m[1]) && !(RECO_CH.get(m[1]) && !RECO_CH.ge
 // pinned at the top of All and Music (both editions) until a date: "hot" groups of scripts/konbini.json with pin (e.g.
 // the ILLIT x Song Kang clips, per David 2026-10-27) — every video on the site whose title/tags match all their regexes
 const PIN_G = (() => { try { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-  return (JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []).filter(g => g.pin && g.until >= t)
+  return (JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []).filter(g => g.pin === true && g.until >= t)
     .map(g => ({ until: g.until, re: (g.require || []).map(r => new RegExp(r, "i")) })); } catch (e) { return []; } })();
 const pin = []; let pinUntil = "";
+// pinned in the Screen tab until a date: "hot" groups with pin "screen" (My Demon, Kim Yoo-jung × Song Kang, per David
+// 2026-11-02) — dramas/films whose title + tags match all their regexes; region "jp" = only on kreelz.com/jp
+const SPIN_G = (() => { try { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  return (JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []).filter(g => g.pin === "screen" && g.until >= t)
+    .map(g => ({ until: g.until, region: g.region || "all", re: (g.require || []).map(r => new RegExp(r, "i")) })); } catch (e) { return []; } })();
+const spin = []; let spinUntil = "", spinRegion = "";
 // Japan edition: these two dramas go to the very end of every list on /jp (index.html moves PRIO_LAST_JP ids last)
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i, lastJ = [];
 const OTT = /netflix|넷플릭스|tving|티빙|disney ?(plus|\+)|디즈니 ?(플러스|\+)|coupang ?play|쿠팡플레이|wavve|웨이브|prime ?video|watcha|왓챠/i;
@@ -50,6 +56,8 @@ for (const n of ["SHORTS", "FEED"]) {
     { const m = M[s.slice(i, i + 11)]; if (m && LAST_JP.test(m[0] + " " + (m[5] || []).join(" "))) lastJ.push(s.slice(i, i + 11)); }
     { const m = M[s.slice(i, i + 11)]; if (m) { const t = m[0] + " " + (m[5] || []).join(" ");
       for (const g of PIN_G) if (g.re.length && g.re.every(r => r.test(t))) { pin.push(s.slice(i, i + 11)); if (g.until > pinUntil) pinUntil = g.until; break; } } }
+    if ("df".includes(cc) && SPIN_G.length) { const m = M[s.slice(i, i + 11)]; if (m) { const t = m[0] + " " + (m[5] || []).join(" ");
+      for (const g of SPIN_G) if (g.re.length && g.re.every(r => r.test(t))) { spin.push(s.slice(i, i + 11)); if (g.until > spinUntil) spinUntil = g.until; spinRegion = spinRegion && spinRegion !== g.region ? "all" : g.region; break; } } }
     if ("dfe".includes(cc)) { const m = M[s.slice(i, i + 11)]; if (m && ((OTT.test(m[2]) && !OTT_NOT.test(m[2])) || JPO.has(s.slice(i, i + 11)))) ott.push(s.slice(i, i + 11));
       const sc = actorScore(m) || (rank(m) ? 1 : 0);   // priority idols' interviews / TV appearances join the focus pool
       if (sc) act.push(s.slice(i, i + 11) + sc);
@@ -67,12 +75,12 @@ for (const n of ["SHORTS", "FEED"]) {
     if (r) { list.push(id + RC[r - 1]); const nm = ARTISTS[r - 1] ? ARTISTS[r - 1][0] : "other boy groups"; counts[nm] = (counts[nm] || 0) + 1; if (cam) fan.push(id); }
   }
 }
-const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}"; const PRIO_JPHANOK = "${hanok.join("")}";`;
+const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}"; const PRIO_JPHANOK = "${hanok.join("")}"; const PRIO_SPIN = "${spin.length ? spinUntil + "|" + spinRegion + "|" + [...new Set(spin)].join("") : ""}";`;
 h = h.replace(/const PRIO_BTS = "[^"]*"; const PRIO_HYBE = "[^"]*";/, line);
 h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]*";/, "").replace(/ const PRIO_FAN = "[^"]*";/, "")
   .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "")
-  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "").replace(/ const PRIO_JPHANOK = "[^"]*";/, "");
+  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "").replace(/ const PRIO_JPHANOK = "[^"]*";/, "").replace(/ const PRIO_SPIN = "[^"]*";/, "");
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);
-console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_travel_first: welcome.length, jp_reco: reco.length, jp_top: top.length, pinned: pin.length, jp_last: lastJ.length }));
+console.log(JSON.stringify({ ...counts, OTT_screen_shows: ott.length, actor_videos: act.length, actor_romance: act.filter(x => x.endsWith("2")).length, actor_fancams: act.filter(x => x.endsWith("3")).length, music_fancams: fan.length, jp_music: listJ.length, jp_actor_videos: actJ.length, jp_actor_kinds: Object.fromEntries([..."rfemo"].map(k => [k, actJ.filter(x => x[11] === k).length])), jp_fancams: fanJ.length, jp_only: jpo.length, jp_travel_first: welcome.length, jp_reco: reco.length, jp_top: top.length, pinned: pin.length, screen_pinned: new Set(spin).size, jp_last: lastJ.length }));

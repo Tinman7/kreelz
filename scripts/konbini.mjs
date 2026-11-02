@@ -34,7 +34,7 @@ let budget = +(process.env.KF_SEARCHES || 5);
 // "hot" groups (a viral moment David points at, e.g. a new MV): every night until their end date, before the rotation,
 // all their queries, newest-first window from their start date; they don't count against KF_SEARCHES
 const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST
-try { for (const g of groups) { if (g.topic !== "hot" || (g.until && today > g.until)) continue;
+try { for (const g of groups) { if (g.topic !== "hot" || ((g.search_until || g.until) && today > (g.search_until || g.until))) continue;   // search_until: stop searching earlier than the pin ends
   const L = (g.queries || []).slice(0, CHECK ? 2 : g.per_night || 6); g.ran = true;
   const since = new Date(g.since ? g.since + "T00:00:00+09:00" : Date.now() - 7 * DAY).toISOString();
   for (const q of L) { asked.push(q);
@@ -91,7 +91,7 @@ for (let i = 0; i < ids.length; i += 50) {
     if (views < (g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
     if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
     vmeta[v.id] = meta;
-    cand.push({ g: g.name, cat: g.cat, pin: !!g.pin, jp: g.region === "jp", until: g.until, on: onSite.has(v.id), meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
+    cand.push({ g: g.name, cat: g.cat, pin: g.pin === true, jp: g.region === "jp", until: g.until, on: onSite.has(v.id), meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
 const good = new Set(), q = cand.map(c => c.id);
