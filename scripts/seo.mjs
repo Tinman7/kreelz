@@ -80,7 +80,7 @@ const T = {
     shorts: "Shorts", videos: "Videos", updated: d => `Updated ${d} (KST)`, count: n => `${n} clips`, views: v => `${fmt(v)} views`,
     open: "Open KREELZ", artistsH: "K-pop artists", actorsH: "Actors", catsH: "Categories", todayL: "Today", hubL: "All topics",
     note: "Videos belong to their creators and play from YouTube. KREELZ picks and translates titles; it does not host any video.",
-    dgH: "Today in 3 minutes", dgSub: "The 10 clips Korea watched most, each explained in a line", pastH: "Earlier days",
+    dgH: "Today in 3 minutes", dgNew: "👀 New to me", dgKnown: "✓ Knew it", dgThanks: "Thanks!", dgSub: "The 10 clips Korea watched most, each explained in a line", pastH: "Earlier days",
     day: d => [`Korean entertainment on ${d} — 10 clips in 3 minutes`, `The 10 clips Korea watched most on ${d}: K-pop, dramas on air, variety, film and food, each with a one-line explanation.`],
   },
   ja: {
@@ -92,7 +92,7 @@ const T = {
     shorts: "ショート", videos: "動画", updated: d => `${d} 更新（日本時間0時）`, count: n => `${n}本`, views: v => `${fmtJa(v)}回視聴`,
     open: "KREELZ JAPANを開く", artistsH: "K-POPアーティスト", actorsH: "俳優", catsH: "カテゴリー", todayL: "今日の人気", hubL: "一覧",
     note: "動画の権利は各制作者に帰属し、YouTubeから再生されます。KREELZは動画を選んでタイトルを翻訳しているだけで、動画をホスティングしていません。",
-    dgH: "3分でわかる今日の韓国エンタメ", dgSub: "韓国でいちばん見られた10本を、ひとこと解説つきで", pastH: "過去のまとめ",
+    dgH: "3分でわかる今日の韓国エンタメ", dgNew: "👀 知らなかった！", dgKnown: "✓ 知ってた", dgThanks: "ありがとう！", dgSub: "韓国でいちばん見られた10本を、ひとこと解説つきで", pastH: "過去のまとめ",
     day: d => [`${d}の韓国エンタメ 3分まとめ`, `${d}に韓国でいちばん見られたK-POP、放送中のドラマ、バラエティ、映画、グルメの10本を、ひとこと解説つきで紹介。`],
   },
 };
@@ -108,12 +108,22 @@ const DAYS_ = Object.keys(DIG).sort().reverse().slice(0, 30);
 // the Japan edition keeps 100 Days of Deception and Doctor X out of its lists' first places (per David): not in its digest either
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;
 const dItems = (ed, d) => d ? d.items.filter(x => ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) : [];
+/* "new to me / knew it" answers (4-week test, per David 2026-10-30): the same random browser id as the app (kz-vid) */
+const DG_JS = ed => `document.addEventListener("click",function(e){var b=e.target.closest(".dga button");if(!b)return;var li=b.closest("li"),sec=b.closest(".dg");
+if(!li||!sec||b.disabled)return;var bot=navigator.webdriver||/bot\\b|bot\\/|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent||"");
+var vid="";try{vid=localStorage.getItem("kz-vid")||"";if(!vid){vid=(self.crypto&&crypto.randomUUID)?crypto.randomUUID():"v"+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("kz-vid",vid)}}catch(_){}
+li.querySelectorAll(".dga button").forEach(function(x){x.disabled=true;x.setAttribute("aria-pressed",x===b)});b.textContent=b.textContent+" — ${T[ed].dgThanks}";
+try{localStorage.setItem("kz-dg-"+li.dataset.id,b.dataset.a)}catch(_){}
+if(bot||!vid)return;fetch("${"https://fvtvpjsveughnhnfjcef.supabase.co"}/rest/v1/reactions",{method:"POST",keepalive:true,headers:{apikey:"${"sb_publishable_wFuEzcauXuYWkCpgZSWJ3A_5XYvDwQ2"}","Content-Type":"application/json",Prefer:"return=minimal"},
+body:JSON.stringify({visitor:vid,video_id:li.dataset.id,answer:b.dataset.a,edition:sec.dataset.ed,digest_day:sec.dataset.day})}).catch(function(){})});
+document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".dg li[data-id]").forEach(function(li){var a=null;try{a=localStorage.getItem("kz-dg-"+li.dataset.id)}catch(_){}
+if(a)li.querySelectorAll(".dga button").forEach(function(x){x.disabled=true;x.setAttribute("aria-pressed",x.dataset.a===a)})})});`;
 function digestBlock(ed, d, withPast) {
   if (!d || !dItems(ed, d).length) return "";
   const L = T[ed], E = ED[ed], ja = ed === "ja";
-  const li = dItems(ed, d).map((x, i) => `<li><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a></li>`).join("");
+  const li = dItems(ed, d).map((x, i) => `<li data-id="${x.id}"><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a><div class="dga"><button type="button" data-a="new">${L.dgNew}</button><button type="button" data-a="known">${L.dgKnown}</button></div></li>`).join("");
   const past = withPast ? DAYS_.filter(k => k !== d.date).slice(0, 14).map(k => `<a href="/${E.dir}/today/${k}/">${k}</a>`).join("") : "";
-  return `<section class="dg"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
+  return `<section class="dg" data-ed="${ed}" data-day="${d.date}"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
 }
 
 // ---------- pages ----------
@@ -163,7 +173,9 @@ footer h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var
 .dgc img{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:cover;border-radius:9px;background:var(--soft)}.dgc b{display:block;font-size:15px;line-height:1.35}
 .dgc em{display:block;font-style:normal;color:var(--ink2);font-size:13.5px;margin-top:4px}.dgc small{display:block;color:var(--muted);font-size:12px;margin-top:5px}
 .dgp{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
-@media(max-width:560px){.dgc{grid-template-columns:112px 1fr;gap:10px;padding:8px}.dgc b{font-size:14px}}`;
+@media(max-width:560px){.dgc{grid-template-columns:112px 1fr;gap:10px;padding:8px}.dgc b{font-size:14px}}
+.dga{display:flex;gap:8px;margin:6px 0 0 4px}.dga button{font:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;padding:5px 11px;cursor:pointer}
+.dga button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}.dga button:disabled{cursor:default}`;
 
 function card(ed, x) {
   const E = ED[ed], t = E.title(x), href = `${E.base}?${x.short ? "s" : "v"}=${x.id}`;
@@ -213,7 +225,7 @@ function page(ed, p) {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>${CSS}</style>
-<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>
+${p && (p.kind === "today" || p.kind === "day") ? `<script>${DG_JS(ed)}</script>\n` : ""}<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>
 </head>
 <body>
 <div class="wrap">

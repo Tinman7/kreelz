@@ -285,6 +285,26 @@ tfoot td{font-weight:800;border-bottom:0}
     </table>
   </div>
 
+  <h2>재방문 · 발견 반응 <small>4주 실험(10/30~): 다시 오는지, 처음 보는 영상이었는지 — 경쟁력을 판단하는 핵심 지표</small></h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+    <span class="seg" id="retCC" role="group" aria-label="국가"><button type="button" data-c="" aria-pressed="true">전체</button><button type="button" data-c="JP" aria-pressed="false">일본</button><button type="button" data-c="PH" aria-pressed="false">필리핀</button><button type="button" data-c="ID" aria-pressed="false">인도네시아</button><button type="button" data-c="US" aria-pressed="false">미국</button></span>
+  </div>
+  <div class="card tw">
+    <p id="retSum" class="note" style="margin:0 0 8px"></p>
+    <table>
+      <thead><tr><th style="text-align:left">날짜</th><th>방문자</th><th>신규</th><th>재방문</th><th>재방문 비율</th><th>신규 중 7일 내 재방문</th></tr></thead>
+      <tbody id="retBody"><tr><td colspan="6" class="empty">불러오는 중…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="card tw" style="margin-top:12px">
+    <div style="font-size:14px;font-weight:800;margin-bottom:6px">'3분 요약' 영상별 반응 <small style="color:var(--muted);font-weight:500">「知らなかった！ / New to me」 vs 「知ってた / Knew it」 · 최근 28일</small></div>
+    <p id="disSum" class="note" style="margin:0 0 8px"></p>
+    <table>
+      <thead><tr><th style="text-align:left">영상</th><th>판</th><th>처음 봄</th><th>알고 있었음</th><th>처음 본 비율</th></tr></thead>
+      <tbody id="disBody"><tr><td colspan="5" class="empty">불러오는 중…</td></tr></tbody>
+    </table>
+  </div>
+
   <h2>KREELZ 인기 영상 <small>YouTube 조회수가 아니라 우리 사이트에서 재생 · 좋아요 · 댓글이 일어난 횟수 기준</small></h2>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
     <span class="seg" id="metric" role="group" aria-label="기준"><button type="button" data-m="plays" aria-pressed="true">조회수</button><button type="button" data-m="likes" aria-pressed="false">좋아요</button><button type="button" data-m="comments" aria-pressed="false">댓글</button></span>
@@ -311,7 +331,7 @@ tfoot td{font-weight:800;border-bottom:0}
     members:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.7 2.5 3 5.2"/>',
     x:'<path d="M4 4l16 16M20 4L4 20" stroke-width="2.4"/>',
     fb:'<path d="M14 21v-8h2.8l.4-3.2H14V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.3A22 22 0 0 0 14.8 3C12.3 3 10.8 4.5 10.8 7.3v2.5H8V13h2.8v8"/>'};
-  const TABS=[["stats","대시보드","실시간 · 방문 · 재생 · 국가별 · 인기 영상",["지금 실시간","KREELZ 방문","국가별 방문자","KREELZ 인기 영상"]],
+  const TABS=[["stats","대시보드","실시간 · 방문 · 재생 · 국가별 · 재방문 · 인기 영상",["지금 실시간","KREELZ 방문","국가별 방문자","재방문","KREELZ 인기 영상"]],
     ["content","콘텐츠","콘텐츠 현황 · 링크 출처 · 틱톡 쇼츠 추가",["콘텐츠 현황","링크 출처","틱톡 쇼츠 추가"]],
     ["members","회원 · 피드백","사용자 피드백 · 회원 통계",["회원 통계","사용자 피드백"]],
     ["x","X (트위터)","일본 계정 @KREELZ77 · 오늘 올릴 글 · 교류 · 주간 코너",["X(트위터)"]],
@@ -685,7 +705,36 @@ async function loadFeedback(){
 document.addEventListener("change",async e=>{ const c=e.target.closest("[data-fbdone]"); if(!c) return;
   const {error}=await sb.rpc("admin_feedback_done",{fid:+c.dataset.fbdone, is_done:c.checked}); if(error){ alert(error.message); c.checked=!c.checked; return }
   c.closest("li").classList.toggle("done",c.checked) });
-function load(){ loadFeedback().catch(()=>{}); loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
+/* ---------- return visits + "new to me" answers (setup/discover.sql; 4-week test from 2026-10-30, per David) ---------- */
+let retCC="";
+const pctS=(a,b)=>b>0?`${Math.round(1000*a/b)/10}%`:"—";
+const needSQL=e=>`<span class="err">불러오지 못했습니다. Supabase SQL Editor에서 <b>setup/discover.sql</b>을 한 번 실행해 주세요.</span><br><small>${esc(e.message||e)}</small>`;
+async function loadRetention(){
+  $("#retBody").innerHTML=`<tr><td colspan="6" class="empty">불러오는 중…</td></tr>`;
+  const {data,error}=await sb.rpc("admin_retention",{n:28,cc:retCC||null});
+  if(error){ $("#retBody").innerHTML=`<tr><td colspan="6" class="empty" style="text-align:left;white-space:normal">${needSQL(error)}</td></tr>`; $("#retSum").textContent=""; return }
+  const R=data||[]; if(!R.length){ $("#retBody").innerHTML=`<tr><td colspan="6" class="empty">아직 데이터가 없습니다.</td></tr>`; $("#retSum").textContent=""; return }
+  const w=R.slice(0,7), v7=w.reduce((a,r)=>a+Number(r.visitors),0), rp7=w.reduce((a,r)=>a+Number(r.repeat_visitors),0);
+  const done=R.filter(r=>r.back7!==null), n7=done.reduce((a,r)=>a+Number(r.new_visitors),0), b7=done.reduce((a,r)=>a+Number(r.back7),0);
+  $("#retSum").innerHTML=`최근 7일 방문자 중 재방문 <b>${pctS(rp7,v7)}</b> · 신규 방문자의 7일 내 재방문율 <b>${pctS(b7,n7)}</b>${n7?` (${nf(b7)}/${nf(n7)}명)`:" (7일이 지난 날부터 계산)"}`;
+  $("#retBody").innerHTML=R.map(r=>`<tr><td style="text-align:left">${esc(String(r.day))}</td><td>${nf(r.visitors)}</td><td>${nf(r.new_visitors)}</td><td>${nf(r.repeat_visitors)}</td><td>${pctS(Number(r.repeat_visitors),Number(r.visitors))}</td><td>${r.back7===null?'<small style="color:var(--muted)">집계 중</small>':`${nf(r.back7)} (${pctS(Number(r.back7),Number(r.new_visitors))})`}</td></tr>`).join("");
+}
+$("#retCC").addEventListener("click",e=>{ const b=e.target.closest("[data-c]"); if(!b) return; retCC=b.dataset.c;
+  document.querySelectorAll("#retCC button").forEach(x=>x.setAttribute("aria-pressed",x===b)); loadRetention() });
+const digTitles={};
+async function digTitle(day,id){ if(!day) return ""; if(!digTitles[day]) digTitles[day]=fetch(`/data/digest/${day}.json`).then(r=>r.ok?r.json():null).catch(()=>null);
+  const d=await digTitles[day]; const x=d&&d.items.find(i=>i.id===id); return x?(x.ja_title||x.en_title):"" }
+async function loadDiscover(){
+  const {data,error}=await sb.rpc("admin_discover",{n:28});
+  if(error){ $("#disBody").innerHTML=`<tr><td colspan="5" class="empty" style="text-align:left;white-space:normal">${needSQL(error)}</td></tr>`; return }
+  const R=data||[]; if(!R.length){ $("#disBody").innerHTML=`<tr><td colspan="5" class="empty">아직 반응이 없습니다. 요약 페이지(/jp/k/today/, /k/today/)의 버튼을 누른 사람이 생기면 쌓입니다.</td></tr>`; $("#disSum").textContent=""; return }
+  const tn=R.reduce((a,r)=>a+Number(r.new_count),0), tk=R.reduce((a,r)=>a+Number(r.known_count),0);
+  $("#disSum").innerHTML=`전체 응답 ${nf(tn+tk)}건 중 '처음 봄' <b>${pctS(tn,tn+tk)}</b>`;
+  const titles=await Promise.all(R.map(r=>digTitle(String(r.last_day),r.video_id)));
+  $("#disBody").innerHTML=R.map((r,i)=>`<tr><td style="text-align:left"><a href="https://www.youtube.com/watch?v=${esc(r.video_id)}" target="_blank" rel="noopener">${esc(titles[i]||r.video_id)}</a></td><td>${r.edition==="ja"?"일본":"영어"}</td><td>${nf(r.new_count)}</td><td>${nf(r.known_count)}</td><td>${pctS(Number(r.new_count),Number(r.new_count)+Number(r.known_count))}</td></tr>`).join("");
+}
+
+function load(){ loadRetention().catch(()=>{}); loadDiscover().catch(()=>{}); loadFeedback().catch(()=>{}); loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
 (function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
   const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();
