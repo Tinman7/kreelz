@@ -7,28 +7,28 @@
    "pht": "12:00",
    "label": "오늘의 TOP 5 (카드 이미지와 함께)",
    "card": true,
-   "text": "🔥 Today's Top 5 K-Clips (Nov 3)\n\n1. BESTie - Love Options | Show! MusicCore | MBC261031방송\n2. “Your Idol” Official Choreography | KPop Demon Hunters | Ne…\n3. NEON - A2O LITE | SBS 261101 방송\n4. SLAY QUEEN EAT\n5. Take a Hero Shot\n\nAlin ang fave mo? Comment below! 👇\n\n#KPop #KDrama #Kreelz",
+   "text": "🔥 Today's Top 5 K-Clips (Nov 3)\n\n1. BESTie - Love Options | Show! MusicCore | MBC261031방송\n2. NEON - A2O LITE | SBS 261101 방송\n3. “Your Idol” Official Choreography | KPop Demon Hunters | Ne…\n4. Take a Hero Shot\n5. SLAY QUEEN EAT\n\nAlin ang fave mo? Comment below! 👇\n\n#KPop #KDrama #Kreelz",
    "comment": "Panoorin lahat dito 👉 https://kreelz.com/k/today/"
   },
   {
    "kst": "19:00",
    "pht": "18:00",
-   "label": "배우 글: Ahn Hyo-seop",
-   "text": "😍 Ahn Hyo-seop moments you shouldn't miss\n\n“Someone as caring as him”\n\nDrama scenes, interviews & fan meetings — all in one place, updated daily. Link sa comments 👇\n\n#AhnHyoseop #KDrama #Kreelz",
-   "comment": "Watch here 👉 https://kreelz.com/k/ahn-hyo-seop/"
+   "label": "배우 글: Choo Young-woo",
+   "text": "😍 Choo Young-woo moments you shouldn't miss\n\n“[FMV] CHOO YOUNG WOO - 서약｜연애박사 OST Special”\n\nDrama scenes, interviews & fan meetings — all in one place, updated daily. Link sa comments 👇\n\n#ChooYoungwoo #KDrama #Kreelz",
+   "comment": "Watch here 👉 https://kreelz.com/k/choo-young-woo/"
   },
   {
    "kst": "21:00",
    "pht": "20:00",
-   "label": "메인 글: ILLIT",
-   "text": "🚨 ILLIT is trending today!\n\nLatest: “ILLIT - You’re Under Arrest | Show! MusicCore | MBC261031방송”\n\nAll the newest ILLIT shorts & videos in one place — updated every midnight 🇰🇷\nLink sa comments 👇\n\n#ILLIT #KPop #Kreelz",
-   "comment": "Watch here 👉 https://kreelz.com/k/illit/"
+   "label": "메인 글: ATEEZ",
+   "text": "🚨 ATEEZ is trending today!\n\nLatest: “ATEEZ - Drip | Show! MusicCore | MBC261031방송”\n\nAll the newest ATEEZ shorts & videos in one place — updated every midnight 🇰🇷\nLink sa comments 👇\n\n#ATEEZ #KPop #Kreelz",
+   "comment": "Watch here 👉 https://kreelz.com/k/ateez/"
   },
   {
    "kst": "22:30",
    "pht": "21:30",
    "label": "질문 글 (링크 없음)",
-   "text": "Sino ang bias mo sa ILLIT? 💜\nComment mo na! 👇\n\n#ILLIT #KPop"
+   "text": "Sino ang bias mo sa ATEEZ? 💜\nComment mo na! 👇\n\n#ATEEZ #KPop"
   }
  ],
  "card": {
@@ -38,39 +38,39 @@
    {
     "t": "BESTie - Love Options | Show! MusicCore | MBC261031방송",
     "ch": "MBCkpop",
-    "v": 3900111
-   },
-   {
-    "t": "“Your Idol” Official Choreography | KPop Demon Hunters | Netflix",
-    "ch": "Netflix",
-    "v": 1385562
+    "v": 4215516
    },
    {
     "t": "NEON - A2O LITE | SBS 261101 방송",
     "ch": "SBSKPOP X INKIGAYO",
-    "v": 1312938
+    "v": 1444814
    },
    {
-    "t": "SLAY QUEEN EAT",
-    "ch": "IVE",
-    "v": 939198
+    "t": "“Your Idol” Official Choreography | KPop Demon Hunters | Netflix",
+    "ch": "Netflix",
+    "v": 1436197
    },
    {
     "t": "Take a Hero Shot",
     "ch": "IVE",
-    "v": 911522
+    "v": 1009097
+   },
+   {
+    "t": "SLAY QUEEN EAT",
+    "ch": "IVE",
+    "v": 991149
    }
   ],
   "url": "kreelz.com/k/today"
  },
  "group": {
   "label": "팬 그룹용 (관리자 허락받은 그룹에만, 그룹당 주 1~2회)",
-  "text": "Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated every midnight (KST) — no sign-up.\n\nHere's today's ILLIT page: https://kreelz.com/k/illit/\n\nFeedback welcome! 💜"
+  "text": "Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated every midnight (KST) — no sign-up.\n\nHere's today's ATEEZ page: https://kreelz.com/k/ateez/\n\nFeedback welcome! 💜"
  },
  "groupId": {
   "label": "인도네시아 그룹용 (Bahasa Indonesia)",
-  "text": "Halo K-fam! 👋 Kami bikin situs gratis yang ngumpulin shorts & video K-pop dan K-drama terbaru di satu tempat, update tiap tengah malam (KST) — tanpa daftar, bisa pilih Bahasa Indonesia.\n\nHalaman ILLIT hari ini: https://kreelz.com/k/illit/\n\nMasukan kalian sangat berarti! 💜"
+  "text": "Halo K-fam! 👋 Kami bikin situs gratis yang ngumpulin shorts & video K-pop dan K-drama terbaru di satu tempat, update tiap tengah malam (KST) — tanpa daftar, bisa pilih Bahasa Indonesia.\n\nHalaman ATEEZ hari ini: https://kreelz.com/k/ateez/\n\nMasukan kalian sangat berarti! 💜"
  },
- "artist": "ILLIT",
- "actor": "Ahn Hyo-seop"
+ "artist": "ATEEZ",
+ "actor": "Choo Young-woo"
 }

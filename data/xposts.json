@@ -1,13 +1,13 @@
 {
  "date": "2026-11-03",
- "artist": "ILLIT",
- "actor": "Ahn Hyo-seop",
+ "artist": "ATEEZ",
+ "actor": "Choo Young-woo",
  "posts": [
   {
    "time": "08:00",
    "label": "카테고리: 韓国バラエティ",
-   "text": "😂韓国バラエティでいま見られているクリップ\n注目：[新人監督 キム・ヨンギョン2] 新しいセッター合流🙌 日本のバレーボール大会で優勝したツバキ・ワンダードッグスに…\n▶ https://kreelz.com/jp/k/variety/\n#韓国バラエティ",
-   "len": 202
+   "text": "😂韓国バラエティでいま見られているクリップ\n注目：[遊んで何する？] キム・グァンギュが探していた思い出のうどん屋…！本当に合っているかな？🍜\n▶ https://kreelz.com/jp/k/variety/\n#韓国バラエティ",
+   "len": 181
   },
   {
    "time": "12:00",
@@ -23,26 +23,26 @@
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ブラック捜査官を紹介します\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 136
+   "label": "아티스트: ATEEZ",
+   "text": "🔥ATEEZ（エイティーズ）の最新ショート・動画まとめ\nいま話題：ATEEZ - Drip | Show! MusicCore | MBC261031放送\n▶ https://kreelz.com/jp/k/ateez/\n#ATEEZ #KPOP",
+   "len": 146
   },
   {
    "time": "22:00",
-   "label": "배우: Ahn Hyo-seop",
-   "text": "🎬アン・ヒョソプの最新動画まとめ\nいま話題：[第3話先行公開] 頭上から塩をザーッ！基本ができていないホン・ファヨンを叱るアン・ヒョソプ⚡ |〈ファ…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/ahn-hyo-seop/\n#アンヒョソプ #韓国俳優",
-   "len": 237
+   "label": "배우: Choo Young-woo",
+   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[FMV] チュ・ヨンウ(CHOO YOUNG WOO) - 愛の誓い｜恋愛博士 OST Special\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
+   "len": 200
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "ATEEZ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ATEEZ%20lang%3Aja&f=live"
    },
    {
-    "label": "アン・ヒョソプ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A2%E3%83%B3%E3%83%92%E3%83%A7%E3%82%BD%E3%83%97%20lang%3Aja&f=live"
+    "label": "チュ・ヨンウ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -74,27 +74,27 @@
    {
     "t": "BESTie - Love Options (恋愛の条件)",
     "ch": "MBCkpop",
-    "v": 3900111
+    "v": 4215516
    },
    {
     "t": "ブラック捜査官を紹介します",
     "ch": "ILLIT",
-    "v": 3201427
-   },
-   {
-    "t": "お姉さんが来た",
-    "ch": "ILLIT",
-    "v": 1385562
+    "v": 3278955
    },
    {
     "t": "NEON - A2O LITE",
     "ch": "SBSKPOP X INKIGAYO",
-    "v": 1312938
+    "v": 1444814
+   },
+   {
+    "t": "お姉さんが来た",
+    "ch": "ILLIT",
+    "v": 1444814
    },
    {
     "t": "最後まで伝説を更新 [職場人たちシーズン3] 最終話ハイライト",
     "ch": "쿠팡플레이 Coupang Play",
-    "v": 1221992
+    "v": 1229324
    }
   ],
   "url": "kreelz.com/jp",
