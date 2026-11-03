@@ -581,11 +581,21 @@ function igStory(feedImg, hint){ return new Promise(res=>{ const im=new Image();
 (function(){
   const go=$("#vapidGo"); if(!go) return;
   const b64u=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
-  go.addEventListener("click",async()=>{
-    const kp=await crypto.subtle.generateKey({name:"ECDH",namedCurve:"P-256"},true,["deriveBits"]);
-    const pub=b64u(await crypto.subtle.exportKey("raw",kp.publicKey)), priv=(await crypto.subtle.exportKey("jwk",kp.privateKey)).d;
-    $("#vapidPub").textContent=pub; $("#vapidPriv").textContent=priv; $("#vapidOut").hidden=false;
-    $("#vapidPubC").onclick=()=>navigator.clipboard.writeText(pub); $("#vapidPrivC").onclick=()=>navigator.clipboard.writeText(priv) });
+  const say=m=>{ let n=$("#vapidMsg"); if(!n){ n=document.createElement("p"); n.id="vapidMsg"; n.className="note"; n.style.margin="8px 0 0"; go.parentNode.after(n) } n.textContent=m };
+  const copy=(txt,b)=>{ (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{ const o=b.textContent; b.textContent="복사됨"; setTimeout(()=>b.textContent=o,1500) })
+    .catch(()=>{ const r=document.createRange(); r.selectNodeContents(b.closest("div").previousElementSibling); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); say("자동 복사가 막혀서 글자를 선택해 두었어요. Ctrl+C(휴대폰은 길게 눌러 복사)로 복사하세요.") }) };
+  go.addEventListener("click",async e=>{
+    e.preventDefault(); go.disabled=true; const label=go.textContent; go.textContent="만드는 중…"; say("");
+    try{
+      if(!window.crypto||!crypto.subtle) throw new Error("이 브라우저는 키를 만들 수 없어요 (크롬·엣지·사파리 최신 버전에서 해 주세요)");
+      const kp=await crypto.subtle.generateKey({name:"ECDH",namedCurve:"P-256"},true,["deriveBits"]);
+      const pub=b64u(await crypto.subtle.exportKey("raw",kp.publicKey)), priv=(await crypto.subtle.exportKey("jwk",kp.privateKey)).d;
+      $("#vapidPub").textContent=pub; $("#vapidPriv").textContent=priv; $("#vapidOut").hidden=false;
+      $("#vapidPubC").onclick=ev=>copy(pub,ev.currentTarget); $("#vapidPrivC").onclick=ev=>copy(priv,ev.currentTarget);
+      say("키를 만들었어요. 아래 두 값을 GitHub 비밀에 넣으세요."); $("#vapidOut").scrollIntoView({behavior:"smooth",block:"center"});
+    }catch(err){ say("키를 만들지 못했어요: "+(err&&err.message||err)) }
+    finally{ go.disabled=false; go.textContent=label }
+  });
 })();
 async function loadPush(){
   try{ const {data,error}=await sb.rpc("admin_push_stats"); if(error) throw error;
