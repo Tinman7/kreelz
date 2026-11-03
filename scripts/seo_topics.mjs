@@ -1,0 +1,151 @@
+// Extra search pages (per David 2026-11-03: "노출을 극대화"): Search Console showed Japanese searches like
+// 「アイリット 動画」 and 「エンティーム動画」 reaching our group pages, so the search pages now also cover
+//   - more groups (pages only — the app's Music order does not change),
+//   - members of the main groups (Japanese fans search members by name: 「ウォンヒ 動画」),
+//   - more actors and actresses (pages only),
+//   - dramas, by title.
+// A page is written only when it has at least MIN clips (thin pages hurt the whole site in Google).
+// Member pages look only inside their group's clips, so a common word ("winter", 사나이) can't pull in strangers.
+// Matching uses the original title + English + Japanese titles + channel, like the other search pages.
+export const MIN = 8;
+
+// [name, Japanese name, regex, (optional) regex that means someone else]
+export const EXTRA_GROUPS = [
+  ["BLACKPINK", "BLACKPINK（ブラックピンク）", /blackpink|블랙핑크|ブラックピンク|ブルピン/i],
+  ["IVE", "IVE（アイヴ）", /\bIVE\b|아이브|アイヴ|\bive ?(starship|official)|#ive\b/],
+  ["NewJeans", "NewJeans（ニュージーンズ）", /new ?jeans|뉴진스|ニュージーンズ|\bNJZ\b/i],
+  ["aespa", "aespa（エスパ）", /aespa|에스파|エスパ/i],
+  ["&TEAM", "&TEAM（エンティーム）", /&team|andteam|앤팀|エンティーム/i],
+  ["NCT WISH", "NCT WISH", /nct ?wish|엔시티 ?위시/i],
+  ["NCT DREAM", "NCT DREAM（エヌシーティードリーム）", /nct ?dream|엔시티 ?드림/i],
+  ["NCT 127", "NCT 127", /nct ?127|엔시티 ?127/i],
+  ["RIIZE", "RIIZE（ライズ）", /riize|(?<![가-힣])라이즈(?![가-힣])/i],
+  ["ZEROBASEONE", "ZEROBASEONE（ゼロベースワン）", /zerobaseone|제로베이스원|\bzb1\b|ゼロベースワン|ゼベワン/i],
+  ["TREASURE", "TREASURE（トレジャー）", /\bTREASURE\b|(?<![가-힣])트레저(?![가-힣])|トレジャー/],
+  ["BABYMONSTER", "BABYMONSTER（ベビーモンスター）", /baby ?monster|베이비몬스터|ベビモン|ベイビーモンスター|ベビーモンスター/i],
+  ["ITZY", "ITZY（イッジ）", /\bITZY\b|\bitzy\b|イッジ/i],
+  ["NMIXX", "NMIXX（エンミックス）", /nmixx|엔믹스|エンミックス/i],
+  ["(G)I-DLE", "i-dle（アイドゥル）", /\(G\)I-?DLE|\bi-dle\b|\(여자\)아이들|アイドゥル/i],
+  ["KISS OF LIFE", "KISS OF LIFE（キスオブライフ）", /kiss ?of ?life|키스오브라이프|キスオブライフ|\bKIOF\b/i],
+  ["Red Velvet", "Red Velvet（レッドベルベット）", /red ?velvet|레드벨벳|レッドベルベット|レドベル/i],
+  ["EXO", "EXO（エクソ）", /\bEXO\b|(?<![가-힣])엑소(?![가-힣])|エクソ/],
+  ["BIGBANG", "BIGBANG（ビッグバン）", /bigbang|빅뱅|g-?dragon|지드래곤|ビッグバン/i],
+  ["PLAVE", "PLAVE（プレイブ）", /plave|플레이브|プレイブ/i],
+  ["DAY6", "DAY6（デイシックス）", /day6|데이식스|デイシックス/i],
+  ["KATSEYE", "KATSEYE（キャッツアイ）", /katseye|캣츠아이|캐츠아이|キャッツアイ/i],
+  ["Hearts2Hearts", "Hearts2Hearts（ハーツトゥハーツ）", /hearts ?2 ?hearts|하츠투하츠|ハーツトゥハーツ/i],
+  ["ALLDAY PROJECT", "ALLDAY PROJECT（オールデイプロジェクト）", /allday ?project|올데이 ?프로젝트|オールデイ ?プロジェクト/i],
+  ["izna", "izna（イズナ）", /\bizna\b|이즈나|イズナ/i],
+  ["KiiiKiii", "KiiiKiii（キキ）", /kiiikiii/i],
+  ["MEOVV", "MEOVV（ミャオ）", /meovv|미야오/i],
+  ["IU", "IU（アイユー）", /\bIU\b|아이유|アイユー/],
+  ["TUIDE", "TUIDE", /tuide|튜이드/i],
+  ["CORTIS", "CORTIS（コルティス）", /cortis|코르티스|コルティス/i],
+];
+
+// group -> members: [English name, Japanese name, regex]. Searched only inside the group's clips.
+const h = s => `(?<![가-힣])(?:${s})(?![가-힣])`;   // a Korean name not inside a longer Korean word
+// a katakana name not inside a longer katakana name, and not a surname-given name pair (シン・ミナ is Shin Min-a, not TWICE's Mina)
+const k = s => `(?<![ァ-ヶー・])(?:${s})(?![ァ-ヶー])`;
+const R = (...p) => new RegExp(p.map(x => /^[ァ-ヶー]+$/.test(x) ? k(x) : x).join("|"), "i");
+// clips that match a group's name but are about someone else (지석진 of Running Man is not BTS's Jin)
+export const NOT = { "BTS": /지석진|ジ・?ソクジン|ji ?suk[- ]?jin/i, "TWICE": /신민아|シン・?ミナ|shin ?min[- ]?a|ミナ・?オカベ|mina ?okabe/i };
+export const MEMBERS = {
+  "ILLIT": [["Yunah", "ユナ", R(h("윤아"), "\\byunah\\b", "ユナ")], ["Minju", "ミンジュ", R(h("민주"), "\\bminju\\b", "ミンジュ")],
+    ["Moka", "モカ", R(h("모카"), "\\bmoka\\b", "モカ")], ["Wonhee", "ウォンヒ", R(h("원희"), "\\bwonhee\\b", "ウォンヒ")], ["Iroha", "イロハ", R(h("이로하"), "\\biroha\\b", "イロハ")]],
+  "BTS": [["RM", "RM（ナムジュン）", /\bRM\b|김남준|(?<![ァ-ヶー・])ナムジュン/], ["Jin", "ジン", R("김석진", h("석진"), "\\bjin\\b", "(?<![ァ-ヶー・])ジン(?![ァ-ヶー])")],
+    ["SUGA", "SUGA（ユンギ）", R("슈가", "민윤기", h("윤기"), "\\bsuga\\b", "agust ?d", "シュガ", "ユンギ")], ["j-hope", "J-HOPE（ホソク）", R("제이홉", "정호석", h("호석"), "j-?hope", "ホソク", "ジェイホープ")],
+    ["Jimin", "ジミン", R(h("지민"), "박지민", "\\bjimin\\b", "ジミン")], ["V", "V（テテ）", /(?<![가-힣])뷔(?![가-힣])|김태형|taehyung|(?<![ァ-ヶー・])(?:テヒョン|テテ)(?![ァ-ヶー])|\bV\b(?! ?LIVE)/],
+    ["Jung Kook", "ジョングク", R(h("정국"), "전정국", "jung ?kook", "ジョングク")]],
+  "TWICE": [["Nayeon", "ナヨン", R(h("나연"), "\\bnayeon\\b", "ナヨン")], ["Jeongyeon", "ジョンヨン", R(h("정연"), "\\bjeongyeon\\b", "ジョンヨン")],
+    ["Momo", "モモ", R(h("모모"), "\\bmomo\\b", "モモ", "平井もも")], ["Sana", "サナ", R(h("사나"), "\\bsana\\b", "サナ", "湊崎紗夏")],
+    ["Jihyo", "ジヒョ", R(h("지효"), "\\bjihyo\\b", "ジヒョ")], ["Mina", "ミナ", R(h("미나"), "\\bmina\\b", "(?<![ァ-ヶー・])ミナ(?![ァ-ヶー])", "名井南")],
+    ["Dahyun", "ダヒョン", R(h("다현"), "\\bdahyun\\b", "ダヒョン")], ["Chaeyoung", "チェヨン", R(h("채영"), "\\bchaeyoung\\b", "チェヨン")], ["Tzuyu", "ツウィ", R("쯔위", "\\btzuyu\\b", "ツウィ")]],
+  "LE SSERAFIM": [["Kim Chaewon", "チェウォン", R(h("채원"), "김채원", "chaewon", "チェウォン", "キム・チェウォン")], ["Sakura", "サクラ", R("사쿠라", "\\bsakura\\b", "サクラ", "宮脇咲良")],
+    ["Huh Yunjin", "ユンジン", R(h("윤진"), "허윤진", "yunjin", "ユンジン", "ホ・ユンジン")], ["Kazuha", "カズハ", R("카즈하", "kazuha", "カズハ")], ["Hong Eunchae", "ウンチェ", R(h("은채"), "홍은채", "eunchae", "ウンチェ", "ホン・ウンチェ")]],
+  "Stray Kids": [["Bang Chan", "バンチャン", R("방찬", "bang ?chan", "バンチャン")], ["Lee Know", "リノ", R(h("리노"), "lee ?know", "(?<![ァ-ヶー・])リノ(?![ァ-ヶー])")],
+    ["Changbin", "チャンビン", R(h("창빈"), "changbin", "チャンビン")], ["Hyunjin", "ヒョンジン", R(h("현진"), "hyunjin", "ヒョンジン")],
+    ["HAN", "ハン", /한지성|\bHAN\b|(?<![ァ-ヶー])ハン(?![ァ-ヶー])/], ["Felix", "フィリックス", R("필릭스", "\\bfelix\\b", "フィリックス", "(?<![ァ-ヶー・])ピリ(?![ァ-ヶー])")],
+    ["Seungmin", "スンミン", R(h("승민"), "seungmin", "スンミン")], ["I.N", "アイエン", R("아이엔", "양정인", "\\bI\\.N\\b", "アイエン")]],
+  "aespa": [["Karina", "カリナ", R(h("카리나"), "karina", "カリナ")], ["Giselle", "ジゼル", R(h("지젤"), "giselle", "ジゼル")],
+    ["Winter", "ウィンター", R(h("윈터"), "\\bwinter\\b", "ウィンター")], ["Ningning", "ニンニン", R("닝닝", "ningning", "ニンニン")]],
+  "IVE": [["Yujin", "ユジン", R("안유진", h("유진"), "\\byujin\\b", "ユジン", "アン・ユジン")], ["Gaeul", "ガウル", R(h("가을"), "\\bgaeul\\b", "ガウル")],
+    ["Rei", "レイ", R(h("레이"), "\\brei\\b", "(?<![ァ-ヶー・])レイ(?![ァ-ヶー])")], ["Wonyoung", "ウォニョン", R("장원영", h("원영"), "wonyoung", "ウォニョン", "チャン・ウォニョン")],
+    ["Liz", "リズ", R(h("리즈"), "\\bliz\\b", "(?<![ァ-ヶー・])リズ(?![ァ-ヶー])")], ["Leeseo", "イソ", R(h("이서"), "leeseo", "(?<![ァ-ヶー・])イソ(?![ァ-ヶー])")]],
+  "BLACKPINK": [["Jisoo", "ジス", R(h("지수"), "\\bjisoo\\b", "(?<![ァ-ヶー・])ジス(?![ァ-ヶー])")], ["Jennie", "ジェニ", R(h("제니"), "\\bjennie\\b", "ジェニ")],
+    ["Rosé", "ロゼ", R(h("로제"), "\\bros[eé]\\b", "ロゼ")], ["Lisa", "リサ", R(h("리사"), "\\blisa\\b", "(?<![ァ-ヶー・])リサ(?![ァ-ヶー])")]],
+  "NewJeans": [["Minji", "ミンジ", R(h("민지"), "\\bminji\\b", "ミンジ")], ["Hanni", "ハニ", R(h("하니"), "\\bhanni\\b", "(?<![ァ-ヶー・])ハニ(?![ァ-ヶー])")],
+    ["Danielle", "ダニエル", R(h("다니엘"), "\\bdanielle\\b", "ダニエル")], ["Haerin", "ヘリン", R(h("해린"), "\\bhaerin\\b", "ヘリン")], ["Hyein", "ヘイン", R(h("혜인"), "\\bhyein\\b", "ヘイン")]],
+  "ENHYPEN": [["Jungwon", "ジョンウォン", R(h("정원"), "jungwon", "ジョンウォン")], ["Heeseung", "ヒスン", R(h("희승"), "heeseung", "ヒスン")],
+    ["Jay", "ジェイ", R(h("제이"), "\\bjay\\b", "(?<![ァ-ヶー・])ジェイ(?![ァ-ヶー])")], ["Jake", "ジェイク", R(h("제이크"), "\\bjake\\b", "ジェイク")],
+    ["Sunghoon", "ソンフン", R(h("성훈"), "sunghoon", "ソンフン")], ["Sunoo", "ソヌ", R(h("선우"), "\\bsunoo\\b", "(?<![ァ-ヶー・])ソヌ(?![ァ-ヶー])")], ["Ni-ki", "ニキ", R(h("니키"), "\\bni-?ki\\b", "(?<![ァ-ヶー・])ニキ(?![ァ-ヶー])")]],
+  "TXT": [["Yeonjun", "ヨンジュン", R(h("연준"), "yeonjun", "ヨンジュン")], ["Soobin", "スビン", R(h("수빈"), "soobin", "スビン")],
+    ["Beomgyu", "ボムギュ", R(h("범규"), "beomgyu", "ボムギュ")], ["Taehyun", "テヒョン", R(h("태현"), "taehyun", "テヒョン")], ["Hueningkai", "ヒュニンカイ", R("휴닝카이", "huening ?kai", "ヒュニンカイ")]],
+  "SEVENTEEN": [["S.COUPS", "エスクプス", R("에스쿱스", "s\\.? ?coups", "エスクプス")], ["Jeonghan", "ジョンハン", R(h("정한"), "jeonghan", "ジョンハン")],
+    ["Joshua", "ジョシュア", R(h("조슈아"), "\\bjoshua\\b", "ジョシュア")], ["Hoshi", "ホシ", R(h("호시"), "\\bhoshi\\b", "(?<![ァ-ヶー・])ホシ(?![ァ-ヶー])")],
+    ["Wonwoo", "ウォヌ", R(h("원우"), "wonwoo", "ウォヌ")], ["Woozi", "ウジ", R(h("우지"), "\\bwoozi\\b", "(?<![ァ-ヶー・])ウジ(?![ァ-ヶー])")],
+    ["Mingyu", "ミンギュ", R(h("민규"), "mingyu", "ミンギュ")], ["DK", "ドギョム", R(h("도겸"), "\\bdk\\b", "ドギョム")],
+    ["Seungkwan", "スングァン", R(h("승관"), "seungkwan", "スングァン")], ["Vernon", "バーノン", R(h("버논"), "\\bvernon\\b", "バーノン")], ["Dino", "ディノ", R(h("디노"), "\\bdino\\b", "ディノ")]],
+  "CORTIS": [["Martin", "マーティン", R(h("마틴"), "\\bmartin\\b", "マーティン")], ["James", "ジェームズ", R(h("제임스"), "\\bjames\\b", "ジェームズ")],
+    ["Juhoon", "ジュフン", R(h("주훈"), "juhoon", "ジュフン")], ["Seonghyeon", "ソンヒョン", R(h("성현"), "seonghyeon", "ソンヒョン")], ["Keonho", "ゴンホ", R(h("건호"), "keonho", "ゴンホ")]],
+};
+
+// more actors and actresses (pages only): [English, Korean, regex, Japanese]
+export const EXTRA_ACTORS = [
+  ["Kim Yoo-jung", "김유정", /김유정|kim ?yoo[- ]?jung|キム・?ユジョン/i, "キム・ユジョン"],
+  ["Kim Ji-won", "김지원", /김지원|kim ?ji[- ]?won|キム・?ジウォン/i, "キム・ジウォン"],
+  ["Han So-hee", "한소희", /한소희|han ?so[- ]?hee|ハン・?ソヒ/i, "ハン・ソヒ"],
+  ["Bae Suzy", "수지", /배수지|bae ?suzy|(?<![가-힣])수지(?![가-힣])|\bsuzy\b|スジ(?![ァ-ヶー])/i, "スジ"],
+  ["Park Min-young", "박민영", /박민영|park ?min[- ]?young|パク・?ミニョン/i, "パク・ミニョン"],
+  ["Kim Hye-yoon", "김혜윤", /김혜윤|kim ?hye[- ]?yoon|キム・?ヘユン/i, "キム・ヘユン"],
+  ["Go Youn-jung", "고윤정", /고윤정|go ?you?n[- ]?jung|コ・?ユンジョン/i, "コ・ユンジョン"],
+  ["Shin Hye-sun", "신혜선", /신혜선|shin ?hye[- ]?sun|シン・?ヘソン/i, "シン・ヘソン"],
+  ["Lim Yoon-a", "임윤아", /임윤아|lim ?yoon[- ]?a|\byoona\b|イム・?ユナ/i, "イム・ユナ"],
+  ["Moon Ga-young", "문가영", /문가영|moon ?ga[- ]?young|ムン・?ガヨン/i, "ムン・ガヨン"],
+  ["Song Hye-kyo", "송혜교", /송혜교|song ?hye[- ]?kyo|ソン・?ヘギョ/i, "ソン・ヘギョ"],
+  ["Kim Go-eun", "김고은", /김고은|kim ?go[- ]?eun|キム・?ゴウン/i, "キム・ゴウン"],
+  ["Song Joong-ki", "송중기", /송중기|song ?joong[- ]?ki|ソン・?ジュンギ/i, "ソン・ジュンギ"],
+  ["Lee Jae-wook", "이재욱", /이재욱|lee ?jae[- ]?wook|イ・?ジェウク/i, "イ・ジェウク"],
+  ["Lee Chae-min", "이채민", /이채민|lee ?chae[- ]?min|イ・?チェミン/i, "イ・チェミン"],
+  ["Ok Taec-yeon", "옥택연", /옥택연|ok ?taec[- ]?yeon|taecyeon|テギョン/i, "オク・テギョン"],
+  ["Wi Ha-joon", "위하준", /위하준|wi ?ha[- ]?joon|ウィ・?ハジュン/i, "ウィ・ハジュン"],
+  ["Lee Je-hoon", "이제훈", /이제훈|lee ?je[- ]?hoon|イ・?ジェフン/i, "イ・ジェフン"],
+  ["Jang Ki-yong", "장기용", /장기용|jang ?ki[- ]?yong|チャン・?ギヨン/i, "チャン・ギヨン"],
+  ["Seo Kang-joon", "서강준", /서강준|seo ?kang[- ]?joon|ソ・?ガンジュン/i, "ソ・ガンジュン"],
+  ["Yook Sung-jae", "육성재", /육성재|yook ?sung[- ]?jae|ユク・?ソンジェ/i, "ユク・ソンジェ"],
+  ["Kim Soo-hyun", "김수현", /김수현|kim ?soo[- ]?hyun|キム・?スヒョン/i, "キム・スヒョン"],
+  ["Park Seo-joon", "박서준", /박서준|park ?seo[- ]?joon|パク・?ソジュン/i, "パク・ソジュン"],
+];
+
+// dramas: [English title, Japanese title, regex]. Pages only for the ones with enough clips.
+export const DRAMAS = [
+  ["My Demon", "マイ・デーモン", /마이 ?데몬|my ?demon|マイ・?デーモン/i],
+  ["Perfect Crown", "21世紀の大君夫人", /21세기 ?대군 ?부인|21世紀の大君夫人|perfect ?crown/i],
+  ["Lovely Runner", "ソンジェ背負って走れ", /선재 ?업고 ?튀어|lovely ?runner|ソンジェ背負って走れ/i],
+  ["Queen of Tears", "涙の女王", /눈물의 ?여왕|queen ?of ?tears|涙の女王/i],
+  ["Crash Landing on You", "愛の不時着", /사랑의 ?불시착|crash ?landing ?on ?you|愛の不時着/i],
+  ["Goblin", "トッケビ", /도깨비(?=.*(?:공유|김고은|이동욱|드라마|tvn))|\bgoblin\b(?=.*(?:gong ?yoo|kdrama|drama))|トッケビ/i],
+  ["Itaewon Class", "梨泰院クラス", /이태원 ?클라쓰|itaewon ?class|梨泰院クラス/i],
+  ["Squid Game", "イカゲーム", /오징어 ?게임|squid ?game|イカゲーム/i],
+  ["When Life Gives You Tangerines", "おつかれさま", /폭싹 ?속았수다|when ?life ?gives ?you ?tangerines|おつかれさま(?=.*(?:IU|アイユー|パク・?ボゴム|폭싹))/i],
+  ["The Glory", "ザ・グローリー", /더 ?글로리|the ?glory|ザ・?グローリー/i],
+  ["King the Land", "キング・ザ・ランド", /킹더랜드|king ?the ?land|キング・?ザ・?ランド/i],
+  ["Business Proposal", "社内お見合い", /사내 ?맞선|business ?proposal|社内お見合い/i],
+  ["Extraordinary Attorney Woo", "ウ・ヨンウ弁護士は天才肌", /우영우|attorney ?woo|ウ・?ヨンウ/i],
+  ["My Love from the Star", "星から来たあなた", /별에서 ?온 ?그대|my ?love ?from ?the ?star|星から来たあなた/i],
+  ["Descendants of the Sun", "太陽の末裔", /태양의 ?후예|descendants ?of ?the ?sun|太陽の末裔/i],
+  ["The Heirs", "相続者たち", /상속자들|the ?heirs|相続者たち/i],
+  ["Bon Appétit, Your Majesty", "暴君のシェフ", /폭군의 ?셰프|bon ?app[eé]tit,? ?your ?majesty|暴君のシェフ/i],
+  ["The Trauma Code", "トラウマコード", /중증외상센터|trauma ?code|トラウマコード/i],
+  ["When the Phone Rings", "その電話が鳴るとき", /지금 ?거신 ?전화는|when ?the ?phone ?rings|その電話が鳴るとき/i],
+  ["Our Unwritten Seoul", "未知のソウル", /미지의 ?서울|our ?unwritten ?seoul|未知のソウル/i],
+  ["A Shop for Killers", "殺し屋たちの店", /킬러들의 ?쇼핑몰|shop ?for ?killers|殺し屋たちの店/i],
+  ["True Beauty", "女神降臨", /여신강림|true ?beauty|女神降臨/i],
+  ["Business Proposal", "社内お見合い", /사내 ?맞선/i],
+  ["Moving", "ムービング", /무빙(?=.*(?:디즈니|disney|조인성|한효주|고윤정|이정하))|\bmoving\b(?=.*(?:disney|kdrama))|ムービング/i],
+  ["Alchemy of Souls", "還魂", /환혼|alchemy ?of ?souls|還魂/i],
+  ["Twenty-Five Twenty-One", "二十五、二十一", /스물다섯 ?스물하나|twenty[- ]?five ?twenty[- ]?one|二十五、?二十一/i],
+  ["Reply 1988", "応答せよ1988", /응답하라 ?1988|reply ?1988|応答せよ1988/i],
+  ["Hospital Playlist", "賢い医師生活", /슬기로운 ?의사생활|hospital ?playlist|賢い医師生活/i],
+  ["Resident Playbook", "いつかは賢いレジデント生活", /언젠가는 ?슬기로울 ?전공의생활|resident ?playbook|賢いレジデント生活/i],
+].filter((d, i, a) => a.findIndex(o => o[0] === d[0]) === i);

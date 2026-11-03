@@ -8,6 +8,7 @@ import fs from "node:fs";
 import zlib from "node:zlib";
 import { ARTISTS, JP_ARTISTS } from "./hybe.mjs";
 import { ACTORS, JP_ACTORS, JP_ACTOR_JA } from "./actors.mjs";
+import { MIN, EXTRA_GROUPS, MEMBERS, EXTRA_ACTORS, DRAMAS, NOT } from "./seo_topics.mjs";
 
 const SITE = "https://kreelz.com";
 const XJP = "KREELZ77";   // the Japan edition's X account (David, 2026-10-29)
@@ -76,6 +77,12 @@ const T = {
     actor: n => [`${n} shorts & videos — drama clips, interviews, fan meetings`, `Every new ${n} clip in one place: drama scenes, interviews, fan meetings, events and variety appearances, with titles in English. Updated every day at midnight KST.`],
     cat: (n, k) => [`${n} shorts & videos today`, `The most-watched ${n} shorts and videos of the last days, picked from official channels and creators on YouTube, with titles in English. Updated every day at midnight KST.`],
     today: () => [`Today's K-pop, K-drama & Korean shorts`, `What Korea is watching today: the most-viewed new K-pop, K-drama, variety, beauty and K-food clips of the last 48 hours, with titles in English. Updated every day at midnight KST.`],
+    member: n => [`${n} shorts & videos — latest clips`, `The latest shorts and videos of ${n}: stages, fancams, behind-the-scenes, lives and variety clips from YouTube, with titles in English. Updated every day at midnight KST.`],
+    show: n => [`${n} K-drama — best scenes, shorts & clips`, `The K-drama “${n}” in short clips: best scenes, making-of, previews, and cast interviews, from official channels on YouTube with titles in English. Updated every day at midnight KST.`],
+    newH: "Newest", membersH: "Members", groupH: "Group", otherH: "Other members", dramasH: "K-dramas",
+    about: (n, tot, ns, nv, n7, top) => `KREELZ has ${tot} ${n} clips right now (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} of them new in the last 7 days` : ""}.${top ? ` The most watched: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""}`,
+    titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
+    descX: (d, n, top, lead) => `Updated ${d}: ${n} clips.${top ? ` Trending: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""} ${lead}`,
     hub: () => [`K-pop artists, K-drama actors & categories`, `Browse KREELZ by artist, actor or category. Each page collects the latest shorts and videos from YouTube with titles in English, updated every day at midnight KST.`],
     shorts: "Shorts", videos: "Videos", updated: d => `Updated ${d} (KST)`, count: n => `${n} clips`, views: v => `${fmt(v)} views`,
     open: "Open KREELZ", artistsH: "K-pop artists", actorsH: "Actors", catsH: "Categories", todayL: "Today", hubL: "All topics",
@@ -88,6 +95,12 @@ const T = {
     actor: n => [`${n}の最新動画まとめ｜ドラマ名場面・インタビュー・ファンミ`, `${n}の新着クリップをまとめてチェック。ドラマの名場面、インタビュー、ファンミーティング、イベント、バラエティ出演などを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
     cat: (n, k) => [`${n}の人気ショート・動画`, `いま見られている${n}のショートと動画を、公式チャンネルと人気クリエイターから厳選。日本語タイトルで紹介、毎日0時（日本時間）更新。`],
     today: () => [`今日の韓国エンタメ人気ショート`, `韓国でいま話題のK-POP、韓国ドラマ、バラエティ、ビューティー、グルメの新着クリップ（直近48時間）を再生回数順に。日本語タイトル付き、毎日0時（日本時間）更新。`],
+    member: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。ステージ、直カム、ビハインド、ライブ、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
+    show: n => [`韓国ドラマ「${n}」名場面・ショート動画まとめ`, `韓国ドラマ「${n}」の名場面、メイキング、予告、キャストのインタビューなどを、公式チャンネルのショート・動画から日本語タイトルで紹介。毎日0時（日本時間）更新。`],
+    newH: "新着", membersH: "メンバー", groupH: "グループ", otherH: "ほかのメンバー", dramasH: "韓国ドラマ作品",
+    about: (n, tot, ns, nv, n7, top) => `${n}のクリップは現在${tot}本（ショート${ns}本・動画${nv}本）${n7 ? `、直近7日間の新着は${n7}本` : ""}です。${top ? `いちばん見られているのは「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}`,
+    titleX: (h, n, d) => `${h.split("｜")[0]}【${d}更新・${n}本】`, md: d => `${+d.slice(5, 7)}/${+d.slice(8, 10)}`,
+    descX: (d, n, top, lead) => `【${d}更新】${n}本を掲載。${top ? `いま話題：「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}${lead}`,
     hub: () => [`アーティスト・俳優・カテゴリー一覧`, `KREELZ JAPANをアーティスト、俳優、カテゴリーから探せます。各ページはYouTubeの最新ショートと動画を日本語タイトルでまとめ、毎日0時（日本時間）に更新。`],
     shorts: "ショート", videos: "動画", updated: d => `${d} 更新（日本時間0時）`, count: n => `${n}本`, views: v => `${fmtJa(v)}回視聴`,
     open: "KREELZ JAPANを開く", artistsH: "K-POPアーティスト", actorsH: "俳優", catsH: "カテゴリー", todayL: "今日の人気", hubL: "一覧",
@@ -100,7 +113,10 @@ const fmt = v => v >= 1e6 ? (v / 1e6).toFixed(v >= 1e7 ? 0 : 1).replace(/\.0$/, 
 const fmtJa = v => v >= 1e8 ? (v / 1e8).toFixed(1).replace(/\.0$/, "") + "億" : v >= 1e4 ? Math.round(v / 1e4) + "万" : String(v);
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const score = x => Math.max(0, x.views) / Math.pow((x.days < 0 ? 20 : x.days) + 2, 0.8);
-const pick = (list, n) => ({ s: list.filter(x => x.short).sort((a, b) => score(b) - score(a)).slice(0, n), v: list.filter(x => !x.short).sort((a, b) => score(b) - score(a)).slice(0, n) });
+const LASTJ = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;   // /jp rule: last in every list
+const lastJ = (ed, x) => ed === "ja" && LASTJ.test(`${x.t} ${x.ja} ${x.en}`) ? 1 : 0;
+const pick = (list, n, ed = "en") => { const o = (a, b) => lastJ(ed, a) - lastJ(ed, b) || score(b) - score(a);
+  return { s: list.filter(x => x.short).sort(o).slice(0, n), v: list.filter(x => !x.short).sort(o).slice(0, n) }; };
 
 // ---------- "today in 3 minutes" (scripts/digest.mjs) ----------
 const DIG = {}; try { for (const f of fs.readdirSync("data/digest")) { const d = JSON.parse(fs.readFileSync(`data/digest/${f}`, "utf8")); if (d.date && d.items && d.items.length) DIG[d.date] = d; } } catch (e) {}
@@ -130,17 +146,36 @@ function digestBlock(ed, d, withPast) {
 function topics(ed) {
   const E = ED[ed], pool = ALL.filter(E.keep), out = [];
   const txt = x => `${x.t} ${x.en} ${x.ja} ${x.ch}`;
+  const groups = [];
   for (const a of E.artists) {
     const ch = new Set(a[1]), m = pool.filter(x => ch.has(x.chId) || a[2].test(txt(x)));
-    out.push({ kind: "artist", key: a[0], slug: slug(a[0]), name: ed === "ja" ? (ARTIST_JA[a[0]] || a[0]) : a[0], list: m });
+    groups.push({ kind: "artist", key: a[0], slug: slug(a[0]), name: ed === "ja" ? (ARTIST_JA[a[0]] || a[0]) : a[0], list: m });
+  }
+  // more groups, members, actors and dramas: search pages only (seo_topics.mjs, per David 2026-11-03)
+  for (const g of EXTRA_GROUPS) if (!groups.some(p => p.key === g[0]))
+    groups.push({ kind: "artist", extra: true, key: g[0], slug: slug(g[0]), name: ed === "ja" ? g[1] : g[0], list: pool.filter(x => g[2].test(txt(x))), min: MIN });
+  for (const g of groups) if (NOT[g.key]) g.list = g.list.filter(x => !NOT[g.key].test(txt(x)));
+  out.push(...groups);
+  for (const g of groups) for (const m of MEMBERS[g.key] || []) {
+    const list = g.list.filter(x => m[2].test(txt(x)));
+    out.push({ kind: "member", extra: true, key: `${g.key} ${m[0]}`, group: g.slug, gname: g.key, slug: `${g.slug}-${slug(m[0]) || "m"}`, name: ed === "ja" ? `${m[1]}（${g.key}）` : `${m[0]} (${g.key})`, short: ed === "ja" ? m[1] : m[0], list, min: MIN });
   }
   for (const a of E.actors) {
     const not = a[3] instanceof RegExp ? a[3] : null, m = pool.filter(x => a[2].test(txt(x)) && !(not && not.test(txt(x))));
     out.push({ kind: "actor", key: a[0], slug: slug(a[0]), name: ed === "ja" ? `${ACTOR_JA[a[0]] || a[0]}（${a[1]}）`.replace(/ 俳優/, "") : `${a[0]} (${a[1]})`, list: m });
   }
+  for (const a of EXTRA_ACTORS) if (!E.actors.some(b => b[0] === a[0]))
+    out.push({ kind: "actor", extra: true, key: a[0], slug: slug(a[0]), name: ed === "ja" ? `${a[3]}（${a[1]}）` : `${a[0]} (${a[1]})`, list: pool.filter(x => a[2].test(txt(x))), min: MIN });
+  for (const d of DRAMAS) {
+    if (ed === "ja" && LASTJ.test(d[0] + d[1])) continue;
+    const s = slug(d[0]);
+    out.push({ kind: "show", extra: true, key: d[0], slug: ["drama", "film", "music", "variety", "beauty", "food", "today"].includes(s) ? s + "-drama" : s, name: ed === "ja" ? d[1] : d[0],
+      list: pool.filter(x => (x.cat === "drama" || x.cat === "variety" || x.cat === "film") && d[2].test(txt(x))), min: MIN });
+  }
   for (const k of Object.keys(CAT_TXT.en)) out.push({ kind: "cat", key: k, slug: k, name: CAT_TXT[ed][k], list: pool.filter(x => x.cat === k && (x.days < 0 || x.days <= 14)) });
   out.push({ kind: "today", key: "today", slug: "today", name: T[ed].todayL, list: pool.filter(x => x.days >= 0 && x.days <= 2) });
-  return [...out.filter(p => p.list.length >= 6), ...DAYS_.map(d => ({ kind: "day", key: d, slug: `today/${d}`, name: d, list: [] }))];   // no thin pages; one page per day of the 3-minute digest
+  const seen = new Set();   // no thin pages, no two pages on one address
+  return [...out.filter(p => p.list.length >= (p.min || 6) && !seen.has(p.slug) && seen.add(p.slug)), ...DAYS_.map(d => ({ kind: "day", key: d, slug: `today/${d}`, name: d, list: [] }))];   // no thin pages; one page per day of the 3-minute digest
 }
 const PAGES = { en: topics("en"), ja: topics("ja") };
 const has = (ed, s) => PAGES[ed].some(p => p.slug === s);
@@ -159,6 +194,7 @@ h1{font-size:clamp(22px,4vw,32px);line-height:1.2;letter-spacing:-.02em;margin:4
 h2{font-size:17px;margin:26px 0 12px}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 .grid.sh{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.grid.nw{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 .card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--soft);display:block}
 .sh .card img{aspect-ratio:9/16}
 .card b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;font-weight:600;line-height:1.4;margin-top:7px}
@@ -168,6 +204,8 @@ footer{margin:40px 0 30px;padding-top:20px;border-top:1px solid var(--line);font
 footer h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
 .links{display:flex;flex-wrap:wrap;gap:6px 14px}.links a:hover{color:var(--accent)}
 .note{color:var(--muted);font-size:12px;margin-top:18px}
+.about{color:var(--ink2);max-width:760px;margin:0 0 6px}.rel{font-size:13.5px;margin:0 0 8px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}.rel b{font-size:12px;color:var(--muted);font-weight:600}.rel a{color:var(--accent)}
+footer .links b{font-size:12px;color:var(--muted);font-weight:600;margin-left:6px}
 .dg h2 small{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-top:4px}.dgl{list-style:none;padding:0;margin:0;display:grid;gap:12px}
 .dgc{display:grid;grid-template-columns:168px 1fr;gap:12px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:14px}.dgc:hover{border-color:var(--ink2)}
 .dgc img{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:cover;border-radius:9px;background:var(--soft)}.dgc b{display:block;font-size:15px;line-height:1.35}
@@ -182,27 +220,71 @@ function card(ed, x) {
   const sub = [x.ch, x.views > 0 ? T[ed].views(x.views) : "", x.date].filter(Boolean).join(" · ");
   return `<a class="card" href="${href}"><img src="https://i.ytimg.com/vi/${x.id}/${x.short ? "hqdefault" : "mqdefault"}.jpg" alt="" loading="lazy" decoding="async" width="320" height="${x.short ? 568 : 180}"><b>${esc(t)}</b><small>${esc(sub)}</small></a>`;
 }
-function linksBlock(ed, cur) {
-  const P = PAGES[ed], L = T[ed], grp = k => P.filter(p => p.kind === k).map(p => p.slug === cur ? `<span>${esc(p.name)}</span>` : `<a href="/${ED[ed].dir}/${p.slug}/">${esc(p.name)}</a>`).join("");
-  return `<h3>${L.artistsH}</h3><div class="links">${grp("artist")}</div><h3>${L.actorsH}</h3><div class="links">${grp("actor")}</div>` +
+const lnk = (ed, p, cur, label) => p.slug === cur ? `<span>${esc(label || p.name)}</span>` : `<a href="/${ED[ed].dir}/${p.slug}/">${esc(label || p.name)}</a>`;
+function linksBlock(ed, cur, withMembers) {
+  const P = PAGES[ed], L = T[ed], grp = k => P.filter(p => p.kind === k).map(p => lnk(ed, p, cur)).join("");
+  const mem = withMembers ? P.filter(p => p.kind === "artist" && P.some(m => m.kind === "member" && m.group === p.slug))
+    .map(g => `<b>${esc(g.key)}</b> ` + P.filter(m => m.kind === "member" && m.group === g.slug).map(m => lnk(ed, m, cur, m.short)).join("")).join("") : "";
+  const shows = grp("show");
+  return `<h3>${L.artistsH}</h3><div class="links">${grp("artist")}</div>` + (mem ? `<h3>${L.membersH}</h3><div class="links">${mem}</div>` : "") +
+    `<h3>${L.actorsH}</h3><div class="links">${grp("actor")}</div>` + (shows ? `<h3>${L.dramasH}</h3><div class="links">${shows}</div>` : "") +
     `<h3>${L.catsH}</h3><div class="links">${grp("today")}${grp("cat")}<a href="/${ED[ed].dir}/">${L.hubL}</a></div>`;
+}
+// a few lines of text of its own on each topic page: counts, the most watched clip, the members / the group
+function aboutBlock(ed, p) {
+  if (!["artist", "member", "actor", "show"].includes(p.kind)) return "";
+  const L = T[ed], P = PAGES[ed], E = ED[ed];
+  const ns = p.list.filter(x => x.short).length, n7 = p.list.filter(x => x.days >= 0 && x.days <= 7).length;
+  const t = topOf(ed, p);
+  let rel = "";
+  const mem = P.filter(m => m.kind === "member" && m.group === p.slug);
+  if (p.kind === "artist" && mem.length) rel = `<p class="rel"><b>${L.membersH}</b> ${mem.map(m => lnk(ed, m, "", m.short)).join("")}</p>`;
+  if (p.kind === "member") { const g = P.find(x => x.slug === p.group), o = P.filter(m => m.kind === "member" && m.group === p.group && m.slug !== p.slug);
+    rel = `<p class="rel">${g ? `<b>${L.groupH}</b> ${lnk(ed, g, "")}` : ""}${o.length ? ` <b>${L.otherH}</b> ${o.map(m => lnk(ed, m, "", m.short)).join("")}` : ""}</p>`; }
+  return `<p class="about">${esc(L.about(p.name, p.list.length, ns, p.list.length - ns, n7, t))}</p>${rel}`;
+}
+// the clip people are watching most on a page: the most-viewed of the last 7 days, else the best of all
+function topOf(ed, p) {
+  const clean = x => ED[ed].title(x).replace(/#\S+/g, "").replace(/(?:\b(?:with|feat\.?|ft\.?)\s*)?@[\w.]+/gi, "").replace(/\s+l\s+[^|｜]*$|\s*[|｜]\s*[^|｜]*$/, "").replace(/\s+/g, " ").replace(/\s*\bw\/\s*$/i, "").trim();
+  // a real title (a few words, not only symbols or a hashtag) of a clip that isn't held back on /jp
+  const good0 = x => x.views > 0 && (clean(x).match(/[\p{L}\p{N}]{2,}/gu) || []).length >= 2 && clean(x).length >= 8 && !lastJ(ed, x);
+  // in the reader's language when there is one: Japanese on /jp, no Korean-only titles in English
+  const lang = x => ed === "ja" ? /[ぁ-んァ-ヶ]/.test(clean(x)) : !/[가-힣]/.test(clean(x)) && /[A-Za-z]{3}/.test(clean(x));
+  const best = f => p.list.filter(x => f(x) && x.days >= 0 && x.days <= 7).sort((a, b) => b.views - a.views)[0] || p.list.filter(f).sort((a, b) => score(b) - score(a))[0];
+  const r = best(x => good0(x) && lang(x)) || best(good0);
+  if (!r) return null;
+  let t = clean(r);
+  if (t.length > 42) t = t.slice(0, 41).trim() + "…";
+  return [t, r.views];
 }
 function page(ed, p) {
   const E = ED[ed], L = T[ed], isHub = !p;
-  const [h1, lead] = isHub ? L.hub() : p.kind === "artist" ? L.artist(p.name) : p.kind === "actor" ? L.actor(p.name) : p.kind === "cat" ? L.cat(p.name, p.key) : p.kind === "day" ? L.day(p.key) : L.today();
-  const sel = isHub || p.kind === "day" ? { s: [], v: [] } : pick(p.list, p.kind === "today" ? 36 : 24);
-  const n = (p && p.kind === "day" && DIG[p.key] ? DIG[p.key].items.length : 0) + sel.s.length + sel.v.length, newest = isHub ? BUILT : (p.list.map(x => x.date).filter(Boolean).sort().pop() || BUILT);
-  const title = `${h1}｜${E.brand}`.replace("｜", ed === "en" ? " | " : "｜");
+  const [h1, lead0] = isHub ? L.hub() : p.kind === "artist" ? L.artist(p.name) : p.kind === "member" ? L.member(p.name) : p.kind === "show" ? L.show(p.name) : p.kind === "actor" ? L.actor(p.name) : p.kind === "cat" ? L.cat(p.name, p.key) : p.kind === "day" ? L.day(p.key) : L.today();
+  // newest first (what changed since yesterday), then the most watched shorts and videos
+  const topic = p && ["artist", "member", "actor", "show"].includes(p.kind);
+  const fresh = topic ? p.list.filter(x => x.days >= 0 && x.days <= 7 && !lastJ(ed, x)).sort((a, b) => a.days - b.days || b.views - a.views).slice(0, 12) : [];
+  const fr = new Set(fresh.map(x => x.id));
+  const sel0 = isHub || p.kind === "day" ? { s: [], v: [] } : pick(p.list.filter(x => !fr.has(x.id)), p.kind === "today" ? 36 : 30, ed);
+  const sel = { s: sel0.s, v: sel0.v };
+  const n = (p && p.kind === "day" && DIG[p.key] ? DIG[p.key].items.length : 0) + fresh.length + sel.s.length + sel.v.length, newest = isHub ? BUILT : (p.list.map(x => x.date).filter(Boolean).sort().pop() || BUILT);
+  // what Google shows in the results: the date and the number of clips in the title, today's most-watched clip first in the description
+  const listed = topic || (p && (p.kind === "cat" || p.kind === "today"));
+  const top = listed ? topOf(ed, p) : null, md = L.md(BUILT);
+  const head = listed ? L.titleX(h1, n, md) : h1;
+  const lead = top || topic ? L.descX(md, n, top, lead0) : lead0;
+  const title = `${head}｜${E.brand}`.replace("｜", ed === "en" ? " | " : "｜");
   const self = url(ed, p && p.slug), other = ed === "en" ? "ja" : "en";
   const alt = (!p || has(other, p.slug)) ? `\n<link rel="alternate" hreflang="${ED[other].lang}" href="${url(other, p && p.slug)}">\n<link rel="alternate" hreflang="${E.lang}" href="${self}">\n<link rel="alternate" hreflang="x-default" href="${url("en", p && p.slug)}">` : "";
-  const img = (sel.v[0] || sel.s[0]) ? `https://i.ytimg.com/vi/${(sel.v[0] || sel.s[0]).id}/hqdefault.jpg` : `${SITE}/apple-touch-icon.png`;
+  const im = (fresh[0] && !fresh[0].short ? fresh[0] : null) || sel.v[0] || sel.s[0] || fresh[0];
+  const img = im ? `https://i.ytimg.com/vi/${im.id}/hqdefault.jpg` : `${SITE}/apple-touch-icon.png`;
   const ld = { "@context": "https://schema.org", "@graph": [
     { "@type": "CollectionPage", name: h1, description: lead, url: self, inLanguage: E.lang, dateModified: BUILT, isPartOf: { "@type": "WebSite", name: E.brand, url: SITE + E.base },
-      ...(n ? { mainEntity: { "@type": "ItemList", numberOfItems: n, itemListElement: [...sel.v, ...sel.s].slice(0, 30).map((x, i) => ({ "@type": "ListItem", position: i + 1, name: E.title(x), url: `${SITE}${E.base}?${x.short ? "s" : "v"}=${x.id}` })) } } : {}) },
+      ...(n ? { mainEntity: { "@type": "ItemList", numberOfItems: n, itemListElement: [...fresh, ...sel.v, ...sel.s].slice(0, 30).map((x, i) => ({ "@type": "ListItem", position: i + 1, name: E.title(x), url: `${SITE}${E.base}?${x.short ? "s" : "v"}=${x.id}` })) } } : {}) },
     { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: E.brand, item: SITE + E.base }, { "@type": "ListItem", position: 2, name: L.hubL, item: url(ed) },
       ...(p ? [{ "@type": "ListItem", position: 3, name: p.name, item: self }] : [])] }] };
-  const body = isHub ? `<footer style="border:0;margin-top:0;padding-top:0">${linksBlock(ed, "")}</footer>` :
+  const body = isHub ? `<footer style="border:0;margin-top:0;padding-top:0">${linksBlock(ed, "", true)}</footer>` :
     (p.kind === "today" ? digestBlock(ed, DIG[DAYS_[0]], true) : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
+    (fresh.length ? `<h2>${L.newH}</h2><div class="grid nw">${fresh.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.s.length ? `<h2>${L.shorts}</h2><div class="grid sh">${sel.s.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.v.length ? `<h2>${L.videos}</h2><div class="grid">${sel.v.map(x => card(ed, x)).join("")}</div>` : "");
   return `<!doctype html>
@@ -232,7 +314,7 @@ ${p && (p.kind === "today" || p.kind === "day") ? `<script>${DG_JS(ed)}</script>
 <header><a class="logo" href="${E.base}"><i></i>${E.brand}</a><a class="btn" href="${E.base}">${L.open}</a></header>
 <nav class="crumb"><a href="${E.base}">${E.brand}</a> › <a href="/${E.dir}/">${L.hubL}</a>${p ? ` › ${esc(p.name)}` : ""}</nav>
 <h1>${esc(h1)}</h1>
-<p class="lead">${esc(lead)}</p>
+<p class="lead">${esc(lead0)}</p>${isHub ? "" : aboutBlock(ed, p)}
 <p class="meta">${L.updated(BUILT)}${n ? ` · ${L.count(n)}` : ""}${!isHub && newest ? ` · ${ed === "en" ? "newest" : "最新"} ${newest}` : ""}</p>
 ${body}
 ${isHub ? "" : `<footer>${linksBlock(ed, p.slug)}${ed === "ja" ? `<p class="note"><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a> で毎日の注目クリップをお知らせ</p>` : ""}<p class="note">${L.note}</p></footer>`}
@@ -268,7 +350,7 @@ Sitemap: ${SITE}/sitemap.xml
 
 // crawlable topic links in the footer of both app pages
 const block = ed => `<!--topics--><nav class="topics" aria-label="${ed === "en" ? "Browse" : "一覧"}">` +
-  [["today", ...PAGES[ed].filter(p => p.kind === "today")], ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
+  [["today", ...PAGES[ed].filter(p => p.kind === "today")], ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["show", ...PAGES[ed].filter(p => p.kind === "show")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
     .map(([, ...ps]) => ps.map(p => `<a href="/${ED[ed].dir}/${p.slug}/">${esc(p.name)}</a>`).join("")).filter(Boolean).join(`<i></i>`) +
   `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a>` + (ed === "ja" ? `<i></i><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a>` : "") + `</nav><!--/topics-->`;
 for (const [file, ed] of [["index.html", "en"], ["jp/index.html", "ja"]]) {
@@ -296,7 +378,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const actorTag = k => "#" + (ACTOR_JA[k] || k).replace(/[・ ]|俳優/g, "");
   let prev = {}; try { prev = JSON.parse(fs.readFileSync("data/xposts.json", "utf8")); } catch (e) {}
   const P = PAGES.ja, top = (p, n) => pick(p.list, n), recent = p => p.list.filter(x => x.days >= 0 && x.days <= 2);
-  const hot = kind => P.filter(p => p.kind === kind).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
+  const hot = kind => P.filter(p => p.kind === kind && !p.extra).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
     .filter(o => o.n >= 2).sort((a, b) => b.v - a.v);
   const choose = (kind, last) => { const h = hot(kind); return (h.find(o => o.p.key !== last) || h[0] || {}).p; };
   const good = t => (clean(t).match(/[\p{L}]/gu) || []).length >= 6;   // skip titles that are only symbols / hashtags
@@ -365,7 +447,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const enOK = x => !!title(x);
   const cut = (t, n) => t.length > n ? t.slice(0, n - 1).trim() + "…" : t;
   let prev = {}; try { prev = JSON.parse(fs.readFileSync("data/fbposts.json", "utf8")); } catch (e) {}
-  const hot = kind => P.filter(p => p.kind === kind).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
+  const hot = kind => P.filter(p => p.kind === kind && !p.extra).map(p => ({ p, v: recent(p).reduce((a, x) => a + Math.max(0, x.views), 0), n: recent(p).length }))
     .filter(o => o.n >= 2).sort((a, b) => b.v - a.v);
   const choose = (kind, last) => { const h = hot(kind); return (h.find(o => o.p.key !== last) || h[0] || {}).p; };
   const bestOf = p => [...recent(p)].sort((a, b) => b.views - a.views).concat(pick(p.list, 5).s, pick(p.list, 5).v).find(enOK);

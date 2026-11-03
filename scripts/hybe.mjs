@@ -22,9 +22,9 @@ export const ARTISTS = [
 // first, TWICE (Japanese members Sana, Mina, Momo), then TXT, LE SSERAFIM, ILLIT (strong in Japan), then Oricon 2025 annual sales / 2025 Japan tour grosses (Stray Kids, SEVENTEEN, ENHYPEN, &TEAM ...).
 // Katakana names match Japanese fan titles (members only where the name is distinctive).
 export const JP_ARTISTS = [
-  ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団|バンタン|ジョングク|グク(?![ァ-ヶ])|ジミン|ユンギ|ホソク|ナムジュン|ソクジン/i],
+  ["BTS",        ["UCLkAepWjdylmXSltofFvsYQ"], /방탄소년단|\bbts\b|bangtan|전정국|정국|jung ?kook|jungkook|agust ?d|j-?hope|제이홉|김태형|taehyung|김석진|김남준|민윤기|정호석|박지민|防弾少年団|バンタン|ジョングク|グク(?![ァ-ヶ])|ジミン|ユンギ|ホソク|ナムジュン|(?<!ジ・)ソクジン/i],
   ["Stray Kids", ["UC9rMiEjNaCSsebs31MRDCRA"], /stray ?kids|스트레이 ?키즈|스키즈|\bskz\b|ストレイキッズ|スキズ/i],
-  ["TWICE",      ["UCCRb6nYKaT8tzLA8CwDdUtw", "UCzgxx_DM2Dcb9Y1spb9mUJA"], /\btwice\b|트와이스|トゥワイス|misamo|ミサモ|湊崎紗夏|名井南|平井もも|(?<![ァ-ヶー])(?:サナ|ミナ|モモ|ツウィ|ジヒョ|ナヨン|ダヒョン)(?![ァ-ヶー])/i],
+  ["TWICE",      ["UCCRb6nYKaT8tzLA8CwDdUtw", "UCzgxx_DM2Dcb9Y1spb9mUJA"], /\btwice\b|트와이스|トゥワイス|misamo|ミサモ|湊崎紗夏|名井南|平井もも|(?<![ァ-ヶー・])(?:サナ|ミナ|モモ|ツウィ|ジヒョ|ナヨン|ダヒョン)(?![ァ-ヶー])/i],
   ["TXT",        ["UCtiObj3CsEAdNU6ZPWDsddQ"], /tomorrow ?x ?together|투모로우바이투게더|투바투|\btxt\b|トゥバ|トゥモロー ?バイ ?トゥギャザー|ヒュニンカイ|ボムギュ|ヨンジュン/i],
   ["LE SSERAFIM",["UCs-QBT4qkj_YiQw1ZntDO3g"], /le ?sserafim|르세라핌|ルセラフィム|ルセラ(?![ァ-ヶ])|ホ・ユンジン|キム・チェウォン|ホン・ウンチェ|カズハ/i],
   ["ILLIT",      ["UCEpFoWeCMCo5z3EvWaz6hQQ", "UCNVIo0UJXTdEnsRkCB9Q03w"], /illit|아일릿|アイリット/i],
