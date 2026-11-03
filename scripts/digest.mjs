@@ -72,6 +72,7 @@ For each clip you get its YouTube title, channel, category and description. For 
 - "en": 1–2 short English sentences (max 140 characters in all), same content.
 - "es_title" and "es": the same in neutral Latin American Spanish (max 70 / 140 characters).
 - When "comments" are given (top comments by Korean viewers): "kr_ja", "kr_en", "kr_es" — one short line (max 60 / 110 / 110 characters) on what Korean viewers say about it, a summary of the general feeling in those comments only (what they praise, laugh at, or are moved by). No usernames, no quotes longer than three words. If the comments say nothing meaningful, or there are none, leave these three empty ("").
+Language: "ja_title", "ja" and "kr_ja" are written in Japanese — never leave a Korean sentence in them (Korean names and song titles in their usual Japanese or Latin form); "es_title"/"es"/"kr_es" in Spanish; the rest in English.
 Rules: use ONLY facts in the given title, channel and description. Do not invent plot details, rankings, dates, numbers or reactions. If the description says little, describe the clip plainly (e.g. "the official preview of episode 5"). No hashtags, no emojis, no hype words like "legendary".
 Output ONLY a JSON object {"<key>": {"ja_title":…, "ja":…, "en_title":…, "en":…, "es_title":…, "es":…, "kr_ja":…, "kr_en":…, "kr_es":…}, …} with exactly the keys given.`;
 async function ask(part) {
@@ -100,7 +101,7 @@ const all = pick.map((x, k) => { const o = out[String(k)] || {};
   return { id: x.id, short: x.short, cat: x.cat, ch: x.ch, views: x.views, t: x.t,
     ja_title: clip(o.ja_title).slice(0, 60), ja: clip(o.ja).slice(0, 140), en_title: clip(o.en_title).slice(0, 90), en: clip(o.en).slice(0, 220),
     es_title: clip(o.es_title).slice(0, 90), es: clip(o.es).slice(0, 220),
-    ...(x.comments && o.kr_ja ? { kr_ja: clip(o.kr_ja).slice(0, 120), kr_en: clip(o.kr_en).slice(0, 200), kr_es: clip(o.kr_es).slice(0, 200) } : {}) } });
+    ...(x.comments && o.kr_ja && (String(o.kr_ja).match(/[가-힣]/g) || []).length <= 6 ? { kr_ja: clip(o.kr_ja).slice(0, 120), kr_en: clip(o.kr_en).slice(0, 200), kr_es: clip(o.kr_es).slice(0, 200) } : {}) } });
 const items = all.slice(0, TOP).filter(x => x.ja && x.en), more = all.slice(TOP).filter(x => x.ja && x.en);
 const D = { date: BUILT, items, more };   // items = the Top 10 (push, X, creator kit); more = the next 40 (the "today" pages)
 fs.mkdirSync("data/digest", { recursive: true });
