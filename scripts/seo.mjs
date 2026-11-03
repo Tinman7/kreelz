@@ -408,3 +408,31 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   fs.writeFileSync("data/fbposts.json", JSON.stringify(out, null, 1) + "\n");
   console.log(`data/fbposts.json: ${out.posts.length} posts, card ${out.card ? out.card.rows.length : 0} rows`);
 }
+
+// ---------- Instagram drafts (per David 2026-11-03): the admin page's 인스타그램 section ----------
+// Links in Instagram posts can't be tapped, so the traffic comes from the Story link sticker and the bio link.
+// Every night: the Top 5 card for a Story (1080x1920, drawn on the admin page) and for the feed (1080x1350), in Japanese
+// (from data/xposts.json) and English (from data/fbposts.json), with a caption, hashtags and the link for the sticker.
+{
+  const rd = f => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch (e) { return null; } };
+  const X = rd("data/xposts.json"), FB = rd("data/fbposts.json"), items = [];
+  const tagsIn = list => [...new Set(list.flatMap(t => (t.match(/#[^\s#]+/g) || [])))];
+  const fmtV = v => v >= 1e6 ? (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : v >= 1e3 ? Math.round(v / 1e3) + "K" : String(v);
+  if (X && X.card && X.date === BUILT) {
+    const md = X.card.date;
+    const tags = [...new Set(["#KPOP", "#韓国ドラマ", "#韓ドラ", "#韓国エンタメ", "#KPOP好きな人と繋がりたい", "#韓国好きな人と繋がりたい",
+      ...tagsIn(X.posts.map(p => p.text)).filter(t => !/^#(韓国グルメ|韓国旅行)$/.test(t))])].slice(0, 15);
+    items.push({ ed: "ja", label: "일본어 (일본 팬용)", time: "20:00~22:00 (일본 저녁)", card: X.card,
+      link: "https://kreelz.com/jp/k/today/", sticker: "今日のTOP5を見る",
+      caption: `📰韓国で今日いちばん見られているK-POP・韓ドラ TOP5（${md}）\n\n${X.card.rows.map((r, i) => `${i + 1}. ${r.t}${r.v > 0 ? `（${fmtV(r.v)}回）` : ""}`).join("\n")}\n\n解説つきの全部はプロフィールのリンクから👆\n毎日0時更新・無料\n.\n${tags.join(" ")}` });
+  }
+  if (FB && FB.card && FB.date === BUILT) {
+    const tags = [...new Set(["#kpop", "#kdrama", "#koreandrama", "#kpopfyp", "#kdramaedits", "#kpopedit", "#kreelz",
+      ...tagsIn(FB.posts.map(p => p.text)).map(t => t.toLowerCase()).filter(t => t !== "#kfood" && t !== "#korea")])].slice(0, 15);
+    items.push({ ed: "en", label: "영어 (필리핀·영어권 팬용)", time: "19:00~21:00 (필리핀 18:00~20:00)", card: FB.card,
+      link: "https://kreelz.com/k/today/", sticker: "See today's Top 5",
+      caption: `🔥 Today's Top 5 K-Clips (${FB.card.date})\n\n${FB.card.rows.map((r, i) => `${i + 1}. ${r.t}`).join("\n")}\n\nWatch them all → link in bio 👆\nNew picks every midnight (KST) · Free\n.\n${tags.join(" ")}` });
+  }
+  fs.writeFileSync("data/igposts.json", JSON.stringify({ date: BUILT, items }, null, 1) + "\n");
+  console.log(`data/igposts.json: ${items.length} editions`);
+}

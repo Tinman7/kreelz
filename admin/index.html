@@ -190,6 +190,10 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="card xp-how"><b>매일 할 일</b> ① 페이스북을 <b>Kreelz 페이지</b>로 전환(프로필 사진 → Kreelz) ② 시간에 맞춰 <b>본문 복사</b> → 새 게시물에 붙여넣기 (TOP 5는 <b>카드 이미지 저장</b> 후 함께 첨부) → 게시 ③ 게시 직후 <b>첫 댓글</b>에 링크 붙여넣기 (본문에 링크를 넣으면 노출이 줄어요) ④ 댓글에 답하기 · <a href="https://business.facebook.com/latest/posts" target="_blank" rel="noopener">메타 비즈니스 스위트</a>에서 미리 예약해도 됩니다</div>
   <div class="grid two" id="fbpList"><div class="card note">불러오는 중…</div></div>
 
+  <h2>인스타그램 · 오늘 올릴 스토리·피드 <small id="igDate">매일 00:00(KST) 새로 만들어짐</small></h2>
+  <div class="card xp-how"><b>매일 할 일</b> ① <b>스토리</b> (매일 1개): <b>스토리 이미지 저장</b> → 인스타 스토리에 올리기 → 스티커 → <b>링크</b> → 아래 주소 붙여넣기 (인스타는 스토리 링크만 눌러져요) ② <b>피드</b> (주 2~3회): <b>피드 이미지 저장</b> → 새 게시물 → <b>캡션 복사</b> 붙여넣기 ③ <b>프로필 링크</b>에 kreelz.com/jp 와 kreelz.com 둘 다 등록 ④ 교류: 일본 K-POP·한국 드라마 계정 게시물에 하루 10개 이하 댓글, 링크 없이 · 방송사·소속사 영상을 잘라 올리면 저작권 신고로 계정이 막힐 수 있어요</div>
+  <div class="grid two" id="igList"><div class="card note">불러오는 중…</div></div>
+
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
     <div class="card kpi"><div class="l">전체 영상</div><div class="v" id="kAll">–</div><div class="s" id="kAllS"></div></div>
@@ -334,13 +338,15 @@ tfoot td{font-weight:800;border-bottom:0}
     members:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.7 2.5 3 5.2"/>',
     x:'<path d="M4 4l16 16M20 4L4 20" stroke-width="2.4"/>',
     seo:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 12.5l2-2.5 2 1.5 2-3"/>',
-    fb:'<path d="M14 21v-8h2.8l.4-3.2H14V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.3A22 22 0 0 0 14.8 3C12.3 3 10.8 4.5 10.8 7.3v2.5H8V13h2.8v8"/>'};
+    fb:'<path d="M14 21v-8h2.8l.4-3.2H14V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.3A22 22 0 0 0 14.8 3C12.3 3 10.8 4.5 10.8 7.3v2.5H8V13h2.8v8"/>',
+    ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/>'};
   const TABS=[["stats","대시보드","실시간 · 방문 · 재생 · 국가별 · 재방문 · 인기 영상",["지금 실시간","KREELZ 방문","국가별 방문자","재방문","KREELZ 인기 영상"]],
     ["content","콘텐츠","콘텐츠 현황 · 링크 출처 · 틱톡 쇼츠 추가",["콘텐츠 현황","링크 출처","틱톡 쇼츠 추가"]],
     ["members","회원 · 피드백","사용자 피드백 · 회원 통계",["회원 통계","사용자 피드백"]],
     ["seo","검색 노출","구글 검색 노출 · 클릭 · 검색어 · 페이지 · 일본판",["검색 노출"]],
     ["x","X (트위터)","일본 계정 @KREELZ77 · 오늘 올릴 글 · 교류 · 주간 코너",["X(트위터)"]],
-    ["fb","페이스북","필리핀 Kreelz 페이지 · 오늘 올릴 글 · TOP 5 카드",["페이스북"]]];
+    ["fb","페이스북","필리핀 Kreelz 페이지 · 오늘 올릴 글 · TOP 5 카드",["페이스북"]],
+    ["ig","인스타그램","오늘 올릴 스토리·피드 · TOP 5 카드 · 캡션 (일본어·영어)",["인스타그램"]]];
   const panes={}; TABS.forEach(([id])=>{ const d=document.createElement("div"); d.className="tabpane"; d.dataset.tab=id; d.hidden=true; panes[id]=d });
   let cur=null;
   [...app.children].forEach(el=>{ if(el===head || el.tagName==="SCRIPT") return;
@@ -515,6 +521,35 @@ function fbCard(c){
       <div class="grid two" style="margin-bottom:18px">${[...G.dms].sort((x,y)=>(!!x.sent)-(!!y.sent)||(x.sent==="불가")-(y.sent==="불가")).map(m=>`<div class="card xp"><div class="xp-h"><b>${esc(m.admin)}</b> <span>${esc(m.group)}</span>${m.sent==="불가"?`<small style="color:var(--muted);font-weight:700">보낼 수 없음 · ${esc(m.note||"")}</small>`:m.sent?`<small style="color:var(--good);font-weight:700">보냄 ${esc(m.sent)} · 답장 대기</small>`:'<small style="color:var(--accent);font-weight:800">보낼 차례</small>'}</div><pre class="xp-t">${esc(m.text)}</pre>
       <div class="row"><a class="btn primary" href="${esc(m.url)}" target="_blank" rel="noopener">관리자 프로필 열기</a><button class="btn" type="button" data-xrep="${esc(m.text)}">메시지 복사</button></div></div>`).join("")}</div>`);
   }catch(e){}
+})();
+/* Instagram (per David 2026-11-03): data/igposts.json, written nightly by scripts/seo.mjs — the Top 5 card as a Story
+   (1080x1920, room at the bottom for the link sticker) and as a feed post (1080x1350), Japanese and English */
+function igStory(feedImg, hint){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{
+  const W=1080,H=1920,cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
+  const gr=g.createLinearGradient(0,0,0,H); gr.addColorStop(0,"#E8445A"); gr.addColorStop(1,"#7A2BD6"); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  const s=0.9, w=W*s, h=1350*s, x=(W-w)/2, y=230; g.save(); g.shadowColor="rgba(0,0,0,.25)"; g.shadowBlur=40;
+  g.beginPath(); g.roundRect(x,y,w,h,36); g.clip(); g.drawImage(im,x,y,w,h); g.restore();
+  g.fillStyle="#fff"; g.textAlign="center"; g.font='800 46px "Plus Jakarta Sans","Hiragino Sans","Noto Sans JP",system-ui,sans-serif';
+  g.fillText(hint, W/2, y+h+150); res(cv.toDataURL("image/png")) }; im.src=feedImg }) }
+(async function igposts(){
+  const box=$("#igList"); if(!box) return;
+  try{
+    const d=await fetch("/data/igposts.json?"+Date.now()).then(r=>r.ok?r.json():null); if(!d||!d.items||!d.items.length) throw 0;
+    const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    $("#igDate").textContent=`${d.date} 분 · 매일 00:00(KST) 새로 만들어짐`;
+    const html=[];
+    for(const it of d.items){ const ja=it.ed==="ja";
+      const feed=fbCard(ja?{...it.card,brand:"KREELZ JAPAN"}:it.card);
+      const story=await igStory(feed, ja?"👇 リンクから全部見られます":"👇 Tap the link to watch all");
+      html.push(`<div class="card xp"><div class="xp-h"><b>${esc(it.label)}</b> <span>추천 시간 ${esc(it.time)}</span></div>
+        <div class="row" style="gap:10px;align-items:flex-start"><img class="fb-card" src="${story}" alt="Story" style="width:44%"><img class="fb-card" src="${feed}" alt="Feed" style="width:52%"></div>
+        <div class="row" style="margin-top:8px"><a class="btn primary" download="kreelz-${it.ed}-story-${esc(d.date)}.png" href="${story}">스토리 이미지 저장</a><a class="btn" download="kreelz-${it.ed}-feed-${esc(d.date)}.png" href="${feed}">피드 이미지 저장</a><small class="note" style="margin:0">휴대폰은 이미지를 길게 눌러 저장</small></div>
+        <p class="note" style="margin:10px 0 4px">스토리 링크 스티커 주소 (스티커 문구: ${esc(it.sticker)})</p>
+        <div class="row"><code style="word-break:break-all">${esc(it.link)}</code><button class="btn" type="button" data-xrep="${esc(it.link)}">주소 복사</button></div>
+        <p class="note" style="margin:10px 0 4px">피드 캡션</p><pre class="xp-t">${esc(it.caption)}</pre>
+        <div class="row"><button class="btn primary" type="button" data-xrep="${esc(it.caption)}">캡션 복사</button></div></div>`) }
+    box.innerHTML=html.join("");
+  }catch(e){ box.innerHTML='<div class="card note">오늘 인스타그램 초안이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
 })();
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-xrep]"); if(!b) return;
   navigator.clipboard.writeText(b.dataset.xrep).then(()=>{ const t=b.textContent; b.textContent="복사됨"; setTimeout(()=>b.textContent=t,1500) }).catch(()=>{}) });
