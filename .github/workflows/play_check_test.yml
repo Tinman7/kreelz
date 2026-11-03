@@ -1,0 +1,20 @@
+# Test of scripts/play_check.mjs on a random sample (nothing is committed or changed on the site)
+name: Playability check (test)
+on:
+  workflow_dispatch:
+    inputs:
+      sample:
+        description: "how many random clips to check"
+        default: "800"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node scripts/play_check.mjs index.html /tmp/bad.json --sample=${{ inputs.sample }}
