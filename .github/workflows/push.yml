@@ -1,0 +1,39 @@
+# Daily push notification (per David 2026-11-03): 08:00 JST (Japan edition, Japanese) and 08:00 PHT (kreelz.com, English).
+# Needs the secrets VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY and PUSH_TOKEN (setup/push.sql); skipped until they exist.
+name: Daily push
+on:
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: "ja or en"
+        default: "ja"
+      test:
+        description: "yes = send to at most 3 browsers"
+        default: "no"
+  schedule:
+    - cron: "0 23 * * *"   # 08:00 JST — ja
+    - cron: "0 0 * * *"    # 08:00 PHT (09:00 KST) — en
+permissions:
+  contents: read
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install --no-save web-push@3.6.7
+      - name: Send
+        env:
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+        run: |
+          ED="${{ inputs.edition }}"
+          if [ "${{ github.event_name }}" = "schedule" ]; then [ "$(date -u +%H)" = "23" ] && ED=ja || ED=en; fi
+          T=""; [ "${{ inputs.test }}" = "yes" ] && T="--test"
+          node scripts/push.mjs "$ED" $T

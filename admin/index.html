@@ -198,6 +198,23 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="card xp-how"><b>매일 할 일</b> ① 나라별 <b>오늘 연락할 채널 3곳</b>: <b>Gmail로 쓰기</b>를 누르면 제목·본문이 채워진 메일이 열려요 (kreelzkorea@gmail.com 계정으로). 이메일이 표시되지 않은 채널은 <b>채널 정보</b>를 열어 '이메일 주소 보기'로 확인 ② 보낸 채널은 <b>보냄</b>에 체크 (같은 채널에 두 번 보내지 않기) ③ 답장이 오면 그 나라 <b>크리에이터 키트</b>(오늘의 TOP 10)를 복사해 보내 주기 · 나라당 하루 3곳까지 · 일본에 유료 소개를 부탁할 땐 「PR」 표기 필수</div>
   <div id="ycList"><div class="card note">불러오는 중…</div></div>
 
+  <h2>푸시 알림 · 매일 아침 「3분 요약」 <small>일본판 08:00(일본) · 영어판 08:00(필리핀) 자동 발송</small></h2>
+  <div class="grid kpis" id="pushKpis"><div class="card kpi"><div class="l">구독 중</div><div class="v" id="pushAll">–</div><div class="s" id="pushAllS"></div></div></div>
+  <div class="card xp-how" id="pushSetup"><b>처음 한 번만 설정 (David)</b>
+    <ol style="margin:8px 0 0 18px;line-height:1.7">
+      <li><b>Supabase</b> → SQL Editor → New query → <code>setup/push.sql</code> 내용 붙여넣기 → Run. 결과에 나오는 <b>push_token</b> 값을 복사해 둡니다.</li>
+      <li>아래 <b>키 만들기</b>를 누르면 이 브라우저 안에서만 알림용 키 한 쌍이 만들어집니다 (서버로 보내지 않아요).</li>
+      <li><b>GitHub</b> → Tinman7/kreelz → Settings → Secrets and variables → Actions → New repository secret 으로 3개 추가:<br><code>VAPID_PUBLIC_KEY</code> = 공개 키 · <code>VAPID_PRIVATE_KEY</code> = 비공개 키 · <code>PUSH_TOKEN</code> = 1번의 push_token</li>
+      <li><b>공개 키</b>만 Claude에게 알려 주면 사이트에 알림 버튼이 켜집니다. (비공개 키·토큰은 누구에게도 보내지 마세요)</li>
+    </ol>
+    <div class="row" style="margin-top:10px"><button class="btn primary" type="button" id="vapidGo">키 만들기</button></div>
+    <div id="vapidOut" hidden style="margin-top:10px">
+      <p class="note" style="margin:0 0 4px">공개 키 (VAPID_PUBLIC_KEY · Claude에게 알려도 됨)</p><pre class="xp-t" id="vapidPub"></pre><div class="row"><button class="btn" type="button" id="vapidPubC">공개 키 복사</button></div>
+      <p class="note" style="margin:10px 0 4px">비공개 키 (VAPID_PRIVATE_KEY · GitHub 비밀에만 넣기)</p><pre class="xp-t" id="vapidPriv"></pre><div class="row"><button class="btn" type="button" id="vapidPrivC">비공개 키 복사</button></div>
+      <p class="note" style="margin:8px 0 0">이 화면을 닫으면 키는 사라져요. GitHub에 넣은 뒤에 닫으세요. 다시 만들면 이전 키와 다른 키가 됩니다.</p>
+    </div>
+  </div>
+
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
     <div class="card kpi"><div class="l">전체 영상</div><div class="v" id="kAll">–</div><div class="s" id="kAllS"></div></div>
@@ -344,7 +361,8 @@ tfoot td{font-weight:800;border-bottom:0}
     seo:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 12.5l2-2.5 2 1.5 2-3"/>',
     fb:'<path d="M14 21v-8h2.8l.4-3.2H14V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.3A22 22 0 0 0 14.8 3C12.3 3 10.8 4.5 10.8 7.3v2.5H8V13h2.8v8"/>',
     ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/>',
-    yc:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z"/>'};
+    yc:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z"/>',
+    push:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'};
   const TABS=[["stats","대시보드","실시간 · 방문 · 재생 · 국가별 · 재방문 · 인기 영상",["지금 실시간","KREELZ 방문","국가별 방문자","재방문","KREELZ 인기 영상"]],
     ["content","콘텐츠","콘텐츠 현황 · 링크 출처 · 틱톡 쇼츠 추가",["콘텐츠 현황","링크 출처","틱톡 쇼츠 추가"]],
     ["members","회원 · 피드백","사용자 피드백 · 회원 통계",["회원 통계","사용자 피드백"]],
@@ -352,7 +370,8 @@ tfoot td{font-weight:800;border-bottom:0}
     ["x","X (트위터)","일본 계정 @KREELZ77 · 오늘 올릴 글 · 교류 · 주간 코너",["X(트위터)"]],
     ["fb","페이스북","필리핀 Kreelz 페이지 · 오늘 올릴 글 · TOP 5 카드",["페이스북"]],
     ["ig","인스타그램","오늘 올릴 스토리·피드 · TOP 5 카드 · 캡션 (일본어·영어)",["인스타그램"]],
-    ["yc","해외 유튜브 협업","일본·필리핀·인도네시아 K-콘텐츠 채널 · 오늘 연락할 곳 · 메일 · 크리에이터 키트",["해외 유튜브 협업"]]];
+    ["yc","해외 유튜브 협업","일본·필리핀·인도네시아 K-콘텐츠 채널 · 오늘 연락할 곳 · 메일 · 크리에이터 키트",["해외 유튜브 협업"]],
+    ["push","푸시 알림","매일 아침 「3분 요약」 알림 · 구독자 수 · 처음 설정",["푸시 알림"]]];
   const panes={}; TABS.forEach(([id])=>{ const d=document.createElement("div"); d.className="tabpane"; d.dataset.tab=id; d.hidden=true; panes[id]=d });
   let cur=null;
   [...app.children].forEach(el=>{ if(el===head || el.tagName==="SCRIPT") return;
@@ -557,6 +576,23 @@ function igStory(feedImg, hint){ return new Promise(res=>{ const im=new Image();
     box.innerHTML=html.join("");
   }catch(e){ box.innerHTML='<div class="card note">오늘 인스타그램 초안이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
 })();
+/* Push alerts (per David 2026-11-03): subscriber counts (admin_push_stats, setup/push.sql) and a VAPID key maker
+   that runs only in this browser (WebCrypto P-256): the private key never leaves the page */
+(function(){
+  const go=$("#vapidGo"); if(!go) return;
+  const b64u=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  go.addEventListener("click",async()=>{
+    const kp=await crypto.subtle.generateKey({name:"ECDH",namedCurve:"P-256"},true,["deriveBits"]);
+    const pub=b64u(await crypto.subtle.exportKey("raw",kp.publicKey)), priv=(await crypto.subtle.exportKey("jwk",kp.privateKey)).d;
+    $("#vapidPub").textContent=pub; $("#vapidPriv").textContent=priv; $("#vapidOut").hidden=false;
+    $("#vapidPubC").onclick=()=>navigator.clipboard.writeText(pub); $("#vapidPrivC").onclick=()=>navigator.clipboard.writeText(priv) });
+})();
+async function loadPush(){
+  try{ const {data,error}=await sb.rpc("admin_push_stats"); if(error) throw error;
+    const all=(data||[]).reduce((a,r)=>a+Number(r.subs),0), n7=(data||[]).reduce((a,r)=>a+Number(r.new7),0), by=Object.fromEntries((data||[]).map(r=>[r.edition,r.subs]));
+    $("#pushAll").textContent=all.toLocaleString(); $("#pushAllS").textContent=`일본판 ${by.ja||0} · 영어판 ${by.en||0} · 최근 7일 +${n7}`;
+  }catch(e){ $("#pushAll").textContent="–"; $("#pushAllS").textContent="아직 설정 전 (아래 1번 SQL 실행 후 표시)" }
+}
 /* Overseas YouTube channels (per David 2026-11-03): data/ytcollab.json (weekly list) + data/ytcollab_daily.json
    (today's 3 per country, e-mail, creator kit). "보냄" ticks are kept in this browser only (localStorage). */
 (async function ytcollab(){
@@ -844,7 +880,7 @@ async function loadDiscover(){
   $("#disBody").innerHTML=R.map((r,i)=>`<tr><td style="text-align:left"><a href="https://www.youtube.com/watch?v=${esc(r.video_id)}" target="_blank" rel="noopener">${esc(titles[i]||r.video_id)}</a></td><td>${r.edition==="ja"?"일본":"영어"}</td><td>${nf(r.new_count)}</td><td>${nf(r.known_count)}</td><td>${pctS(Number(r.new_count),Number(r.new_count)+Number(r.known_count))}</td></tr>`).join("");
 }
 
-function load(){ loadGsc().catch(()=>{}); loadRetention().catch(()=>{}); loadDiscover().catch(()=>{}); loadFeedback().catch(()=>{}); loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
+function load(){ loadPush().catch(()=>{}); loadGsc().catch(()=>{}); loadRetention().catch(()=>{}); loadDiscover().catch(()=>{}); loadFeedback().catch(()=>{}); loadCatalog().catch(()=>{ $("#asof").textContent="콘텐츠 통계를 불러오지 못했습니다" }); loadSources().catch(()=>{ $("#platBody").innerHTML=`<tr><td colspan="6" class="empty">다음 00:00 갱신부터 표시됩니다.</td></tr>` }); loadTikTok(); loadUsage(); loadCountries(); loadTop() }
 /* the page itself switches to the new day at 00:00 KST if left open */
 (function midnight(){ const now=new Date(), k=new Date(now.toLocaleString("en-US",{timeZone:"Asia/Seoul"}));
   const ms=((24-k.getHours())*3600-k.getMinutes()*60-k.getSeconds())*1000+180000; setTimeout(()=>{ if(!$("#app").hidden) load(); midnight() },ms) })();
