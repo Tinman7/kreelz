@@ -436,3 +436,41 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   fs.writeFileSync("data/igposts.json", JSON.stringify({ date: BUILT, items }, null, 1) + "\n");
   console.log(`data/igposts.json: ${items.length} editions`);
 }
+
+// ---------- Overseas YouTube channels (per David 2026-11-03): the admin page's 해외 유튜브 협업 section ----------
+// Every night: for Japan, the Philippines and Indonesia, the 3 channels of data/ytcollab.json to contact today (in turn),
+// the e-mail to send them (Japanese / English / Indonesian), and today's creator kit — the "3 minutes" Top 10
+// (data/digest.json) in their language, free to use with a credit line.
+{
+  const rd = f => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch (e) { return null; } };
+  const YC = rd("data/ytcollab.json") || { countries: {} }, DG = rd("data/digest.json");
+  const B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  const sh = id => ((B.indexOf(id[0]) * 64 + B.indexOf(id[1])) % 256).toString(16).padStart(2, "0"), S = {};
+  const tr = (lang, id) => { const k = lang + sh(id); if (!(k in S)) S[k] = rd(`t/${lang}/${sh(id)}.json`) || {}; return S[k][id] || ""; };
+  const dayN = Math.floor(Date.parse(BUILT) / 864e5);
+  const T = {
+    JP: { subject: "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
+      body: n => `${n}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、毎日0時に日本語タイトル付きでまとめている無料サイトです。${n}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、${n}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は${n}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com` },
+    PH: { subject: "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
+      body: n => `Hi ${n},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated every midnight (KST). I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a "Top 10 clips Korea is watching today" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: "Source: KREELZ (https://kreelz.com)".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
+    ID: { subject: "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
+      body: n => `Halo ${n},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui setiap tengah malam (KST). Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar "Top 10 klip yang paling ditonton di Korea hari ini" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: "Sumber: KREELZ (https://kreelz.com)".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
+  };
+  const NAME = { JP: "일본", PH: "필리핀", ID: "인도네시아" };
+  const out = { date: BUILT, updated: YC.updated || "", countries: {} };
+  for (const cc of ["JP", "PH", "ID"]) {
+    const list = YC.countries[cc] || [], n = list.length, picks = [];
+    for (let k = 0; k < Math.min(3, n); k++) picks.push(list[(dayN * 3 + k) % n].id);
+    let kit = null;
+    if (DG && DG.items && DG.items.length) {
+      const items = DG.items.slice(0, 10);
+      if (cc === "JP") kit = { title: `📰韓国で今日いちばん見られているTOP10（${DG.date}）`, rows: items.map((x, i) => `${i + 1}. ${x.ja_title}\n   ${x.ja}`), link: "https://kreelz.com/jp/k/today/", credit: "出典：KREELZ JAPAN（https://kreelz.com/jp/）" };
+      if (cc === "PH") kit = { title: `🔥 Top 10 clips Korea is watching today (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${x.en_title}\n   ${x.en}`), link: "https://kreelz.com/k/today/", credit: "Source: KREELZ (https://kreelz.com)" };
+      if (cc === "ID") kit = { title: `🔥 Top 10 klip yang paling ditonton di Korea hari ini (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${tr("id", x.id) || x.en_title}`), link: "https://kreelz.com/k/today/", credit: "Sumber: KREELZ (https://kreelz.com)" };
+      kit.text = `${kit.title}\n\n${kit.rows.join("\n")}\n\n${kit.link}\n${kit.credit}`;
+    }
+    out.countries[cc] = { name: NAME[cc], total: n, picks, subject: T[cc].subject, body: T[cc].body("{channel}"), kit };
+  }
+  fs.writeFileSync("data/ytcollab_daily.json", JSON.stringify(out, null, 1) + "\n");
+  console.log(`data/ytcollab_daily.json: ${Object.entries(out.countries).map(([k, v]) => `${k} ${v.picks.length}/${v.total}`).join(", ")}`);
+}

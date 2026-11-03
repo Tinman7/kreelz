@@ -1,0 +1,34 @@
+# Local K-content YouTube channels in Japan, the Philippines and Indonesia to work with (per David 2026-11-03).
+# Once a week, right after the YouTube API quota resets (00:00 Pacific = 17:00 KST), about 1,300 units; also on demand.
+name: Overseas YouTube channels (weekly)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 8 * * 1"   # Monday 17:10 KST
+permissions:
+  contents: write
+concurrency:
+  group: ytcollab
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Find the channels
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/ytcollab.mjs
+      - name: Commit
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ytcollab.json
+          git commit -m "Overseas YouTube channels to work with" || exit 0
+          git pull --rebase -q && git push
