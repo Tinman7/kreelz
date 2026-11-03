@@ -40,41 +40,71 @@ for (const x of cand) {
 }
 for (const x of cand) { if (pick.length >= 10) break; if (!pick.includes(x) && (perCh[x.ch] || 0) < 2) { perCh[x.ch] = (perCh[x.ch] || 0) + 1; pick.push(x) } }
 if (pick.length < 5) { console.log("digest: too few clips", pick.length); process.exit(0); }
-// the clips' own descriptions (1 API unit)
-if (YT) try {
-  const r = await fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({ part: "snippet", id: pick.map(x => x.id).join(","), key: YT }));
+// 40 more (per David 2026-11-03: Korean context is what fans abroad can't get elsewhere): the next most-watched clips,
+// still mixed (no more than 3 a channel), each explained in a line too, with what Korean viewers say in the comments
+const TOP = pick.length, MORE = +(process.env.DIGEST_MORE || 40), Q2 = { music: 14, drama: 9, variety: 9, film: 3, food: 3, beauty: 2 };
+for (const x of cand) { if (pick.length >= TOP + MORE) break; if (pick.includes(x) || (Q2[x.cat] || 0) <= 0 || (perCh[x.ch] || 0) >= 3) continue; Q2[x.cat]--; perCh[x.ch] = (perCh[x.ch] || 0) + 1; pick.push(x); }
+for (const x of cand) { if (pick.length >= TOP + MORE) break; if (!pick.includes(x) && (perCh[x.ch] || 0) < 3) { perCh[x.ch] = (perCh[x.ch] || 0) + 1; pick.push(x); } }
+// the clips' own descriptions (1 API unit per 50)
+if (YT) for (let i = 0; i < pick.length; i += 50) try {
+  const r = await fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({ part: "snippet", id: pick.slice(i, i + 50).map(x => x.id).join(","), key: YT }));
   const d = await r.json(); for (const v of d.items || []) { const x = pick.find(p => p.id === v.id); if (x) x.desc = (v.snippet.description || "").replace(/https?:\/\/\S+/g, "").replace(/\n{2,}/g, "\n").slice(0, 700); }
 } catch (e) { console.log("descriptions skipped:", e.message); }
+// what Korean viewers say: the top comments in Korean (commentThreads, 1 API unit a clip; none when comments are off or the quota is spent)
+let comUnits = 0;
+if (YT) await Promise.all(Array.from({ length: 6 }, async (_, w) => {
+  for (let k = w; k < pick.length; k += 6) { const x = pick[k];
+    try {
+      const r = await fetch("https://www.googleapis.com/youtube/v3/commentThreads?" + new URLSearchParams({ part: "snippet", videoId: x.id, order: "relevance", maxResults: "20", textFormat: "plainText", key: YT }));
+      const d = await r.json(); if (d.error) continue; comUnits++;
+      const ko = (d.items || []).map(c => c.snippet?.topLevelComment?.snippet).filter(Boolean)
+        .filter(c => /[가-힣]/.test(c.textDisplay || "")).sort((a, b) => (b.likeCount || 0) - (a.likeCount || 0))
+        .slice(0, 8).map(c => (c.textDisplay || "").replace(/@\S+/g, "").replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim().slice(0, 160)).filter(t => t.length >= 4);
+      if (ko.length >= 3) x.comments = ko;
+    } catch (e) {}
+  } }));
+console.log("comments read:", comUnits, "clips with Korean comments:", pick.filter(x => x.comments).length);
 const SYSTEM = `You write a daily digest of Korean entertainment clips for fans in Japan and worldwide.
 For each clip you get its YouTube title, channel, category and description. For each, write:
 - "ja_title": a short natural Japanese title (max 40 characters) naming the artist/actor/show as Japanese fans know them (katakana names, Japanese show names when they exist).
 - "ja": 1–2 short Japanese sentences (max 70 characters in all) saying what the clip is and why fans would watch it.
 - "en_title": a short natural English title (max 70 characters).
 - "en": 1–2 short English sentences (max 140 characters in all), same content.
+- "es_title" and "es": the same in neutral Latin American Spanish (max 70 / 140 characters).
+- When "comments" are given (top comments by Korean viewers): "kr_ja", "kr_en", "kr_es" — one short line (max 60 / 110 / 110 characters) on what Korean viewers say about it, a summary of the general feeling in those comments only (what they praise, laugh at, or are moved by). No usernames, no quotes longer than three words. If the comments say nothing meaningful, or there are none, leave these three empty ("").
 Rules: use ONLY facts in the given title, channel and description. Do not invent plot details, rankings, dates, numbers or reactions. If the description says little, describe the clip plainly (e.g. "the official preview of episode 5"). No hashtags, no emojis, no hype words like "legendary".
-Output ONLY a JSON object {"<key>": {"ja_title":…, "ja":…, "en_title":…, "en":…}, …} with exactly the keys given.`;
-const user = JSON.stringify(Object.fromEntries(pick.map((x, k) => [String(k), { title: x.t, channel: x.ch, category: x.cat, description: x.desc || "" }])));
-let out = null;
-for (let t = 0; t < 4 && !out; t++) {
-  try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST",
-      headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-      body: JSON.stringify({ model: MODEL, max_tokens: 4000, system: SYSTEM, messages: [{ role: "user", content: user }], thinking: { type: "disabled" } }) });
-    const d = await r.json();
-    if (!r.ok) { console.log("Claude", r.status, JSON.stringify(d.error || d).slice(0, 200)); await new Promise(s => setTimeout(s, 4000 * (t + 1))); continue; }
-    const txt = (d.content || []).map(c => c.text || "").join(""); out = JSON.parse(txt.slice(txt.indexOf("{"), txt.lastIndexOf("}") + 1));
-    console.log("tokens", d.usage?.input_tokens, d.usage?.output_tokens);
-  } catch (e) { console.log("digest attempt failed:", e.message); }
+Output ONLY a JSON object {"<key>": {"ja_title":…, "ja":…, "en_title":…, "en":…, "es_title":…, "es":…, "kr_ja":…, "kr_en":…, "kr_es":…}, …} with exactly the keys given.`;
+async function ask(part) {
+  const user = JSON.stringify(Object.fromEntries(part.map((x, k) => [String(k), { title: x.t, channel: x.ch, category: x.cat, description: x.desc || "", ...(x.comments ? { comments: x.comments } : {}) }])));
+  for (let t = 0; t < 4; t++) {
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST",
+        headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+        body: JSON.stringify({ model: MODEL, max_tokens: 8000, system: SYSTEM, messages: [{ role: "user", content: user }], thinking: { type: "disabled" } }) });
+      const d = await r.json();
+      if (!r.ok) { console.log("Claude", r.status, JSON.stringify(d.error || d).slice(0, 200)); await new Promise(s => setTimeout(s, 4000 * (t + 1))); continue; }
+      const txt = (d.content || []).map(c => c.text || "").join(""); const o = JSON.parse(txt.slice(txt.indexOf("{"), txt.lastIndexOf("}") + 1));
+      console.log("tokens", d.usage?.input_tokens, d.usage?.output_tokens); return o;
+    } catch (e) { console.log("digest attempt failed:", e.message); }
+  }
+  return null;
 }
+// the Top 10 in one call (as before), the rest 10 at a time
+const parts = [pick.slice(0, TOP)]; for (let i = TOP; i < pick.length; i += 10) parts.push(pick.slice(i, i + 10));
+const answers = await Promise.all(parts.map(ask));
+const out = answers[0] ? {} : null;
+if (out) { let k = 0; parts.forEach((p, j) => p.forEach((_, i) => { if (answers[j] && answers[j][String(i)]) out[String(k)] = answers[j][String(i)]; k++; })); }
 if (!out) { console.log("digest: no answer, yesterday's stays"); process.exit(0); }
 const clip = s => String(s || "").replace(/\s+/g, " ").trim();
-const items = pick.map((x, k) => { const o = out[String(k)] || {};
+const all = pick.map((x, k) => { const o = out[String(k)] || {};
   return { id: x.id, short: x.short, cat: x.cat, ch: x.ch, views: x.views, t: x.t,
-    ja_title: clip(o.ja_title).slice(0, 60), ja: clip(o.ja).slice(0, 140), en_title: clip(o.en_title).slice(0, 90), en: clip(o.en).slice(0, 220) } })
-  .filter(x => x.ja && x.en);
-const D = { date: BUILT, items };
+    ja_title: clip(o.ja_title).slice(0, 60), ja: clip(o.ja).slice(0, 140), en_title: clip(o.en_title).slice(0, 90), en: clip(o.en).slice(0, 220),
+    es_title: clip(o.es_title).slice(0, 90), es: clip(o.es).slice(0, 220),
+    ...(x.comments && o.kr_ja ? { kr_ja: clip(o.kr_ja).slice(0, 120), kr_en: clip(o.kr_en).slice(0, 200), kr_es: clip(o.kr_es).slice(0, 200) } : {}) } });
+const items = all.slice(0, TOP).filter(x => x.ja && x.en), more = all.slice(TOP).filter(x => x.ja && x.en);
+const D = { date: BUILT, items, more };   // items = the Top 10 (push, X, creator kit); more = the next 40 (the "today" pages)
 fs.mkdirSync("data/digest", { recursive: true });
 fs.writeFileSync("data/digest.json", JSON.stringify(D, null, 1) + "\n");
 fs.writeFileSync(`data/digest/${BUILT}.json`, JSON.stringify(D, null, 1) + "\n");
 for (const f of fs.readdirSync("data/digest").sort().slice(0, -60)) fs.rmSync(`data/digest/${f}`);   // 60 days kept
-console.log(`digest ${BUILT}: ${items.length} clips —`, items.map(x => `${x.cat}:${x.ja_title}`).join(" | "));
+console.log(`digest ${BUILT}: ${items.length} + ${more.length} clips, ${all.filter(x => x.kr_ja).length} with Korean reactions —`, items.map(x => `${x.cat}:${x.ja_title}`).join(" | "));

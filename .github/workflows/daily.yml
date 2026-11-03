@@ -188,6 +188,15 @@ jobs:
           node scripts/thumb_audit.mjs index.html bad.json
           python3 scripts/drop_ids.py index.html bad.json index.next.html && mv index.next.html index.html
 
+      - name: Clips that can't play in our player (per David 2026-11-03)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          # a third of the site each night + everything added in the last 2 days; YouTube oEmbed, no API quota
+          node scripts/play_check.mjs index.html bad_play.json
+          python3 scripts/drop_ids.py index.html bad_play.json index.next.html && grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
+
       - name: Statistics for the admin page
         if: steps.day.outputs.skip != '1'
         continue-on-error: true

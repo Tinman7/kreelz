@@ -83,6 +83,7 @@ const T = {
     today: () => [`Today's K-pop, K-drama & Korean shorts`, `What Korea is watching today: the most-viewed new K-pop, K-drama, variety, beauty and K-food clips of the last 48 hours, with titles in English. Updated every day at midnight KST.`],
     member: n => [`${n} shorts & videos — latest clips`, `The latest shorts and videos of ${n}: stages, fancams, behind-the-scenes, lives and variety clips from YouTube, with titles in English. Updated every day at midnight KST.`],
     show: n => [`${n} K-drama — best scenes, shorts & clips`, `The K-drama “${n}” in short clips: best scenes, making-of, previews, and cast interviews, from official channels on YouTube with titles in English. Updated every day at midnight KST.`],
+    krL: "Korean viewers", moreH: n => `${n} more clips Korea is watching`,
     newH: "Newest", newest: "newest", membersH: "Members", groupH: "Group", otherH: "Other members", dramasH: "K-dramas",
     about: (n, tot, ns, nv, n7, top) => `KREELZ has ${tot} ${n} clips right now (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} of them new in the last 7 days` : ""}.${top ? ` The most watched: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""}`,
     titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
@@ -105,6 +106,8 @@ const T = {
     shorts: "Shorts", videos: "Videos", updated: d => `Actualizado ${d} (hora de Corea)`, count: n => `${n} clips`, views: v => `${fmt(v)} vistas`,
     open: "Abrir KREELZ", artistsH: "Artistas de K-pop", actorsH: "Actores y actrices", catsH: "Categorías", todayL: "Hoy", hubL: "Todos los temas",
     note: "Los videos pertenecen a sus creadores y se reproducen desde YouTube. KREELZ elige los clips y traduce los títulos; no aloja ningún video.",
+    krL: "Reacción en Corea", moreH: n => `${n} clips más que Corea está viendo`,
+    dgH: "Hoy en Corea en 3 minutos", dgNew: "👀 No lo sabía", dgKnown: "✓ Ya lo sabía", dgThanks: "¡Gracias!", dgSub: "Los 10 clips más vistos en Corea, cada uno explicado en una línea", pastH: "Días anteriores",
     newH: "Lo más nuevo", membersH: "Integrantes", groupH: "Grupo", otherH: "Otros integrantes", dramasH: "K-dramas", newest: "más reciente",
     about: (n, tot, ns, nv, n7, top) => `KREELZ tiene ahora ${tot} clips de ${n} (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} nuevos en los últimos 7 días` : ""}.${top ? ` El más visto: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} vistas)` : ""}.` : ""}`,
     titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => `${+d.slice(8, 10)} ${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+d.slice(5, 7) - 1]}`,
@@ -117,6 +120,7 @@ const T = {
     today: () => [`今日の韓国エンタメ人気ショート`, `韓国でいま話題のK-POP、韓国ドラマ、バラエティ、ビューティー、グルメの新着クリップ（直近48時間）を再生回数順に。日本語タイトル付き、毎日0時（日本時間）更新。`],
     member: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。ステージ、直カム、ビハインド、ライブ、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
     show: n => [`韓国ドラマ「${n}」名場面・ショート動画まとめ`, `韓国ドラマ「${n}」の名場面、メイキング、予告、キャストのインタビューなどを、公式チャンネルのショート・動画から日本語タイトルで紹介。毎日0時（日本時間）更新。`],
+    krL: "韓国の反応", moreH: n => `ほかにも韓国で話題の${n}本`,
     newH: "新着", newest: "最新", membersH: "メンバー", groupH: "グループ", otherH: "ほかのメンバー", dramasH: "韓国ドラマ作品",
     about: (n, tot, ns, nv, n7, top) => `${n}のクリップは現在${tot}本（ショート${ns}本・動画${nv}本）${n7 ? `、直近7日間の新着は${n7}本` : ""}です。${top ? `いちばん見られているのは「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}`,
     titleX: (h, n, d) => `${h.split("｜")[0]}【${d}更新・${n}本】`, md: d => `${+d.slice(5, 7)}/${+d.slice(8, 10)}`,
@@ -143,7 +147,13 @@ const DIG = {}; try { for (const f of fs.readdirSync("data/digest")) { const d =
 const DAYS_ = Object.keys(DIG).sort().reverse().slice(0, 30);
 // the Japan edition keeps 100 Days of Deception and Doctor X out of its lists' first places (per David): not in its digest either
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;
-const dItems = (ed, d) => d ? d.items.filter(x => ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) : [];
+const dOK = ed => x => (ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) && (ed !== "es" || x.es);
+const dItems = (ed, d) => d ? d.items.filter(dOK(ed)) : [];
+const dMore = (ed, d) => d && d.more ? d.more.filter(dOK(ed)) : [];
+// the digest's words for a clip, in the edition's language: [title, one line, what Korean viewers say]
+const dTxt = (ed, x) => ed === "ja" ? [x.ja_title, x.ja, x.kr_ja] : ed === "es" ? [x.es_title || x.en_title, x.es || x.en, x.kr_es] : [x.en_title, x.en, x.kr_en];
+// every clip explained in the last 30 days of digests: its line shows under its card on the topic pages too
+const NOTES = {}; for (const k of [...DAYS_].reverse()) for (const x of [...DIG[k].items, ...(DIG[k].more || [])]) NOTES[x.id] = x;
 /* "new to me / knew it" answers (4-week test, per David 2026-10-30): the same random browser id as the app (kz-vid) */
 const DG_JS = ed => `document.addEventListener("click",function(e){var b=e.target.closest(".dga button");if(!b)return;var li=b.closest("li"),sec=b.closest(".dg");
 if(!li||!sec||b.disabled)return;var bot=navigator.webdriver||/bot\\b|bot\\/|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent||"");
@@ -157,9 +167,12 @@ if(a)li.querySelectorAll(".dga button").forEach(function(x){x.disabled=true;x.se
 function digestBlock(ed, d, withPast) {
   if (!d || !dItems(ed, d).length) return "";
   const L = T[ed], E = ED[ed], ja = ed === "ja";
-  const li = dItems(ed, d).map((x, i) => `<li data-id="${x.id}"><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(ja ? x.ja_title : x.en_title)}</b><em>${esc(ja ? x.ja : x.en)}</em><small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a><div class="dga"><button type="button" data-a="new">${L.dgNew}</button><button type="button" data-a="known">${L.dgKnown}</button></div></li>`).join("");
+  const row = (x, i, btn) => { const [tt, line, kr] = dTxt(ed, x);
+    return `<li data-id="${x.id}"><a class="dgc" href="${E.base}?${x.short ? "s" : "v"}=${x.id}"><img src="https://i.ytimg.com/vi/${x.id}/mqdefault.jpg" alt="" loading="lazy" width="320" height="180"><span><b>${i + 1}. ${esc(tt)}</b><em>${esc(line)}</em>${kr ? `<q class="kr">💬 ${esc(L.krL)}：${esc(kr)}</q>` : ""}<small>${esc([x.ch, CAT_TXT[ed][x.cat], x.views > 0 ? L.views(x.views) : ""].filter(Boolean).join(" · "))}</small></span></a>${btn ? `<div class="dga"><button type="button" data-a="new">${L.dgNew}</button><button type="button" data-a="known">${L.dgKnown}</button></div>` : ""}</li>`; };
+  const top = dItems(ed, d), li = top.map((x, i) => row(x, i, true)).join(""), more = dMore(ed, d);
+  const mo = more.length ? `<h3 class="dgm">${esc(L.moreH(more.length))}</h3><ol class="dgl dgs">${more.map((x, i) => row(x, top.length + i, false)).join("")}</ol>` : "";
   const past = withPast ? DAYS_.filter(k => k !== d.date).slice(0, 14).map(k => `<a href="/${E.dir}/today/${k}/">${k}</a>`).join("") : "";
-  return `<section class="dg" data-ed="${ed}" data-day="${d.date}"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
+  return `<section class="dg" data-ed="${ed}" data-day="${d.date}"><h2>${esc(L.dgH)}<small>${esc(L.dgSub)} · ${d.date}</small></h2><ol class="dgl">${li}</ol>${mo}${past ? `<h3 class="dgp">${L.pastH}</h3><div class="links">${past}</div>` : ""}</section>`;
 }
 
 // ---------- pages ----------
@@ -230,6 +243,9 @@ footer .links b{font-size:12px;color:var(--muted);font-weight:600;margin-left:6p
 .dgc{display:grid;grid-template-columns:168px 1fr;gap:12px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:14px}.dgc:hover{border-color:var(--ink2)}
 .dgc img{width:100%;height:auto;aspect-ratio:16/9;display:block;object-fit:cover;border-radius:9px;background:var(--soft)}.dgc b{display:block;font-size:15px;line-height:1.35}
 .dgc em{display:block;font-style:normal;color:var(--ink2);font-size:13.5px;margin-top:4px}.dgc small{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+.dgc q.kr{display:block;quotes:none;font-size:12.5px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:5px 8px;margin-top:6px}
+h3.dgm{font-size:15px;margin:26px 0 10px}.dgs .dgc{grid-template-columns:128px 1fr}.dgs .dgc b{font-size:14px}
+.card i.nt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-style:normal;font-size:12.5px;color:var(--ink2);line-height:1.4;margin-top:4px}.card i.nt span{color:var(--muted)}
 .dgp{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
 @media(max-width:560px){.dgc{grid-template-columns:112px 1fr;gap:10px;padding:8px}.dgc b{font-size:14px}}
 .dga{display:flex;gap:8px;margin:6px 0 0 4px}.dga button{font:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;padding:5px 11px;cursor:pointer}
@@ -238,7 +254,8 @@ footer .links b{font-size:12px;color:var(--muted);font-weight:600;margin-left:6p
 function card(ed, x) {
   const E = ED[ed], t = E.title(x), href = `${E.base}?${x.short ? "s" : "v"}=${x.id}`;
   const sub = [x.ch, x.views > 0 ? T[ed].views(x.views) : "", x.date].filter(Boolean).join(" · ");
-  return `<a class="card" href="${href}"><img src="https://i.ytimg.com/vi/${x.id}/${x.short ? "hqdefault" : "mqdefault"}.jpg" alt="" loading="lazy" decoding="async" width="320" height="${x.short ? 568 : 180}"><b>${esc(t)}</b><small>${esc(sub)}</small></a>`;
+  const nt = NOTES[x.id] && dOK(ed)(NOTES[x.id]) ? dTxt(ed, NOTES[x.id]) : null;
+  return `<a class="card" href="${href}"><img src="https://i.ytimg.com/vi/${x.id}/${x.short ? "hqdefault" : "mqdefault"}.jpg" alt="" loading="lazy" decoding="async" width="320" height="${x.short ? 568 : 180}"><b>${esc(t)}</b>${nt && nt[1] ? `<i class="nt">${esc(nt[1])}${nt[2] ? ` <span>💬 ${esc(nt[2])}</span>` : ""}</i>` : ""}<small>${esc(sub)}</small></a>`;
 }
 const lnk = (ed, p, cur, label) => p.slug === cur ? `<span>${esc(label || p.name)}</span>` : `<a href="/${ED[ed].dir}/${p.slug}/">${esc(label || p.name)}</a>`;
 function linksBlock(ed, cur, withMembers) {
@@ -303,7 +320,7 @@ function page(ed, p) {
     { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: E.brand, item: SITE + E.base }, { "@type": "ListItem", position: 2, name: L.hubL, item: url(ed) },
       ...(p ? [{ "@type": "ListItem", position: 3, name: p.name, item: self }] : [])] }] };
   const body = isHub ? `<footer style="border:0;margin-top:0;padding-top:0">${linksBlock(ed, "", true)}</footer>` :
-    (p.kind === "today" && ed !== "es" ? digestBlock(ed, DIG[DAYS_[0]], true) : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
+    (p.kind === "today" ? digestBlock(ed, DIG[DAYS_[0]], ed !== "es") : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
     (fresh.length ? `<h2>${L.newH}</h2><div class="grid nw">${fresh.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.s.length ? `<h2>${L.shorts}</h2><div class="grid sh">${sel.s.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.v.length ? `<h2>${L.videos}</h2><div class="grid">${sel.v.map(x => card(ed, x)).join("")}</div>` : "");
