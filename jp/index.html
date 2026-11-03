@@ -2420,7 +2420,7 @@ try{ $("#dgbar").href = REGION==="jp" ? "/jp/k/today/" : "/k/today/" }catch(e){}
 /* Daily push alert (per David 2026-11-03): "today in 3 minutes" every morning at 08:00 (JST for /jp, PHT for kreelz.com),
    sent by .github/workflows/push.yml. The browser's push address is kept in Supabase (setup/push.sql, push_sub /
    push_unsub). iPhone allows web push only from the Home Screen app, so there the button first explains that. */
-const PUSH_PUB = "";   // VAPID public key (safe to publish); the button stays hidden until it is set
+const PUSH_PUB = "BAOtRGzDkEgzietT2o2rvfGqjz0pKaALcl-13krRVkkCqpiogJbVwPpotaHlhpEiGyR67_KZnn_Bp_Q4FFzg8i0";   // VAPID public key (safe to publish); the button stays hidden until it is set
 (function(){
   const btn = $("#pushBtn"); if (!btn || !PUSH_PUB) return;
   const ok = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
