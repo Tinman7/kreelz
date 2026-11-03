@@ -47,7 +47,9 @@ if (MODE === "collect") {
   const S = {}, B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
   const sh = id => ((B.indexOf(id[0]) * 64 + B.indexOf(id[1])) % 256).toString(16).padStart(2, "0");
   const orig0 = id => { const k = sh(id); if (!(k in S)) { try { S[k] = JSON.parse(fs.readFileSync(`t/o/${k}.json`, "utf8")); } catch (e) { S[k] = {}; } } return (S[k][id] || [])[0] || ""; };
-  const ON = new Set(T.originals || []), NAMES = Object.keys(T.shows || {}).map(norm).filter(n => n.length >= 3);
+  // show names only: 5+ letters (Korean personal names are 3, and short tags like 야구 / 연프 / 용호상박 are everywhere)
+const ON = new Set(T.originals || []), NAMES = Object.entries(T.shows || {}).filter(([, c]) => c >= 3).map(([n]) => norm(n))
+  .filter(n => (/[가-힣]/.test(n) ? n.length >= 5 : n.length >= 6) && !GENERIC.test(n) && !/^kbo|리그$|야구/.test(n));
   let h = fs.readFileSync(site, "utf8");
   const str = n => (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || "";
   const out = [];
