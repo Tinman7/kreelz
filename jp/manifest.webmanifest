@@ -1,0 +1,23 @@
+{
+ "id": "/jp/",
+ "name": "KREELZ JAPAN — K-POP・韓国ドラマ・バラエティ",
+ "short_name": "KREELZ JP",
+ "description": "韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画とショートを、毎日0時に日本語タイトル付きで。無料。",
+ "lang": "ja",
+ "start_url": "/jp/?source=pwa",
+ "scope": "/jp/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#FFFFFF",
+ "theme_color": "#FFFFFF",
+ "categories": ["entertainment", "music"],
+ "icons": [
+  { "src": "/icons/jp-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+  { "src": "/icons/jp-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+  { "src": "/icons/jp-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+  { "src": "/icons/jp-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+ ],
+ "shortcuts": [
+  { "name": "3分でわかる今日の韓国エンタメ", "url": "/jp/k/today/?source=pwa", "icons": [{ "src": "/icons/jp-icon-192.png", "sizes": "192x192" }] }
+ ]
+}

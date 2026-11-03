@@ -29,6 +29,10 @@ for (const e of EDITIONS) {
   h = swap(h, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${attr(e.ogDescription)}">`, "og:description");
   h = swap(h, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${e.url}">\n<meta property="og:locale" content="ja_JP">\n<meta name="twitter:site" content="@KREELZ77">`, "og:url");
   h = swap(h, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${e.url}">`, "canonical");
+  // the Japan edition installs as its own app (KREELZ JP icon, opens /jp/) — per David 2026-11-03
+  h = swap(h, /<link rel="manifest" href="[^"]*">/, `<link rel="manifest" href="/${e.dir}/manifest.webmanifest">`, "manifest");
+  h = swap(h, /<link rel="apple-touch-icon" href="[^"]*">/, `<link rel="apple-touch-icon" href="/icons/${e.dir}-apple-touch-icon.png">`, "apple-touch-icon");
+  h = swap(h, /<meta name="apple-mobile-web-app-title" content="[^"]*">/, `<meta name="apple-mobile-web-app-title" content="KREELZ JP">`, "app title");
   // edition badge after the wordmark (the tagline itself comes from the Japanese UI text)
   h = swap(h, /KREELZ<small data-i18n="tagline">/, `KREELZ<b class="rg">${e.badge}</b><small data-i18n="tagline">`, "logo");
   // the edition's own footer topic links (written by scripts/seo.mjs) are kept from the current copy
