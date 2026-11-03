@@ -80,6 +80,13 @@ Rules:
 - Keep emojis, #hashtags, numbers, episode markers like [EP.12] and the punctuation style. A title already in Japanese stays as it is.
 - Do not add explanations, quotes or extra words. Keep it about as long as the original.
 - Output ONLY a JSON object: {"<key>": "<Japanese title>", ...} with exactly the keys you were given.`;
+// English for kreelz.com (per David 2026-11-03: the English search pages and the app showed most titles in Korean)
+const SYSTEM_EN = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food) into natural English for international fans.
+Rules:
+- Keep names of people, groups, shows, films, channels and brands in their usual official romanized/English form (e.g. 나 혼자 산다 → I Live Alone, 런닝맨 → Running Man, 아이브 → IVE, 변우석 → Byeon Woo-seok). Never translate a name literally.
+- Keep emojis, #hashtags, numbers, episode markers like [EP.12] and the punctuation style. Parts already in English stay as they are.
+- Do not add explanations, quotes or extra words. Keep it about as long as the original.
+- Output ONLY a JSON object: {"<key>": "<English title>", ...} with exactly the keys you were given.`;
 async function claude(items, system = SYSTEM) {
   const user = JSON.stringify(Object.fromEntries(items.map((it, k) => [String(k), it.t])));
   for (let t = 0; t < 6; t++) {
@@ -126,8 +133,23 @@ let doneJa = 0;
       if (doneJa % 5000 < 50) console.log(`ja ${doneJa}/${todoJa.length}  out_tokens ${outTok}`);
     }
   })); }
+// pass E — English only, for titles with Korean in them (TX_PASSES "ja,en"); titles already in English need none
+const PASSES = (process.env.TX_PASSES || "all").split(",");
+const todoEn = AK && PASSES.includes("en") ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && HAN.test(store.o[id][0] || "") && !store.en[id]) : [];
+let doneEn = 0;
+{ const q = []; for (let i = 0; i < todoEn.length; i += 50) q.push(todoEn.slice(i, i + 50));
+  await Promise.all(Array.from({ length: PAR }, async () => {
+    while (q.length && !stopTx && outTok < MAX_OUT && Date.now() < DEADLINE) {
+      const batch = q.shift();
+      const res = await claude(batch.map(id => ({ id, t: store.o[id][0] })), SYSTEM_EN);
+      if (!res) { failedBatches++; continue; }
+      batch.forEach((id, k) => { const o = res[String(k)]; if (typeof o === "string" && o.trim()) store.en[id] = o.trim().slice(0, 300); });
+      doneEn += batch.length;
+      if (doneEn % 5000 < 50) console.log(`en ${doneEn}/${todoEn.length}  out_tokens ${outTok}`);
+    }
+  })); }
 // pass B — the global edition's languages
-const todo = AK && process.env.TX_PASSES !== "ja" ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id])) : [];
+const todo = AK && PASSES.includes("all") ? site_ids.filter(id => !jpOnly.has(id) && store.o[id] && store.o[id][0] && LANGS.some(l => !store[l][id])) : [];
 const queue = []; for (let i = 0; i < todo.length; i += 40) queue.push(todo.slice(i, i + 40));
 let done = 0;
 await Promise.all(Array.from({ length: PAR }, async () => {
@@ -154,7 +176,7 @@ let curated = 0;
   const texts = [...new Set(list.flatMap(it => [it.kind, it.blurb, it.title]).filter(x => typeof x === "string" && x.trim()))];
   const cmap = {};
   for (const l of LANGS) cmap[l] = fs.existsSync(`t/c/${l}.json`) ? JSON.parse(fs.readFileSync(`t/c/${l}.json`, "utf8")) : {};
-  const need = AK && process.env.TX_PASSES !== "ja" ? texts.filter(x => LANGS.some(l => !cmap[l][x])) : [];
+  const need = AK && PASSES.includes("all") ? texts.filter(x => LANGS.some(l => !cmap[l][x])) : [];
   for (let i = 0; i < need.length && !stopTx && outTok < MAX_OUT; i += 30) {
     const batch = need.slice(i, i + 30);
     const res = await claude(batch.map(t => ({ t })));
@@ -183,5 +205,5 @@ for (const d of dirs) {
 fs.writeFileSync("t/gone.json", JSON.stringify([...gone].filter(id => keep.has(id)).sort()));
 const cost = inTok / 1e6 * 0.10 + outTok / 1e6 * 0.50;
 console.log(JSON.stringify({ site_ids: site_ids.length, fetched_titles: needMeta.length, youtube_calls: ytCalls, gone: gone.size,
-  ja_to_translate: todoJa.length, ja_translated: doneJa, to_translate: todo.length, translated: done, curated_texts: curated, left: Math.max(0, todo.length - done), failed_batches: failedBatches,
+  ja_to_translate: todoJa.length, ja_translated: doneJa, en_to_translate: todoEn.length, en_translated: doneEn, to_translate: todo.length, translated: done, curated_texts: curated, left: Math.max(0, todo.length - done), failed_batches: failedBatches,
   claude_calls: calls, input_tokens: inTok, output_tokens: outTok, approx_cost_usd: +cost.toFixed(2) }));
