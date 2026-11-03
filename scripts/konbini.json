@@ -25,7 +25,8 @@
     "My Demon Do Do-hee Gu-won",
     "マイ・デーモン キム・ユジョン ソンガン",
     "마이데몬 키스"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "wonhee_commute",
@@ -48,7 +49,8 @@
     "원희 뮤뱅 퇴근길",
     "ILLIT Wonhee commute",
     "ウォニ 退勤"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "illit_songkang",
@@ -92,7 +94,8 @@
     "STUDIO CHOOM ILLIT 체포하겠어",
     "아일릿 체포하겠어 쇼츠",
     "ILLIT You're Under Arrest"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "konbini",
@@ -211,7 +214,8 @@
     "BTS ブラジル",
     "BTS サンパウロ",
     "BTS fancam Brazil"
-   ]
+   ],
+   "done": true
   }
  ]
 }

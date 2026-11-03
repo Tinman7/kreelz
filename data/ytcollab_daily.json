@@ -1,33 +1,33 @@
 {
- "date": "2026-11-03",
+ "date": "2026-11-04",
  "updated": "2026-11-03T06:00:54.480Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 18,
    "picks": [
-    "UC0RJAtZGjcUfwskb_AKGw3Q",
-    "UCn3hCkj3xMnOkVEkw3G5CLQ",
-    "UCFQ5D7fQAHZ4AsfSal4AgIA"
+    "UCveg2OqejYV-Y_UsMOTNLqA",
+    "UCnRQgLid_0ePEXlrSQPNHrg",
+    "UCsnDrary1zSkV9RFyZ11K7w"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、毎日0時に日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-03）",
+    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-04）",
     "rows": [
-     "1. BESTie「Love Options」MusicCore出演映像\n   BESTieの「Love Options」をMBCの音楽番組Show! MusicCoreで披露した映像です。ファンは歌とパフォーマンスをチェックできます。",
-     "2. ILLIT「pop x LGS」\n   ILLITの楽曲「pop x LGS」に関する映像です。詳細は説明欄に記載がありません。",
-     "3. NEON「A2O LITE」SBS人気歌謡出演映像\n   NEONの「A2O LITE」をSBS人気歌謡の放送で披露した映像です。週間人気曲の投票も案内されています。",
-     "4. 直張人たち シーズン3 最終話ハイライト\n   Coupang Playのシリーズ「直張人たち」シーズン3最終話のハイライトです。キム・ウォンフンやパク・ソダムが出演するコメディ場面が見どころです。",
-     "5. 新人監督キム・ヨンギョン2 新セッター合流\n   MBCのバラエティ「新人監督キム・ヨンギョン2」の放送映像です。日本のバレーボール大会優勝チーム、ツバキ・ワンダードッグスへの新セッター合流が取り上げられています。",
-     "6. アンダーカバーシェフ 遠くから訪ねてきた友\n   tvNのバラエティ「アンダーカバーシェフ：遠くから訪ねてきた友」の場面です。チョン・ジソンを訪ねて成都から来た人々が、韓国での仕事の機会を得る様子が描かれています。",
-     "7. 99歳おばあちゃんの長寿の秘訣\n   TV CHOSUNの教養番組「どう生きるか」第95回の映像です。よく食べ、よく消化することが長寿の秘訣だと紹介されています。",
-     "8. 輝かしく今も 海苔を指摘するシーン\n   映画「輝かしく今も」の場面です。キム・ヘジャやイ・セヨンらが出演し、キム・ヘジャ演じる人物がクールに口元の海苔を指摘します。"
+     "1. TWS「내 이름을 불러줘」公式MV\n   TWSの公式MV「내 이름을 불러줘（CALL MY NAME）」です。クレジット付きの正式映像で、ファンが繰り返し観る一本です。",
+     "2. ILLIT「You're Under Arrest」ショート映像\n   ILLITの「말했지 습관성 친절은 범죄야」を含む映像です。タイトルのとおり「체포하겠어」がテーマで、ファンが楽しめる内容です。",
+     "3. NEON - A2O LITE「インキガヨ」出演\n   SBS「인기가요」1329回（11月1日放送）でのNEON - A2O LITEの出演映像です。週間人気曲の放送として楽しめます。",
+     "4. パニと行く松山万円旅行「万円の幸せ」EP.0\n   パニ・ボトルと巡る松山の万円旅行の第0話です。食べたい物を食べ、見たい物を見る、ゆったりした旅が魅力です。",
+     "5. 『冷蔵庫をお願い』第96回予告（ジス・ATEEZ ウヨン・サン）\n   『冷蔵庫をお願い』第96回の予告編です。ジス、ATEEZのウヨンとサンが登場し、辛い料理対決が見どころです。",
+     "6. 99歳おばあちゃんの長寿の秘訣は消化力\n   TV CHOSUN『どう生きるか』第95回です。99歳の女性が語る、よく食べよく消化することが長寿の秘訣という内容です。",
+     "7. SBS『3シェフ』チョン・ホヨン×チョン・ジソン 募集ティーザー\n   SBS『3シェフ』の募集告知ティーザーです。ソウルで客足に悩む飲食店オーナーを対象に、2026年11月8日まで応募を受け付けています。",
+     "8. 『今も輝いて』チョン・イムイの頬のキム\n   映画『今も輝いて』の場面で、チョン・イムイの頬についた海苔（キム）をめぐる直球のアプローチを描いた映像です。"
     ],
     "n": 8,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-03）\n\n1. BESTie「Love Options」MusicCore出演映像\n   BESTieの「Love Options」をMBCの音楽番組Show! MusicCoreで披露した映像です。ファンは歌とパフォーマンスをチェックできます。\n2. ILLIT「pop x LGS」\n   ILLITの楽曲「pop x LGS」に関する映像です。詳細は説明欄に記載がありません。\n3. NEON「A2O LITE」SBS人気歌謡出演映像\n   NEONの「A2O LITE」をSBS人気歌謡の放送で披露した映像です。週間人気曲の投票も案内されています。\n4. 直張人たち シーズン3 最終話ハイライト\n   Coupang Playのシリーズ「直張人たち」シーズン3最終話のハイライトです。キム・ウォンフンやパク・ソダムが出演するコメディ場面が見どころです。\n5. 新人監督キム・ヨンギョン2 新セッター合流\n   MBCのバラエティ「新人監督キム・ヨンギョン2」の放送映像です。日本のバレーボール大会優勝チーム、ツバキ・ワンダードッグスへの新セッター合流が取り上げられています。\n6. アンダーカバーシェフ 遠くから訪ねてきた友\n   tvNのバラエティ「アンダーカバーシェフ：遠くから訪ねてきた友」の場面です。チョン・ジソンを訪ねて成都から来た人々が、韓国での仕事の機会を得る様子が描かれています。\n7. 99歳おばあちゃんの長寿の秘訣\n   TV CHOSUNの教養番組「どう生きるか」第95回の映像です。よく食べ、よく消化することが長寿の秘訣だと紹介されています。\n8. 輝かしく今も 海苔を指摘するシーン\n   映画「輝かしく今も」の場面です。キム・ヘジャやイ・セヨンらが出演し、キム・ヘジャ演じる人物がクールに口元の海苔を指摘します。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-04）\n\n1. TWS「내 이름을 불러줘」公式MV\n   TWSの公式MV「내 이름을 불러줘（CALL MY NAME）」です。クレジット付きの正式映像で、ファンが繰り返し観る一本です。\n2. ILLIT「You're Under Arrest」ショート映像\n   ILLITの「말했지 습관성 친절은 범죄야」を含む映像です。タイトルのとおり「체포하겠어」がテーマで、ファンが楽しめる内容です。\n3. NEON - A2O LITE「インキガヨ」出演\n   SBS「인기가요」1329回（11月1日放送）でのNEON - A2O LITEの出演映像です。週間人気曲の放送として楽しめます。\n4. パニと行く松山万円旅行「万円の幸せ」EP.0\n   パニ・ボトルと巡る松山の万円旅行の第0話です。食べたい物を食べ、見たい物を見る、ゆったりした旅が魅力です。\n5. 『冷蔵庫をお願い』第96回予告（ジス・ATEEZ ウヨン・サン）\n   『冷蔵庫をお願い』第96回の予告編です。ジス、ATEEZのウヨンとサンが登場し、辛い料理対決が見どころです。\n6. 99歳おばあちゃんの長寿の秘訣は消化力\n   TV CHOSUN『どう生きるか』第95回です。99歳の女性が語る、よく食べよく消化することが長寿の秘訣という内容です。\n7. SBS『3シェフ』チョン・ホヨン×チョン・ジソン 募集ティーザー\n   SBS『3シェフ』の募集告知ティーザーです。ソウルで客足に悩む飲食店オーナーを対象に、2026年11月8日まで応募を受け付けています。\n8. 『今も輝いて』チョン・イムイの頬のキム\n   映画『今も輝いて』の場面で、チョン・イムイの頬についた海苔（キム）をめぐる直球のアプローチを描いた映像です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -37,22 +37,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated every midnight (KST). I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-03)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-04)",
     "rows": [
-     "1. BESTie - Love Options on Show! MusicCore (MBC)\n   BESTie performs \"Love Options\" on MBC's music show Show! MusicCore. Fans can watch the song and stage performance.",
-     "2. ILLIT - pop x LGS\n   A clip titled \"pop x LGS\" by ILLIT. The description provides no further details.",
-     "3. NEON - A2O LITE on SBS Inkigayo\n   NEON performs \"A2O LITE\" on SBS's Inkigayo broadcast. The clip also promotes voting for weekly popular songs on LiNC.",
-     "4. Office Workers Season 3 Finale Highlights (Coupang Play)\n   Highlights from the final episode of Coupang Play's series \"Office Workers\" Season 3. The clip features comedic scenes with Kim Won-hoon and Park So-dam.",
-     "5. 100 Days of Lies - Lorain's Perfect Timing Scene\n   A scene from tvN's drama \"100 Days of Lies,\" starring Kim Yoo-jung and Park Jin-young. The clip is titled as a \"good timing\" moment.",
-     "6. Doctor X: The Era of the White Mafia - Kim Professor Scene\n   A scene from SBS's Friday-Saturday drama \"Doctor X: The Era of the White Mafia,\" featuring Kim Ji-won and Lee Jung-eun. The clip centers on Professor Kim's reactions.",
-     "7. Rookie Director Kim Yeon-koung 2 - New Setter Joins\n   A clip from MBC's variety show \"Rookie Director Kim Yeon-koung 2.\" It features a new setter joining the Japanese team Tsubaki Wonder Dogs, which won a Japanese volleyball tournament.",
-     "8. Undercover Chef: Friends Who Came From Afar - Sunny Restaurant\n   A clip from tvN's \"Undercover Chef: Friends Who Came From Afar.\" Chengdu friends who visited Jung Ji-sun end up getting job offers at a Korean restaurant.",
-     "9. 99-Year-Old Grandma's Longevity Secret - How to Live\n   A clip from TV CHOSUN's educational program \"How to Live,\" episode 95. It explains that digestion and gut health are key to longevity.",
-     "10. Still Dazzling - Pointing Out the Seaweed on Her Face\n   A scene from the film \"Still Dazzling,\" featuring Kim Hye-ja and Lee Se-young. A character playfully points out seaweed on someone's face."
+     "1. TWS '내 이름을 불러줘' Official MV\n   The official music video for TWS's song '내 이름을 불러줘' (CALL MY NAME), with full production credits. Fans can watch the full official release.",
+     "2. ILLIT '체포하겠어' clip: 'Habitual kindness is a crime'\n   A clip from ILLIT's channel with the title line 'I told you, habitual kindness is a crime' and the tag '#You_re_Under_Arrest'. The description is empty, so it is a short clip with no further details.",
+     "3. NEON - A2O LITE on SBS Inkigayo (1329th episode)\n   NEON - A2O LITE's performance on SBS's weekly chart show Inkigayo, episode 1329, broadcast on Sunday at 3:10 PM. Fans can vote for weekly popular songs on the LiNC app.",
+     "4. 100 Days of Deception: Gagyeong's innocence causes an interpreting mix-up\n   A scene from tvN's 20th anniversary drama '100 Days of Deception' in which Gagyeong's innocence leads to a comedic interpreting mishap. The drama airs Saturday and Sunday at 9:10 PM.",
+     "5. 100 Days of Deception: Lorang's good timing moment\n   A clip from tvN's '100 Days of Deception' titled 'Lorang's good timing', a scene from the 20th anniversary special drama. It airs Saturday and Sunday at 9:10 PM on tvN.",
+     "6. Matsuyama 10,000-yen trip with Pani: EP.0\n   The pilot episode of a travel series in which Pani Bottle goes on a 10,000-yen trip to Matsuyama. The channel Chaenol Shiboya uploads the show, which is tied to Na Young-seok's name in the tags.",
+     "7. Refrigerator Stars 'Please Take Care of My Refrigerator' Ep. 96 preview\n   The preview for episode 96 of JTBC's 'Please Take Care of My Refrigerator', featuring Jisoo of BLACKPINK and ATEEZ's Yunho and San. The chefs cook spicy dishes for Jisoo, and the episode airs Sunday at 8:50 PM.",
+     "8. 99-year-old grandmother's longevity secret: good digestion\n   Episode 95 of TV CHOSUN's '어떻게 살 것인가' (How to Live), broadcast November 1, 2026. A 99-year-old woman shares that enjoying food and digesting it well, along with gut health, is key to longevity.",
+     "9. Three Chefs (SBS) casting teaser: Jung Ho-young & Jung Ji-sun\n   A casting teaser for SBS's cooking show '3 Chefs' with Jung Ho-young and Jung Ji-sun, seeking Seoul restaurant owners struggling with business. Applications run from October 23 to November 8, 2026.",
+     "10. Still Shining: 'You've got seaweed on your face'\n   A clip from the film 'Still Shining' (여전히 찬란하게), now showing, in which the straightforward Jeong-im makes a flirty move involving seaweed on a face. The cast includes Kim Hye-ja and Lee Se-young, directed by Song Il-gon."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-03)\n\n1. BESTie - Love Options on Show! MusicCore (MBC)\n   BESTie performs \"Love Options\" on MBC's music show Show! MusicCore. Fans can watch the song and stage performance.\n2. ILLIT - pop x LGS\n   A clip titled \"pop x LGS\" by ILLIT. The description provides no further details.\n3. NEON - A2O LITE on SBS Inkigayo\n   NEON performs \"A2O LITE\" on SBS's Inkigayo broadcast. The clip also promotes voting for weekly popular songs on LiNC.\n4. Office Workers Season 3 Finale Highlights (Coupang Play)\n   Highlights from the final episode of Coupang Play's series \"Office Workers\" Season 3. The clip features comedic scenes with Kim Won-hoon and Park So-dam.\n5. 100 Days of Lies - Lorain's Perfect Timing Scene\n   A scene from tvN's drama \"100 Days of Lies,\" starring Kim Yoo-jung and Park Jin-young. The clip is titled as a \"good timing\" moment.\n6. Doctor X: The Era of the White Mafia - Kim Professor Scene\n   A scene from SBS's Friday-Saturday drama \"Doctor X: The Era of the White Mafia,\" featuring Kim Ji-won and Lee Jung-eun. The clip centers on Professor Kim's reactions.\n7. Rookie Director Kim Yeon-koung 2 - New Setter Joins\n   A clip from MBC's variety show \"Rookie Director Kim Yeon-koung 2.\" It features a new setter joining the Japanese team Tsubaki Wonder Dogs, which won a Japanese volleyball tournament.\n8. Undercover Chef: Friends Who Came From Afar - Sunny Restaurant\n   A clip from tvN's \"Undercover Chef: Friends Who Came From Afar.\" Chengdu friends who visited Jung Ji-sun end up getting job offers at a Korean restaurant.\n9. 99-Year-Old Grandma's Longevity Secret - How to Live\n   A clip from TV CHOSUN's educational program \"How to Live,\" episode 95. It explains that digestion and gut health are key to longevity.\n10. Still Dazzling - Pointing Out the Seaweed on Her Face\n   A scene from the film \"Still Dazzling,\" featuring Kim Hye-ja and Lee Se-young. A character playfully points out seaweed on someone's face.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-04)\n\n1. TWS '내 이름을 불러줘' Official MV\n   The official music video for TWS's song '내 이름을 불러줘' (CALL MY NAME), with full production credits. Fans can watch the full official release.\n2. ILLIT '체포하겠어' clip: 'Habitual kindness is a crime'\n   A clip from ILLIT's channel with the title line 'I told you, habitual kindness is a crime' and the tag '#You_re_Under_Arrest'. The description is empty, so it is a short clip with no further details.\n3. NEON - A2O LITE on SBS Inkigayo (1329th episode)\n   NEON - A2O LITE's performance on SBS's weekly chart show Inkigayo, episode 1329, broadcast on Sunday at 3:10 PM. Fans can vote for weekly popular songs on the LiNC app.\n4. 100 Days of Deception: Gagyeong's innocence causes an interpreting mix-up\n   A scene from tvN's 20th anniversary drama '100 Days of Deception' in which Gagyeong's innocence leads to a comedic interpreting mishap. The drama airs Saturday and Sunday at 9:10 PM.\n5. 100 Days of Deception: Lorang's good timing moment\n   A clip from tvN's '100 Days of Deception' titled 'Lorang's good timing', a scene from the 20th anniversary special drama. It airs Saturday and Sunday at 9:10 PM on tvN.\n6. Matsuyama 10,000-yen trip with Pani: EP.0\n   The pilot episode of a travel series in which Pani Bottle goes on a 10,000-yen trip to Matsuyama. The channel Chaenol Shiboya uploads the show, which is tied to Na Young-seok's name in the tags.\n7. Refrigerator Stars 'Please Take Care of My Refrigerator' Ep. 96 preview\n   The preview for episode 96 of JTBC's 'Please Take Care of My Refrigerator', featuring Jisoo of BLACKPINK and ATEEZ's Yunho and San. The chefs cook spicy dishes for Jisoo, and the episode airs Sunday at 8:50 PM.\n8. 99-year-old grandmother's longevity secret: good digestion\n   Episode 95 of TV CHOSUN's '어떻게 살 것인가' (How to Live), broadcast November 1, 2026. A 99-year-old woman shares that enjoying food and digesting it well, along with gut health, is key to longevity.\n9. Three Chefs (SBS) casting teaser: Jung Ho-young & Jung Ji-sun\n   A casting teaser for SBS's cooking show '3 Chefs' with Jung Ho-young and Jung Ji-sun, seeking Seoul restaurant owners struggling with business. Applications run from October 23 to November 8, 2026.\n10. Still Shining: 'You've got seaweed on your face'\n   A clip from the film 'Still Shining' (여전히 찬란하게), now showing, in which the straightforward Jeong-im makes a flirty move involving seaweed on a face. The cast includes Kim Hye-ja and Lee Se-young, directed by Song Il-gon.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -62,22 +62,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui setiap tengah malam (KST). Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-03)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-04)",
     "rows": [
-     "1. BESTie - Love Options on Show! MusicCore (MBC)",
-     "2. ILLIT - pop x LGS",
-     "3. NEON - A2O LITE on SBS Inkigayo",
-     "4. Office Workers Season 3 Finale Highlights (Coupang Play)",
-     "5. 100 Days of Lies - Lorain's Perfect Timing Scene",
-     "6. Doctor X: The Era of the White Mafia - Kim Professor Scene",
-     "7. Rookie Director Kim Yeon-koung 2 - New Setter Joins",
-     "8. Undercover Chef: Friends Who Came From Afar - Sunny Restaurant",
-     "9. 99-Year-Old Grandma's Longevity Secret - How to Live",
-     "10. Still Dazzling - Pointing Out the Seaweed on Her Face"
+     "1. TWS '내 이름을 불러줘' Official MV",
+     "2. ILLIT '체포하겠어' clip: 'Habitual kindness is a crime'",
+     "3. NEON - A2O LITE on SBS Inkigayo (1329th episode)",
+     "4. 100 Days of Deception: Gagyeong's innocence causes an interpreting mix-up",
+     "5. 100 Days of Deception: Lorang's good timing moment",
+     "6. Matsuyama 10,000-yen trip with Pani: EP.0",
+     "7. Refrigerator Stars 'Please Take Care of My Refrigerator' Ep. 96 preview",
+     "8. 99-year-old grandmother's longevity secret: good digestion",
+     "9. Three Chefs (SBS) casting teaser: Jung Ho-young & Jung Ji-sun",
+     "10. Still Shining: 'You've got seaweed on your face'"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-03)\n\n1. BESTie - Love Options on Show! MusicCore (MBC)\n2. ILLIT - pop x LGS\n3. NEON - A2O LITE on SBS Inkigayo\n4. Office Workers Season 3 Finale Highlights (Coupang Play)\n5. 100 Days of Lies - Lorain's Perfect Timing Scene\n6. Doctor X: The Era of the White Mafia - Kim Professor Scene\n7. Rookie Director Kim Yeon-koung 2 - New Setter Joins\n8. Undercover Chef: Friends Who Came From Afar - Sunny Restaurant\n9. 99-Year-Old Grandma's Longevity Secret - How to Live\n10. Still Dazzling - Pointing Out the Seaweed on Her Face\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-04)\n\n1. TWS '내 이름을 불러줘' Official MV\n2. ILLIT '체포하겠어' clip: 'Habitual kindness is a crime'\n3. NEON - A2O LITE on SBS Inkigayo (1329th episode)\n4. 100 Days of Deception: Gagyeong's innocence causes an interpreting mix-up\n5. 100 Days of Deception: Lorang's good timing moment\n6. Matsuyama 10,000-yen trip with Pani: EP.0\n7. Refrigerator Stars 'Please Take Care of My Refrigerator' Ep. 96 preview\n8. 99-year-old grandmother's longevity secret: good digestion\n9. Three Chefs (SBS) casting teaser: Jung Ho-young & Jung Ji-sun\n10. Still Shining: 'You've got seaweed on your face'\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
