@@ -143,7 +143,7 @@ const kstDay = iso => new Date(Date.parse(iso) + 9 * 3600e3).toISOString().slice
 const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
 for (const c of add) keep.set(c.id, [c.id, c.cat, c.views, kstDay(c.pub), rank([c.t, c.ch]) || 0, rankIn(JP_ARTISTS, [c.t, c.ch]) || 0, c.t.slice(0, 150), c.chName, shorts.has(c.id) ? 1 : 0, 0, 1]);
 const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   // daytime finds the nightly took in are no longer needed here
-  .filter(x => Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY);
+  .filter(x => Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
 const L = { ...old, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
