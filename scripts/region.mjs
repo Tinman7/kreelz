@@ -10,9 +10,9 @@ const EDITIONS = [{
   lang: "ja",
   region: "jp",
   title: "KREELZ JAPAN｜K-POP・韓国ドラマ・バラエティの公式動画とショート",
-  description: "KREELZ JAPAN — K-POP、韓国ドラマ、韓国映画、バラエティ、ビューティー、Kフードの公式動画とショートを毎日0時（日本時間）に更新。登録不要・無料。",
+  description: "KREELZ JAPAN — K-POP、韓国ドラマ、韓国映画、バラエティ、ビューティー、Kフードの公式動画とショートをリアルタイムで更新。登録不要・無料。",
   ogTitle: "KREELZ JAPAN — 韓国エンタメのショート＆動画を毎日",
-  ogDescription: "Stray Kids、SEVENTEEN、ENHYPEN、&TEAMから人気俳優のロマンス名場面まで。毎日0時に新着。",
+  ogDescription: "Stray Kids、SEVENTEEN、ENHYPEN、&TEAMから人気俳優のロマンス名場面まで。リアルタイムで新着。",
   url: "https://kreelz.com/jp/",
   badge: "JAPAN",
 }];

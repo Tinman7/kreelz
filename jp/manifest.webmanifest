@@ -2,7 +2,7 @@
  "id": "/jp/",
  "name": "KREELZ JAPAN — K-POP・韓国ドラマ・バラエティ",
  "short_name": "KREELZ JP",
- "description": "韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画とショートを、毎日0時に日本語タイトル付きで。無料。",
+ "description": "韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画とショートを、リアルタイムで日本語タイトル付きで。無料。",
  "lang": "ja",
  "start_url": "/jp/?source=pwa",
  "scope": "/jp/",

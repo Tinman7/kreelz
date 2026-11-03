@@ -70,6 +70,8 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         const stage = cat === "m" && (STAGE[ch] || [...ARTISTS, ...JP_ARTISTS].some(a => a[1].includes(ch)));
         if (!(stage ? views >= 15000 : views >= 80000 || views / hrs >= 4000)) continue;
         if (eatBlocked(t, chName, cat)) continue;
+        // from the busiest channels (not the stage / artist ones): Korean content only — a Korean title or a priority artist
+        if (!stage && !/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
         cand.push({ id, ch, chName, cat, t, pub, views, rate: views / hrs, stage });
       }
     } catch (e) { feedFail++; }

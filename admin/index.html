@@ -514,7 +514,7 @@ function fbCard(c){
     g.textBaseline="alphabetic"; y+=hs[i]+gap });
   g.fillStyle=INK; const bx=72,by=H-170,bw=W-144,bh=96; g.beginPath(); g.roundRect(bx,by,bw,bh,48); g.fill();
   g.fillStyle="#fff"; g.font=`800 40px ${F}`; g.textAlign="center"; g.textBaseline="middle"; g.fillText(c.big?`▶ ${c.url}`:`Watch all → ${c.url}`,W/2,by+bh/2+2);
-  g.fillStyle=MU; g.font=`600 28px ${F}`; g.fillText(c.foot||"New picks every midnight (KST) · Free",W/2,H-40);
+  g.fillStyle=MU; g.font=`600 28px ${F}`; g.fillText(c.foot||"Updated in real time · Free",W/2,H-40);
   return cv.toDataURL("image/png");
 }
 (async function fbposts(){

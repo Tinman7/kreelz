@@ -77,18 +77,18 @@ const ED = {
 const EDS = ["en", "ja", "es"];
 const T = {
   en: {
-    artist: n => [`${n} shorts & videos — latest clips`, `The latest ${n} shorts and videos from YouTube in one place: MVs, dance practices, fancams, behind-the-scenes and variety clips, with titles in English. Updated every day at midnight KST.`],
-    actor: n => [`${n} shorts & videos — drama clips, interviews, fan meetings`, `Every new ${n} clip in one place: drama scenes, interviews, fan meetings, events and variety appearances, with titles in English. Updated every day at midnight KST.`],
-    cat: (n, k) => [`${n} shorts & videos today`, `The most-watched ${n} shorts and videos of the last days, picked from official channels and creators on YouTube, with titles in English. Updated every day at midnight KST.`],
-    today: () => [`Today's K-pop, K-drama & Korean shorts`, `What Korea is watching today: the most-viewed new K-pop, K-drama, variety, beauty and K-food clips of the last 48 hours, with titles in English. Updated every day at midnight KST.`],
-    member: n => [`${n} shorts & videos — latest clips`, `The latest shorts and videos of ${n}: stages, fancams, behind-the-scenes, lives and variety clips from YouTube, with titles in English. Updated every day at midnight KST.`],
-    show: n => [`${n} K-drama — best scenes, shorts & clips`, `The K-drama “${n}” in short clips: best scenes, making-of, previews, and cast interviews, from official channels on YouTube with titles in English. Updated every day at midnight KST.`],
+    artist: n => [`${n} shorts & videos — latest clips`, `The latest ${n} shorts and videos from YouTube in one place: MVs, dance practices, fancams, behind-the-scenes and variety clips, with titles in English. Updated in real time.`],
+    actor: n => [`${n} shorts & videos — drama clips, interviews, fan meetings`, `Every new ${n} clip in one place: drama scenes, interviews, fan meetings, events and variety appearances, with titles in English. Updated in real time.`],
+    cat: (n, k) => [`${n} shorts & videos today`, `The most-watched ${n} shorts and videos of the last days, picked from official channels and creators on YouTube, with titles in English. Updated in real time.`],
+    today: () => [`Today's K-pop, K-drama & Korean shorts`, `What Korea is watching today: the most-viewed new K-pop, K-drama, variety, beauty and K-food clips of the last 48 hours, with titles in English. Updated in real time.`],
+    member: n => [`${n} shorts & videos — latest clips`, `The latest shorts and videos of ${n}: stages, fancams, behind-the-scenes, lives and variety clips from YouTube, with titles in English. Updated in real time.`],
+    show: n => [`${n} K-drama — best scenes, shorts & clips`, `The K-drama “${n}” in short clips: best scenes, making-of, previews, and cast interviews, from official channels on YouTube with titles in English. Updated in real time.`],
     krL: "Korean viewers", moreH: n => `${n} more clips Korea is watching`,
     newH: "Newest", newest: "newest", membersH: "Members", groupH: "Group", otherH: "Other members", dramasH: "K-dramas",
     about: (n, tot, ns, nv, n7, top) => `KREELZ has ${tot} ${n} clips right now (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} of them new in the last 7 days` : ""}.${top ? ` The most watched: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""}`,
     titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
     descX: (d, n, top, lead) => `Updated ${d}: ${n} clips.${top ? ` Trending: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""} ${lead}`,
-    hub: () => [`K-pop artists, K-drama actors & categories`, `Browse KREELZ by artist, actor or category. Each page collects the latest shorts and videos from YouTube with titles in English, updated every day at midnight KST.`],
+    hub: () => [`K-pop artists, K-drama actors & categories`, `Browse KREELZ by artist, actor or category. Each page collects the latest shorts and videos from YouTube with titles in English, updated in real time.`],
     shorts: "Shorts", videos: "Videos", updated: d => `Updated ${d} (KST)`, count: n => `${n} clips`, views: v => `${fmt(v)} views`,
     open: "Open KREELZ", artistsH: "K-pop artists", actorsH: "Actors", catsH: "Categories", todayL: "Today", hubL: "All topics",
     note: "Videos belong to their creators and play from YouTube. KREELZ picks and translates titles; it does not host any video.",
@@ -96,13 +96,13 @@ const T = {
     day: d => [`Korean entertainment on ${d} — 10 clips in 3 minutes`, `The 10 clips Korea watched most on ${d}: K-pop, dramas on air, variety, film and food, each with a one-line explanation.`],
   },
   es: {
-    artist: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n} en un solo lugar: MVs, ensayos de baile, fancams, detrás de cámaras y programas de variedades, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    actor: n => [`${n}: shorts y videos — escenas de doramas, entrevistas y fan meetings`, `Todos los clips nuevos de ${n} en un solo lugar: escenas de doramas, entrevistas, fan meetings, eventos y programas de variedades, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    member: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n}: presentaciones, fancams, detrás de cámaras, lives y programas de variedades de YouTube, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    show: n => [`${n} (dorama): mejores escenas, shorts y clips`, `El K-drama “${n}” en clips cortos: mejores escenas, making-of, avances y entrevistas del elenco, de los canales oficiales en YouTube con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    cat: (n, k) => [`${n}: shorts y videos de hoy`, `Los shorts y videos de ${n} más vistos de los últimos días, elegidos de canales oficiales y creadores en YouTube, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    today: () => [`Hoy en Corea: shorts de K-pop, K-drama y más`, `Lo que Corea está viendo hoy: los clips nuevos más vistos de K-pop, doramas, variedades, belleza y comida de las últimas 48 horas, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
-    hub: () => [`Artistas de K-pop, actores de K-drama y categorías`, `Explora KREELZ por artista, actor o categoría. Cada página reúne los shorts y videos más recientes de YouTube con títulos en español, actualizados todos los días a medianoche (hora de Corea).`],
+    artist: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n} en un solo lugar: MVs, ensayos de baile, fancams, detrás de cámaras y programas de variedades, con títulos en español. Se actualiza en tiempo real.`],
+    actor: n => [`${n}: shorts y videos — escenas de doramas, entrevistas y fan meetings`, `Todos los clips nuevos de ${n} en un solo lugar: escenas de doramas, entrevistas, fan meetings, eventos y programas de variedades, con títulos en español. Se actualiza en tiempo real.`],
+    member: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n}: presentaciones, fancams, detrás de cámaras, lives y programas de variedades de YouTube, con títulos en español. Se actualiza en tiempo real.`],
+    show: n => [`${n} (dorama): mejores escenas, shorts y clips`, `El K-drama “${n}” en clips cortos: mejores escenas, making-of, avances y entrevistas del elenco, de los canales oficiales en YouTube con títulos en español. Se actualiza en tiempo real.`],
+    cat: (n, k) => [`${n}: shorts y videos de hoy`, `Los shorts y videos de ${n} más vistos de los últimos días, elegidos de canales oficiales y creadores en YouTube, con títulos en español. Se actualiza en tiempo real.`],
+    today: () => [`Hoy en Corea: shorts de K-pop, K-drama y más`, `Lo que Corea está viendo hoy: los clips nuevos más vistos de K-pop, doramas, variedades, belleza y comida de las últimas 48 horas, con títulos en español. Se actualiza en tiempo real.`],
+    hub: () => [`Artistas de K-pop, actores de K-drama y categorías`, `Explora KREELZ por artista, actor o categoría. Cada página reúne los shorts y videos más recientes de YouTube con títulos en español, actualizados en tiempo real.`],
     shorts: "Shorts", videos: "Videos", updated: d => `Actualizado ${d} (hora de Corea)`, count: n => `${n} clips`, views: v => `${fmt(v)} vistas`,
     open: "Abrir KREELZ", artistsH: "Artistas de K-pop", actorsH: "Actores y actrices", catsH: "Categorías", todayL: "Hoy", hubL: "Todos los temas",
     note: "Los videos pertenecen a sus creadores y se reproducen desde YouTube. KREELZ elige los clips y traduce los títulos; no aloja ningún video.",
@@ -114,19 +114,19 @@ const T = {
     descX: (d, n, top, lead) => `Actualizado ${d}: ${n} clips.${top ? ` Tendencia: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} vistas)` : ""}.` : ""} ${lead}`,
   },
   ja: {
-    artist: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。MV、ダンス、直カム、ビハインド、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
-    actor: n => [`${n}の最新動画まとめ｜ドラマ名場面・インタビュー・ファンミ`, `${n}の新着クリップをまとめてチェック。ドラマの名場面、インタビュー、ファンミーティング、イベント、バラエティ出演などを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
-    cat: (n, k) => [`${n}の人気ショート・動画`, `いま見られている${n}のショートと動画を、公式チャンネルと人気クリエイターから厳選。日本語タイトルで紹介、毎日0時（日本時間）更新。`],
-    today: () => [`今日の韓国エンタメ人気ショート`, `韓国でいま話題のK-POP、韓国ドラマ、バラエティ、ビューティー、グルメの新着クリップ（直近48時間）を再生回数順に。日本語タイトル付き、毎日0時（日本時間）更新。`],
-    member: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。ステージ、直カム、ビハインド、ライブ、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
-    show: n => [`韓国ドラマ「${n}」名場面・ショート動画まとめ`, `韓国ドラマ「${n}」の名場面、メイキング、予告、キャストのインタビューなどを、公式チャンネルのショート・動画から日本語タイトルで紹介。毎日0時（日本時間）更新。`],
+    artist: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。MV、ダンス、直カム、ビハインド、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。リアルタイム更新。`],
+    actor: n => [`${n}の最新動画まとめ｜ドラマ名場面・インタビュー・ファンミ`, `${n}の新着クリップをまとめてチェック。ドラマの名場面、インタビュー、ファンミーティング、イベント、バラエティ出演などを日本語タイトルで紹介。リアルタイム更新。`],
+    cat: (n, k) => [`${n}の人気ショート・動画`, `いま見られている${n}のショートと動画を、公式チャンネルと人気クリエイターから厳選。日本語タイトルで紹介、リアルタイム更新。`],
+    today: () => [`今日の韓国エンタメ人気ショート`, `韓国でいま話題のK-POP、韓国ドラマ、バラエティ、ビューティー、グルメの新着クリップ（直近48時間）を再生回数順に。日本語タイトル付き、リアルタイム更新。`],
+    member: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。ステージ、直カム、ビハインド、ライブ、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。リアルタイム更新。`],
+    show: n => [`韓国ドラマ「${n}」名場面・ショート動画まとめ`, `韓国ドラマ「${n}」の名場面、メイキング、予告、キャストのインタビューなどを、公式チャンネルのショート・動画から日本語タイトルで紹介。リアルタイム更新。`],
     krL: "韓国の反応", moreH: n => `ほかにも韓国で話題の${n}本`,
     newH: "新着", newest: "最新", membersH: "メンバー", groupH: "グループ", otherH: "ほかのメンバー", dramasH: "韓国ドラマ作品",
     about: (n, tot, ns, nv, n7, top) => `${n}のクリップは現在${tot}本（ショート${ns}本・動画${nv}本）${n7 ? `、直近7日間の新着は${n7}本` : ""}です。${top ? `いちばん見られているのは「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}`,
     titleX: (h, n, d) => `${h.split("｜")[0]}【${d}更新・${n}本】`, md: d => `${+d.slice(5, 7)}/${+d.slice(8, 10)}`,
     descX: (d, n, top, lead) => `【${d}更新】${n}本を掲載。${top ? `いま話題：「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}${lead}`,
-    hub: () => [`アーティスト・俳優・カテゴリー一覧`, `KREELZ JAPANをアーティスト、俳優、カテゴリーから探せます。各ページはYouTubeの最新ショートと動画を日本語タイトルでまとめ、毎日0時（日本時間）に更新。`],
-    shorts: "ショート", videos: "動画", updated: d => `${d} 更新（日本時間0時）`, count: n => `${n}本`, views: v => `${fmtJa(v)}回視聴`,
+    hub: () => [`アーティスト・俳優・カテゴリー一覧`, `KREELZ JAPANをアーティスト、俳優、カテゴリーから探せます。各ページはYouTubeの最新ショートと動画を日本語タイトルでまとめ、リアルタイムで更新。`],
+    shorts: "ショート", videos: "動画", updated: d => `${d} 更新`, count: n => `${n}本`, views: v => `${fmtJa(v)}回視聴`,
     open: "KREELZ JAPANを開く", artistsH: "K-POPアーティスト", actorsH: "俳優", catsH: "カテゴリー", todayL: "今日の人気", hubL: "一覧",
     note: "動画の権利は各制作者に帰属し、YouTubeから再生されます。KREELZは動画を選んでタイトルを翻訳しているだけで、動画をホスティングしていません。",
     dgH: "3分でわかる今日の韓国エンタメ", dgNew: "👀 知らなかった！", dgKnown: "✓ 知ってた", dgThanks: "ありがとう！", dgSub: "韓国でいちばん見られた10本を、ひとこと解説つきで", pastH: "過去のまとめ",
@@ -463,7 +463,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   // free-to-use card for Japanese K-content accounts (credit: KREELZ JAPAN): today's top 5 clips with Japanese titles
   const jt = x => clean(ED.ja.title(x)).replace(/\s*[|｜].*$/, "");
   const t5 = today ? [...today.list].filter(x => good(ED.ja.title(x)) && /[ぁ-んァ-ヶ一-龯]/.test(ED.ja.title(x))).sort((p, q) => q.views - p.views).slice(0, 5) : [];
-  const card = t5.length ? { title: "韓国で今日いちばん見られている", big: "TOP 5", date: md, rows: t5.map(x => ({ t: jt(x).slice(0, 60), ch: x.ch, v: x.views })), url: "kreelz.com/jp", foot: "出典：KREELZ JAPAN ・ 毎日0時更新" } : null;
+  const card = t5.length ? { title: "韓国で今日いちばん見られている", big: "TOP 5", date: md, rows: t5.map(x => ({ t: jt(x).slice(0, 60), ch: x.ch, v: x.views })), url: "kreelz.com/jp", foot: "出典：KREELZ JAPAN ・ リアルタイム更新" } : null;
   fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage, card }, null, 1) + "\n");
   console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
 }
@@ -502,7 +502,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const a = choose("artist", prev.artist), ac = choose("actor", prev.actor);
   if (a) { const b = bestOf(a);
     out.posts.push({ kst: "21:00", pht: "20:00", label: `메인 글: ${a.key}`,
-      text: `🚨 ${a.key} is trending today!\n${b ? `\nLatest: “${cut(title(b), 80)}”\n` : ""}\nAll the newest ${a.key} shorts & videos in one place — updated every midnight 🇰🇷\nLink sa comments 👇\n\n${tag(a.key)} #KPop #Kreelz`,
+      text: `🚨 ${a.key} is trending today!\n${b ? `\nLatest: “${cut(title(b), 80)}”\n` : ""}\nAll the newest ${a.key} shorts & videos in one place — updated in real time 🇰🇷\nLink sa comments 👇\n\n${tag(a.key)} #KPop #Kreelz`,
       comment: `Watch here 👉 ${url("en", a.slug)}` }); }
   const dayN = Math.floor(Date.parse(BUILT) / 864e5);
   const QS = [
@@ -519,9 +519,9 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
       text: `😍 ${ac.key} moments you shouldn't miss${b ? `\n\n“${cut(title(b), 80)}”` : ""}\n\nDrama scenes, interviews & fan meetings — all in one place, updated daily. Link sa comments 👇\n\n${tag(ac.key)} #KDrama #Kreelz`,
       comment: `Watch here 👉 ${url("en", ac.slug)}` }); }
   if (a) out.group = { label: "팬 그룹용 (관리자 허락받은 그룹에만, 그룹당 주 1~2회)",
-    text: `Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated every midnight (KST) — no sign-up.\n\nHere's today's ${a.key} page: ${url("en", a.slug)}\n\nFeedback welcome! 💜` };
+    text: `Hi K-fam! 👋 We made a free site that collects the latest K-pop & K-drama shorts in one place, updated in real time — no sign-up.\n\nHere's today's ${a.key} page: ${url("en", a.slug)}\n\nFeedback welcome! 💜` };
   if (a) out.groupId = { label: "인도네시아 그룹용 (Bahasa Indonesia)",
-    text: `Halo K-fam! 👋 Kami bikin situs gratis yang ngumpulin shorts & video K-pop dan K-drama terbaru di satu tempat, update tiap tengah malam (KST) — tanpa daftar, bisa pilih Bahasa Indonesia.\n\nHalaman ${a.key} hari ini: ${url("en", a.slug)}\n\nMasukan kalian sangat berarti! 💜` };
+    text: `Halo K-fam! 👋 Kami bikin situs gratis yang ngumpulin shorts & video K-pop dan K-drama terbaru di satu tempat, update secara real-time — tanpa daftar, bisa pilih Bahasa Indonesia.\n\nHalaman ${a.key} hari ini: ${url("en", a.slug)}\n\nMasukan kalian sangat berarti! 💜` };
   out.posts.sort((x, y) => x.kst.localeCompare(y.kst));
   out.artist = a && a.key; out.actor = ac && ac.key;
   fs.writeFileSync("data/fbposts.json", JSON.stringify(out, null, 1) + "\n");
@@ -543,14 +543,14 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
       ...tagsIn(X.posts.map(p => p.text)).filter(t => !/^#(韓国グルメ|韓国旅行)$/.test(t))])].slice(0, 15);
     items.push({ ed: "ja", label: "일본어 (일본 팬용)", time: "20:00~22:00 (일본 저녁)", card: X.card,
       link: "https://kreelz.com/jp/k/today/", sticker: "今日のTOP5を見る",
-      caption: `📰韓国で今日いちばん見られているK-POP・韓ドラ TOP5（${md}）\n\n${X.card.rows.map((r, i) => `${i + 1}. ${r.t}${r.v > 0 ? `（${fmtV(r.v)}回）` : ""}`).join("\n")}\n\n解説つきの全部はプロフィールのリンクから👆\n毎日0時更新・無料\n.\n${tags.join(" ")}` });
+      caption: `📰韓国で今日いちばん見られているK-POP・韓ドラ TOP5（${md}）\n\n${X.card.rows.map((r, i) => `${i + 1}. ${r.t}${r.v > 0 ? `（${fmtV(r.v)}回）` : ""}`).join("\n")}\n\n解説つきの全部はプロフィールのリンクから👆\nリアルタイム更新・無料\n.\n${tags.join(" ")}` });
   }
   if (FB && FB.card && FB.date === BUILT) {
     const tags = [...new Set(["#kpop", "#kdrama", "#koreandrama", "#kpopfyp", "#kdramaedits", "#kpopedit", "#kreelz",
       ...tagsIn(FB.posts.map(p => p.text)).map(t => t.toLowerCase()).filter(t => t !== "#kfood" && t !== "#korea")])].slice(0, 15);
     items.push({ ed: "en", label: "영어 (필리핀·영어권 팬용)", time: "19:00~21:00 (필리핀 18:00~20:00)", card: FB.card,
       link: "https://kreelz.com/k/today/", sticker: "See today's Top 5",
-      caption: `🔥 Today's Top 5 K-Clips (${FB.card.date})\n\n${FB.card.rows.map((r, i) => `${i + 1}. ${r.t}`).join("\n")}\n\nWatch them all → link in bio 👆\nNew picks every midnight (KST) · Free\n.\n${tags.join(" ")}` });
+      caption: `🔥 Today's Top 5 K-Clips (${FB.card.date})\n\n${FB.card.rows.map((r, i) => `${i + 1}. ${r.t}`).join("\n")}\n\nWatch them all → link in bio 👆\nUpdated in real time · Free\n.\n${tags.join(" ")}` });
   }
   fs.writeFileSync("data/igposts.json", JSON.stringify({ date: BUILT, items }, null, 1) + "\n");
   console.log(`data/igposts.json: ${items.length} editions`);
@@ -569,11 +569,11 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
   const dayN = Math.floor(Date.parse(BUILT) / 864e5);
   const T = {
     JP: { subject: "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
-      body: n => `${n}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、毎日0時に日本語タイトル付きでまとめている無料サイトです。${n}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、${n}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は${n}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com` },
+      body: n => `${n}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。${n}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、${n}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は${n}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com` },
     PH: { subject: "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
-      body: n => `Hi ${n},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated every midnight (KST). I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a "Top 10 clips Korea is watching today" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: "Source: KREELZ (https://kreelz.com)".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
+      body: n => `Hi ${n},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a "Top 10 clips Korea is watching today" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: "Source: KREELZ (https://kreelz.com)".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
     ID: { subject: "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
-      body: n => `Halo ${n},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui setiap tengah malam (KST). Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar "Top 10 klip yang paling ditonton di Korea hari ini" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: "Sumber: KREELZ (https://kreelz.com)".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
+      body: n => `Halo ${n},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar "Top 10 klip yang paling ditonton di Korea hari ini" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: "Sumber: KREELZ (https://kreelz.com)".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com` },
   };
   const NAME = { JP: "일본", PH: "필리핀", ID: "인도네시아" };
   const out = { date: BUILT, updated: YC.updated || "", countries: {} };
