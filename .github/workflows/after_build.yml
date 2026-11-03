@@ -1,6 +1,7 @@
 # One-time (2026-11-04): applies tonight what David asked for in the evening of 2026-11-03, after the nightly build that had
 # already started at 20:24 KST without it: clips that can't play taken off (whole site once), the "today" pages with
-# 50 clips explained + what Korean viewers say, the new search pages (members, more groups and actors, dramas, Spanish).
+# 50 clips explained + what Korean viewers say, the new search pages (members, more groups and actors, dramas, Spanish),
+# and every NAVER Clip clip taken off both editions.
 # Runs once after the 00:00 publish (schedule below, guarded to 2026-11-04 KST); from the next night the nightly does all of it.
 name: After the nightly build
 on:
@@ -36,12 +37,14 @@ jobs:
           grep -q 'const FEED_BUILT = "2026-11-04"' index.html || { echo "build not there, nothing done"; exit 0; }
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # NAVER Clip off both editions, shorts and videos (per David 2026-11-03 23:00); its 6-hourly search is disabled
+          node -e 'require("fs").writeFileSync("nclip.js","window.NCLIP="+JSON.stringify({built:new Date().toISOString(),items:[],off:"2026-11-03 per David"})+";\n")'
           timeout 25m node scripts/play_check.mjs index.html bad_play.json --all || echo "[]" > bad_play.json
           python3 scripts/drop_ids.py index.html bad_play.json index.next.html && grep -q 'const SHORTS = "' index.next.html && mv index.next.html index.html
           node scripts/digest.mjs index.html || echo "digest skipped"
           node scripts/region.mjs index.html
           node scripts/seo.mjs || echo "search pages skipped"
-          git add index.html data jp
+          git add index.html data jp nclip.js
           git add -A k es sitemap.xml robots.txt
           git commit -m "2026-11-04 build: unplayable clips off, 50 clips explained with Korean reactions, new search pages (per David 2026-11-03)" || exit 0
           git pull --rebase -q && git push

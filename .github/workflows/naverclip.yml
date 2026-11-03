@@ -1,3 +1,4 @@
+# OFF since 2026-11-03 (per David: NAVER Clip clips taken off both editions). The workflow is disabled in GitHub too.
 # NAVER Clip (네이버 클립): K-pop, K-drama, K-film, K-beauty and K-travel & food clips found with NAVER's clip search,
 # written to nclip.js (shown on both editions, mixed into the shorts). Every 6 hours; touches nothing the nightly
 # refresh writes, so it never collides with it.
