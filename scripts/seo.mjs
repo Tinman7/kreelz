@@ -34,7 +34,7 @@ function add(id, c, views, days, short) {
   const o = tfile("o", shard(id))[id] || [], vm = vmeta[id] || [];
   const t = o[0] || vm[0] || ""; if (!t) return;
   items.set(id, { id, cat, short, views, days, date: days >= 0 ? day(days) : "", t, ch: o[1] || vm[2] || "", chId: vm[1] || "",
-    en: tfile("en", shard(id))[id] || "", ja: tfile("ja", shard(id))[id] || "", jpo: JPO.has(id) });
+    en: tfile("en", shard(id))[id] || "", ja: tfile("ja", shard(id))[id] || "", es: tfile("es", shard(id))[id] || "", jpo: JPO.has(id) });
 }
 for (const [name, short] of [["FEED", false], ["SHORTS", true]]) {
   const s = str(name);
@@ -49,7 +49,7 @@ try {   // clips added during the day (live.js)
     if (items.has(x[0]) || !FCAT[x[1]] || !x[6]) continue;
     const days = Math.max(0, Math.round((Date.parse(BUILT) - Date.parse(x[3] || BUILT)) / 864e5));
     items.set(x[0], { id: x[0], cat: FCAT[x[1]], short: !!x[8], views: +x[2] || 0, days, date: x[3] || "", t: x[6], ch: x[7] || "", chId: "",
-      en: (L.en || {})[x[6]] || "", ja: (L.ja || {})[x[6]] || "", jpo: false });
+      en: (L.en || {})[x[6]] || "", ja: (L.ja || {})[x[6]] || "", es: (L.es || {})[x[6]] || "", jpo: false });
   }
 } catch (e) {}
 const ALL = [...items.values()];
@@ -66,11 +66,15 @@ const ACTOR_JA = { ...JP_ACTOR_JA, "Ji Sung": "チ・ソン", "Kim Seon-ho": "�
 const CAT_TXT = {
   en: { music: "K-pop", drama: "K-drama", film: "Korean film", variety: "Korean variety", beauty: "K-beauty", food: "K-food" },
   ja: { music: "K-POP", drama: "韓国ドラマ", film: "韓国映画", variety: "韓国バラエティ", beauty: "Kビューティー", food: "Kトラベル＆フード" },
+  es: { music: "K-pop", drama: "K-drama (doramas)", film: "Cine coreano", variety: "Programas de variedades coreanos", beauty: "K-beauty", food: "Comida coreana" },
 };
 const ED = {
   en: { base: "/", dir: "k", lang: "en", locale: "en_US", brand: "KREELZ", artists: ARTISTS, actors: ACTORS, title: x => x.en || x.t, keep: x => !x.jpo },
   ja: { base: "/jp/", dir: "jp/k", lang: "ja", locale: "ja_JP", brand: "KREELZ JAPAN", artists: JP_ARTISTS, actors: JP_ACTORS, title: x => x.ja || x.t, keep: () => true },
+  // Spanish search pages for Latin America (per David 2026-11-03, step 1): the global edition's clips, titles in Spanish
+  es: { base: "/", dir: "es/k", lang: "es", locale: "es_LA", brand: "KREELZ", artists: ARTISTS, actors: ACTORS, title: x => x.es || x.en || x.t, keep: x => !x.jpo },
 };
+const EDS = ["en", "ja", "es"];
 const T = {
   en: {
     artist: n => [`${n} shorts & videos — latest clips`, `The latest ${n} shorts and videos from YouTube in one place: MVs, dance practices, fancams, behind-the-scenes and variety clips, with titles in English. Updated every day at midnight KST.`],
@@ -79,7 +83,7 @@ const T = {
     today: () => [`Today's K-pop, K-drama & Korean shorts`, `What Korea is watching today: the most-viewed new K-pop, K-drama, variety, beauty and K-food clips of the last 48 hours, with titles in English. Updated every day at midnight KST.`],
     member: n => [`${n} shorts & videos — latest clips`, `The latest shorts and videos of ${n}: stages, fancams, behind-the-scenes, lives and variety clips from YouTube, with titles in English. Updated every day at midnight KST.`],
     show: n => [`${n} K-drama — best scenes, shorts & clips`, `The K-drama “${n}” in short clips: best scenes, making-of, previews, and cast interviews, from official channels on YouTube with titles in English. Updated every day at midnight KST.`],
-    newH: "Newest", membersH: "Members", groupH: "Group", otherH: "Other members", dramasH: "K-dramas",
+    newH: "Newest", newest: "newest", membersH: "Members", groupH: "Group", otherH: "Other members", dramasH: "K-dramas",
     about: (n, tot, ns, nv, n7, top) => `KREELZ has ${tot} ${n} clips right now (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} of them new in the last 7 days` : ""}.${top ? ` The most watched: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""}`,
     titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
     descX: (d, n, top, lead) => `Updated ${d}: ${n} clips.${top ? ` Trending: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} views)` : ""}.` : ""} ${lead}`,
@@ -90,6 +94,22 @@ const T = {
     dgH: "Today in 3 minutes", dgNew: "👀 New to me", dgKnown: "✓ Knew it", dgThanks: "Thanks!", dgSub: "The 10 clips Korea watched most, each explained in a line", pastH: "Earlier days",
     day: d => [`Korean entertainment on ${d} — 10 clips in 3 minutes`, `The 10 clips Korea watched most on ${d}: K-pop, dramas on air, variety, film and food, each with a one-line explanation.`],
   },
+  es: {
+    artist: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n} en un solo lugar: MVs, ensayos de baile, fancams, detrás de cámaras y programas de variedades, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    actor: n => [`${n}: shorts y videos — escenas de doramas, entrevistas y fan meetings`, `Todos los clips nuevos de ${n} en un solo lugar: escenas de doramas, entrevistas, fan meetings, eventos y programas de variedades, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    member: n => [`${n}: shorts y videos — lo más nuevo`, `Los shorts y videos más recientes de ${n}: presentaciones, fancams, detrás de cámaras, lives y programas de variedades de YouTube, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    show: n => [`${n} (dorama): mejores escenas, shorts y clips`, `El K-drama “${n}” en clips cortos: mejores escenas, making-of, avances y entrevistas del elenco, de los canales oficiales en YouTube con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    cat: (n, k) => [`${n}: shorts y videos de hoy`, `Los shorts y videos de ${n} más vistos de los últimos días, elegidos de canales oficiales y creadores en YouTube, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    today: () => [`Hoy en Corea: shorts de K-pop, K-drama y más`, `Lo que Corea está viendo hoy: los clips nuevos más vistos de K-pop, doramas, variedades, belleza y comida de las últimas 48 horas, con títulos en español. Se actualiza todos los días a medianoche (hora de Corea).`],
+    hub: () => [`Artistas de K-pop, actores de K-drama y categorías`, `Explora KREELZ por artista, actor o categoría. Cada página reúne los shorts y videos más recientes de YouTube con títulos en español, actualizados todos los días a medianoche (hora de Corea).`],
+    shorts: "Shorts", videos: "Videos", updated: d => `Actualizado ${d} (hora de Corea)`, count: n => `${n} clips`, views: v => `${fmt(v)} vistas`,
+    open: "Abrir KREELZ", artistsH: "Artistas de K-pop", actorsH: "Actores y actrices", catsH: "Categorías", todayL: "Hoy", hubL: "Todos los temas",
+    note: "Los videos pertenecen a sus creadores y se reproducen desde YouTube. KREELZ elige los clips y traduce los títulos; no aloja ningún video.",
+    newH: "Lo más nuevo", membersH: "Integrantes", groupH: "Grupo", otherH: "Otros integrantes", dramasH: "K-dramas", newest: "más reciente",
+    about: (n, tot, ns, nv, n7, top) => `KREELZ tiene ahora ${tot} clips de ${n} (${ns} shorts, ${nv} videos)${n7 ? `, ${n7} nuevos en los últimos 7 días` : ""}.${top ? ` El más visto: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} vistas)` : ""}.` : ""}`,
+    titleX: (h, n, d) => `${h.split(" — ")[0]} (${n} clips · ${d})`, md: d => `${+d.slice(8, 10)} ${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+d.slice(5, 7) - 1]}`,
+    descX: (d, n, top, lead) => `Actualizado ${d}: ${n} clips.${top ? ` Tendencia: “${top[0]}”${top[1] > 0 ? ` (${fmt(top[1])} vistas)` : ""}.` : ""} ${lead}`,
+  },
   ja: {
     artist: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。MV、ダンス、直カム、ビハインド、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
     actor: n => [`${n}の最新動画まとめ｜ドラマ名場面・インタビュー・ファンミ`, `${n}の新着クリップをまとめてチェック。ドラマの名場面、インタビュー、ファンミーティング、イベント、バラエティ出演などを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
@@ -97,7 +117,7 @@ const T = {
     today: () => [`今日の韓国エンタメ人気ショート`, `韓国でいま話題のK-POP、韓国ドラマ、バラエティ、ビューティー、グルメの新着クリップ（直近48時間）を再生回数順に。日本語タイトル付き、毎日0時（日本時間）更新。`],
     member: n => [`${n}の最新ショート・動画まとめ`, `${n}の最新ショートと動画をまとめてチェック。ステージ、直カム、ビハインド、ライブ、バラエティなどYouTubeの人気クリップを日本語タイトルで紹介。毎日0時（日本時間）更新。`],
     show: n => [`韓国ドラマ「${n}」名場面・ショート動画まとめ`, `韓国ドラマ「${n}」の名場面、メイキング、予告、キャストのインタビューなどを、公式チャンネルのショート・動画から日本語タイトルで紹介。毎日0時（日本時間）更新。`],
-    newH: "新着", membersH: "メンバー", groupH: "グループ", otherH: "ほかのメンバー", dramasH: "韓国ドラマ作品",
+    newH: "新着", newest: "最新", membersH: "メンバー", groupH: "グループ", otherH: "ほかのメンバー", dramasH: "韓国ドラマ作品",
     about: (n, tot, ns, nv, n7, top) => `${n}のクリップは現在${tot}本（ショート${ns}本・動画${nv}本）${n7 ? `、直近7日間の新着は${n7}本` : ""}です。${top ? `いちばん見られているのは「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}`,
     titleX: (h, n, d) => `${h.split("｜")[0]}【${d}更新・${n}本】`, md: d => `${+d.slice(5, 7)}/${+d.slice(8, 10)}`,
     descX: (d, n, top, lead) => `【${d}更新】${n}本を掲載。${top ? `いま話題：「${top[0]}」${top[1] > 0 ? `（${fmtJa(top[1])}回視聴）` : ""}。` : ""}${lead}`,
@@ -175,9 +195,9 @@ function topics(ed) {
   for (const k of Object.keys(CAT_TXT.en)) out.push({ kind: "cat", key: k, slug: k, name: CAT_TXT[ed][k], list: pool.filter(x => x.cat === k && (x.days < 0 || x.days <= 14)) });
   out.push({ kind: "today", key: "today", slug: "today", name: T[ed].todayL, list: pool.filter(x => x.days >= 0 && x.days <= 2) });
   const seen = new Set();   // no thin pages, no two pages on one address
-  return [...out.filter(p => p.list.length >= (p.min || 6) && !seen.has(p.slug) && seen.add(p.slug)), ...DAYS_.map(d => ({ kind: "day", key: d, slug: `today/${d}`, name: d, list: [] }))];   // no thin pages; one page per day of the 3-minute digest
+  return [...out.filter(p => p.list.length >= (p.min || 6) && !seen.has(p.slug) && seen.add(p.slug)), ...(ed === "es" ? [] : DAYS_.map(d => ({ kind: "day", key: d, slug: `today/${d}`, name: d, list: [] })))];   // no thin pages; one page per day of the 3-minute digest
 }
-const PAGES = { en: topics("en"), ja: topics("ja") };
+const PAGES = { en: topics("en"), ja: topics("ja"), es: topics("es") };
 const has = (ed, s) => PAGES[ed].some(p => p.slug === s);
 const url = (ed, s) => `${SITE}/${ED[ed].dir}/${s ? s + "/" : ""}`;
 
@@ -272,9 +292,9 @@ function page(ed, p) {
   const top = listed ? topOf(ed, p) : null, md = L.md(BUILT);
   const head = listed ? L.titleX(h1, n, md) : h1;
   const lead = top || topic ? L.descX(md, n, top, lead0) : lead0;
-  const title = `${head}｜${E.brand}`.replace("｜", ed === "en" ? " | " : "｜");
-  const self = url(ed, p && p.slug), other = ed === "en" ? "ja" : "en";
-  const alt = (!p || has(other, p.slug)) ? `\n<link rel="alternate" hreflang="${ED[other].lang}" href="${url(other, p && p.slug)}">\n<link rel="alternate" hreflang="${E.lang}" href="${self}">\n<link rel="alternate" hreflang="x-default" href="${url("en", p && p.slug)}">` : "";
+  const title = `${head}｜${E.brand}`.replace("｜", ed !== "ja" ? " | " : "｜");
+  const self = url(ed, p && p.slug), others = EDS.filter(o => o !== ed && (!p || has(o, p.slug)));
+  const alt = others.length ? [ed, ...others].map(o => `\n<link rel="alternate" hreflang="${ED[o].lang}" href="${url(o, p && p.slug)}">`).join("") + `\n<link rel="alternate" hreflang="x-default" href="${url(has("en", p && p.slug) || !p ? "en" : ed, p && p.slug)}">` : "";
   const im = (fresh[0] && !fresh[0].short ? fresh[0] : null) || sel.v[0] || sel.s[0] || fresh[0];
   const img = im ? `https://i.ytimg.com/vi/${im.id}/hqdefault.jpg` : `${SITE}/apple-touch-icon.png`;
   const ld = { "@context": "https://schema.org", "@graph": [
@@ -283,7 +303,7 @@ function page(ed, p) {
     { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: E.brand, item: SITE + E.base }, { "@type": "ListItem", position: 2, name: L.hubL, item: url(ed) },
       ...(p ? [{ "@type": "ListItem", position: 3, name: p.name, item: self }] : [])] }] };
   const body = isHub ? `<footer style="border:0;margin-top:0;padding-top:0">${linksBlock(ed, "", true)}</footer>` :
-    (p.kind === "today" ? digestBlock(ed, DIG[DAYS_[0]], true) : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
+    (p.kind === "today" && ed !== "es" ? digestBlock(ed, DIG[DAYS_[0]], true) : p.kind === "day" ? digestBlock(ed, DIG[p.key], true) : "") +
     (fresh.length ? `<h2>${L.newH}</h2><div class="grid nw">${fresh.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.s.length ? `<h2>${L.shorts}</h2><div class="grid sh">${sel.s.map(x => card(ed, x)).join("")}</div>` : "") +
     (sel.v.length ? `<h2>${L.videos}</h2><div class="grid">${sel.v.map(x => card(ed, x)).join("")}</div>` : "");
@@ -315,7 +335,7 @@ ${p && (p.kind === "today" || p.kind === "day") ? `<script>${DG_JS(ed)}</script>
 <nav class="crumb"><a href="${E.base}">${E.brand}</a> › <a href="/${E.dir}/">${L.hubL}</a>${p ? ` › ${esc(p.name)}` : ""}</nav>
 <h1>${esc(h1)}</h1>
 <p class="lead">${esc(lead0)}</p>${isHub ? "" : aboutBlock(ed, p)}
-<p class="meta">${L.updated(BUILT)}${n ? ` · ${L.count(n)}` : ""}${!isHub && newest ? ` · ${ed === "en" ? "newest" : "最新"} ${newest}` : ""}</p>
+<p class="meta">${L.updated(BUILT)}${n ? ` · ${L.count(n)}` : ""}${!isHub && newest ? ` · ${L.newest} ${newest}` : ""}</p>
 ${body}
 ${isHub ? "" : `<footer>${linksBlock(ed, p.slug)}${ed === "ja" ? `<p class="note"><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a> で毎日の注目クリップをお知らせ</p>` : ""}<p class="note">${L.note}</p></footer>`}
 </div>
@@ -326,7 +346,7 @@ ${isHub ? "" : `<footer>${linksBlock(ed, p.slug)}${ed === "ja" ? `<p class="note
 
 // ---------- write ----------
 const written = [];
-for (const ed of ["en", "ja"]) {
+for (const ed of EDS) {
   const dir = ED[ed].dir;
   fs.rmSync(dir, { recursive: true, force: true });   // pages of topics that dropped out go away
   fs.mkdirSync(dir, { recursive: true });
@@ -352,7 +372,7 @@ Sitemap: ${SITE}/sitemap.xml
 const block = ed => `<!--topics--><nav class="topics" aria-label="${ed === "en" ? "Browse" : "一覧"}">` +
   [["today", ...PAGES[ed].filter(p => p.kind === "today")], ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["show", ...PAGES[ed].filter(p => p.kind === "show")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
     .map(([, ...ps]) => ps.map(p => `<a href="/${ED[ed].dir}/${p.slug}/">${esc(p.name)}</a>`).join("")).filter(Boolean).join(`<i></i>`) +
-  `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a>` + (ed === "ja" ? `<i></i><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a>` : "") + `</nav><!--/topics-->`;
+  `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a>` + (ed === "en" ? `<i></i><a href="/es/k/" hreflang="es" lang="es">Español</a>` : "") + (ed === "ja" ? `<i></i><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a>` : "") + `</nav><!--/topics-->`;
 for (const [file, ed] of [["index.html", "en"], ["jp/index.html", "ja"]]) {
   let h = fs.readFileSync(file, "utf8");
   if (!/<!--topics-->[\s\S]*?<!--\/topics-->/.test(h)) { console.log(`${file}: no <!--topics--> marker, footer links skipped`); continue; }

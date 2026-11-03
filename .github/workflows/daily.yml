@@ -196,12 +196,13 @@ jobs:
       - name: Titles in every language
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
-        timeout-minutes: 30
+        timeout-minutes: 75
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TX_MINUTES: "20"
-          TX_PASSES: "ja,en"   # Japanese (approved 2026-10-27) + English for Korean titles (approved 2026-11-03, ~$5-7 once, then cents a day); "all" adds tl/th/id/es
+          TX_MINUTES: "60"        # the first nights catch up ~35,000 English + ~42,000 Spanish titles; then a few minutes a night
+          TX_UNTIL_KST: "23:20"   # never later than this, so the 00:00 publish is never late
+          TX_PASSES: "ja,en,es"   # Japanese (approved 2026-10-27), English for Korean titles + Spanish (approved 2026-11-03; about $1-2 once, then cents a day); "all" adds tl/th/id
         run: node scripts/titles.mjs index.html
 
       - name: Commit
@@ -227,7 +228,7 @@ jobs:
           node scripts/legal_pages.mjs index.html || true   # /terms/ /privacy/ (+ /jp/) standalone pages from the same text as the pop-ups
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json
-          git add -A k sitemap.xml robots.txt terms privacy
+          git add -A k es sitemap.xml robots.txt terms privacy
           [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 

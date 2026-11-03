@@ -38,7 +38,7 @@ jobs:
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html jp data
-          git add -A k sitemap.xml robots.txt
+          git add -A k es sitemap.xml robots.txt
           git commit -m "Subtitles check + today in 3 minutes $(grep -o '"with_captions":[0-9]*' extras.log | tail -1)" || echo "nothing to commit"
           git pull --rebase -q
           git push
