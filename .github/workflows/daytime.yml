@@ -1,0 +1,43 @@
+# Daytime updates (per David 2026-11-03): every hour 07:00–23:00 KST, music-show stages and clips taking off are added
+# to live.js (both editions show it at once). YouTube channel feeds + oEmbed: no API quota. See scripts/daytime.mjs.
+name: Daytime updates
+on:
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "yes = show what would be added, change nothing"
+        default: "no"
+  schedule:
+    - cron: "5 22,23,0-14 * * *"   # 07:05 … 23:05 KST, hourly
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: live
+  cancel-in-progress: false
+jobs:
+  daytime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Newest uploads taking off → live.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/daytime.mjs live.js ${{ inputs.dry == 'yes' && '--dry' || '' }} 2>&1 | tee daytime.log
+      - name: Publish live.js
+        if: inputs.dry != 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add live.js
+          git commit -qm "Daytime: $(tail -1 daytime.log | head -c 180)" || { echo "nothing new"; exit 0; }
+          git pull --rebase -q && git push -q
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
