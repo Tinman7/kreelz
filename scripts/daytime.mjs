@@ -15,6 +15,7 @@ import zlib from "node:zlib";
 import { ARTISTS, JP_ARTISTS, rank, rankIn } from "./hybe.mjs";
 import { eatBlocked } from "./noeat.mjs";
 
+const NEWSY = /폭행|사망|살인|사건|사고|블랙박스|범죄|경찰|숨진|참사|흉기|구속|재판|빚투|마약|음주운전/;
 const OUT = process.argv.slice(2).find(a => !a.startsWith("--")) || "live.js", DRY = process.argv.includes("--dry");
 const AK = process.env.ANTHROPIC_API_KEY, DAY = 864e5, NOW = Date.now();
 const h = fs.readFileSync("index.html", "utf8");
@@ -70,6 +71,7 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         const stage = cat === "m" && (STAGE[ch] || [...ARTISTS, ...JP_ARTISTS].some(a => a[1].includes(ch)));
         if (!(stage ? views >= 15000 : views >= 80000 || views / hrs >= 4000)) continue;
         if (eatBlocked(t, chName, cat)) continue;
+        if (NEWSY.test(t)) continue;   // accident / crime / court-case clips are not what fans come for
         // from the busiest channels (not the stage / artist ones): Korean content only — a Korean title or a priority artist
         if (!stage && !/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
         cand.push({ id, ch, chName, cat, t, pub, views, rate: views / hrs, stage });
@@ -104,15 +106,36 @@ async function claude(system, titles) {
         messages: [{ role: "user", content: JSON.stringify(Object.fromEntries(titles.map((t, i) => [String(i), t]))) }] }) });
     const d = await r.json(); if (!r.ok) { console.log("Claude", r.status); return {}; }
     const s = (d.content || []).map(c => c.text || "").join(""); const o = JSON.parse(s.slice(s.indexOf("{"), s.lastIndexOf("}") + 1));
-    return Object.fromEntries(titles.map((t, i) => [t, typeof o[String(i)] === "string" ? o[String(i)].trim() : ""]).filter(e => e[1]));
+    return Object.fromEntries(titles.map((t, i) => [t, typeof o[String(i)] === "string" ? o[String(i)].trim() : ""]).filter(e => e[1] && e[1] !== e[0]));
   } catch (e) { console.log("translation skipped:", e.message); return {}; }
 }
-const RULES = `Keep names of people, groups, shows and brands in their usual official form. Keep emojis, #hashtags, numbers and episode markers. No explanations. Output ONLY a JSON object {"<key>": "<translation>"} with exactly the keys given.`;
-const need = l => [...new Set(add.map(c => c.t).filter(t => !tx[l][t] && (l === "ja" ? !/[ぁ-んァ-ヶ]/.test(t) : /[가-힣]/.test(t))))];
+// the same instructions as the nightly translations (scripts/titles.mjs)
+const SYSTEM_JA = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food, travel) into natural Japanese for Japanese fans.
+Rules:
+- Use the names Japanese fans use: Korean people in katakana with a middle dot between family and given name (차은우 → チャ・ウヌ, 변우석 → ビョン・ウソク); groups and brands in their usual Latin form (BTS, IVE, SEVENTEEN, Olive Young); dramas, films and shows by their official Japanese title when one is widely used (나 혼자 산다 → 私は一人で暮らす, 런닝맨 → ランニングマン), otherwise a natural Japanese rendering.
+- Keep emojis, #hashtags, numbers, episode markers like [EP.12] and the punctuation style. A title already in Japanese stays as it is.
+- Do not add explanations, quotes or extra words. Keep it about as long as the original.
+- Output ONLY a JSON object: {"<key>": "<Japanese title>", ...} with exactly the keys you were given.`;
+const SYSTEM_EN = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food) into natural English for international fans.
+Rules:
+- Keep names of people, groups, shows, films, channels and brands in their usual official romanized/English form (e.g. 나 혼자 산다 → I Live Alone, 런닝맨 → Running Man, 아이브 → IVE, 변우석 → Byeon Woo-seok). Never translate a name literally.
+- Keep emojis, #hashtags, numbers, episode markers like [EP.12] and the punctuation style. Parts already in English stay as they are.
+- Do not add explanations, quotes or extra words. Keep it about as long as the original.
+- Output ONLY a JSON object: {"<key>": "<English title>", ...} with exactly the keys you were given.`;
+const SYSTEM_ES = `You translate titles of Korean entertainment videos (K-pop, K-drama, film, variety shows, beauty, food) into natural, neutral Latin American Spanish for fans in Mexico, Argentina, Chile, Peru and Colombia.
+Rules:
+- Keep names of people, groups, shows, films, channels and brands in their usual official romanized/English form (e.g. 런닝맨 → Running Man, 아이브 → IVE, 변우석 → Byeon Woo-seok). Never translate a name literally.
+- Keep emojis, #hashtags, numbers, episode markers like [EP.12] and the punctuation style. Text already in Spanish stays as it is.
+- Do not add explanations, quotes or extra words. Keep it about as long as the original.
+- Output ONLY a JSON object: {"<key>": "<Spanish title>", ...} with exactly the keys you were given.`;
+// new finds, and earlier daytime finds still without a good translation (a Japanese "translation" left in Korean is redone)
+for (const x of [...(old.v || []), ...(old.s || [])]) if (x[10] === 1 && tx.ja[x[6]] && /[가-힣]/.test(tx.ja[x[6]])) delete tx.ja[x[6]];
+const daytimeTitles = [...add.map(c => c.t), ...[...(old.v || []), ...(old.s || [])].filter(x => x[10] === 1).map(x => x[6])];
+const need = l => [...new Set(daytimeTitles.filter(t => !tx[l][t] && (l === "ja" ? !/[ぁ-んァ-ヶ]/.test(t) : /[가-힣]/.test(t))))];
 if (!DRY) {
-  Object.assign(tx.ja, await claude(`You translate titles of Korean entertainment videos into natural Japanese for Japanese fans: Korean people in katakana with a middle dot (차은우 → チャ・ウヌ), groups in their usual Latin form. ${RULES}`, need("ja")));
-  Object.assign(tx.en, await claude(`You translate titles of Korean entertainment videos into natural English for international fans (런닝맨 → Running Man, 아이브 → IVE). ${RULES}`, need("en")));
-  Object.assign(tx.es, await claude(`You translate titles of Korean entertainment videos into natural, neutral Latin American Spanish (런닝맨 → Running Man, 아이브 → IVE). ${RULES}`, need("es")));
+  Object.assign(tx.ja, await claude(SYSTEM_JA, need("ja")));
+  Object.assign(tx.en, await claude(SYSTEM_EN, need("en")));
+  Object.assign(tx.es, await claude(SYSTEM_ES, need("es")));
 }
 
 // ---- live.js: [id, cat, views, upload day, rank (global), rank (/jp), title, channel, short, jp only, daytime]
@@ -124,6 +147,6 @@ const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   /
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
 const L = { ...old, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
-if (!DRY && add.length) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
+if (!DRY) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
 console.log(add.slice(0, 15).map(c => `  ${c.stage ? "stage" : c.cat} ${shorts.has(c.id) ? "short" : "video"} ${c.views} (${Math.round(c.rate)}/h) ${c.chName}: ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ channels: chans.size, feeds, feed_failed: feedFail, taking_off: cand.length, added: DRY ? 0 : add.length, would_add: add.length, shorts: add.filter(c => shorts.has(c.id)).length }));
