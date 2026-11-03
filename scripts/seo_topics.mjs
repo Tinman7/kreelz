@@ -147,5 +147,7 @@ export const DRAMAS = [
   ["Twenty-Five Twenty-One", "二十五、二十一", /스물다섯 ?스물하나|twenty[- ]?five ?twenty[- ]?one|二十五、?二十一/i],
   ["Reply 1988", "応答せよ1988", /응답하라 ?1988|reply ?1988|応答せよ1988/i],
   ["Hospital Playlist", "賢い医師生活", /슬기로운 ?의사생활|hospital ?playlist|賢い医師生活/i],
+  ["Transit Love", "乗り換え恋愛", /환승 ?연애|transit ?love|乗り換え恋愛/i],
+  ["Dear X", "親愛なるX", /친애하는 ?X|dear ?x\b|親愛なるX/i],
   ["Resident Playbook", "いつかは賢いレジデント生活", /언젠가는 ?슬기로울 ?전공의생활|resident ?playbook|賢いレジデント生活/i],
 ].filter((d, i, a) => a.findIndex(o => o[0] === d[0]) === i);

@@ -46,6 +46,7 @@ const STAGE = {   // music shows and performance channels: K-pop, lower bar
 const chans = new Map(Object.keys(STAGE).map(c => [c, "m"]));
 for (const a of [...ARTISTS, ...JP_ARTISTS]) for (const c of a[1]) if (!chans.has(c)) chans.set(c, "m");
 const usual = c => { const o = chCat[c] || {}; return Object.keys(o).sort((a, b) => o[b] - o[a])[0] || ""; };
+if (!chans.has("UCNIiH_4ArJNd_cDZApZ7AFg")) chans.set("UCNIiH_4ArJNd_cDZApZ7AFg", usual("UCNIiH_4ArJNd_cDZApZ7AFg") || "e");   // TVING (originals, per David 2026-11-03)
 for (const c of Object.keys(chViews).sort((a, b) => chViews[b] - chViews[a]).slice(0, 50)) if (!chans.has(c) && usual(c)) chans.set(c, usual(c));
 
 // ---- the channels' newest uploads (RSS)

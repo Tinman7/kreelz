@@ -133,7 +133,15 @@ jobs:
         continue-on-error: true
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
-        run: node scripts/backfill.mjs ott.json UCNIiH_4ArJNd_cDZApZ7AFg:300 UCiEEF51uRAeZeCo8CJFhGWw:300 UCtdz9LWNNQKUg4Xpma_40Ug:300 UCjn-VbcIkAeXQKCmLJV8YwQ:300 UCpiCK8c6PBktcxq7Az_t4RQ:300 UCym5538xAEEppbridXozfgw:300
+        run: node scripts/backfill.mjs ott.json UCNIiH_4ArJNd_cDZApZ7AFg:1500 UCiEEF51uRAeZeCo8CJFhGWw:300 UCtdz9LWNNQKUg4Xpma_40Ug:300 UCjn-VbcIkAeXQKCmLJV8YwQ:300 UCpiCK8c6PBktcxq7Az_t4RQ:300 UCym5538xAEEppbridXozfgw:300
+
+      - name: TVING Originals — which TVING uploads are originals, and the shows' names (per David 2026-11-03)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/tving.mjs collect
 
       - name: One-time catch-up of "어서와 한국은 처음이지" (first in the /jp K-Travel & Food tab from 2026-10-28)
         if: steps.day.outputs.skip != '1' && steps.day.outputs.build == '2026-10-28'
@@ -229,6 +237,7 @@ jobs:
           node scripts/korfilm.mjs index.html || true   # Film tab: Korean films only (per David 2026-10-30)
           node scripts/overseas.mjs index.html || echo "overseas check skipped"   # Screen/Film: only clips fans abroad respond to (per David 2026-11-02)
           node scripts/nowdrama.mjs index.html || echo "airing dramas skipped"   # Screen tab: dramas airing now first (per David 2026-10-30)
+          node scripts/tving.mjs apply index.html || echo "TVING originals skipped"   # badge + 2 of the first 12 in Screen/Shows (per David 2026-11-03)
           node scripts/viral.mjs index.html || echo "viral ranking skipped"   # first screen = what gained the most views in a day (per David 2026-11-02)
           node scripts/captions.mjs index.html || echo "subtitles check skipped"   # 字幕/CC badge + "with subtitles" filter (per David 2026-10-30)
           node scripts/digest.mjs index.html || echo "digest skipped"   # "today in 3 minutes" pages (per David 2026-10-30)
