@@ -27,10 +27,15 @@ const C = {
         ok: t => /\b(indonesia|drakor|yang|dan|untuk|terbaru|banget|kalian|nonton|bahasa)\b/i.test(t) },
 };
 const old = (() => { try { return JSON.parse(fs.readFileSync("data/ytcollab.json", "utf8")); } catch { return { countries: {} }; } })();
-const out = { updated: new Date().toISOString(), countries: {} };
+const out = { updated: new Date().toISOString(), countries: {}, when: { ...(old.when || {}) } };
+// the channel must be about Korean entertainment (title or description), not a general creator who once said "K-POP"
+const KTOPIC = { JP: /韓国|韓流|k-?pop|ケーポップ|韓ドラ|韓国ドラマ|ハングル|kドラマ/i, PH: /k-?pop|k-?drama|korean|korea|hallyu/i, ID: /k-?pop|drakor|korea|k-?drama|hallyu/i };
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 try {
   for (const [cc, cfg] of Object.entries(C)) {
+    // a country searched in the last 6 days is kept as it is (a run stopped by the quota goes on with the others next time)
+    old.countries[cc] = (old.countries[cc] || []).filter(c => KTOPIC[cc].test(c.title + " " + c.desc));
+    if ((old.countries[cc] || []).length && old.when && old.when[cc] && Date.now() - Date.parse(old.when[cc]) < 6 * DAY) { out.countries[cc] = old.countries[cc]; continue; }
     const ids = new Set();
     for (const q of cfg.q) {
       const d = await call("search", { part: "id", q, type: "channel", regionCode: cc, relevanceLanguage: cfg.lang, maxResults: 50 }, 100);
@@ -47,6 +52,7 @@ try {
         if (s.country === "KR" || /[가-힣]/.test(s.title || "")) continue;   // Korean channels are not the point here
         if (s.country && s.country !== cc && !(cc === "PH" && !s.country)) continue;
         if (!s.country && !cfg.ok(text)) continue;
+        if (!KTOPIC[cc].test(text)) continue;
         chans.push({ id: c.id, title: s.title, handle: s.customUrl || "", subs, videos: vids, country: s.country || "",
           email: (s.description || "").match(EMAIL)?.[0] || "", desc: (s.description || "").replace(/\s+/g, " ").slice(0, 160),
           uploads: c.contentDetails?.relatedPlaylists?.uploads || "" });
@@ -63,7 +69,7 @@ try {
       const prev = (old.countries[cc] || []).find(o => o.id === c.id); if (prev && prev.since) c.since = prev.since; else c.since = new Date().toISOString().slice(0, 10);
       keep.push(c); if (keep.length >= 25) break;
     }
-    out.countries[cc] = keep;
+    out.countries[cc] = keep; out.when[cc] = new Date().toISOString();
     console.log(cc, "searched", ids.size, "kept", keep.length);
   }
 } catch (e) { console.log("ytcollab stopped:", e.message); }

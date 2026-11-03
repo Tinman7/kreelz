@@ -194,6 +194,10 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="card xp-how"><b>매일 할 일</b> ① <b>스토리</b> (매일 1개): <b>스토리 이미지 저장</b> → 인스타 스토리에 올리기 → 스티커 → <b>링크</b> → 아래 주소 붙여넣기 (인스타는 스토리 링크만 눌러져요) ② <b>피드</b> (주 2~3회): <b>피드 이미지 저장</b> → 새 게시물 → <b>캡션 복사</b> 붙여넣기 ③ <b>프로필 링크</b>에 kreelz.com/jp 와 kreelz.com 둘 다 등록 ④ 교류: 일본 K-POP·한국 드라마 계정 게시물에 하루 10개 이하 댓글, 링크 없이 · 방송사·소속사 영상을 잘라 올리면 저작권 신고로 계정이 막힐 수 있어요</div>
   <div class="grid two" id="igList"><div class="card note">불러오는 중…</div></div>
 
+  <h2>해외 유튜브 협업 · 오늘 연락할 채널 <small id="ycDate">일본·필리핀·인도네시아 현지 K-콘텐츠 채널 · 매일 00:00(KST)</small></h2>
+  <div class="card xp-how"><b>매일 할 일</b> ① 나라별 <b>오늘 연락할 채널 3곳</b>: <b>Gmail로 쓰기</b>를 누르면 제목·본문이 채워진 메일이 열려요 (kreelzkorea@gmail.com 계정으로). 이메일이 표시되지 않은 채널은 <b>채널 정보</b>를 열어 '이메일 주소 보기'로 확인 ② 보낸 채널은 <b>보냄</b>에 체크 (같은 채널에 두 번 보내지 않기) ③ 답장이 오면 그 나라 <b>크리에이터 키트</b>(오늘의 TOP 10)를 복사해 보내 주기 · 나라당 하루 3곳까지 · 일본에 유료 소개를 부탁할 땐 「PR」 표기 필수</div>
+  <div id="ycList"><div class="card note">불러오는 중…</div></div>
+
   <h2>콘텐츠 현황 <small>매일 00:00(KST) 갱신</small></h2>
   <div class="grid kpis">
     <div class="card kpi"><div class="l">전체 영상</div><div class="v" id="kAll">–</div><div class="s" id="kAllS"></div></div>
@@ -339,14 +343,16 @@ tfoot td{font-weight:800;border-bottom:0}
     x:'<path d="M4 4l16 16M20 4L4 20" stroke-width="2.4"/>',
     seo:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 12.5l2-2.5 2 1.5 2-3"/>',
     fb:'<path d="M14 21v-8h2.8l.4-3.2H14V7.8c0-.9.3-1.6 1.6-1.6h1.7V3.3A22 22 0 0 0 14.8 3C12.3 3 10.8 4.5 10.8 7.3v2.5H8V13h2.8v8"/>',
-    ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/>'};
+    ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/>',
+    yc:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z"/>'};
   const TABS=[["stats","대시보드","실시간 · 방문 · 재생 · 국가별 · 재방문 · 인기 영상",["지금 실시간","KREELZ 방문","국가별 방문자","재방문","KREELZ 인기 영상"]],
     ["content","콘텐츠","콘텐츠 현황 · 링크 출처 · 틱톡 쇼츠 추가",["콘텐츠 현황","링크 출처","틱톡 쇼츠 추가"]],
     ["members","회원 · 피드백","사용자 피드백 · 회원 통계",["회원 통계","사용자 피드백"]],
     ["seo","검색 노출","구글 검색 노출 · 클릭 · 검색어 · 페이지 · 일본판",["검색 노출"]],
     ["x","X (트위터)","일본 계정 @KREELZ77 · 오늘 올릴 글 · 교류 · 주간 코너",["X(트위터)"]],
     ["fb","페이스북","필리핀 Kreelz 페이지 · 오늘 올릴 글 · TOP 5 카드",["페이스북"]],
-    ["ig","인스타그램","오늘 올릴 스토리·피드 · TOP 5 카드 · 캡션 (일본어·영어)",["인스타그램"]]];
+    ["ig","인스타그램","오늘 올릴 스토리·피드 · TOP 5 카드 · 캡션 (일본어·영어)",["인스타그램"]],
+    ["yc","해외 유튜브 협업","일본·필리핀·인도네시아 K-콘텐츠 채널 · 오늘 연락할 곳 · 메일 · 크리에이터 키트",["해외 유튜브 협업"]]];
   const panes={}; TABS.forEach(([id])=>{ const d=document.createElement("div"); d.className="tabpane"; d.dataset.tab=id; d.hidden=true; panes[id]=d });
   let cur=null;
   [...app.children].forEach(el=>{ if(el===head || el.tagName==="SCRIPT") return;
@@ -550,6 +556,36 @@ function igStory(feedImg, hint){ return new Promise(res=>{ const im=new Image();
         <div class="row"><button class="btn primary" type="button" data-xrep="${esc(it.caption)}">캡션 복사</button></div></div>`) }
     box.innerHTML=html.join("");
   }catch(e){ box.innerHTML='<div class="card note">오늘 인스타그램 초안이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
+})();
+/* Overseas YouTube channels (per David 2026-11-03): data/ytcollab.json (weekly list) + data/ytcollab_daily.json
+   (today's 3 per country, e-mail, creator kit). "보냄" ticks are kept in this browser only (localStorage). */
+(async function ytcollab(){
+  const box=$("#ycList"); if(!box) return;
+  try{
+    const [L,D]=await Promise.all(["ytcollab","ytcollab_daily"].map(f=>fetch(`/data/${f}.json?`+Date.now()).then(r=>r.ok?r.json():null)));
+    if(!L||!D) throw 0;
+    const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    const fmt=n=>n>=1e4?(n/1e4).toFixed(n>=1e5?0:1).replace(/\.0$/,"")+"만":n.toLocaleString();
+    let sent={}; try{ sent=JSON.parse(localStorage.getItem("kz-yc-sent")||"{}") }catch(e){}
+    const save=()=>{ try{ localStorage.setItem("kz-yc-sent",JSON.stringify(sent)) }catch(e){} };
+    $("#ycDate").textContent=`${D.date} 분 · 채널 목록 ${String(L.updated||"").slice(0,10)} 갱신 (매주 월요일)`;
+    const FL={JP:"🇯🇵",PH:"🇵🇭",ID:"🇮🇩"};
+    const row=(c,day,C)=>{ const body=C.body.split("{channel}").join(c.title), mail=c.email?`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(c.email)}&su=${encodeURIComponent(C.subject)}&body=${encodeURIComponent(body)}`:"";
+      return `<tr${sent[c.id]?' style="opacity:.55"':""}><td><a href="https://www.youtube.com/channel/${esc(c.id)}" target="_blank" rel="noopener"><b>${esc(c.title)}</b></a><br><small class="note">구독자 ${fmt(c.subs)} · 최근 업로드 ${esc(c.last||"")}${c.email?` · ${esc(c.email)}`:""}</small></td>
+        <td style="white-space:nowrap">${mail?`<a class="btn primary" href="${mail}" target="_blank" rel="noopener">Gmail로 쓰기</a>`:`<a class="btn" href="https://www.youtube.com/channel/${esc(c.id)}/about" target="_blank" rel="noopener">채널 정보</a>`}
+        <button class="btn" type="button" data-xrep="${esc(body)}">본문 복사</button>
+        <label style="margin-left:6px;font-size:13px"><input type="checkbox" data-ycsent="${esc(c.id)}"${sent[c.id]?" checked":""}> 보냄</label></td></tr>` };
+    box.innerHTML=["JP","PH","ID"].map(cc=>{ const C=D.countries[cc], list=L.countries[cc]||[]; if(!C) return "";
+      const today=C.picks.map(id=>list.find(c=>c.id===id)).filter(Boolean);
+      return `<div class="card" style="margin-bottom:14px"><div class="xp-h"><b>${FL[cc]} ${esc(C.name)}</b> <span>채널 ${list.length}곳 · 보낸 곳 ${list.filter(c=>sent[c.id]).length}</span></div>
+        ${today.length?`<p class="note" style="margin:8px 0 4px"><b>오늘 연락할 채널</b></p><table class="fbg"><tbody>${today.map(c=>row(c,D.date,C)).join("")}</tbody></table>`:`<p class="note">채널 목록을 만드는 중입니다 (유튜브 검색 한도가 풀리면 채워져요).</p>`}
+        <details style="margin-top:10px"><summary class="note">메일 템플릿 보기</summary><p class="note" style="margin:8px 0 4px">제목</p><pre class="xp-t">${esc(C.subject)}</pre><p class="note" style="margin:8px 0 4px">본문 ({channel} → 채널 이름)</p><pre class="xp-t">${esc(C.body)}</pre>
+          <div class="row"><button class="btn" type="button" data-xrep="${esc(C.subject)}">제목 복사</button><button class="btn" type="button" data-xrep="${esc(C.body)}">본문 복사</button></div></details>
+        ${C.kit?`<details style="margin-top:8px"><summary class="note">오늘의 크리에이터 키트 (답장 온 채널에 보내기)</summary><pre class="xp-t">${esc(C.kit.text)}</pre><div class="row"><button class="btn primary" type="button" data-xrep="${esc(C.kit.text)}">키트 복사</button></div></details>`:""}
+        ${list.length?`<details style="margin-top:8px"><summary class="note">전체 채널 ${list.length}곳</summary><table class="fbg"><tbody>${list.map(c=>row(c,D.date,C)).join("")}</tbody></table></details>`:""}</div>` }).join("");
+    box.addEventListener("change",e=>{ const c=e.target.closest("[data-ycsent]"); if(!c) return; if(c.checked) sent[c.dataset.ycsent]=new Date().toISOString().slice(0,10); else delete sent[c.dataset.ycsent]; save();
+      document.querySelectorAll(`[data-ycsent="${c.dataset.ycsent}"]`).forEach(x=>{ x.checked=c.checked; x.closest("tr").style.opacity=c.checked?".55":"" }) });
+  }catch(e){ box.innerHTML='<div class="card note">오늘 자료가 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
 })();
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-xrep]"); if(!b) return;
   navigator.clipboard.writeText(b.dataset.xrep).then(()=>{ const t=b.textContent; b.textContent="복사됨"; setTimeout(()=>b.textContent=t,1500) }).catch(()=>{}) });

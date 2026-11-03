@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "10 8 * * 1"   # Monday 17:10 KST
+    - cron: "12 8 3 11 *"  # once: 2026-11-03 17:12 KST, to finish the Philippines and Indonesia after the first run hit the quota
 permissions:
   contents: write
 concurrency:

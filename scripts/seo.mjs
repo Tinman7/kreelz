@@ -463,8 +463,8 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
     for (let k = 0; k < Math.min(3, n); k++) picks.push(list[(dayN * 3 + k) % n].id);
     let kit = null;
     if (DG && DG.items && DG.items.length) {
-      const items = DG.items.slice(0, 10);
-      if (cc === "JP") kit = { title: `📰韓国で今日いちばん見られているTOP10（${DG.date}）`, rows: items.map((x, i) => `${i + 1}. ${x.ja_title}\n   ${x.ja}`), link: "https://kreelz.com/jp/k/today/", credit: "出典：KREELZ JAPAN（https://kreelz.com/jp/）" };
+      const items = (cc === "JP" ? dItems("ja", DG) : DG.items).slice(0, 10);   // /jp rule: 100 Days of Deception and Doctor X left out
+      if (cc === "JP") kit = { title: `📰韓国で今日いちばん見られているTOP${Math.min(10, dItems("ja", DG).length)}（${DG.date}）`, rows: items.map((x, i) => `${i + 1}. ${x.ja_title}\n   ${x.ja}`), n: items.length, link: "https://kreelz.com/jp/k/today/", credit: "出典：KREELZ JAPAN（https://kreelz.com/jp/）" };
       if (cc === "PH") kit = { title: `🔥 Top 10 clips Korea is watching today (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${x.en_title}\n   ${x.en}`), link: "https://kreelz.com/k/today/", credit: "Source: KREELZ (https://kreelz.com)" };
       if (cc === "ID") kit = { title: `🔥 Top 10 klip yang paling ditonton di Korea hari ini (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${tr("id", x.id) || x.en_title}`), link: "https://kreelz.com/k/today/", credit: "Sumber: KREELZ (https://kreelz.com)" };
       kit.text = `${kit.title}\n\n${kit.rows.join("\n")}\n\n${kit.link}\n${kit.credit}`;

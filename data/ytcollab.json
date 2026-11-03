@@ -3,54 +3,6 @@
  "countries": {
   "JP": [
    {
-    "id": "UCXm76zKrfNApFif6A0zS9Tw",
-    "title": "MrFuji from Japan",
-    "handle": "@mrfujifromjapan",
-    "subs": 1330000,
-    "videos": 2619,
-    "country": "JP",
-    "email": "",
-    "desc": "全人類とトモダチになる男、Mr.FUJIと愉快な仲間たち（フレンズ）です。 このチャンネルの目標： 「日本人の英語スキル向上！」 「国境を超えて友達を作る楽しさを伝える！」 ",
-    "last": "2026-11-02",
-    "since": "2026-11-03"
-   },
-   {
-    "id": "UCwGjtRIJrMPzLYB3Mfak1gQ",
-    "title": "都のオワリですチャンネル",
-    "handle": "@miyako_owari_385",
-    "subs": 956000,
-    "videos": 322,
-    "country": "",
-    "email": "info@grove.tokyo",
-    "desc": "オワリです。 お問い合わせ先❣️ ✉️ info@grove.tokyo 〒106-6131 東京都港区六本木6-10-1 六本木ヒルズ森タワー31F GROVE株式会社 都 宛",
-    "last": "2026-10-24",
-    "since": "2026-11-03"
-   },
-   {
-    "id": "UCa05vmoUg_A3JewwAXn_mrw",
-    "title": "ニシコリ",
-    "handle": "@nishikori50000",
-    "subs": 823000,
-    "videos": 1809,
-    "country": "JP",
-    "email": "",
-    "desc": "英検3級 イギリス人 ブラジル人 青森県民 大学で出会った4ヶ国語グローバルYouTuber このチャンネルは日本語禁止です。 素は絶対に見せません。 ",
-    "last": "2026-11-02",
-    "since": "2026-11-03"
-   },
-   {
-    "id": "UCB26wyn7px72r4Ppvb_eJZg",
-    "title": "スピードジャパン【ishowspeed日本語】",
-    "handle": "@スピードjapan",
-    "subs": 317000,
-    "videos": 693,
-    "country": "JP",
-    "email": "",
-    "desc": "IShowSpeedのファンです。 スピードの面白動画を日本語字幕で毎日お届けします。 爆発的なリアクション、熱い挑戦、感動の人間ドラマ..常識外れの行動を見れば、あなたもきっとハマるはず！ ",
-    "last": "2026-09-21",
-    "since": "2026-11-03"
-   },
-   {
     "id": "UC0RJAtZGjcUfwskb_AKGw3Q",
     "title": "さきここVoice",
     "handle": "@sakikokovoice",
@@ -59,18 +11,6 @@
     "country": "",
     "email": "",
     "desc": "K-POPを中心に、邦楽・洋楽をアーティストの歌い方から学ぶ！ 「POPでキャッチーにわかりやすく！」をモットーに 現役ボイストレーナー/ボーカルコーチがあなたの推しの歌声を徹底分析していきます♪ ",
-    "last": "2026-11-02",
-    "since": "2026-11-03"
-   },
-   {
-    "id": "UCy0dIOFuIfbmZ2G2oPgt22w",
-    "title": "サランピTV〈SaranpiTV〉",
-    "handle": "@saranpitv",
-    "subs": 291000,
-    "videos": 9046,
-    "country": "JP",
-    "email": "",
-    "desc": "",
     "last": "2026-11-02",
     "since": "2026-11-03"
    },
@@ -156,18 +96,6 @@
     "email": "",
     "desc": "アンニョン～！😊 韓国情報メディア「アンニョン TV【Anyon TV】」です！ 韓国アイドル/韓国ニュース/韓国コスメ…などなどリアルな韓国情報をお届けします。 「こんな動画見たい！」などご意見があればコメントお待ちしております！ チャンネル登録して通知もONにしてくださいね！ ",
     "last": "2026-10-25",
-    "since": "2026-11-03"
-   },
-   {
-    "id": "UCsVJNCU49cSaltzH6B4MSiA",
-    "title": "クイック・ドラマ",
-    "handle": "@クイックドラマ",
-    "subs": 48100,
-    "videos": 160,
-    "country": "JP",
-    "email": "",
-    "desc": "",
-    "last": "2026-10-31",
     "since": "2026-11-03"
    },
    {
@@ -289,21 +217,12 @@
     "desc": "このチャンネルでは、韓国アイドルの少し細かいプロフィールについて紹介していきます。 各アイドルの経歴や趣味、特技、デビューのきっかけなど、ファンが知りたい情報を詳しく掘り下げてお届けします。 例えば、アイドルの幼少期のエピソードや、彼らがどのようにして今の地位にたどり着いたのか、またステージ裏での様子や、意外な一面につ",
     "last": "2026-11-02",
     "since": "2026-11-03"
-   },
-   {
-    "id": "UCrvanw-Ubl1EppDJS_rLm-Q",
-    "title": "キンムービー : K Movie",
-    "handle": "@kkingmovie",
-    "subs": 23800,
-    "videos": 76,
-    "country": "JP",
-    "email": "daroking21sama@gmail.com",
-    "desc": "(もっと見る) こんなところまで押して確認してくださるなんて、 ありがとうございます。 面白く観たドラマや映画をレビューするキンさんです。 ビジネスメール daroking21sama@gmail.com ",
-    "last": "2026-11-02",
-    "since": "2026-11-03"
    }
   ],
   "PH": [],
   "ID": []
+ },
+ "when": {
+  "JP": "2026-11-03T06:00:54.480Z"
  }
 }
