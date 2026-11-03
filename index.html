@@ -1702,7 +1702,7 @@ ext:{title:"外部送信について", html:`
 /* ===== App ===== */
 const $ = s => document.querySelector(s);
 const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
-const LANGS = [["en","English"],["tl","Filipino"],["th","ไทย"],["id","Bahasa Indonesia"],["es","Español"],["ja","日本語"]];
+const LANGS = [["en","English"],["es","Español"],["id","Bahasa Indonesia"],["tl","Filipino"],["th","ไทย"],["ja","日本語"]];   // menu order per David 2026-11-03
 const LOCALE = {en:"en-GB",tl:"fil-PH",th:"th-TH-u-ca-gregory",id:"id-ID",es:"es",ja:"ja-JP"};
 const HTML_LANG = {en:"en",tl:"fil",th:"th",id:"id",es:"es",ja:"ja"};
 /* Region edition. kreelz.com/jp is the same page (jp/index.html is generated from this file by scripts/region.mjs)
@@ -1710,13 +1710,12 @@ const HTML_LANG = {en:"en",tl:"fil",th:"th",id:"id",es:"es",ja:"ja"};
 const REGION = document.documentElement.dataset.region==="jp" ? "jp" : "global";
 const LANG_KEY = REGION==="jp" ? "ss-lang-jp" : "ss-lang";
 /* kreelz.com/jp offers Japanese and English only */
-const MENU_LANGS = REGION==="jp" ? ["ja","en"].map(k=>LANGS.find(l=>l[0]===k)) : LANGS;   // 日本語 first
+const MENU_LANGS = REGION==="jp" ? ["ja","en"].map(k=>LANGS.find(l=>l[0]===k)) : LANGS.filter(l=>l[0]!=="ja");   // the English edition: no Japanese (that is kreelz.com/jp; per David 2026-11-03)   // 日本語 first
 const langOK = l => !!I18N[l] && MENU_LANGS.some(x=>x[0]===l);
 function pickLang(){
   const s=store.get(LANG_KEY); if(s && langOK(s)) return s;
   if(REGION==="jp") return "ja";
   const n=(navigator.language||"en").toLowerCase();
-  if(n.startsWith("ja")) return "ja";
   if(/^(fil|tl)/.test(n)) return "tl"; if(n.startsWith("th")) return "th"; if(/^(id|in)\b/.test(n)) return "id"; if(n.startsWith("es")) return "es";
   return "en";
 }
