@@ -216,6 +216,59 @@
     "BTS fancam Brazil"
    ],
    "done": true
+  },
+  {
+   "name": "cooking_experience",
+   "topic": "hot",
+   "cat": "k",
+   "since_days": 540,
+   "rotate": true,
+   "per_night": 2,
+   "min_views": 10000,
+   "until": "2027-12-31",
+   "_note": "Tour & Food tab of both editions (per David 2026-11-04): foreigners making Korean food themselves and tasting it — cooking classes, kimchi / kimbap / tteokbokki / jeon making. A standing search: 2 of the queries a night, in turn; clips must name a person or class, a Korean dish and the making.",
+   "require": [
+    "외국인|foreigners?|tourists?|travell?ers?|visitors?|cooking ?class|쿠킹 ?클래스|요리 ?(교실|클래스|체험)|料理教室|クッキング|体験|체험|first time|americans?|british|europeans?|japanese|french|german|외국 ?친구",
+    "김치|kimchi|김밥|kimbap|gimbap|비빔밥|bibimbap|떡볶이|tteokbokki|불고기|bulgogi|파전|pajeon|(?<![가-힣])전(?![가-힣])|만두|mandu|dumplings?|한식|korean (food|dish|dishes|cooking|recipe|bbq|cuisine)|韓国料理|キムチ|キンパ|トッポッキ|チヂミ",
+    "만들|만드는|담그|담가|making|make|made|cook|요리|作り|手作り|作る|class|클래스|체험|体験"
+   ],
+   "not": "mukbang|먹방|asmr|reaction|리액션|뉴스|news|recipe only|레시피만|1 ?hour|playlist",
+   "queries": [
+    "외국인 김치 만들기 체험",
+    "korean cooking class seoul",
+    "foreigners making kimchi",
+    "외국인 쿠킹클래스 한식",
+    "kimbap making class korea",
+    "외국인 김밥 만들기 체험",
+    "foreigners try making korean food",
+    "tteokbokki cooking class seoul",
+    "외국인 관광객 한식 체험",
+    "korean cooking class tourist experience"
+   ]
+  },
+  {
+   "name": "museum_goods",
+   "topic": "hot",
+   "cat": "k",
+   "since_days": 730,
+   "rotate": true,
+   "per_night": 1,
+   "min_views": 10000,
+   "until": "2027-12-31",
+   "_note": "Tour & Food tab of both editions (per David 2026-11-04): the National Museum of Korea's goods (MU:DS 뮷즈) and visits — souvenirs, the Pensive Bodhisattva goods, unboxings, foreigners at the museum. One query a night, in turn.",
+   "require": [
+    "국립중앙박물관|중앙박물관|국중박|national museum of korea|뮷즈|mu:?ds|国立中央博物館|中央博物館"
+   ],
+   "not": "뉴스|news|1 ?hour|playlist",
+   "queries": [
+    "국립중앙박물관 굿즈",
+    "뮷즈 굿즈",
+    "National Museum of Korea goods",
+    "국립중앙박물관 반가사유상 굿즈",
+    "National Museum of Korea souvenir",
+    "국중박 굿즈 언박싱",
+    "외국인 국립중앙박물관"
+   ]
   }
  ]
 }
