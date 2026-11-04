@@ -26,6 +26,7 @@ for (const [name, short] of [["FEED", false], ["SHORTS", true]]) {
     const id = s.slice(i, i + 11), c = s[i + 11], vc = dec2(s.slice(i + 12, i + 14)), days = dec2(s.slice(i + 14, i + 16));
     if (days > 2 || vc === 4095 || JPO.has(id) || c !== c.toUpperCase()) continue;   // last 2 days, official channels, on both editions
     const o = tf("o", id) || [], v = vm[id] || [], t = o[0] || v[0]; if (!t) continue;
+    if (/폭행|사건|사고|살인|사망|범죄|보복운전|블랙박스|흉기|참사/.test(t)) continue;   // accident / crime clips are not what fans come for
     const cat = VAR.has(id) ? "variety" : c === "E" ? "" : FC[c.toLowerCase()]; if (!cat) continue;   // variety shows filed elsewhere count as variety
     const views = Math.round(Math.pow(1.006, vc) - 1);
     cand.push({ id, short, cat, t, ch: o[1] || v[2] || "", views, sc: views / (days + 1) * (NOW.has(id) ? 1.5 : 1) });

@@ -477,6 +477,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
     for (const x of L) {
       if (replies10.length >= 10) break;
       if (!x.kr_ja) continue;   // the point of the reply is what Korean viewers say
+      if (/폭행|사건|사고|살인|사망|범죄|보복|블랙박스|事件|暴行|報復|事故|殺人|犯罪/.test(`${x.t} ${x.ja_title}`)) continue;   // no crime / accident clips
       const key = keyOf(x); if (!key || seenK.has(key.k)) continue; seenK.add(key.k);
       const n = replies10.length, d = Math.floor(Date.parse(BUILT) / 864e5);
       const text = T_KR[(n + d) % T_KR.length](end(x.kr_ja));
