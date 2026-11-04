@@ -1,33 +1,35 @@
 {
- "date": "2026-11-04",
+ "date": "2026-11-05",
  "updated": "2026-11-03T16:07:59.011Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 18,
    "picks": [
-    "UCveg2OqejYV-Y_UsMOTNLqA",
-    "UCnRQgLid_0ePEXlrSQPNHrg",
-    "UCsnDrary1zSkV9RFyZ11K7w"
+    "UCtkdAwKUAEjCjJq3u94d3TA",
+    "UCi8WDd6UlZLAaQzdyqD6B-w",
+    "UCgl55m7e8ulMedEJGEWonMg"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-04）",
+    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-05）",
     "rows": [
-     "1. TWS「내 이름을 불러줘」公式MV\n   TWSの新曲「내 이름을 불러줘」の公式MVです。爽やかで切ない世界観が魅力で、ファンにはたまらない一本です。",
-     "2. ILLIT「You're Under Arrest」ミュージックビデオ\n   ILLITの楽曲「体制化」関連のクリップで、タイトルは「習慣的な親切は犯罪だ」という内容です。ILLITの魅力を楽しみたいファン向けです。",
-     "3. NEON「A2O LITE」SBS人気歌謡 出演\n   SBS『人気歌謡』(2026年11月1日放送)でのNEONの「A2O LITE」ステージです。新しいイントロのパフォーマンスが注目されています。",
-     "4. パニとマツヤマ1万円旅行 EP.0\n   YouTubeチャンネル「チャンネル十五夜」の『万円の幸せ』第0話です。パニ・ボトルが松山で1泊2日、1万円の旅を楽しむ企画です。",
-     "5. 『冷蔵庫を探して』第96回予告編 ジス参戦\n   JTBCの料理番組『冷蔵庫を探して』第96回の予告編です。BLACKPINKのジスと、ATEEZのウヨン・サンが登場し、辛い料理に挑みます。",
-     "6. 99歳おばあちゃんの長寿の秘訣\n   TV朝鮮の教養番組『どう生きるか』第95回です。99歳の女性が、よく食べてよく消化することが長寿の秘訣だと語ります。",
-     "7. チョン・ホヨン×チョン・ジソン『ネオ・ゴルモク』出演者募集\n   SBSの料理番組『スリーシェフ』の出演者募集ティーザーです。ソウルで客足に悩む飲食店オーナーが対象で、2026年11月8日まで受付中です。",
-     "8. 『今もなお輝いて』キム・ヘジャ出演映画の場面\n   映画『今もなお輝いて』の場面で、ジョンイムが甘く積極的な態度を見せる様子です。恋愛シーンが好きなファンに向いています。"
+     "1. TWS「내 이름을 불러줘」MV\n   TWSの新曲「내 이름을 불러줘」の公式MVです。横断歩道のシーンなど映画のような演出が見どころです。",
+     "2. ILLIT「You're Under Arrest」イントロ映像\n   ILLITの楽曲「You're Under Arrest」のイントロパートの映像です。",
+     "3. IVE レイ・ウォニョン 小動物ショート\n   IVEのレイとウォニョンが、ハムスターやウサギに見立てた可愛らしい姿を見せるショート動画です。",
+     "4. 「アンダーカバーシェフ」中国の食堂で働く？\n   tvN「アンダーカバーシェフ：遠くから訪ねてきた友」の一場面で、チョン・ジソンが中国の食堂を訪ね、料理人たちと交流する様子です。",
+     "5. トレーナー暴行事件 夫婦の一日│韓文哲\n   JTBCの番組「韓文哲のブラックボックスレビュー」で、ジムトレーナーから暴行を受けた母親の事件を紹介する回です。",
+     "6. 「ジス×ナヨン」テンマン 11月10日予告\n   SBS「テンマンナミ」第65回の予告映像で、ジスとナヨンが故郷で盛り上がる様子が紹介されています。",
+     "7. 「グッドパートナー2」第2次ティーザー\n   SBSの新金土ドラマ「グッドパートナー2」の第2次ティーザーで、チャン・ナラとパク・ヘジンの対決が描かれます。",
+     "8. 「私の有罪人間」イム・シワン×シソン\n   tvNドラマ「私の有罪人間」より、イム・シワンとソル・インアの息の合ったやり取りを集めた映像です。",
+     "9. 映画「最終面接」観客レビュー映像\n   11月4日公開の映画「最終面接」を観た観客の反応をまとめた映像です。ネタバレはありません。",
+     "10. 産後うつと過食、体重100kg TV朝鮮「奇跡の生還」\n   TV朝鮮「再び生きる話 奇跡の生還」第179回で、産後うつから過食に陥った女性の体重増加と健康問題を紹介する回です。"
     ],
-    "n": 8,
+    "n": 10,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-04）\n\n1. TWS「내 이름을 불러줘」公式MV\n   TWSの新曲「내 이름을 불러줘」の公式MVです。爽やかで切ない世界観が魅力で、ファンにはたまらない一本です。\n2. ILLIT「You're Under Arrest」ミュージックビデオ\n   ILLITの楽曲「体制化」関連のクリップで、タイトルは「習慣的な親切は犯罪だ」という内容です。ILLITの魅力を楽しみたいファン向けです。\n3. NEON「A2O LITE」SBS人気歌謡 出演\n   SBS『人気歌謡』(2026年11月1日放送)でのNEONの「A2O LITE」ステージです。新しいイントロのパフォーマンスが注目されています。\n4. パニとマツヤマ1万円旅行 EP.0\n   YouTubeチャンネル「チャンネル十五夜」の『万円の幸せ』第0話です。パニ・ボトルが松山で1泊2日、1万円の旅を楽しむ企画です。\n5. 『冷蔵庫を探して』第96回予告編 ジス参戦\n   JTBCの料理番組『冷蔵庫を探して』第96回の予告編です。BLACKPINKのジスと、ATEEZのウヨン・サンが登場し、辛い料理に挑みます。\n6. 99歳おばあちゃんの長寿の秘訣\n   TV朝鮮の教養番組『どう生きるか』第95回です。99歳の女性が、よく食べてよく消化することが長寿の秘訣だと語ります。\n7. チョン・ホヨン×チョン・ジソン『ネオ・ゴルモク』出演者募集\n   SBSの料理番組『スリーシェフ』の出演者募集ティーザーです。ソウルで客足に悩む飲食店オーナーが対象で、2026年11月8日まで受付中です。\n8. 『今もなお輝いて』キム・ヘジャ出演映画の場面\n   映画『今もなお輝いて』の場面で、ジョンイムが甘く積極的な態度を見せる様子です。恋愛シーンが好きなファンに向いています。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-05）\n\n1. TWS「내 이름을 불러줘」MV\n   TWSの新曲「내 이름을 불러줘」の公式MVです。横断歩道のシーンなど映画のような演出が見どころです。\n2. ILLIT「You're Under Arrest」イントロ映像\n   ILLITの楽曲「You're Under Arrest」のイントロパートの映像です。\n3. IVE レイ・ウォニョン 小動物ショート\n   IVEのレイとウォニョンが、ハムスターやウサギに見立てた可愛らしい姿を見せるショート動画です。\n4. 「アンダーカバーシェフ」中国の食堂で働く？\n   tvN「アンダーカバーシェフ：遠くから訪ねてきた友」の一場面で、チョン・ジソンが中国の食堂を訪ね、料理人たちと交流する様子です。\n5. トレーナー暴行事件 夫婦の一日│韓文哲\n   JTBCの番組「韓文哲のブラックボックスレビュー」で、ジムトレーナーから暴行を受けた母親の事件を紹介する回です。\n6. 「ジス×ナヨン」テンマン 11月10日予告\n   SBS「テンマンナミ」第65回の予告映像で、ジスとナヨンが故郷で盛り上がる様子が紹介されています。\n7. 「グッドパートナー2」第2次ティーザー\n   SBSの新金土ドラマ「グッドパートナー2」の第2次ティーザーで、チャン・ナラとパク・ヘジンの対決が描かれます。\n8. 「私の有罪人間」イム・シワン×シソン\n   tvNドラマ「私の有罪人間」より、イム・シワンとソル・インアの息の合ったやり取りを集めた映像です。\n9. 映画「最終面接」観客レビュー映像\n   11月4日公開の映画「最終面接」を観た観客の反応をまとめた映像です。ネタバレはありません。\n10. 産後うつと過食、体重100kg TV朝鮮「奇跡の生還」\n   TV朝鮮「再び生きる話 奇跡の生還」第179回で、産後うつから過食に陥った女性の体重増加と健康問題を紹介する回です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -37,22 +39,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-04)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-05)",
     "rows": [
-     "1. TWS \"Call My Name\" Official MV\n   The official music video for TWS's song \"Call My Name\". Fans will want to watch for its bright, emotional atmosphere.",
-     "2. ILLIT \"You're Under Arrest\" clip\n   A clip from ILLIT titled \"Habitual kindness is a crime,\" tied to their song \"You're Under Arrest.\" Fans of the group will enjoy it.",
-     "3. NEON \"A2O LITE\" on SBS Inkigayo\n   NEON performing \"A2O LITE\" on SBS Inkigayo, broadcast November 1, 2026. The new intro performance is the highlight.",
-     "4. \"100 Days of Deception\" interpretation mishap scene\n   A scene from tvN's 100 Days of Deception where Kyung-i's innocence leads to a comedic interpretation mix-up. Fans of the drama will enjoy it.",
-     "5. \"100 Days of Deception\" Laurent's perfect timing\n   A scene from 100 Days of Deception where Laurent appears at a perfectly timed moment. Fans curious about the story's direction will want to see it.",
-     "6. Pani's Matsuyama 10,000-yen trip EP.0\n   Episode 0 of \"Happiness for 10,000 Yen\" from Channel 15 Night, where Pani Bottle travels to Matsuyama on a tight budget. Fans of travel content will enjoy it.",
-     "7. \"Refrigerator Raid\" Ep.96 preview with Jisoo\n   Preview of JTBC's cooking show Refrigerator Raid, episode 96, featuring BLACKPINK's Jisoo along with ATEEZ's Hongjoong... no, Woo-young and San, who take on spicy dishes.",
-     "8. 99-year-old grandmother's longevity secret\n   Episode 95 of TV Chosun's \"How Shall We Live\" features a 99-year-old woman whose longevity comes from eating well and digesting well.",
-     "9. \"Three Chefs\" casting teaser for Seoul restaurant owners\n   Teaser for the casting call of SBS's cooking show Three Chefs, seeking Seoul restaurant owners struggling with business. Applications run until November 8, 2026.",
-     "10. \"Still Shining\" scene: \"You have seaweed on your face\"\n   A flirtatious moment from the film Still Shining, starring Kim Hye-ja, where Jung-im playfully teases with seaweed snack. Fans of romance scenes will enjoy it."
+     "1. TWS 'Call My Name' Official MV\n   The official MV for TWS's song '내 이름을 불러줘' (Call My Name). Fans highlight its cinematic direction, including the crosswalk scene.",
+     "2. ILLIT 'THIS INTRO' - You're Under Arrest\n   An intro-part video for ILLIT's song 'You're Under Arrest'.",
+     "3. IVE Rei & Wonyoung cute Shorts\n   A short clip of IVE's Rei and Wonyoung in cute hamster and bunny-themed moments.",
+     "4. Undercover Chef: Chengdu restaurant clip\n   A clip from tvN's 'Undercover Chef: Friend Who Came From Afar', where the cast visits Chengdu and ends up discussing restaurant work with its staff.",
+     "5. Trainer assault case on JTBC's Hanbly\n   A JTBC segment from 'Han Moon-chul's Black Box Review' covering a mother who was assaulted by a gym trainer after a parking dispute.",
+     "6. JiSoo × Nayeon preview on SBS 'Ten Man Nami'\n   Preview of SBS's 'Ten Man Nami' episode 65, airing November 10, featuring JiSoo and Nayeon enjoying a trip to their hometown.",
+     "7. 'Good Partner 2' second teaser\n   The second teaser for SBS's new Friday-Saturday drama 'Good Partner 2', showing a clash between two lead lawyers played by Jang Nara and Park Hae-jin.",
+     "8. 'Love in Disguise' Lim Siwan & Seol In-ah clip\n   A clip from tvN's 'Love in Disguise' showing the lively chemistry between Lim Siwan and Seol In-ah.",
+     "9. 'Final Interview' audience reaction video\n   A compilation of audience reactions to the film 'Final Interview', opening nationwide November 4. The video is spoiler-free.",
+     "10. Postpartum depression and overeating, TV Chosun\n   TV Chosun's 'Miracle Recovery' episode 179 follows a woman whose postpartum depression led to overeating, weight gain to 100 kg, and digestive problems."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-04)\n\n1. TWS \"Call My Name\" Official MV\n   The official music video for TWS's song \"Call My Name\". Fans will want to watch for its bright, emotional atmosphere.\n2. ILLIT \"You're Under Arrest\" clip\n   A clip from ILLIT titled \"Habitual kindness is a crime,\" tied to their song \"You're Under Arrest.\" Fans of the group will enjoy it.\n3. NEON \"A2O LITE\" on SBS Inkigayo\n   NEON performing \"A2O LITE\" on SBS Inkigayo, broadcast November 1, 2026. The new intro performance is the highlight.\n4. \"100 Days of Deception\" interpretation mishap scene\n   A scene from tvN's 100 Days of Deception where Kyung-i's innocence leads to a comedic interpretation mix-up. Fans of the drama will enjoy it.\n5. \"100 Days of Deception\" Laurent's perfect timing\n   A scene from 100 Days of Deception where Laurent appears at a perfectly timed moment. Fans curious about the story's direction will want to see it.\n6. Pani's Matsuyama 10,000-yen trip EP.0\n   Episode 0 of \"Happiness for 10,000 Yen\" from Channel 15 Night, where Pani Bottle travels to Matsuyama on a tight budget. Fans of travel content will enjoy it.\n7. \"Refrigerator Raid\" Ep.96 preview with Jisoo\n   Preview of JTBC's cooking show Refrigerator Raid, episode 96, featuring BLACKPINK's Jisoo along with ATEEZ's Hongjoong... no, Woo-young and San, who take on spicy dishes.\n8. 99-year-old grandmother's longevity secret\n   Episode 95 of TV Chosun's \"How Shall We Live\" features a 99-year-old woman whose longevity comes from eating well and digesting well.\n9. \"Three Chefs\" casting teaser for Seoul restaurant owners\n   Teaser for the casting call of SBS's cooking show Three Chefs, seeking Seoul restaurant owners struggling with business. Applications run until November 8, 2026.\n10. \"Still Shining\" scene: \"You have seaweed on your face\"\n   A flirtatious moment from the film Still Shining, starring Kim Hye-ja, where Jung-im playfully teases with seaweed snack. Fans of romance scenes will enjoy it.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-05)\n\n1. TWS 'Call My Name' Official MV\n   The official MV for TWS's song '내 이름을 불러줘' (Call My Name). Fans highlight its cinematic direction, including the crosswalk scene.\n2. ILLIT 'THIS INTRO' - You're Under Arrest\n   An intro-part video for ILLIT's song 'You're Under Arrest'.\n3. IVE Rei & Wonyoung cute Shorts\n   A short clip of IVE's Rei and Wonyoung in cute hamster and bunny-themed moments.\n4. Undercover Chef: Chengdu restaurant clip\n   A clip from tvN's 'Undercover Chef: Friend Who Came From Afar', where the cast visits Chengdu and ends up discussing restaurant work with its staff.\n5. Trainer assault case on JTBC's Hanbly\n   A JTBC segment from 'Han Moon-chul's Black Box Review' covering a mother who was assaulted by a gym trainer after a parking dispute.\n6. JiSoo × Nayeon preview on SBS 'Ten Man Nami'\n   Preview of SBS's 'Ten Man Nami' episode 65, airing November 10, featuring JiSoo and Nayeon enjoying a trip to their hometown.\n7. 'Good Partner 2' second teaser\n   The second teaser for SBS's new Friday-Saturday drama 'Good Partner 2', showing a clash between two lead lawyers played by Jang Nara and Park Hae-jin.\n8. 'Love in Disguise' Lim Siwan & Seol In-ah clip\n   A clip from tvN's 'Love in Disguise' showing the lively chemistry between Lim Siwan and Seol In-ah.\n9. 'Final Interview' audience reaction video\n   A compilation of audience reactions to the film 'Final Interview', opening nationwide November 4. The video is spoiler-free.\n10. Postpartum depression and overeating, TV Chosun\n   TV Chosun's 'Miracle Recovery' episode 179 follows a woman whose postpartum depression led to overeating, weight gain to 100 kg, and digestive problems.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -62,22 +64,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-04)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-05)",
     "rows": [
-     "1. TWS \"Call My Name\" Official MV",
-     "2. ILLIT \"You're Under Arrest\" clip",
-     "3. NEON \"A2O LITE\" on SBS Inkigayo",
-     "4. \"100 Days of Deception\" interpretation mishap scene",
-     "5. \"100 Days of Deception\" Laurent's perfect timing",
-     "6. Pani's Matsuyama 10,000-yen trip EP.0",
-     "7. \"Refrigerator Raid\" Ep.96 preview with Jisoo",
-     "8. 99-year-old grandmother's longevity secret",
-     "9. \"Three Chefs\" casting teaser for Seoul restaurant owners",
-     "10. \"Still Shining\" scene: \"You have seaweed on your face\""
+     "1. TWS 'Call My Name' Official MV",
+     "2. ILLIT 'THIS INTRO' - You're Under Arrest",
+     "3. IVE Rei & Wonyoung cute Shorts",
+     "4. Undercover Chef: Chengdu restaurant clip",
+     "5. Trainer assault case on JTBC's Hanbly",
+     "6. JiSoo × Nayeon preview on SBS 'Ten Man Nami'",
+     "7. 'Good Partner 2' second teaser",
+     "8. 'Love in Disguise' Lim Siwan & Seol In-ah clip",
+     "9. 'Final Interview' audience reaction video",
+     "10. Postpartum depression and overeating, TV Chosun"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-04)\n\n1. TWS \"Call My Name\" Official MV\n2. ILLIT \"You're Under Arrest\" clip\n3. NEON \"A2O LITE\" on SBS Inkigayo\n4. \"100 Days of Deception\" interpretation mishap scene\n5. \"100 Days of Deception\" Laurent's perfect timing\n6. Pani's Matsuyama 10,000-yen trip EP.0\n7. \"Refrigerator Raid\" Ep.96 preview with Jisoo\n8. 99-year-old grandmother's longevity secret\n9. \"Three Chefs\" casting teaser for Seoul restaurant owners\n10. \"Still Shining\" scene: \"You have seaweed on your face\"\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-05)\n\n1. TWS 'Call My Name' Official MV\n2. ILLIT 'THIS INTRO' - You're Under Arrest\n3. IVE Rei & Wonyoung cute Shorts\n4. Undercover Chef: Chengdu restaurant clip\n5. Trainer assault case on JTBC's Hanbly\n6. JiSoo × Nayeon preview on SBS 'Ten Man Nami'\n7. 'Good Partner 2' second teaser\n8. 'Love in Disguise' Lim Siwan & Seol In-ah clip\n9. 'Final Interview' audience reaction video\n10. Postpartum depression and overeating, TV Chosun\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }

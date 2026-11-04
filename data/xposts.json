@@ -1,48 +1,48 @@
 {
- "date": "2026-11-04",
- "artist": "BTS",
- "actor": "Choo Young-woo",
+ "date": "2026-11-05",
+ "artist": "ILLIT",
+ "actor": "Lee Jong-suk",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: Kビューティー",
-   "text": "💄Kビューティーでいま見られているクリップ\n注目：99歳のおばあさんの👵長寿の秘訣はよく食べてよく消化すること😎👍 TV CHOSUN 261101 放送 | [どう生きるか] 第95回…\n▶ https://kreelz.com/jp/k/beauty/\n#韓国コスメ #Kビューティー",
-   "len": 212
+   "label": "카테고리: Kトラベル＆フード",
+   "text": "🍜Kトラベル＆フードでいま見られているクリップ\n注目：ソニーの食堂で働けって❓ チョン・ジソンを見に来て韓国就職の扉が開いた成都の家族ㅋㅋ😏 [\n▶ https://kreelz.com/jp/k/food/\n#韓国グルメ #韓国旅行",
+   "len": 188
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/4）\n1. TWS「내 이름을 불러줘」公式MV\n2. ILLIT「You're Under Arrest」ミュージックビデオ\n3. NEON「A2O LITE」SBS人気歌謡 出演\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 227
+   "text": "📰3分でわかる今日の韓国エンタメ（11/5）\n1. TWS「내 이름을 불러줘」MV\n2. ILLIT「You're Under Arrest」イントロ映像\n3. IVE レイ・ウォニョン 小動物ショート\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 220
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "チュ・ヨンウの一番好きなビジュアルの瞬間は？✨\n#チュヨンウ #韓国俳優",
-   "len": 68
+   "text": "ILLITの曲で、いま一番リピートしてるのは？🎧\nリプで教えてください！\n#ILLIT #アイリット",
+   "len": 85
   },
   {
    "time": "19:00",
-   "label": "아티스트: BTS",
-   "text": "🔥BTS（防弾少年団）の最新ショート・動画まとめ\nいま話題：ué, não entendi 🫠\n▶ https://kreelz.com/jp/k/bts/\n#BTS #防弾少年団 #KPOP",
-   "len": 124
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：THIS INTRO part\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 125
   },
   {
    "time": "22:00",
-   "label": "배우: Choo Young-woo",
-   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[9話ハイライト]「良い男に出会います」近づいたキム・ソヒョン×チャン・インソプとチュ・ヨンウの不思議…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
-   "len": 233
+   "label": "배우: Lee Jong-suk",
+   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：シン・ミナが知らなかったイ・ジョンソクとの運命の初対面\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
+   "len": 191
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "BTS 최신 일본어 글",
-    "url": "https://x.com/search?q=%23BTS%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "チュ・ヨンウ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
+    "label": "イ・ジョンソク 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/4",
+  "date": "11/5",
   "rows": [
    {
     "t": "TWS（トゥアス）'내 이름을 불러줘' Official MV",
     "ch": "HYBE LABELS",
-    "v": 3717861
+    "v": 6293837
+   },
+   {
+    "t": "THIS INTRO part",
+    "ch": "ILLIT",
+    "v": 3107089
    },
    {
     "t": "言ったでしょ、習慣的な親切は犯罪だって ――",
     "ch": "ILLIT",
-    "v": 2505107
+    "v": 2840429
    },
    {
-    "t": "タク・ジェフンが狎鴎亭で堂々とナンパした理由笑🔥",
-    "ch": "드라마보는 남자",
-    "v": 2331581
+    "t": "TWS（トゥアス）「内の名前を呼んで」Official MV",
+    "ch": "HYBE LABELS",
+    "v": 1524733
    },
    {
-    "t": "NEON - A2O LITE",
-    "ch": "SBSKPOP X INKIGAYO",
-    "v": 1677883
-   },
-   {
-    "t": "パニーと一緒にロマンチックな松山万円旅行 [万円の幸せ EP.0]",
-    "ch": "채널십오야",
-    "v": 1214704
+    "t": "ソニーの食堂で働けって❓ チョン・ジソンを見に来て韓国就職の扉が開いた成都の家族ㅋㅋ😏 [",
+    "ch": "tvN D ENT",
+    "v": 1515639
    }
   ],
   "url": "kreelz.com/jp",

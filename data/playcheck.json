@@ -1,27 +1,30 @@
 {
  "date": "2026-11-04",
- "checked": 46217,
- "ok": 46215,
+ "checked": 18468,
+ "ok": 18463,
  "unknown": 0,
  "no_embed": 0,
- "private": 1,
+ "private": 4,
  "deleted": 1,
- "removed": 2,
+ "removed": 5,
  "held_back": false,
  "examples": {
   "no_embed": [],
   "private": [
-   "ZWbhmiKrBAo"
+   "Xg5zc8osnzI",
+   "xQecWIK4OQc",
+   "cbIRw7dNB3o",
+   "3VFk3u1BbRE"
   ],
   "deleted": [
-   "XN5Ig3b-d2U"
+   "k-YZtzoGxsw"
   ]
  },
  "history": [
   {
    "date": "2026-11-04",
-   "checked": 46217,
-   "removed": 2
+   "checked": 18468,
+   "removed": 5
   }
  ]
 }
