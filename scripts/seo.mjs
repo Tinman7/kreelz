@@ -460,11 +460,33 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
       "教えてくれてありがとうございます！今から見てきます👀", "この組み合わせは反則です…🫶", "次のカムバも楽しみすぎる✨" ] };
   posts.sort((x, y) => x.time.localeCompare(y.time));
   for (const p of posts) p.len = xlen(p.text);
+  // 10 replies a day (per David 2026-11-04): today's most-watched clips on /jp (the 3-minute digest), each with an X search
+  // for Japanese posts about it and a reply in Japanese that adds what Korean viewers say — no link (replies with links
+  // look like spam). David posts them himself, spread over the day.
+  const replies10 = [];
+  { const L = dg && dg.date === BUILT ? [...dItems("ja", dg), ...dMore("ja", dg)] : [], seenK = new Set();
+    const keyOf = x => { const t = `${x.t} ${x.ja_title} ${x.en_title}`, a = JP_ARTISTS.find(a => a[2].test(t)) || ARTISTS.find(a => a[2].test(t));
+      if (a) return { k: a[0], q: (TAG[a[0]] || "#" + a[0].replace(/\W/g, "")).split(" ").slice(-1)[0] };
+      const g = EXTRA_GROUPS.find(g => g[2].test(t)); if (g) return { k: g[0], q: "#" + g[0].replace(/\W/g, "") };
+      const m = (x.ja_title || "").match(/[「『【]([^」』】]{2,20})[」』】]/) || (x.ja_title || "").match(/^([^\s「『【｜|・]{2,16})/);
+      return m ? { k: m[1], q: m[1] } : null; };
+    const end = s => { s = String(s || "").trim().replace(/[。.!！]+$/, ""); return s ? s + "！" : ""; };
+    const T_KR = [kr => `韓国でも話題になってます👀 ${kr}`, kr => `韓国のコメント欄を見たら、${kr} わかる…！`, kr => `韓国でもすごく盛り上がってます！${kr}`,
+      kr => `${kr} 韓国でも同じ気持ちの人が多くて嬉しい🥹`, kr => `韓国のファンの反応も最高でした😂 ${kr}`];
+    const slots = ["08:30", "10:00", "11:30", "13:00", "14:30", "16:00", "17:30", "19:00", "20:30", "22:00"];
+    for (const x of L) {
+      if (replies10.length >= 10) break;
+      if (!x.kr_ja) continue;   // the point of the reply is what Korean viewers say
+      const key = keyOf(x); if (!key || seenK.has(key.k)) continue; seenK.add(key.k);
+      const n = replies10.length, d = Math.floor(Date.parse(BUILT) / 864e5);
+      const text = T_KR[(n + d) % T_KR.length](end(x.kr_ja));
+      replies10.push({ time: slots[n], topic: cut(x.ja_title, 40), search: xs(key.q), q: key.q, video: `https://www.youtube.com/watch?v=${x.id}`, text, len: xlen(text) });
+    } }
   // free-to-use card for Japanese K-content accounts (credit: KREELZ JAPAN): today's top 5 clips with Japanese titles
   const jt = x => clean(ED.ja.title(x)).replace(/\s*[|｜].*$/, "");
   const t5 = today ? [...today.list].filter(x => good(ED.ja.title(x)) && /[ぁ-んァ-ヶ一-龯]/.test(ED.ja.title(x))).sort((p, q) => q.views - p.views).slice(0, 5) : [];
   const card = t5.length ? { title: "韓国で今日いちばん見られている", big: "TOP 5", date: md, rows: t5.map(x => ({ t: jt(x).slice(0, 60), ch: x.ch, v: x.views })), url: "kreelz.com/jp", foot: "出典：KREELZ JAPAN ・ リアルタイム更新" } : null;
-  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage, card }, null, 1) + "\n");
+  fs.writeFileSync("data/xposts.json", JSON.stringify({ date: BUILT, artist: a && a.key, actor: ac && ac.key, posts, engage, card, replies10 }, null, 1) + "\n");
   console.log(`data/xposts.json: ${posts.length} posts (${posts.map(p => p.len).join(", ")} / 280)`);
 }
 
