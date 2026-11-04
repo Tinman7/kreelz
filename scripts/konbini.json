@@ -244,7 +244,9 @@
     "tteokbokki cooking class seoul",
     "외국인 관광객 한식 체험",
     "korean cooking class tourist experience"
-   ]
+   ],
+   "fresh_days": 21,
+   "min_views_fresh": 3000
   },
   {
    "name": "museum_goods",
@@ -268,7 +270,9 @@
     "National Museum of Korea souvenir",
     "국중박 굿즈 언박싱",
     "외국인 국립중앙박물관"
-   ]
+   ],
+   "fresh_days": 21,
+   "min_views_fresh": 3000
   }
  ]
 }
