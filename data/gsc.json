@@ -1,8 +1,8 @@
 {
- "updated": "2026-11-04T12:30:00.824Z",
+ "updated": "2026-11-05T11:36:36.097Z",
  "site": "https://kreelz.com/",
- "from": "2026-10-05",
- "to": "2026-11-03",
+ "from": "2026-10-06",
+ "to": "2026-11-04",
  "days": [
   {
    "k": "2026-10-27",
@@ -52,6 +52,13 @@
    "clk": 0,
    "ctr": 0,
    "pos": 11.1
+  },
+  {
+   "k": "2026-11-03",
+   "imp": 49,
+   "clk": 2,
+   "ctr": 4.1,
+   "pos": 11.7
   }
  ],
  "jpDays": [
@@ -103,22 +110,43 @@
    "clk": 0,
    "ctr": 0,
    "pos": 9.6
+  },
+  {
+   "k": "2026-11-03",
+   "imp": 35,
+   "clk": 2,
+   "ctr": 5.7,
+   "pos": 13.2
   }
  ],
  "pages": [
   {
    "k": "https://kreelz.com/jp/k/music/",
-   "imp": 10,
+   "imp": 14,
    "clk": 3,
-   "ctr": 30,
-   "pos": 6.6
+   "ctr": 21.4,
+   "pos": 6.7
   },
   {
    "k": "https://kreelz.com/",
-   "imp": 18,
+   "imp": 20,
    "clk": 1,
-   "ctr": 5.6,
-   "pos": 3.5
+   "ctr": 5,
+   "pos": 3.6
+  },
+  {
+   "k": "https://kreelz.com/jp/k/andteam/",
+   "imp": 30,
+   "clk": 1,
+   "ctr": 3.3,
+   "pos": 10.7
+  },
+  {
+   "k": "https://kreelz.com/jp/k/choo-young-woo/",
+   "imp": 1,
+   "clk": 1,
+   "ctr": 100,
+   "pos": 58
   },
   {
    "k": "https://kreelz.com/jp/k/tws/",
@@ -129,17 +157,10 @@
   },
   {
    "k": "https://kreelz.com/jp/k/aespa/",
-   "imp": 4,
+   "imp": 6,
    "clk": 0,
    "ctr": 0,
-   "pos": 21.5
-  },
-  {
-   "k": "https://kreelz.com/jp/k/andteam/",
-   "imp": 27,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 10.2
+   "pos": 18.2
   },
   {
    "k": "https://kreelz.com/jp/k/beauty/",
@@ -178,17 +199,24 @@
   },
   {
    "k": "https://kreelz.com/jp/k/film/",
-   "imp": 8,
+   "imp": 9,
    "clk": 0,
    "ctr": 0,
-   "pos": 8.6
+   "pos": 8.4
   },
   {
    "k": "https://kreelz.com/jp/k/food/",
-   "imp": 2,
+   "imp": 3,
    "clk": 0,
    "ctr": 0,
-   "pos": 25
+   "pos": 18.7
+  },
+  {
+   "k": "https://kreelz.com/jp/k/gong-yoo/",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 8
   },
   {
    "k": "https://kreelz.com/jp/k/hwang-in-youp/",
@@ -199,10 +227,10 @@
   },
   {
    "k": "https://kreelz.com/jp/k/illit/",
-   "imp": 81,
+   "imp": 93,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.3
+   "pos": 7.4
   },
   {
    "k": "https://kreelz.com/jp/k/kim-jae-joong/",
@@ -227,24 +255,24 @@
   },
   {
    "k": "https://kreelz.com/jp/k/seventeen/",
-   "imp": 1,
+   "imp": 2,
    "clk": 0,
    "ctr": 0,
-   "pos": 8
+   "pos": 7.5
   },
   {
    "k": "https://kreelz.com/jp/k/song-kang/",
-   "imp": 20,
+   "imp": 22,
    "clk": 0,
    "ctr": 0,
-   "pos": 22.3
+   "pos": 26.3
   },
   {
    "k": "https://kreelz.com/jp/k/stray-kids/",
-   "imp": 21,
+   "imp": 26,
    "clk": 0,
    "ctr": 0,
-   "pos": 9.4
+   "pos": 9.1
   },
   {
    "k": "https://kreelz.com/jp/k/today/",
@@ -261,28 +289,21 @@
    "pos": 6
   },
   {
-   "k": "https://kreelz.com/jp/k/variety/",
-   "imp": 8,
+   "k": "https://kreelz.com/jp/k/txt/",
+   "imp": 2,
    "clk": 0,
    "ctr": 0,
-   "pos": 17.6
-  },
-  {
-   "k": "https://kreelz.com/k/ahn-hyo-seop/",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 13
-  },
-  {
-   "k": "https://kreelz.com/k/boynextdoor/",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 6
+   "pos": 8
   }
  ],
  "queries": [
+  {
+   "k": "&team 動画",
+   "imp": 1,
+   "clk": 1,
+   "ctr": 100,
+   "pos": 31
+  },
   {
    "k": "cortis clips",
    "imp": 1,
@@ -313,10 +334,10 @@
   },
   {
    "k": "enhypen shorts",
-   "imp": 4,
+   "imp": 7,
    "clk": 0,
    "ctr": 0,
-   "pos": 6.8
+   "pos": 7.1
   },
   {
    "k": "hwang in youp",
@@ -326,8 +347,15 @@
    "pos": 55
   },
   {
+   "k": "hwanginyoup",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 12
+  },
+  {
    "k": "illit clips",
-   "imp": 2,
+   "imp": 3,
    "clk": 0,
    "ctr": 0,
    "pos": 4
@@ -341,10 +369,10 @@
   },
   {
    "k": "illit shorts",
-   "imp": 1,
+   "imp": 4,
    "clk": 0,
    "ctr": 0,
-   "pos": 4
+   "pos": 8.3
   },
   {
    "k": "illit ショート",
@@ -352,6 +380,13 @@
    "clk": 0,
    "ctr": 0,
    "pos": 5
+  },
+  {
+   "k": "illit 動画",
+   "imp": 2,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 9.5
   },
   {
    "k": "in youp",
@@ -432,40 +467,33 @@
   },
   {
    "k": "アイリット 動画",
-   "imp": 15,
+   "imp": 16,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.5
-  },
-  {
-   "k": "アイリット 新曲 動画",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 6
-  },
-  {
-   "k": "アイリット動画",
-   "imp": 12,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 7.4
-  },
-  {
-   "k": "アイリット新曲動画",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 7
+   "pos": 7.3
   }
  ],
  "jpQueries": [
+  {
+   "k": "&team 動画",
+   "imp": 1,
+   "clk": 1,
+   "ctr": 100,
+   "pos": 31
+  },
   {
    "k": "illit ショート",
    "imp": 1,
    "clk": 0,
    "ctr": 0,
    "pos": 5
+  },
+  {
+   "k": "illit 動画",
+   "imp": 2,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 9.5
   },
   {
    "k": "nct wish",
@@ -518,17 +546,17 @@
   },
   {
    "k": "アイリット 動画",
-   "imp": 15,
+   "imp": 16,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.5
+   "pos": 7.3
   },
   {
    "k": "アイリット 新曲 動画",
-   "imp": 1,
+   "imp": 3,
    "clk": 0,
    "ctr": 0,
-   "pos": 6
+   "pos": 7.7
   },
   {
    "k": "アイリット動画",
@@ -546,33 +574,19 @@
   },
   {
    "k": "エンティーム動画",
-   "imp": 17,
+   "imp": 18,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.9
-  },
-  {
-   "k": "コルティス 動画",
-   "imp": 2,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8
-  },
-  {
-   "k": "ストレイ キッズ 最新 動画",
-   "imp": 7,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 7.4
+   "pos": 7.8
   }
  ],
  "countries": [
   {
    "k": "jpn",
-   "imp": 219,
-   "clk": 4,
-   "ctr": 1.8,
-   "pos": 9.4
+   "imp": 254,
+   "clk": 6,
+   "ctr": 2.4,
+   "pos": 10
   },
   {
    "k": "grc",
@@ -597,14 +611,14 @@
   },
   {
    "k": "bel",
-   "imp": 3,
+   "imp": 4,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.7
+   "pos": 8
   },
   {
    "k": "bgd",
-   "imp": 3,
+   "imp": 5,
    "clk": 0,
    "ctr": 0,
    "pos": 6
@@ -660,10 +674,10 @@
   },
   {
    "k": "deu",
-   "imp": 2,
+   "imp": 3,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.5
+   "pos": 7
   },
   {
    "k": "dnk",
