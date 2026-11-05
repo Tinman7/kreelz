@@ -2,6 +2,34 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "wonhee_amazing_saturday",
+   "topic": "hot",
+   "cat": "e",
+   "since": "2024-03-01",
+   "search_until": "2026-11-12",
+   "until": "2026-12-31",
+   "per_night": 6,
+   "min_views": 3000,
+   "shorts_only": true,
+   "ids": [
+    "2x7wNFCyfyI"
+   ],
+   "_note": "Shows tab, both editions (per David 2026-11-05): ILLIT Wonhee on 놀라운 토요일 (Amazing Saturday, tvN) — this week's appearance and every earlier one, shorts. Searched every night until search_until (and at once by the live run).",
+   "require": [
+    "원희|wonhee|ウォニ|ウォンヒ",
+    "놀라운 ?토요일|놀토|amazing ?saturday|도레미 ?마켓|驚きの土曜日"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|1 ?hour|loop",
+   "queries": [
+    "원희 놀라운 토요일",
+    "아일릿 원희 놀토",
+    "놀토 원희 쇼츠",
+    "ILLIT Wonhee Amazing Saturday",
+    "놀라운토요일 아일릿",
+    "원희 도레미마켓"
+   ]
+  },
+  {
    "name": "mydemon",
    "topic": "hot",
    "cat": "d",

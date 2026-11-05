@@ -42,6 +42,7 @@ try { for (const g of groups) { if (g.topic !== "hot" || ((g.search_until || g.u
   // fresh_days: every other night only what came out in the last n days, so new uploads keep coming in (per David 2026-11-04)
   const fresh = g.fresh_days && Math.floor(Date.parse(today) / DAY) % 2 === 1;
   const since = new Date(fresh ? Date.now() - g.fresh_days * DAY : g.since_days ? Date.now() - g.since_days * DAY : g.since ? g.since + "T00:00:00+09:00" : Date.now() - 7 * DAY).toISOString();
+  for (const id of g.ids || []) if (!found.has(id)) found.set(id, g);   // clips David sent (per David 2026-11-05)
   for (const q of L) { asked.push(q);
     let d = await call("search", { part: "id", q, type: "video", order: "viewCount", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
     if (!(d.items || []).length && d.pageInfo?.totalResults) d = await call("search", { part: "id", q, type: "video", order: "relevance", publishedAfter: since, videoEmbeddable: "true", maxResults: 50 });
@@ -97,6 +98,7 @@ for (let i = 0; i < ids.length; i += 50) {
     if (views < ((freshOne && g.min_views_fresh) || g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
     if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
     vmeta[v.id] = meta;
+    if (g.shorts_only && !(g.ids || []).includes(v.id) && !(secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)))) continue;   // shorts only (per David 2026-11-05)
     cand.push({ g: g.name, cat: g.cat, pin: g.pin === true, jp: g.region === "jp", until: g.until, on: onSite.has(v.id), meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
   }
 }
