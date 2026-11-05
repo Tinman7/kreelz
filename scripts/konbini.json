@@ -2,6 +2,30 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "undercover_chef",
+   "topic": "hot",
+   "cat": "e",
+   "since_days": 150,
+   "search_until": "2026-12-31",
+   "until": "2026-12-31",
+   "per_night": 3,
+   "rotate": true,
+   "min_views": 3000,
+   "_note": "Shows tab, both editions (per David 2026-11-05): tvN 언더커버 셰프 (Undercover Chef) — clips and shorts. Searched every night (3 queries, in turn) and at once by the live run.",
+   "require": [
+    "언더커버 ?셰프|undercover ?chef|アンダーカバー ?シェフ"
+   ],
+   "not": "reaction|리액션|playlist|1 ?hour|loop|full ?episode|풀버전",
+   "queries": [
+    "언더커버 셰프",
+    "언더커버셰프 tvN",
+    "언더커버 셰프 하이라이트",
+    "Undercover Chef tvN",
+    "언더커버 셰프 쇼츠",
+    "언더커버 셰프 예고"
+   ]
+  },
+  {
    "name": "wonhee_amazing_saturday",
    "topic": "hot",
    "cat": "e",
