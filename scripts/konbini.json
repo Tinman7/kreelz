@@ -2,6 +2,31 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "illit_win",
+   "topic": "hot",
+   "cat": "m",
+   "front": "2026-11-13",
+   "since": "2026-11-06",
+   "search_until": "2026-11-09",
+   "until": "2026-11-13",
+   "per_night": 6,
+   "min_views": 500,
+   "_note": "Both editions, on the front for a week (per David 2026-11-06): ILLIT's music-show 1st place (체포하겠어 / You're Under Arrest) — the win, the encore, fancams of it. Mixed on the first screen with The Remarried Empress (English edition) until 2026-11-13.",
+   "require": [
+    "아일릿|ILLIT|アイリット",
+    "1위|1st ?win|first ?win|\\bwin\\b|winner|앵콜|앙코르|encore|1位|アンコール|트로피|trophy"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|loop|1 ?hour|predict|예측",
+   "queries": [
+    "아일릿 1위",
+    "ILLIT 1위 앵콜",
+    "ILLIT win encore",
+    "아일릿 뮤직뱅크 1위",
+    "아일릿 체포하겠어 1위",
+    "ILLIT You're Under Arrest 1st win"
+   ]
+  },
+  {
    "name": "remarried_empress_leads",
    "topic": "hot",
    "cat": "d",
