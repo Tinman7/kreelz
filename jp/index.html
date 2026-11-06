@@ -906,6 +906,11 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
 
 <div class="toast" id="toast" role="status" hidden></div>
 
+<script>/* A page left open (or a cached copy on a PC browser) catches up with the newest version by itself (per David
+   2026-11-06: PC showed an old page): the page's own Last-Modified vs the server's, on load and every 10 minutes; one reload. */
+(function(){ const chk=()=>fetch(location.pathname,{method:"HEAD",cache:"no-store"}).then(r=>{ const m=Date.parse(r.headers.get("last-modified")||""), mine=Date.parse(document.lastModified);
+  if(m && mine && m-mine>60000){ try{ if(sessionStorage.getItem("kz-up")==String(m)) return; sessionStorage.setItem("kz-up",String(m)) }catch(e){} location.reload() } }).catch(()=>{});
+  addEventListener("load",()=>setTimeout(chk,3000)); setInterval(chk,600000); document.addEventListener("visibilitychange",()=>{ if(!document.hidden) chk() }) })();</script>
 <script>(function(t){ document.write('<script src="/live.js?t='+t+'"><\/script><script src="/nclip.js?t='+t+'"><\/script>') })(Math.floor(Date.now()/3e5))</script><!-- videos added during the day (a viral moment), before the next nightly refresh; may be absent; the 5-minute key keeps caches from serving an old copy -->
 <script>
 /* ===== CONTENT — edit this list daily. Times are KST (+09:00). =====
