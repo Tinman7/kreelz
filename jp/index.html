@@ -2140,7 +2140,12 @@ const nowUp=l=>{ if(state.cat!=="screen" || state.q.trim() || !NOWRANK.size) ret
 const SPINS=new Set(); (function(){ const p=(typeof PRIO_SPIN==="string"?PRIO_SPIN:"").split("|"); if(p.length<3) return;
   if(new Date(Date.now()+9*3600e3).toISOString().slice(0,10)>p[0] || (p[1]==="jp" && REGION!=="jp")) return;
   for(let i=0;i+11<=p[2].length;i+=11) SPINS.add(p[2].slice(i,i+11)) })();
-const SPINS_EN=new Set();
+const SPINS_EN=new Set(), FRONT=new Set();
+/* On the front of the All and Music tabs, both editions, until a date (ILLIT's music-show win, per David 2026-11-06):
+   PRIO_FRONT (nightly) / live.js front (found during the day) = "until|ids" */
+(function(){ for(const src of [typeof PRIO_FRONT==="string"?PRIO_FRONT:"", (window.LIVE&&window.LIVE.front)||""]){ const p=src.split("|"); if(p.length<2) continue;
+  if(new Date(Date.now()+9*3600e3).toISOString().slice(0,10)>p[0]) continue;
+  for(let i=0;i+11<=p[1].length;i+=11) FRONT.add(p[1].slice(i,i+11)) } })();
 /* English edition only: PRIO_SPIN_EN = "until|ids" (The Remarried Empress — Shin Min-a × Lee Jong-suk, per David 2026-11-06);
    live.js can carry the same (spin_en) for clips found during the day */
 (function(){ if(REGION==="jp") return; for(const src of [typeof PRIO_SPIN_EN==="string"?PRIO_SPIN_EN:"", (window.LIVE&&window.LIVE.spin_en)||""]){ const p=src.split("|"); if(p.length<2) continue;
@@ -2150,14 +2155,20 @@ const SPINS_EN=new Set();
 const spinUp=l=>{
   // English edition, All tab too (per David 2026-11-06: The Remarried Empress, Shin Min-a × Lee Jong-suk, "고정처럼 집중적으로"):
   // every other place of the first 30 is one of theirs, a different few on top every day
-  if(state.cat==="all" && !state.q.trim() && SPINS_EN.size){ let p=l.filter(v=>SPINS_EN.has(v.id)).sort((a,b)=>b.views-a.views); if(!p.length) return l;
-    { const k=(Math.floor(Date.parse(kstDay())/864e5)*3)%p.length; p=p.slice(k).concat(p.slice(0,k)) }
-    p=p.slice(0,15); const t=new Set(p), r=l.filter(v=>!t.has(v)), out=[]; let i=0, j=0;
-    while(i<p.length||j<r.length){ if(i<p.length) out.push(p[i++]); if(j<r.length) out.push(r[j++]) }
-    return out }
+  // + the front list (ILLIT's win) on both editions: English All tab = Remarried Empress, ILLIT win, one other, repeated;
+  // Japan All tab and both Music tabs = ILLIT win, then others (two on /jp's All tab)
+  if((state.cat==="all" || state.cat==="music") && !state.q.trim() && (SPINS_EN.size || FRONT.size)){
+    let R=state.cat==="all"?l.filter(v=>SPINS_EN.has(v.id)).sort((a,b)=>b.views-a.views):[], F=l.filter(v=>FRONT.has(v.id)).sort((a,b)=>b.views-a.views).slice(0,12);
+    if(!R.length && !F.length) return l;
+    if(R.length){ const k=(Math.floor(Date.parse(kstDay())/864e5)*3)%R.length; R=R.slice(k).concat(R.slice(0,k)).slice(0,15) }
+    const t=new Set([...R,...F]), r=l.filter(v=>!t.has(v)), out=[]; let i=0, f=0, j=0;
+    const others=R.length&&F.length?1:(REGION==="jp"&&state.cat==="all"&&!R.length?2:1);
+    while(i<R.length||f<F.length){ if(i<R.length) out.push(R[i++]); if(f<F.length) out.push(F[f++]); for(let c=0;c<others&&j<r.length;c++) out.push(r[j++]) }
+    return out.concat(r.slice(j)) }
   if(state.cat!=="screen" || state.q.trim() || !SPINS.size) return l;
   let p=l.filter(v=>SPINS.has(v.id)).sort((a,b)=>b.views-a.views); if(!p.length) return l;
   { const k=(Math.floor(Date.parse(kstDay())/864e5)*4)%p.length; p=p.slice(k).concat(p.slice(0,k)) }   // a different few on top every day (per David 2026-11-02)
+  if(SPINS_EN.size){ const e=p.filter(v=>SPINS_EN.has(v.id)), o=p.filter(v=>!SPINS_EN.has(v.id)); p=e.concat(o) }   // English edition: The Remarried Empress first (per David 2026-11-06)
   const t=new Set(p), r=l.filter(v=>!t.has(v)), out=[]; let i=0, j=0;
   while(i<p.length||j<r.length){ for(let c=0;c<2&&i<p.length;c++) out.push(p[i++]); if(j<r.length) out.push(r[j++]) }
   return out };
