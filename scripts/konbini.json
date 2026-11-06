@@ -2,6 +2,59 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "remarried_empress_leads",
+   "topic": "hot",
+   "cat": "d",
+   "pin": "screen",
+   "region": "en",
+   "since_days": 365,
+   "search_until": "2026-12-31",
+   "until": "2026-12-31",
+   "per_night": 4,
+   "rotate": true,
+   "min_views": 5000,
+   "_note": "English edition, Screen tab, on top (per David 2026-11-06): The Remarried Empress (재혼황후) is doing well abroad — shorts and clips of the leads Shin Min-a (Navier) and Lee Jong-suk (Heinrey) first. Searched every night (4 queries in turn) and at once by the live run.",
+   "require": [
+    "재혼 ?황후|remarried ?empress|再婚承認|再婚皇后",
+    "신민아|이종석|shin ?min[- ]?a|lee ?jong[- ]?suk|나비에|하인리|navier|heinrey|heinrich|ナビエ|ハインリ|シン・?ミナ|イ・?ジョンソク"
+   ],
+   "not": "lyrics?|가사|playlist|1 ?hour|loop|full ?episode|풀버전|eng ?sub ?full",
+   "queries": [
+    "재혼황후 신민아 이종석",
+    "Remarried Empress Shin Min-a Lee Jong-suk",
+    "재혼황후 하인리 나비에",
+    "Remarried Empress Heinrey Navier",
+    "재혼황후 이종석",
+    "재혼황후 신민아",
+    "The Remarried Empress shorts",
+    "재혼황후 쇼츠"
+   ]
+  },
+  {
+   "name": "remarried_empress",
+   "topic": "hot",
+   "cat": "d",
+   "since_days": 365,
+   "search_until": "2026-12-31",
+   "until": "2026-12-31",
+   "per_night": 2,
+   "rotate": true,
+   "min_views": 20000,
+   "_note": "Both editions, Screen tab (per David 2026-11-06): The Remarried Empress — the most-watched clips, previews and making-of.",
+   "require": [
+    "재혼 ?황후|remarried ?empress|再婚承認|再婚皇后"
+   ],
+   "not": "lyrics?|가사|playlist|1 ?hour|loop|full ?episode|풀버전",
+   "queries": [
+    "재혼황후 하이라이트",
+    "The Remarried Empress clip",
+    "재혼황후 메이킹",
+    "The Remarried Empress trailer",
+    "재혼황후 명장면",
+    "Remarried Empress best scene"
+   ]
+  },
+  {
    "name": "undercover_chef",
    "topic": "hot",
    "cat": "e",
