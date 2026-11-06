@@ -27,13 +27,14 @@ jobs:
           python3 scripts/drop_ids.py index.html bad.json index.next.html | tee drop.log
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
+          node scripts/region.mjs index.html   # packs the id lists again for the new FEED/SHORTS (scripts/packlists.mjs), rebuilds /jp
       - name: Commit and publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html jp data/lists.json.gz
           if git diff --cached --quiet; then echo "nothing to remove"; exit 0; fi
           git commit -m "Thumbnail audit: $(tr '\n' ' ' < drop.log)"
           git pull --rebase -q

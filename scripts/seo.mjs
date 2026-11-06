@@ -6,6 +6,7 @@
 // usage: node scripts/seo.mjs            (reads index.html, live.js, t/, data/vmeta.json.gz)
 import fs from "node:fs";
 import zlib from "node:zlib";
+import { unpackList } from "./packlists.mjs";
 import { ARTISTS, JP_ARTISTS } from "./hybe.mjs";
 import { ACTORS, JP_ACTORS, JP_ACTOR_JA } from "./actors.mjs";
 import { MIN, EXTRA_GROUPS, MEMBERS, EXTRA_ACTORS, DRAMAS, NOT } from "./seo_topics.mjs";
@@ -13,7 +14,7 @@ import { MIN, EXTRA_GROUPS, MEMBERS, EXTRA_ACTORS, DRAMAS, NOT } from "./seo_top
 const SITE = "https://kreelz.com";
 const XJP = "KREELZ77";   // the Japan edition's X account (David, 2026-10-29)
 const html = fs.readFileSync("index.html", "utf8");
-const str = name => (new RegExp(`const ${name} = "([^"]*)"`).exec(html) || [])[1] || "";
+const str = name => { const v = (new RegExp(`const ${name} = "([^"]*)"`).exec(html) || [])[1] || ""; return v[0] === "~" ? unpackList(html, name) || "" : v; };   // packed lists: scripts/packlists.mjs
 const BUILT = str("FEED_BUILT") || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const dec2 = s => B64.indexOf(s[0]) * 64 + B64.indexOf(s[1]);

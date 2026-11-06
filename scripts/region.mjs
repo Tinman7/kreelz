@@ -2,8 +2,12 @@
 // Japan-first artist/actor order, Japan look) and Japanese search/share tags. Run after every change to index.html.
 // usage: node scripts/region.mjs index.html
 import fs from "node:fs";
+import { packPage } from "./packlists.mjs";
 const site = process.argv[2] || "index.html";
-const src = fs.readFileSync(site, "utf8");
+let src = fs.readFileSync(site, "utf8");
+// smaller page, faster first screen (per David 2026-11-07): the id lists are packed first (scripts/packlists.mjs), so both
+// editions get the packed page; every workflow that changes index.html runs this script before it commits
+{ const r = packPage(src); if (r.h !== src) { fs.writeFileSync(site, r.h); src = r.h; } console.log("lists packed:", JSON.stringify(r.rep)); }
 
 const EDITIONS = [{
   dir: "jp",

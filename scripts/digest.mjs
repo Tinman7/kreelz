@@ -5,11 +5,12 @@
 // kreelz.com/k/today/ and /jp/k/today/ (+ one page per day). usage: YT_API_KEY=… ANTHROPIC_API_KEY=… node scripts/digest.mjs index.html
 import fs from "node:fs";
 import zlib from "node:zlib";
+import { unpackList } from "./packlists.mjs";
 
 const YT = process.env.YT_API_KEY, AK = process.env.ANTHROPIC_API_KEY, MODEL = process.env.DIGEST_MODEL || "claude-haiku-5-5";
 const site = process.argv[2] || "index.html";
 const h = fs.readFileSync(site, "utf8");
-const str = n => (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || "";
+const str = n => { const v = (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || ""; return v[0] === "~" ? unpackList(h, n) || "" : v; };   // packed lists: scripts/packlists.mjs
 const BUILT = str("FEED_BUILT");
 if (!AK) { console.log("digest: no ANTHROPIC_API_KEY, skipped"); process.exit(0); }
 const B = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", dec2 = s => B.indexOf(s[0]) * 64 + B.indexOf(s[1]);

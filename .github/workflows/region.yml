@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add jp
+          git add jp index.html data/lists.json.gz   # region.mjs also packs the id lists (scripts/packlists.mjs)
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
           git commit -m "Region editions rebuilt from index.html"
           git pull --rebase -q && git push

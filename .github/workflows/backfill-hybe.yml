@@ -37,13 +37,14 @@ jobs:
           grep -q 'const SHORTS = "' index.next.html
           mv index.next.html index.html
           node scripts/prio.mjs index.html data/vmeta.json.gz | tee prio.log
+          node scripts/region.mjs index.html   # packs the id lists (scripts/packlists.mjs) and rebuilds kreelz.com/jp
       - name: Commit and publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html data scripts/artist_channels.json scripts/channels.json
+          git add index.html data jp scripts/artist_channels.json scripts/channels.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "HYBE/BTS backfill: $(tail -1 backfill.log) $(cat prio.log)"
           git pull --rebase -q
