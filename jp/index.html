@@ -2161,9 +2161,11 @@ const spinUp=l=>{
     let R=state.cat==="all"?l.filter(v=>SPINS_EN.has(v.id)).sort((a,b)=>b.views-a.views):[], F=l.filter(v=>FRONT.has(v.id)).sort((a,b)=>b.views-a.views).slice(0,12);
     if(!R.length && !F.length) return l;
     if(R.length){ const k=(Math.floor(Date.parse(kstDay())/864e5)*3)%R.length; R=R.slice(k).concat(R.slice(0,k)).slice(0,15) }
+    // per David 2026-11-06 19:33: the first screen is only these — ILLIT's win first, then The Remarried Empress (English
+    // edition), alternating, for the first 12; after that one of theirs, one other. /jp and Music tabs: ILLIT's win first, all together.
     const t=new Set([...R,...F]), r=l.filter(v=>!t.has(v)), out=[]; let i=0, f=0, j=0;
-    const others=R.length&&F.length?1:(REGION==="jp"&&state.cat==="all"&&!R.length?2:1);
-    while(i<R.length||f<F.length){ if(i<R.length) out.push(R[i++]); if(f<F.length) out.push(F[f++]); for(let c=0;c<others&&j<r.length;c++) out.push(r[j++]) }
+    while(out.length<12 && (i<R.length||f<F.length)){ if(f<F.length) out.push(F[f++]); if(out.length<12 && i<R.length) out.push(R[i++]) }
+    while(i<R.length||f<F.length){ if(f<F.length) out.push(F[f++]); else if(i<R.length) out.push(R[i++]); if(j<r.length) out.push(r[j++]) }
     return out.concat(r.slice(j)) }
   if(state.cat!=="screen" || state.q.trim() || !SPINS.size) return l;
   let p=l.filter(v=>SPINS.has(v.id)).sort((a,b)=>b.views-a.views); if(!p.length) return l;
