@@ -6,7 +6,7 @@
    "topic": "hot",
    "cat": "m",
    "front": "2026-11-13",
-   "since": "2026-11-06",
+   "since": "2026-10-30",
    "search_until": "2026-11-09",
    "until": "2026-11-13",
    "per_night": 6,
@@ -18,12 +18,12 @@
    ],
    "not": "reaction|리액션|lyrics?|가사|playlist|loop|1 ?hour|predict|예측",
    "queries": [
-    "아일릿 1위",
-    "ILLIT 1위 앵콜",
-    "ILLIT win encore",
+    "아일릿 음악중심 1위",
+    "ILLIT Music Core 1st win",
+    "음악중심 아일릿 1위 앵콜",
     "아일릿 뮤직뱅크 1위",
-    "아일릿 체포하겠어 1위",
-    "ILLIT You're Under Arrest 1st win"
+    "아일릿 1위 앵콜",
+    "ILLIT win encore"
    ]
   },
   {
