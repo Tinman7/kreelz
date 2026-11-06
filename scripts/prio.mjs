@@ -36,7 +36,12 @@ const SPIN_G = (() => { try { const t = new Date(Date.now() + 9 * 3600e3).toISOS
   return (JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []).filter(g => g.pin === "screen" && g.until >= t)
     .map(g => ({ until: g.until, region: g.region || "all", re: (g.require || []).map(r => new RegExp(r, "i")) })); } catch (e) { return []; } })();
 const spin = []; let spinUntil = "", spinRegion = "";
-const spinEn = []; let spinEnUntil = "";   // region "en": the English edition only (The Remarried Empress, per David 2026-11-06)
+const spinEn = []; let spinEnUntil = "";
+// on the front of the All and Music tabs of both editions until a date: "hot" groups with front: "YYYY-MM-DD" (ILLIT's win, per David 2026-11-06)
+const FRONT_G = (() => { try { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  return (JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []).filter(g => typeof g.front === "string" && g.front >= t)
+    .map(g => ({ until: g.front, re: (g.require || []).map(r => new RegExp(r, "i")), since: g.since || "" })); } catch (e) { return []; } })();
+const front = []; let frontUntil = "";   // region "en": the English edition only (The Remarried Empress, per David 2026-11-06)
 // Japan edition: these two dramas go to the very end of every list on /jp (index.html moves PRIO_LAST_JP ids last)
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i, lastJ = [];
 const OTT = /netflix|넷플릭스|tving|티빙|disney ?(plus|\+)|디즈니 ?(플러스|\+)|coupang ?play|쿠팡플레이|wavve|웨이브|prime ?video|watcha|왓챠/i;
@@ -57,6 +62,8 @@ for (const n of ["SHORTS", "FEED"]) {
     { const m = M[s.slice(i, i + 11)]; if (m && LAST_JP.test(m[0] + " " + (m[5] || []).join(" "))) lastJ.push(s.slice(i, i + 11)); }
     { const m = M[s.slice(i, i + 11)]; if (m) { const t = m[0] + " " + (m[5] || []).join(" ");
       for (const g of PIN_G) if (g.re.length && g.re.every(r => r.test(t))) { pin.push(s.slice(i, i + 11)); if (g.until > pinUntil) pinUntil = g.until; break; } } }
+    if (FRONT_G.length) { const m = M[s.slice(i, i + 11)]; if (m) { const t = m[0] + " " + (m[5] || []).join(" ");
+      for (const g of FRONT_G) if (g.re.length && g.re.every(r => r.test(t))) { front.push(s.slice(i, i + 11)); if (g.until > frontUntil) frontUntil = g.until; break; } } }
     if ("df".includes(cc) && SPIN_G.length) { const m = M[s.slice(i, i + 11)]; if (m) { const t = m[0] + " " + (m[5] || []).join(" ");
       for (const g of SPIN_G) if (g.region === "en" && g.re.length && g.re.every(r => r.test(t))) { spinEn.push(s.slice(i, i + 11)); if (g.until > spinEnUntil) spinEnUntil = g.until; break; }
       for (const g of SPIN_G) if (g.region !== "en" && g.re.length && g.re.every(r => r.test(t))) { spin.push(s.slice(i, i + 11)); if (g.until > spinUntil) spinUntil = g.until; spinRegion = spinRegion && spinRegion !== g.region ? "all" : g.region; break; } } }
@@ -77,11 +84,11 @@ for (const n of ["SHORTS", "FEED"]) {
     if (r) { list.push(id + RC[r - 1]); const nm = ARTISTS[r - 1] ? ARTISTS[r - 1][0] : "other boy groups"; counts[nm] = (counts[nm] || 0) + 1; if (cam) fan.push(id); }
   }
 }
-const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}"; const PRIO_JPHANOK = "${hanok.join("")}"; const PRIO_SPIN = "${spin.length ? spinUntil + "|" + spinRegion + "|" + [...new Set(spin)].join("") : ""}"; const PRIO_SPIN_EN = "${spinEn.length ? spinEnUntil + "|" + [...new Set(spinEn)].join("") : ""}";`;
+const line = `const PRIO_LIST = "${list.join("")}"; const PRIO_OTT = "${ott.join("")}"; const PRIO_ACT = "${act.join("")}"; const PRIO_FAN = "${fan.join("")}"; const PRIO_LIST_JP = "${listJ.join("")}"; const PRIO_ACTK_JP = "${actJ.join("")}"; const PRIO_FAN_JP = "${fanJ.join("")}"; const PRIO_JPO = "${jpo.join("")}"; const PRIO_LAST_JP = "${lastJ.join("")}"; const PRIO_WELCOME = "${welcome.join("")}"; const PRIO_JPRECO = "${reco.join("")}"; const PRIO_JPTOP = "${top.join("")}"; const PRIO_PIN = "${pin.length ? pinUntil + "|" + pin.join("") : ""}"; const PRIO_JPHANOK = "${hanok.join("")}"; const PRIO_SPIN = "${spin.length ? spinUntil + "|" + spinRegion + "|" + [...new Set(spin)].join("") : ""}"; const PRIO_SPIN_EN = "${spinEn.length ? spinEnUntil + "|" + [...new Set(spinEn)].join("") : ""}"; const PRIO_FRONT = "${front.length ? frontUntil + "|" + [...new Set(front)].join("") : ""}";`;
 h = h.replace(/const PRIO_BTS = "[^"]*"; const PRIO_HYBE = "[^"]*";/, line);
 h = h.replace(/ const PRIO_OTT = "[^"]*";/, "").replace(/ const PRIO_ACT = "[^"]*";/, "").replace(/ const PRIO_FAN = "[^"]*";/, "")
   .replace(/ const PRIO_LIST_JP = "[^"]*";/, "").replace(/ const PRIO_ACT_JP = "[^"]*";/, "").replace(/ const PRIO_ACTK_JP = "[^"]*";/, "").replace(/ const PRIO_FAN_JP = "[^"]*";/, "").replace(/ const PRIO_JPO = "[^"]*";/, "").replace(/ const PRIO_LAST_JP = "[^"]*";/, "")
-  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "").replace(/ const PRIO_JPHANOK = "[^"]*";/, "").replace(/ const PRIO_SPIN = "[^"]*";/, "").replace(/ const PRIO_SPIN_EN = "[^"]*";/, "");
+  .replace(/ const PRIO_WELCOME = "[^"]*";/, "").replace(/ const PRIO_JPRECO = "[^"]*";/, "").replace(/ const PRIO_JPTOP = "[^"]*";/, "").replace(/ const PRIO_PIN = "[^"]*";/, "").replace(/ const PRIO_JPHANOK = "[^"]*";/, "").replace(/ const PRIO_SPIN = "[^"]*";/, "").replace(/ const PRIO_SPIN_EN = "[^"]*";/, "").replace(/ const PRIO_FRONT = "[^"]*";/, "");
 if (/const PRIO_LIST = "[^"]*";/.test(h)) h = h.replace(/const PRIO_LIST = "[^"]*";/, line);
 else { const m = h.match(/const FEED_BUILT = "[^"]*";/); h = h.replace(m[0], m[0] + "\n" + line); }
 fs.writeFileSync(site, h);
