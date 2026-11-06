@@ -1,48 +1,48 @@
 {
- "date": "2026-11-06",
- "artist": "ATEEZ",
- "actor": "Choo Young-woo",
+ "date": "2026-11-07",
+ "artist": "ILLIT",
+ "actor": "Lee Jong-suk",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: 韓国映画",
-   "text": "🎬韓国映画でいま見られているクリップ\n注目：シン・ミナが知らなかったイ・ジョンソクとの運命の初対面\n▶ https://kreelz.com/jp/k/film/\n#韓国映画",
-   "len": 134
+   "label": "카테고리: K-POP",
+   "text": "🎤K-POPでいま見られているクリップ\n注目：君といるだけで今夜が最高に ⭐️💫\n▶ https://kreelz.com/jp/k/music/\n#KPOP",
+   "len": 106
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/6）\n1. LE SSERAFIM「Us being together」ショート\n2. ILLIT「You're Under Arrest」イントロ映像\n3. Stray Kids リノ・I.N「wow so cool」\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 235
+   "text": "📰3分でわかる今日の韓国エンタメ（11/7）\n1. LE SSERAFIM 日常の一コマ\n2. ユ・クイズ 制作陣が語る〈NEON〉振付\n3. 再婚皇后 第5・6話 予告編\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 203
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "ATEEZを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#ATEEZ",
-   "len": 95
+   "text": "イ・ジョンソクの出演作で、一番好きなドラマは？📺\nおすすめの名場面もぜひ！\n#イジョンソク #韓国ドラマ",
+   "len": 99
   },
   {
    "time": "19:00",
-   "label": "아티스트: ATEEZ",
-   "text": "🔥ATEEZ（エイティーズ）の最新ショート・動画まとめ\nいま話題：リズさんと一緒にすごいことしてる 😎\n▶ https://kreelz.com/jp/k/ateez/\n#ATEEZ #KPOP",
-   "len": 135
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：YOU. Arrest\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 121
   },
   {
    "time": "22:00",
-   "label": "배우: Choo Young-woo",
-   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[9話ハイライト]「良い男に出会います」近づいたキム・ソヒョン×チャン・インソプとチュ・ヨンウの不思議…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
-   "len": 233
+   "label": "배우: Lee Jong-suk",
+   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：신민아 버린 주지훈에게 거울치료한 이종석\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
+   "len": 177
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ATEEZ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ATEEZ%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "チュ・ヨンウ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
+    "label": "イ・ジョンソク 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/6",
+  "date": "11/7",
   "rows": [
    {
-    "t": "THIS INTRO part",
-    "ch": "ILLIT",
-    "v": 3900111
-   },
-   {
-    "t": "100回悩んで買ったアイテムたち",
-    "ch": "소개팁 IntroTip",
-    "v": 1628440
+    "t": "君といるだけで今夜が最高に ⭐️💫",
+    "ch": "LE SSERAFIM",
+    "v": 2183096
    },
    {
     "t": "𝙬𝙤𝙬 𝙨𝙤 𝙘𝙤𝙤𝙡",
     "ch": "Stray Kids",
-    "v": 1589936
+    "v": 1868638
    },
    {
-    "t": "team 1節 vs team 2節",
-    "ch": "ILLIT",
-    "v": 1312938
+    "t": "[ こんなの対応できるの?😅 もっと難しくしてほしいという要望にジェイブラックが本気で作ったという話題の〈NEON〉イ",
+    "ch": "디글 클래식 :Diggle Classic",
+    "v": 1857493
    },
    {
-    "t": "Super レイ Super ウォニョン 🐹",
-    "ch": "IVE",
-    "v": 1281895
+    "t": "ソウル芸大実用音楽科に再入学したイ・ムジンです [EN/IN]",
+    "ch": "ootb STUDIO",
+    "v": 1618727
+   },
+   {
+    "t": "誇らしかった娘が今では頭痛の種🤦🏻‍♀️ まともな職もなく家事さえ手伝わない娘に疲れていく母😥",
+    "ch": "tvN STORY 티비엔 스토리",
+    "v": 1571027
    }
   ],
   "url": "kreelz.com/jp",
@@ -103,39 +103,93 @@
  "replies10": [
   {
    "time": "08:30",
+   "topic": "再婚皇后 第5・6話 予告編",
+   "search": "https://x.com/search?q=%E5%86%8D%E5%A9%9A%E7%9A%87%E5%90%8E%20lang%3Aja&f=live",
+   "q": "再婚皇后",
+   "video": "https://www.youtube.com/watch?v=rXQ6RCHbBfo",
+   "text": "韓国のファンの反応も最高でした😂 イ・ジョンソクの役柄への没入ぶりや衣装へのこだわりが好評で、ファンタジー設定によく馴染んでいるという声が目立ちます！",
+   "len": 149
+  },
+  {
+   "time": "10:00",
+   "topic": "Stray Kids「THIS & THAT」MV",
+   "search": "https://x.com/search?q=%23%E3%82%B9%E3%82%AD%E3%82%BA%20lang%3Aja&f=live",
+   "q": "#スキズ",
+   "video": "https://www.youtube.com/watch?v=fs61GhQuuvM",
+   "text": "韓国でも話題になってます👀 メンバーの変わらない姿に感動したという声や、毎日幸せをくれることへの感謝が多く寄せられています。リノの入隊を惜しむコメントもあります！",
+   "len": 161
+  },
+  {
+   "time": "11:30",
+   "topic": "ILLIT「You're Under Arrest」パフォーマ…",
+   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
+   "q": "#アイリット",
+   "video": "https://www.youtube.com/watch?v=vjqDZyj2jRE",
+   "text": "韓国のコメント欄を見たら、ファンからはアイリットへの応援や、コラボ企画への期待が寄せられています。ヒールダンスの練習企画を望む声もあります！ わかる…！",
+   "len": 151
+  },
+  {
+   "time": "13:00",
+   "topic": "ネットフリックス『青い道』予告編",
+   "search": "https://x.com/search?q=%E9%9D%92%E3%81%84%E9%81%93%20lang%3Aja&f=live",
+   "q": "青い道",
+   "video": "https://www.youtube.com/watch?v=KR4FSCGPtLM",
+   "text": "韓国でもすごく盛り上がってます！Netflixを手放せない理由に共感する声や、俳優陣への期待が多く、待ち望んでいる人が目立ちます！",
+   "len": 123
+  },
+  {
+   "time": "14:30",
    "topic": "IVE レイ・ウォニョン「Super」ショート",
    "search": "https://x.com/search?q=%23IVE%20lang%3Aja&f=live",
    "q": "#IVE",
    "video": "https://www.youtube.com/watch?v=9-jGz8eWooQ",
-   "text": "ハムスターとウサギの組み合わせが似合うという声が多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 97
+   "text": "ハムスターとウサギの組み合わせを面白がるコメントや、レイのダンスを喜ぶ声があります！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 123
   },
   {
-   "time": "10:00",
-   "topic": "青い道 公式予告編 Netflix",
-   "search": "https://x.com/search?q=%E9%9D%92%E3%81%84%E9%81%93%20lang%3Aja&f=live",
-   "q": "青い道",
-   "video": "https://www.youtube.com/watch?v=KR4FSCGPtLM",
-   "text": "韓国のファンの反応も最高でした😂 主演の俳優陣への期待や、楽しみにしているという声が多い！",
-   "len": 89
+   "time": "16:00",
+   "topic": "「私はシングル」ショート｜ヨンジャ",
+   "search": "https://x.com/search?q=%E7%A7%81%E3%81%AF%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%20lang%3Aja&f=live",
+   "q": "私はシングル",
+   "video": "https://www.youtube.com/watch?v=xHaYbiMfswg",
+   "text": "韓国のファンの反応も最高でした😂 出演者の話し方や、会話の空気感に対する笑いと呆れの声が多く見られます！",
+   "len": 103
   },
   {
-   "time": "11:30",
-   "topic": "キム・ドンヒョン、キム・セロクのパンチ…",
-   "search": "https://x.com/search?q=%E3%82%AD%E3%83%A0%20lang%3Aja&f=live",
-   "q": "キム",
-   "video": "https://www.youtube.com/watch?v=jwiYmtS7qbI",
-   "text": "韓国でも話題になってます👀 金セロクの攻撃の仕方や姿勢を褒める声が多く、笑っているコメントも見られる！",
-   "len": 101
+   "time": "17:30",
+   "topic": "スーパーマンが帰ってきた｜ハン・ダガム…",
+   "search": "https://x.com/search?q=%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%9E%E3%83%B3%E3%81%8C%E5%B8%B0%E3%81%A3%E3%81%A6%E3%81%8D%E3%81%9F%20lang%3Aja&f=live",
+   "q": "スーパーマンが帰ってきた",
+   "video": "https://www.youtube.com/watch?v=6eHJeMXuSGM",
+   "text": "韓国でも話題になってます👀 赤ちゃんが父親にそっくりだという声や、穏やかな家庭の様子をほほえましく見る声が多いです！",
+   "len": 115
   },
   {
-   "time": "13:00",
-   "topic": "ソル・インア、選手級のフィジカル",
-   "search": "https://x.com/search?q=%E3%82%BD%E3%83%AB%20lang%3Aja&f=live",
-   "q": "ソル",
+   "time": "19:00",
+   "topic": "BABYMONSTER RUKA・PHARITA『DESERVE』MV…",
+   "search": "https://x.com/search?q=%23BABYMONSTER%20lang%3Aja&f=live",
+   "q": "#BABYMONSTER",
+   "video": "https://www.youtube.com/watch?v=M6ylQPjhVgA",
+   "text": "韓国のコメント欄を見たら、ルカとパリタの二人の雰囲気が可愛くて最高だというコメントが多いです！ わかる…！",
+   "len": 105
+  },
+  {
+   "time": "20:30",
+   "topic": "『ユ・クイズ・オン・ザ・ブロック』アイ…",
+   "search": "https://x.com/search?q=%E3%83%A6%E3%83%BB%E3%82%AF%E3%82%A4%E3%82%BA%E3%83%BB%E3%82%AA%E3%83%B3%E3%83%BB%E3%82%B6%E3%83%BB%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%20lang%3Aja&f=live",
+   "q": "ユ・クイズ・オン・ザ・ブロック",
+   "video": "https://www.youtube.com/watch?v=iNmdzlpQuTE",
+   "text": "韓国でもすごく盛り上がってます！若い頃の挫折を乗り越え挑戦する姿に感動したという声が多いです！",
+   "len": 94
+  },
+  {
+   "time": "22:00",
+   "topic": "『鉄少女団3』ソル・インア、アスリート…",
+   "search": "https://x.com/search?q=%E9%89%84%E5%B0%91%E5%A5%B3%E5%9B%A33%20lang%3Aja&f=live",
+   "q": "鉄少女団3",
    "video": "https://www.youtube.com/watch?v=caZYlIxSvII",
-   "text": "韓国のコメント欄を見たら、体格や腕の筋肉に驚く声が多く、運動と筋肉の話題も見られる！ わかる…！",
-   "len": 95
+   "text": "設インアの筋肉量や美しさを称賛するコメントが多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 93
   }
  ]
 }
