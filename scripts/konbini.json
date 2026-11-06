@@ -16,7 +16,7 @@
     "아일릿|ILLIT|アイリット",
     "1위|1st ?win|first ?win|\\bwin\\b|winner|앵콜|앙코르|encore|1位|アンコール|트로피|trophy"
    ],
-   "not": "reaction|리액션|lyrics?|가사|playlist|loop|1 ?hour|predict|예측",
+   "not": "reaction|리액션|lyrics?|가사|playlist|loop|1 ?hour|predict|예측|조회수 ?1위|순위|ranking|리센느|rescene|스포티파이|spotify",
    "queries": [
     "아일릿 음악중심 1위",
     "ILLIT Music Core 1st win",
