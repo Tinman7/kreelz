@@ -5,3 +5,4 @@ Disallow: /probe/
 Disallow: /stats/
 
 Sitemap: https://kreelz.com/sitemap.xml
+Sitemap: https://kreelz.com/sitemap-hot.xml

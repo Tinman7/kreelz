@@ -24,6 +24,8 @@ const msg = ed === "ja"
   ? { title: "📰 3分でわかる今日の韓国エンタメ", body: `${top.ja_title}${n > 0 ? ` ほか${n}本` : ""}`, url: "/jp/k/today/?source=push", icon: "/icons/jp-icon-192.png" }
   : { title: "📰 Today in K-entertainment, in 3 minutes", body: `${top.en_title}${n > 0 ? ` + ${n} more` : ""}`, url: "/k/today/?source=push", icon: "/icons/icon-192.png" };
 msg.tag = "kz-daily-" + D.date;
+// a one-off alert (per David 2026-11-06: ILLIT's win): PUSH_TITLE / PUSH_BODY / PUSH_URL replace the daily text
+if (process.env.PUSH_TITLE) { msg.title = process.env.PUSH_TITLE; msg.body = process.env.PUSH_BODY || ""; msg.url = process.env.PUSH_URL || msg.url; msg.tag = "kz-alert-" + Date.now(); }
 const subs = await rpc("push_targets", { tok: TOK, ed });
 const sent = [], gone = []; let failed = 0;
 for (const s of (test ? subs.slice(0, 3) : subs) || []) {

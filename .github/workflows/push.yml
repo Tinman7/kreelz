@@ -10,6 +10,15 @@ on:
       test:
         description: "yes = send to at most 3 browsers"
         default: "no"
+      title:
+        description: "one-off alert: title (empty = the daily 3-minute digest)"
+        default: ""
+      body:
+        description: "one-off alert: text"
+        default: ""
+      url:
+        description: "one-off alert: page to open, e.g. /jp/hot/illit-1st-win/"
+        default: ""
   schedule:
     - cron: "0 23 * * *"   # 08:00 JST — ja
     - cron: "0 0 * * *"    # 08:00 PHT (09:00 KST) — en
@@ -32,6 +41,9 @@ jobs:
           VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+          PUSH_TITLE: ${{ inputs.title }}
+          PUSH_BODY: ${{ inputs.body }}
+          PUSH_URL: ${{ inputs.url }}
         run: |
           ED="${{ inputs.edition }}"
           if [ "${{ github.event_name }}" = "schedule" ]; then [ "$(date -u +%H)" = "23" ] && ED=ja || ED=en; fi

@@ -19,4 +19,4 @@ jobs:
       - run: |
           sleep 90   # give GitHub Pages a moment to serve the new pages
           K=$(ls [0-9a-f]*.txt | head -1); echo "key file: https://kreelz.com/$K → $(curl -s -o /dev/null -w '%{http_code}' https://kreelz.com/$K)"
-          node scripts/indexnow.mjs sitemap.xml
+          node scripts/indexnow.mjs

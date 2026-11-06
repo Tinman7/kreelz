@@ -383,6 +383,7 @@ Disallow: /probe/
 Disallow: /stats/
 
 Sitemap: ${SITE}/sitemap.xml
+Sitemap: ${SITE}/sitemap-hot.xml
 `);
 
 // crawlable topic links in the footer of both app pages

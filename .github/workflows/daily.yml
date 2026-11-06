@@ -245,8 +245,9 @@ jobs:
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page
           node scripts/legal_pages.mjs index.html || true   # /terms/ /privacy/ (+ /jp/) standalone pages from the same text as the pop-ups
           node scripts/seo.mjs || echo "search pages skipped"   # kreelz.com/k/… and /jp/k/… topic pages, sitemap.xml, footer topic links
+          node scripts/hot_pages.mjs || echo "hot pages skipped"   # /hot/…, /jp/hot/…, /es/hot/… (per David 2026-11-06)
           git add index.html data stats jp scripts/jp_channels.json scripts/konbini.json
-          git add -A k es sitemap.xml robots.txt terms privacy
+          git add -A k es hot jp/hot sitemap.xml sitemap-hot.xml robots.txt terms privacy
           [ -d t ] && git add t
           git commit -m "Refresh for ${{ steps.day.outputs.build }} $(head -c 300 merge.log)" || echo "nothing to commit"
 
@@ -272,4 +273,4 @@ jobs:
         if: steps.day.outputs.skip != '1'
         continue-on-error: true
         timeout-minutes: 5
-        run: sleep 90 && node scripts/indexnow.mjs sitemap.xml
+        run: sleep 90 && node scripts/indexnow.mjs

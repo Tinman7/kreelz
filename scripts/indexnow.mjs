@@ -4,7 +4,8 @@
 // usage: node scripts/indexnow.mjs [sitemap.xml]
 import fs from "node:fs";
 const KEY = "61400f202772af5f9aa2b6e739e2dc72", HOST = "kreelz.com";
-const urls = [...fs.readFileSync(process.argv[2] || "sitemap.xml", "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).slice(0, 10000);
+const files = process.argv.length > 2 ? process.argv.slice(2) : ["sitemap-hot.xml", "sitemap.xml"];
+const urls = [...new Set(files.flatMap(f => { try { return [...fs.readFileSync(f, "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]); } catch (e) { return []; } }))].slice(0, 10000);
 if (!urls.length) { console.log("indexnow: no URLs"); process.exit(0); }
 const r = await fetch("https://api.indexnow.org/indexnow", { method: "POST", headers: { "content-type": "application/json; charset=utf-8" },
   body: JSON.stringify({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList: urls }) });
