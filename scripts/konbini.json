@@ -13,7 +13,7 @@
    "per_night": 4,
    "rotate": true,
    "min_views": 5000,
-   "_note": "English edition, Screen tab, on top (per David 2026-11-06): The Remarried Empress (재혼황후) is doing well abroad — shorts and clips of the leads Shin Min-a (Navier) and Lee Jong-suk (Heinrey) first. Searched every night (4 queries in turn) and at once by the live run.",
+   "_note": "English edition, Screen tab, on top (per David 2026-11-06): The Remarried Empress (재혼황후) is doing well abroad — shorts and clips of the leads Shin Min-a (Navier) and Lee Jong-suk (Heinrey) first. Searched every night (4 queries in turn) and at once by the live run. X (2026-11-06): the most-liked posts abroad are about Lee Jong-suk as Heinrey (his looks, flirting, the scene where he runs to meet the Empress) — queries for those added.",
    "require": [
     "재혼 ?황후|remarried ?empress|再婚承認|再婚皇后",
     "신민아|이종석|shin ?min[- ]?a|lee ?jong[- ]?suk|나비에|하인리|navier|heinrey|heinrich|ナビエ|ハインリ|シン・?ミナ|イ・?ジョンソク"
@@ -27,7 +27,11 @@
     "재혼황후 이종석",
     "재혼황후 신민아",
     "The Remarried Empress shorts",
-    "재혼황후 쇼츠"
+    "재혼황후 쇼츠",
+    "재혼황후 이종석 플러팅",
+    "Remarried Empress Heinrey running",
+    "재혼황후 하인리 명장면",
+    "Lee Jong Suk Heinrey scene"
    ]
   },
   {
