@@ -1,0 +1,19 @@
+# IndexNow ping (Bing, Naver, Yandex, Seznam): by hand, and called by the nightly after its publish. See scripts/indexnow.mjs.
+name: IndexNow
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: sleep 90 && node scripts/indexnow.mjs sitemap.xml   # give GitHub Pages a moment to serve the new pages

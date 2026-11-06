@@ -267,3 +267,9 @@ jobs:
           git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
           echo "published at $(TZ=Asia/Seoul date '+%F %T') KST"
+
+      - name: Tell Bing / Naver about the pages (IndexNow, per David 2026-11-06)
+        if: steps.day.outputs.skip != '1'
+        continue-on-error: true
+        timeout-minutes: 5
+        run: sleep 90 && node scripts/indexnow.mjs sitemap.xml
