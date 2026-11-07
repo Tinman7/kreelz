@@ -62,7 +62,8 @@
     "Remarried Empress Heinrey running",
     "재혼황후 하인리 명장면",
     "Lee Jong Suk Heinrey scene"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "remarried_empress",
@@ -86,7 +87,8 @@
     "The Remarried Empress trailer",
     "재혼황후 명장면",
     "Remarried Empress best scene"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "undercover_chef",
@@ -110,7 +112,8 @@
     "Undercover Chef tvN",
     "언더커버 셰프 쇼츠",
     "언더커버 셰프 예고"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "wonhee_amazing_saturday",
@@ -138,7 +141,8 @@
     "ILLIT Wonhee Amazing Saturday",
     "놀라운토요일 아일릿",
     "원희 도레미마켓"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "mydemon",
@@ -385,7 +389,8 @@
     "korean cooking class tourist experience"
    ],
    "fresh_days": 21,
-   "min_views_fresh": 3000
+   "min_views_fresh": 3000,
+   "done": true
   },
   {
    "name": "museum_goods",
@@ -411,7 +416,8 @@
     "외국인 국립중앙박물관"
    ],
    "fresh_days": 21,
-   "min_views_fresh": 3000
+   "min_views_fresh": 3000,
+   "done": true
   }
  ]
 }
