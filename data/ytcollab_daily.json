@@ -1,34 +1,33 @@
 {
- "date": "2026-11-08",
+ "date": "2026-11-09",
  "updated": "2026-11-03T16:07:59.011Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 18,
    "picks": [
-    "UCMrnSM8ps4JyddymLpWUmSA",
-    "UC3d6KF5bWIM9R8iU_9rAajw",
-    "UCYdyJg7cVTx0BCNmS26sPEw"
+    "UC0RJAtZGjcUfwskb_AKGw3Q",
+    "UCn3hCkj3xMnOkVEkw3G5CLQ",
+    "UCFQ5D7fQAHZ4AsfSal4AgIA"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP9（2026-11-08）",
+    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-09）",
     "rows": [
-     "1. BABYMONSTER 공식ショート動画\n   BABYMONSTERのメンバー、RUKAとPHARITAが登場するショート動画です。ファンなら見逃せない内容です。",
-     "2. ILLIT「体捕まえるぞ」ミュージックバンク1位\n   ILLITの楽曲「You're Under Arrest」がMusic Bankで1位を獲得した映像です。ファンのお祝いムードが伝わります。",
-     "3. LE SSERAFIM「Made My Night」の映像\n   LE SSERAFIMが一緒に過ごす様子を収めた短い映像です。メンバーの仲の良さが感じられます。",
-     "4. 再婚皇后 5～6話予告編 ディズニープラス\n   ディズニープラスの韓国ドラマ『再婚皇后』第5～6話の予告編です。皇后の痛快な反撃が見どころです。",
-     "5. ユ・ジェソク番組でJ.Blackの『NEON』振付\n   『ユ・クイズ・オン・ザ・ブロック』で、J.Blackが振付を手がけた『NEON』の冒頭ダンスが紹介されています。振付の難しさが話題です。",
-     "6. ユ・ビョンクォンのミョルチボックム話 ラディオスター\n   『ラディオスター』でユ・ビョンクォンがイワシの炒め物を作る苦労を語った回の映像です。",
-     "7. ソン・シギョン『食べてみよう』釜山のタコ炒め店\n   歌手のソン・シギョンが釜山のタコ炒め店『オドゥリ・ハルメ三女』を訪れる回です。店の味が紹介されています。",
-     "8. 『悲しき熱帯』メイン予告編\n   パク・フンジョン監督のアクション・ノワール映画『悲しき熱帯』のメイン予告編です。11月25日に劇場公開されます。",
-     "9. TV CHOSUN『ナイヤガラ』第63回 中年の腹周り\n   TV CHOSUNの教養番組『ナイヤガラ』第63回です。食事量を減らしても落ちない腹周りと、中年の正しいダイエット法が扱われます。"
+     "1. ILLIT「#체포하겠어」公式クリップ\n   ILLITが「#체포하겠어」を披露するクリップ。ファンがパフォーマンスを楽しむ動画です。",
+     "2. BESTIE「恋愛の条件」リレーダンスハイライト\n   13年ぶりにヒットしたBESTIEの「恋愛の条件」をリレーダンスで披露したハイライト映像。M2チャンネルの公式動画です。",
+     "3. BABYMONSTER ショート動画\n   BABYMONSTERのRUKAとPHARITAが登場するショート動画。グループの可愛らしい姿を楽しめます。",
+     "4. 『ナルミョ・ムオ・ハニ』'95ソウル歌謡祭の正体公開(1)\n   MBCのバラエティ番組でチームが'95ソウル歌謡祭の正体を明かす回の前編です。",
+     "5. ユ・ビョングォンのイワシ炒め話『ラジオスター』\n   俳優ユ・ビョングォンがイワシのおかず作りにまつわる話を披露した『ラジオスター』の一場面です。",
+     "6. ソン・シギョン『食べてみた』釜山の鍋店\n   歌手ソン・シギョンが釜山のタコ炒め店を訪ねる『食べてみた』の回です。店の人気ぶりにも注目。",
+     "7. 『雪崩捜査団』EP.2 俳優陣のうそつきゲーム\n   キム・ユンソクやク・ギョファンらが出演する映画『雪崩』の番組動画で、俳優たちが嘘とゲームで盛り上がる回です。",
+     "8. キム・ソヒョン、素顔があらわに『ボgeom魔法師2』\n   tvN『ボgeom魔法師2』の予告的な映像で、キム・ソヒョンの場面が紹介されています。出演はパク・ボゴム、イ・サンイら。"
     ],
-    "n": 9,
+    "n": 8,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP9（2026-11-08）\n\n1. BABYMONSTER 공식ショート動画\n   BABYMONSTERのメンバー、RUKAとPHARITAが登場するショート動画です。ファンなら見逃せない内容です。\n2. ILLIT「体捕まえるぞ」ミュージックバンク1位\n   ILLITの楽曲「You're Under Arrest」がMusic Bankで1位を獲得した映像です。ファンのお祝いムードが伝わります。\n3. LE SSERAFIM「Made My Night」の映像\n   LE SSERAFIMが一緒に過ごす様子を収めた短い映像です。メンバーの仲の良さが感じられます。\n4. 再婚皇后 5～6話予告編 ディズニープラス\n   ディズニープラスの韓国ドラマ『再婚皇后』第5～6話の予告編です。皇后の痛快な反撃が見どころです。\n5. ユ・ジェソク番組でJ.Blackの『NEON』振付\n   『ユ・クイズ・オン・ザ・ブロック』で、J.Blackが振付を手がけた『NEON』の冒頭ダンスが紹介されています。振付の難しさが話題です。\n6. ユ・ビョンクォンのミョルチボックム話 ラディオスター\n   『ラディオスター』でユ・ビョンクォンがイワシの炒め物を作る苦労を語った回の映像です。\n7. ソン・シギョン『食べてみよう』釜山のタコ炒め店\n   歌手のソン・シギョンが釜山のタコ炒め店『オドゥリ・ハルメ三女』を訪れる回です。店の味が紹介されています。\n8. 『悲しき熱帯』メイン予告編\n   パク・フンジョン監督のアクション・ノワール映画『悲しき熱帯』のメイン予告編です。11月25日に劇場公開されます。\n9. TV CHOSUN『ナイヤガラ』第63回 中年の腹周り\n   TV CHOSUNの教養番組『ナイヤガラ』第63回です。食事量を減らしても落ちない腹周りと、中年の正しいダイエット法が扱われます。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-09）\n\n1. ILLIT「#체포하겠어」公式クリップ\n   ILLITが「#체포하겠어」を披露するクリップ。ファンがパフォーマンスを楽しむ動画です。\n2. BESTIE「恋愛の条件」リレーダンスハイライト\n   13年ぶりにヒットしたBESTIEの「恋愛の条件」をリレーダンスで披露したハイライト映像。M2チャンネルの公式動画です。\n3. BABYMONSTER ショート動画\n   BABYMONSTERのRUKAとPHARITAが登場するショート動画。グループの可愛らしい姿を楽しめます。\n4. 『ナルミョ・ムオ・ハニ』'95ソウル歌謡祭の正体公開(1)\n   MBCのバラエティ番組でチームが'95ソウル歌謡祭の正体を明かす回の前編です。\n5. ユ・ビョングォンのイワシ炒め話『ラジオスター』\n   俳優ユ・ビョングォンがイワシのおかず作りにまつわる話を披露した『ラジオスター』の一場面です。\n6. ソン・シギョン『食べてみた』釜山の鍋店\n   歌手ソン・シギョンが釜山のタコ炒め店を訪ねる『食べてみた』の回です。店の人気ぶりにも注目。\n7. 『雪崩捜査団』EP.2 俳優陣のうそつきゲーム\n   キム・ユンソクやク・ギョファンらが出演する映画『雪崩』の番組動画で、俳優たちが嘘とゲームで盛り上がる回です。\n8. キム・ソヒョン、素顔があらわに『ボgeom魔法師2』\n   tvN『ボgeom魔法師2』の予告的な映像で、キム・ソヒョンの場面が紹介されています。出演はパク・ボゴム、イ・サンイら。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -38,22 +37,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-08)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-09)",
     "rows": [
-     "1. BABYMONSTER short clip with RUKA and PHARITA\n   A short clip featuring BABYMONSTER members RUKA and PHARITA. Fans of the group will want to check it out.",
-     "2. ILLIT's 'You're Under Arrest' wins 1st place on Music Bank\n   Video of ILLIT's song 'You're Under Arrest' taking first place on Music Bank. Fans celebrate the win.",
-     "3. Lee Jung-eun's identity revealed in Doctor X episode 9\n   A preview of episode 9 of the SBS drama 'Doctor X: The Era of the White Mafia,' where a major surgery begins. Fans will watch for the tense operating scenes.",
-     "4. LE SSERAFIM short clip, 'Made My Night'\n   A short clip of LE SSERAFIM spending time together. It shows the members' close bond.",
-     "5. The Remarried Empress episodes 5-6 preview on Disney+\n   A preview of episodes 5-6 of the Disney+ drama 'The Remarried Empress.' The empress's satisfying comeback is the highlight.",
-     "6. J.Black's intro choreography for 'NEON' on Yoo Quiz on the Block\n   Yoo Quiz on the Block features the intro choreography for 'NEON,' which J.Black created. The difficulty of the dance is the talking point.",
-     "7. Yoo Byung-kwon's anchovy stir-fry story on Radio Star\n   A clip from Radio Star where Yoo Byung-kwon talks about the struggle of cooking anchovy stir-fry. It is a humorous segment.",
-     "8. Sung Si-kyung's 'Eat Well' visits a Busan spicy octopus restaurant\n   Singer Sung Si-kyung visits Odoori Halmae Third Daughter, a spicy octopus restaurant in Busan. The restaurant's food is featured.",
-     "9. Main trailer for the film 'Sad Tropics'\n   The main trailer for director Park Hoon-jung's action noir film 'Sad Tropics.' It opens in theaters on November 25.",
-     "10. TV CHOSUN 'Naiagara' ep. 63 on middle-age belly fat\n   Episode 63 of TV CHOSUN's educational show 'Naiagara.' It covers why belly fat stays even when eating less, and the right diet approach for middle age."
+     "1. ILLIT — #You_re_Under_Arrest performance clip\n   An ILLIT clip featuring their track #You_re_Under_Arrest, posted on the group's channel. Fans can enjoy the performance.",
+     "2. Doctor X: Lee Jung-eun sues the officials who punished a doctor\n   Officials punish a doctor for saving a patient, and Lee Jung-eun sues all of them in return. A satisfying scene from SBS's Doctor X.",
+     "3. BESTIE's 'Love Condition' relay dance highlights\n   Highlights of BESTIE performing their 2012 hit 'Love Condition' in a relay dance, which resurged 13 years later. Posted by M2.",
+     "4. BABYMONSTER short clip\n   A short video featuring BABYMONSTER members RUKA and PHARITA, posted as a Shorts clip.",
+     "5. Doctor X: the man who called Kim Ji-won 'Doctor X'\n   A look at the past shared by the man who calls Kim Ji-won 'Doctor X', ahead of episode 10 of SBS's Doctor X. Posted by SBS Drama.",
+     "6. Hangout with Yoo: revealing the '95 Seoul Song Festival (1)\n   Part 1 of an episode where the cast reveal the identity behind the '95 Seoul Song Festival. From MBC's variety show Hangout with Yoo.",
+     "7. Radio Star: Yoo Byung-kwon's anchovy stir-fry story\n   A moment from Radio Star where actor Yoo Byung-kwon tells a story about making stir-fried anchovies.",
+     "8. Sung Si-kyung's 'Eat This' — Busan spicy octopus restaurant\n   Singer Sung Si-kyung visits a Busan restaurant known for spicy stir-fried octopus in this episode of his food show.",
+     "9. Snowstorm detectives EP.2: actors play a liar game\n   Episode 2 of the Snowstorm Detectives series, where actors including Kim Yun-seok and Koo Kyo-hwan play a lying game. Posted by ShowBox, promoting the film Snowstorm.",
+     "10. Kim So-hyun unguarded — Park Bo-gum's Magical Barber 2 clip\n   A clip from tvN's Magical Barber 2 showing Kim So-hyun in a candid moment. The sea-village drama stars Park Bo-gum, Lee Sang-yi and Ko Kyung-pyo."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-08)\n\n1. BABYMONSTER short clip with RUKA and PHARITA\n   A short clip featuring BABYMONSTER members RUKA and PHARITA. Fans of the group will want to check it out.\n2. ILLIT's 'You're Under Arrest' wins 1st place on Music Bank\n   Video of ILLIT's song 'You're Under Arrest' taking first place on Music Bank. Fans celebrate the win.\n3. Lee Jung-eun's identity revealed in Doctor X episode 9\n   A preview of episode 9 of the SBS drama 'Doctor X: The Era of the White Mafia,' where a major surgery begins. Fans will watch for the tense operating scenes.\n4. LE SSERAFIM short clip, 'Made My Night'\n   A short clip of LE SSERAFIM spending time together. It shows the members' close bond.\n5. The Remarried Empress episodes 5-6 preview on Disney+\n   A preview of episodes 5-6 of the Disney+ drama 'The Remarried Empress.' The empress's satisfying comeback is the highlight.\n6. J.Black's intro choreography for 'NEON' on Yoo Quiz on the Block\n   Yoo Quiz on the Block features the intro choreography for 'NEON,' which J.Black created. The difficulty of the dance is the talking point.\n7. Yoo Byung-kwon's anchovy stir-fry story on Radio Star\n   A clip from Radio Star where Yoo Byung-kwon talks about the struggle of cooking anchovy stir-fry. It is a humorous segment.\n8. Sung Si-kyung's 'Eat Well' visits a Busan spicy octopus restaurant\n   Singer Sung Si-kyung visits Odoori Halmae Third Daughter, a spicy octopus restaurant in Busan. The restaurant's food is featured.\n9. Main trailer for the film 'Sad Tropics'\n   The main trailer for director Park Hoon-jung's action noir film 'Sad Tropics.' It opens in theaters on November 25.\n10. TV CHOSUN 'Naiagara' ep. 63 on middle-age belly fat\n   Episode 63 of TV CHOSUN's educational show 'Naiagara.' It covers why belly fat stays even when eating less, and the right diet approach for middle age.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-09)\n\n1. ILLIT — #You_re_Under_Arrest performance clip\n   An ILLIT clip featuring their track #You_re_Under_Arrest, posted on the group's channel. Fans can enjoy the performance.\n2. Doctor X: Lee Jung-eun sues the officials who punished a doctor\n   Officials punish a doctor for saving a patient, and Lee Jung-eun sues all of them in return. A satisfying scene from SBS's Doctor X.\n3. BESTIE's 'Love Condition' relay dance highlights\n   Highlights of BESTIE performing their 2012 hit 'Love Condition' in a relay dance, which resurged 13 years later. Posted by M2.\n4. BABYMONSTER short clip\n   A short video featuring BABYMONSTER members RUKA and PHARITA, posted as a Shorts clip.\n5. Doctor X: the man who called Kim Ji-won 'Doctor X'\n   A look at the past shared by the man who calls Kim Ji-won 'Doctor X', ahead of episode 10 of SBS's Doctor X. Posted by SBS Drama.\n6. Hangout with Yoo: revealing the '95 Seoul Song Festival (1)\n   Part 1 of an episode where the cast reveal the identity behind the '95 Seoul Song Festival. From MBC's variety show Hangout with Yoo.\n7. Radio Star: Yoo Byung-kwon's anchovy stir-fry story\n   A moment from Radio Star where actor Yoo Byung-kwon tells a story about making stir-fried anchovies.\n8. Sung Si-kyung's 'Eat This' — Busan spicy octopus restaurant\n   Singer Sung Si-kyung visits a Busan restaurant known for spicy stir-fried octopus in this episode of his food show.\n9. Snowstorm detectives EP.2: actors play a liar game\n   Episode 2 of the Snowstorm Detectives series, where actors including Kim Yun-seok and Koo Kyo-hwan play a lying game. Posted by ShowBox, promoting the film Snowstorm.\n10. Kim So-hyun unguarded — Park Bo-gum's Magical Barber 2 clip\n   A clip from tvN's Magical Barber 2 showing Kim So-hyun in a candid moment. The sea-village drama stars Park Bo-gum, Lee Sang-yi and Ko Kyung-pyo.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -63,22 +62,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-08)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-09)",
     "rows": [
-     "1. BABYMONSTER short clip with RUKA and PHARITA",
-     "2. ILLIT's 'You're Under Arrest' wins 1st place on Music Bank",
-     "3. Lee Jung-eun's identity revealed in Doctor X episode 9",
-     "4. LE SSERAFIM short clip, 'Made My Night'",
-     "5. The Remarried Empress episodes 5-6 preview on Disney+",
-     "6. J.Black's intro choreography for 'NEON' on Yoo Quiz on the Block",
-     "7. Yoo Byung-kwon's anchovy stir-fry story on Radio Star",
-     "8. Sung Si-kyung's 'Eat Well' visits a Busan spicy octopus restaurant",
-     "9. Main trailer for the film 'Sad Tropics'",
-     "10. TV CHOSUN 'Naiagara' ep. 63 on middle-age belly fat"
+     "1. ILLIT — #You_re_Under_Arrest performance clip",
+     "2. Doctor X: Lee Jung-eun sues the officials who punished a doctor",
+     "3. BESTIE's 'Love Condition' relay dance highlights",
+     "4. BABYMONSTER short clip",
+     "5. Doctor X: the man who called Kim Ji-won 'Doctor X'",
+     "6. Hangout with Yoo: revealing the '95 Seoul Song Festival (1)",
+     "7. Radio Star: Yoo Byung-kwon's anchovy stir-fry story",
+     "8. Sung Si-kyung's 'Eat This' — Busan spicy octopus restaurant",
+     "9. Snowstorm detectives EP.2: actors play a liar game",
+     "10. Kim So-hyun unguarded — Park Bo-gum's Magical Barber 2 clip"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-08)\n\n1. BABYMONSTER short clip with RUKA and PHARITA\n2. ILLIT's 'You're Under Arrest' wins 1st place on Music Bank\n3. Lee Jung-eun's identity revealed in Doctor X episode 9\n4. LE SSERAFIM short clip, 'Made My Night'\n5. The Remarried Empress episodes 5-6 preview on Disney+\n6. J.Black's intro choreography for 'NEON' on Yoo Quiz on the Block\n7. Yoo Byung-kwon's anchovy stir-fry story on Radio Star\n8. Sung Si-kyung's 'Eat Well' visits a Busan spicy octopus restaurant\n9. Main trailer for the film 'Sad Tropics'\n10. TV CHOSUN 'Naiagara' ep. 63 on middle-age belly fat\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-09)\n\n1. ILLIT — #You_re_Under_Arrest performance clip\n2. Doctor X: Lee Jung-eun sues the officials who punished a doctor\n3. BESTIE's 'Love Condition' relay dance highlights\n4. BABYMONSTER short clip\n5. Doctor X: the man who called Kim Ji-won 'Doctor X'\n6. Hangout with Yoo: revealing the '95 Seoul Song Festival (1)\n7. Radio Star: Yoo Byung-kwon's anchovy stir-fry story\n8. Sung Si-kyung's 'Eat This' — Busan spicy octopus restaurant\n9. Snowstorm detectives EP.2: actors play a liar game\n10. Kim So-hyun unguarded — Park Bo-gum's Magical Barber 2 clip\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
