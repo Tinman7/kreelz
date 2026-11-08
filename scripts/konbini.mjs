@@ -95,8 +95,9 @@ for (let i = 0; i < ids.length; i += 50) {
     const g = found.get(v.id);
     const hot = g.topic === "hot";
     const freshOne = g.fresh_days && s.publishedAt && Date.now() - Date.parse(s.publishedAt) < g.fresh_days * DAY;   // a new upload: a lower bar
-    if (views < ((freshOne && g.min_views_fresh) || g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text)) continue;
-    if (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0]))) continue;
+    const sent = (g.ids || []).includes(v.id);   // a clip David sent: no view / length / topic bar (per David 2026-11-08, a 38-minute tour video)
+    if (!sent && (views < ((freshOne && g.min_views_fresh) || g.min_views || 50000) || secs <= 0 || secs > 30 * 60 || !onTopic(g, text))) continue;
+    if (!sent && (hot ? new RegExp(g.not || "full ?(ver|version)|풀버전|lyrics?|가사|playlist|1 ?hour|loop", "i").test(meta[0]) : (!KOREA.test(text + " " + (s.description || "").slice(0, 300)) || NOT.test(meta[0])))) continue;
     vmeta[v.id] = meta;
     if (g.shorts_only && !(g.ids || []).includes(v.id) && !(secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)))) continue;   // shorts only (per David 2026-11-05)
     cand.push({ g: g.name, cat: g.cat, pin: g.pin === true, front: typeof g.front === "string" ? g.front : "", jp: g.region === "jp", until: g.until, on: onSite.has(v.id), meta, up: (s.publishedAt || "").slice(0, 10), id: v.id, views, days: Math.max(0, Math.floor((Date.now() - new Date(s.publishedAt)) / DAY)), short: secs <= 180 && (secs <= 60 || /#shorts?\b/i.test(text)), t: meta[0] });
