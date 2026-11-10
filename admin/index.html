@@ -474,15 +474,15 @@ const PLATS=["YouTube","TikTok","NAVER Clip"];
         <ol class="xp-rep" style="padding-left:18px">${P.items.map(r=>`<li style="display:block;margin:0 0 12px"><div><b>${esc(r.label)}</b></div><div style="margin:4px 0">${esc(r.text)}</div>
           <div class="row">${xReplyId(r.url)?`<a class="btn primary" target="_blank" rel="noopener" href="https://x.com/intent/post?in_reply_to=${xReplyId(r.url)}&text=${encodeURIComponent(r.text)}">답글 창 열기</a>`:""}<a class="btn" target="_blank" rel="noopener" href="${esc(r.url)}">글 열기</a><button class="btn" type="button" data-xrep="${esc(r.text)}">답글 복사</button></div></li>`).join("")}</ol></div>`) }
     if(R&&R.length){
-      $("#xpMore").insertAdjacentHTML("afterbegin",`<div class="card xp"><div class="xp-h"><b>오늘의 X 답글 ${R.length}개</b> <span>오늘 일본에서 화제인 영상마다: ① '일본어 글 찾기'로 관련 글을 열고 ② 맞는 글에 답글 복사 → 붙여넣기. 시간은 권장 간격(최소 5~10분 이상), 문장은 한두 단어 바꿔 쓰면 더 자연스러워요. 링크는 넣지 않아요.</span></div>
+      $("#xpMore").insertAdjacentHTML("afterbegin",`<details class="card xp"><summary class="xp-h"><b>직접 찾아서 다는 답글 ${R.length}개 (선택)</b> <small class="note">버튼 한 번으로는 안 되는 것 — 바쁘면 건너뛰기</small></summary><div class="xp-h"> <span>오늘 일본에서 화제인 영상마다: ① '일본어 글 찾기'로 관련 글을 열고 ② 맞는 글에 답글 복사 → 붙여넣기. 시간은 권장 간격(최소 5~10분 이상), 문장은 한두 단어 바꿔 쓰면 더 자연스러워요. 링크는 넣지 않아요.</span></div>
         <ol class="xp-rep" style="padding-left:18px">${R.map(r=>`<li style="display:block;margin:0 0 12px"><div><b>${esc(r.time)}</b> · ${esc(r.topic)} <small class="note">${r.len}/280</small></div>
           <div style="margin:4px 0">${esc(r.text)}</div>
-          <div class="row"><a class="btn" target="_blank" rel="noopener" href="${esc(r.search)}">일본어 글 찾기 (${esc(r.q)})</a><button class="btn primary" type="button" data-xrep="${esc(r.text)}">답글 복사</button><a class="btn" target="_blank" rel="noopener" href="${esc(r.video)}">영상</a></div></li>`).join("")}</ol></div>`) }
+          <div class="row"><a class="btn" target="_blank" rel="noopener" href="${esc(r.search)}">일본어 글 찾기 (${esc(r.q)})</a><button class="btn primary" type="button" data-xrep="${esc(r.text)}">답글 복사</button><a class="btn" target="_blank" rel="noopener" href="${esc(r.video)}">영상</a></div></li>`).join("")}</ol></details>`) }
     if(d.engage){ const E=d.engage;
-      $("#xpMore").insertAdjacentHTML("beforeend",`<div class="card xp"><div class="xp-h"><b>교류</b> <span>일본어 글 찾아서 좋아요·답글 (하루 5~10분)</span></div>
+      $("#xpMore").insertAdjacentHTML("beforeend",`<details class="card xp"><summary class="xp-h"><b>교류 (선택)</b> <span>일본어 글 찾아서 좋아요·답글 (하루 5~10분)</span></summary>
         <div class="xp-links">${E.search.map(x=>`<a class="btn" target="_blank" rel="noopener" href="${esc(x.url)}">${esc(x.label)}</a>`).join("")}</div>
         <p class="note" style="margin:10px 0 6px">답글 예시 (상황에 맞게 골라 복사 → 붙여넣기)</p>
-        <ul class="xp-rep">${E.replies.map(r=>`<li><span>${esc(r)}</span><button class="btn" type="button" data-xrep="${esc(r)}">복사</button></li>`).join("")}</ul></div>`) }
+        <ul class="xp-rep">${E.replies.map(r=>`<li><span>${esc(r)}</span><button class="btn" type="button" data-xrep="${esc(r)}">복사</button></li>`).join("")}</ul></details>`) }
   }catch(e){ box.innerHTML='<div class="card note">오늘 글이 아직 없습니다 (매일 00:00 KST에 만들어져요).</div>' }
   try{   // outreach to Japanese K-content accounts (data/xoutreach.json)
     const O=await fetch("/data/xoutreach.json?"+Date.now()).then(r=>r.ok?r.json():null);
