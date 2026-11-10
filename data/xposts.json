@@ -1,48 +1,48 @@
 {
- "date": "2026-11-10",
- "artist": "CORTIS",
- "actor": "Park Bo-gum",
+ "date": "2026-11-11",
+ "artist": "ILLIT",
+ "actor": "Lee Jong-suk",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: 韓国バラエティ",
-   "text": "😂韓国バラエティでいま見られているクリップ\n注目：[遊ぶなら何する？] '95 ソウル歌謡祭 正体公開(1)\n▶ https://kreelz.com/jp/k/variety/\n#韓国バラエティ",
-   "len": 139
+   "label": "카테고리: Kビューティー",
+   "text": "💄Kビューティーでいま見られているクリップ\n注目：[営業開始式] コ・ギョンピョのパパとよく見るというパク・ボゴムｗ\n▶ https://kreelz.com/jp/k/beauty/\n#韓国コスメ #Kビューティー",
+   "len": 165
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/10）\n1. ILLIT「You're Under Arrest」公式映像\n2. 無鉄少女団3 ショートトラック挑戦の一場面\n3. 冷蔵庫を任せば ジス（BLACKPINK）とドバイワッフル\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 245
+   "text": "📰3分でわかる今日の韓国エンタメ（11/11）\n1. NCT DREAM『Boogie Woogie』MV\n2. 『무쇠소녀단3』ショートトラック挑戦編\n3. ILLIT『You're Under Arrest』チャレンジ\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 224
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "韓国に行ったら絶対食べたいもの、何ですか？🍜\n私はまずトッポッキ…！\n#韓国グルメ #韓国旅行",
-   "len": 89
+   "text": "イ・ジョンソクの一番好きなビジュアルの瞬間は？✨\n#イジョンソク #韓国俳優",
+   "len": 72
   },
   {
    "time": "19:00",
-   "label": "아티스트: CORTIS",
-   "text": "🔥CORTIS（コルティス）の最新ショート・動画まとめ\nいま話題：兄さんこうすればいいって言ったじゃん\n▶ https://kreelz.com/jp/k/cortis/\n#CORTIS #KPOP",
-   "len": 136
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ILLIT「体포하겠어」リルダンスハイライト | リレーダンス\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 164
   },
   {
    "time": "22:00",
-   "label": "배우: Park Bo-gum",
-   "text": "🎬パク・ボゴムの最新動画まとめ\nいま話題：[遊んで何する？] ボク・パク×ド・フン×ロイ・キムの＜とても古い恋人たち＞🎶 音色の匠三人の完璧なハー…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/park-bo-gum/\n#パクボゴム #韓国俳優",
-   "len": 233
+   "label": "배우: Lee Jong-suk",
+   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：That Little Nod Says It All 🥹 he can do it 😊 Lee jong suk & Shin min ah\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
+   "len": 210
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "CORTIS 최신 일본어 글",
-    "url": "https://x.com/search?q=%23CORTIS%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "パク・ボゴム 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%83%91%E3%82%AF%E3%83%9C%E3%82%B4%E3%83%A0%20lang%3Aja&f=live"
+    "label": "イ・ジョンソク 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/10",
+  "date": "11/11",
   "rows": [
    {
-    "t": "ミュージックバンク1位 🕶️",
-    "ch": "ILLIT",
-    "v": 3586784
+    "t": "NCT DREAM エヌシーティー ドリーム 'Boogie Woogie' MV",
+    "ch": "SMTOWN",
+    "v": 4984186
    },
    {
-    "t": "*everyone hold their breath*",
-    "ch": "ILLIT",
-    "v": 3501977
+    "t": "脚がほぐれないのがすごい ㄷㄷ",
+    "ch": "디글 클래식 :Diggle Classic",
+    "v": 3015531
    },
    {
-    "t": "13年ぶりに逆走ヒットしたベスティ「恋愛の条件」リルダンスハイライト",
+    "t": "「こんなに笑ったの久しぶり笑」 ソ・ジャンフンを号泣させた…🔥 キム・ヒョンチョルのシボ声楽家の描写",
+    "ch": "JTBC Voyage",
+    "v": 2222628
+   },
+   {
+    "t": "ILLIT「体포하겠어」リルダンスハイライト",
     "ch": "M2",
-    "v": 2806648
+    "v": 2019756
    },
    {
-    "t": "JISOO（ジス）- ADDICTED",
-    "ch": "MBCkpop",
-    "v": 2723943
-   },
-   {
-    "t": "[遊ぶなら何する？] '95 ソウル歌謡祭 正体公開(1)",
-    "ch": "놀면 뭐하니?",
-    "v": 2183096
+    "t": "患者を救ったのに懲戒処分を下したお偉いさんたち;; だから全員告訴してしまったイ・ジョンウンの気概🙌",
+    "ch": "SBS ",
+    "v": 1802758
    }
   ],
   "url": "kreelz.com/jp",
@@ -103,93 +103,93 @@
  "replies10": [
   {
    "time": "08:30",
-   "topic": "ILLIT「You're Under Arrest」公式映像",
-   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
-   "q": "#アイリット",
-   "video": "https://www.youtube.com/watch?v=U65PzQFi5MI",
-   "text": "韓国でもすごく盛り上がってます！ユナのスタイルや、原曲に近い振り付けを褒める声が多いです！",
-   "len": 90
+   "topic": "NCT DREAM『Boogie Woogie』MV",
+   "search": "https://x.com/search?q=%23NCTDREAM%20lang%3Aja&f=live",
+   "q": "#NCTDREAM",
+   "video": "https://www.youtube.com/watch?v=wG7pnZttup8",
+   "text": "爽やかで青春らしい雰囲気と、グループの初期らしさが合わさった曲だと好評！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 111
   },
   {
    "time": "10:00",
-   "topic": "無鉄少女団3 ショートトラック挑戦の一場面",
-   "search": "https://x.com/search?q=%E7%84%A1%E9%89%84%E5%B0%91%E5%A5%B3%E5%9B%A33%20lang%3Aja&f=live",
-   "q": "無鉄少女団3",
+   "topic": "『무쇠소녀단3』ショートトラック挑戦編",
+   "search": "https://x.com/search?q=%EB%AC%B4%EC%87%A0%EC%86%8C%EB%85%80%EB%8B%A83%20lang%3Aja&f=live",
+   "q": "무쇠소녀단3",
    "video": "https://www.youtube.com/watch?v=3_tipjD3pMA",
-   "text": "メンバーの体力や身体能力に驚き、感心する声が目立ちます！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 95
+   "text": "韓国のファンの反応も最高でした😂 険しい斜面を平気で降りる姿に驚き、「本当にすごい」と感嘆する声が多い！",
+   "len": 103
   },
   {
    "time": "11:30",
-   "topic": "冷蔵庫を任せば ジス（BLACKPINK）とドバ…",
-   "search": "https://x.com/search?q=%23BLACKPINK%20lang%3Aja&f=live",
-   "q": "#BLACKPINK",
-   "video": "https://www.youtube.com/watch?v=saqEhd4Qez4",
-   "text": "韓国のファンの反応も最高でした😂 ジスのバラエティでの親しみやすい反応を面白がる声が多いです！",
-   "len": 93
+   "topic": "ILLIT『You're Under Arrest』チャレンジ",
+   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
+   "q": "#アイリット",
+   "video": "https://www.youtube.com/watch?v=U65PzQFi5MI",
+   "text": "韓国でも話題になってます👀 原曲に近い完成度のダンスで、特にRUIのキレと表情が好評！",
+   "len": 82
   },
   {
    "time": "13:00",
-   "topic": "Bestie「恋愛の条件」13年ぶりのリレーダ…",
-   "search": "https://x.com/search?q=%E6%81%8B%E6%84%9B%E3%81%AE%E6%9D%A1%E4%BB%B6%20lang%3Aja&f=live",
-   "q": "恋愛の条件",
-   "video": "https://www.youtube.com/watch?v=9pyZ8KY9Sak",
-   "text": "韓国でも話題になってます👀 メンバーの息の合ったダンスや、大人の魅力に感心する声が多いです！",
-   "len": 91
+   "topic": "『遮るのが好きな人』ジス×ナヨン先行映像",
+   "search": "https://x.com/search?q=%23TWICE%20lang%3Aja&f=live",
+   "q": "#TWICE",
+   "video": "https://www.youtube.com/watch?v=8kAPBEshGBA",
+   "text": "韓国のコメント欄を見たら、ジスの気取らない性格とナヨンの明るい笑顔が好評で、二人の相性の良さを喜ぶ声が多い！ わかる…！",
+   "len": 119
   },
   {
    "time": "14:30",
-   "topic": "ボゴム魔法理髪店2 出演者の兄弟シーン",
-   "search": "https://x.com/search?q=%E3%83%9C%E3%82%B4%E3%83%A0%E9%AD%94%E6%B3%95%E7%90%86%E9%AB%AA%E5%BA%972%20lang%3Aja&f=live",
-   "q": "ボゴム魔法理髪店2",
+   "topic": "『ボゴム魔法の理容室2』営業開始式",
+   "search": "https://x.com/search?q=%E3%83%9C%E3%82%B4%E3%83%A0%E9%AD%94%E6%B3%95%E3%81%AE%E7%90%86%E5%AE%B9%E5%AE%A42%20lang%3Aja&f=live",
+   "q": "ボゴム魔法の理容室2",
    "video": "https://www.youtube.com/watch?v=-lP1b5_Gu74",
-   "text": "韓国のコメント欄を見たら、出演者同士の仲の良さや、キャスティングを喜ぶ声が多いです！ わかる…！",
-   "len": 95
+   "text": "韓国でもすごく盛り上がってます！ゴ・ギョンピョの登場シーンが面白く、三兄弟の仲の良さが好評！",
+   "len": 92
   },
   {
    "time": "16:00",
-   "topic": "JISOO「ADDICTED」MBC音楽中心",
-   "search": "https://x.com/search?q=ADDICTED%20lang%3Aja&f=live",
-   "q": "ADDICTED",
-   "video": "https://www.youtube.com/watch?v=sEfYW7-T3gc",
-   "text": "韓国でもすごく盛り上がってます！音楽番組への出演を喜ぶ声が多く、歌やビジュアルを褒める人が目立つ！",
-   "len": 98
+   "topic": "MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』",
+   "search": "https://x.com/search?q=%23MEOVV%20lang%3Aja&f=live",
+   "q": "#MEOVV",
+   "video": "https://www.youtube.com/watch?v=Kf1Nu208m44",
+   "text": "メンバーの一人飯に注目する声が多く、シリーズの続きを楽しみにするコメントが目立つ！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 121
   },
   {
    "time": "17:30",
-   "topic": "「遊ぶのも仕事？」'95ソウル歌謡祭の正…",
-   "search": "https://x.com/search?q=%E9%81%8A%E3%81%B6%E3%81%AE%E3%82%82%E4%BB%95%E4%BA%8B%EF%BC%9F%20lang%3Aja&f=live",
-   "q": "遊ぶのも仕事？",
-   "video": "https://www.youtube.com/watch?v=8889t7OiOYM",
-   "text": "ミナミやユ・ヨンウの舞台を褒め、キャスティングの組み合わせも好評！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "topic": "キム・ヒョンチョル、チョ・ウォン、ソン…",
+   "search": "https://x.com/search?q=%E3%82%AD%E3%83%A0%20lang%3Aja&f=live",
+   "q": "キム",
+   "video": "https://www.youtube.com/watch?v=BSMKkArz65c",
+   "text": "韓国のファンの反応も最高でした😂 キム・ヒョンチョルのユーモアが好きな人には本当に面白いという反応が多い！",
    "len": 105
   },
   {
    "time": "19:00",
-   "topic": "キム・ヒョンチョル、ソ・ジャンフンが笑…",
-   "search": "https://x.com/search?q=%E3%82%AD%E3%83%A0%20lang%3Aja&f=live",
-   "q": "キム",
-   "video": "https://www.youtube.com/watch?v=BSMKkArz65c",
-   "text": "韓国のファンの反応も最高でした😂 キム・ヒョンチョルの面白さや人柄の良さを称賛する声が多い！",
-   "len": 91
+   "topic": "ジス、ドバイワッフルの食べ方に現実的な…",
+   "search": "https://x.com/search?q=%E3%82%B8%E3%82%B9%E3%80%81%E3%83%89%E3%83%90%E3%82%A4%E3%83%AF%E3%83%83%E3%83%95%E3%83%AB%E3%81%AE%E9%A3%9F%E3%81%B9%E6%96%B9%E3%81%AB%E7%8F%BE%20lang%3Aja&f=live",
+   "q": "ジス、ドバイワッフルの食べ方に現",
+   "video": "https://www.youtube.com/watch?v=saqEhd4Qez4",
+   "text": "韓国でも話題になってます👀 ジスのリアルな反応や、庶民的な感覚に共感する声が多い！",
+   "len": 81
   },
   {
    "time": "20:30",
-   "topic": "冷蔵庫を探して 第96回 ハイライト ジス×…",
-   "search": "https://x.com/search?q=%E5%86%B7%E8%94%B5%E5%BA%AB%E3%82%92%E6%8E%A2%E3%81%97%E3%81%A6%20lang%3Aja&f=live",
-   "q": "冷蔵庫を探して",
-   "video": "https://www.youtube.com/watch?v=xs7GyDiVogg",
-   "text": "韓国でも話題になってます👀 金豊作家の辛い料理に、笑いながら驚く声が多く見られます！",
-   "len": 83
+   "topic": "『大脱出：都市怪談』事前集会の特別編",
+   "search": "https://x.com/search?q=%E5%A4%A7%E8%84%B1%E5%87%BA%EF%BC%9A%E9%83%BD%E5%B8%82%E6%80%AA%E8%AB%87%20lang%3Aja&f=live",
+   "q": "大脱出：都市怪談",
+   "video": "https://www.youtube.com/watch?v=X6ALmrfHiq0",
+   "text": "韓国のコメント欄を見たら、キム・ジョンミンとシン・ドンの復帰を喜ぶ声が多く、カン・ホドンの不在を惜しむ声もある！ わかる…！",
+   "len": 123
   },
   {
    "time": "22:00",
-   "topic": "Stray Kids「タクタクチャオ」練習映像",
-   "search": "https://x.com/search?q=%23%E3%82%B9%E3%82%AD%E3%82%BA%20lang%3Aja&f=live",
-   "q": "#スキズ",
-   "video": "https://www.youtube.com/watch?v=vGg-TH2by2w",
-   "text": "韓国のコメント欄を見たら、メンバーの可愛らしさを褒める声や、入隊を控えたメンバーへの応援の声が多いです！ わかる…！",
-   "len": 115
+   "topic": "ジス『ADDICTED』SBS人気歌謡の舞台",
+   "search": "https://x.com/search?q=ADDICTED%20lang%3Aja&f=live",
+   "q": "ADDICTED",
+   "video": "https://www.youtube.com/watch?v=CEeI4XUeUFo",
+   "text": "韓国でもすごく盛り上がってます！ステージの美しさや、ジスの努力を称える声が多い！",
+   "len": 80
   }
  ]
 }

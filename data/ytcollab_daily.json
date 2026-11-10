@@ -1,10 +1,10 @@
 {
- "date": "2026-11-10",
- "updated": "2026-11-03T16:07:59.011Z",
+ "date": "2026-11-11",
+ "updated": "2026-11-09T18:43:54.340Z",
  "countries": {
   "JP": {
    "name": "일본",
-   "total": 18,
+   "total": 25,
    "picks": [
     "UCveg2OqejYV-Y_UsMOTNLqA",
     "UCnRQgLid_0ePEXlrSQPNHrg",
@@ -13,21 +13,21 @@
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-10）",
+    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-11）",
     "rows": [
-     "1. ILLIT「You're Under Arrest」公式映像\n   ILLITが韓国のK-POPアイドルを逮捕するコンセプトのパフォーマンス動画です。ファンはメンバーの表現力やスタイルを楽しめます。",
-     "2. 無鉄少女団3 ショートトラック挑戦の一場面\n   金セロクらがショートトラックの金メダルを目指す挑戦の様子を収めた映像です。tvN新シーズンの予告的な場面です。",
-     "3. 冷蔵庫を任せば ジス（BLACKPINK）とドバイワッフル\n   BLACKPINKのジスがドバイワッフルを食べる様子を紹介する『冷蔵庫を頼む』の映像です。価格に驚くジスの反応が見どころです。",
-     "4. Bestie「恋愛の条件」13年ぶりのリレーダンス\n   13年前の曲『恋愛の条件』が再び注目を集め、そのリレーダンスのハイライトを集めた映像です。",
-     "5. BABYMONSTER RUKA・PHARITA ショート動画\n   BABYMONSTERのRUKAとPHARITAが登場するショート動画です。短い映像で、ファンに人気のメンバーの姿を楽しめます。",
-     "6. ボゴム魔法理髪店2 出演者の兄弟シーン\n   パク・ボゴムら出演者のやり取りを紹介する『保検マジカル2』の出発式の映像です。tvN新シーズンの放送を控えた場面です。",
-     "7. ソウル冠岳区の市場 21年目のオデン職人\n   ソウル冠岳区の市場で21年間オデンを作る職人を紹介する食の映像です。手作りのオデンやトッポッキが登場します。",
-     "8. 映画『吹雪』MZ警官とカラス料理の場面\n   映画『吹雪』の場面で、若い警官がカラスを使った保養食を楽しむ様子を紹介する映像です。11月18日公開作品です。"
+     "1. NCT DREAM『Boogie Woogie』MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲のMV。爽やかな青春感が魅力の一曲です。",
+     "2. 『무쇠소녀단3』ショートトラック挑戦編\n   ショートトラック金メダルを目指すメンバーの挑戦を追う番組『무쇠소녀단3』の一場面。険しい坂を降りるシーンが話題です。",
+     "3. ILLIT『You're Under Arrest』チャレンジ\n   ILLITの『체포하겠어(You're Under Arrest)』に合わせたダンス映像。XLOVとのコラボで、キレのあるダンスが見どころです。",
+     "4. CHAERYEONG『Lovesick』MV\n   ITZYのチェリョン（CHAERYEONG）による『Lovesick』のミュージックビデオ。アルバム発売を記念して公開されました。",
+     "5. 『遮るのが好きな人』ジス×ナヨン先行映像\n   TWICEのナヨンとジスが、ソウル近郊の山本（サンボン）の街を散策しながら練習生時代を振り返る番組『틈만 나면,』の先行公開映像です。",
+     "6. 『ボゴム魔法の理容室2』営業開始式\n   tvNドラマ『ボゴム魔法の理容室2』の営業開始式映像。パク・ボゴム、イ・サンイ、コ・ギョンピョの三兄弟の掛け合いが見どころです。",
+     "7. MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』\n   MEOVVの『GO HARD MODE』シリーズの一編。メンバーが一人で食事をする様子を映したVlog風の映像です。",
+     "8. 『最終面接』真犯人探しの予告\n   映画『最終面接』の予告映像。真犯人探しをテーマにした、予測不能な展開が特徴の作品です。"
     ],
     "n": 8,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-10）\n\n1. ILLIT「You're Under Arrest」公式映像\n   ILLITが韓国のK-POPアイドルを逮捕するコンセプトのパフォーマンス動画です。ファンはメンバーの表現力やスタイルを楽しめます。\n2. 無鉄少女団3 ショートトラック挑戦の一場面\n   金セロクらがショートトラックの金メダルを目指す挑戦の様子を収めた映像です。tvN新シーズンの予告的な場面です。\n3. 冷蔵庫を任せば ジス（BLACKPINK）とドバイワッフル\n   BLACKPINKのジスがドバイワッフルを食べる様子を紹介する『冷蔵庫を頼む』の映像です。価格に驚くジスの反応が見どころです。\n4. Bestie「恋愛の条件」13年ぶりのリレーダンス\n   13年前の曲『恋愛の条件』が再び注目を集め、そのリレーダンスのハイライトを集めた映像です。\n5. BABYMONSTER RUKA・PHARITA ショート動画\n   BABYMONSTERのRUKAとPHARITAが登場するショート動画です。短い映像で、ファンに人気のメンバーの姿を楽しめます。\n6. ボゴム魔法理髪店2 出演者の兄弟シーン\n   パク・ボゴムら出演者のやり取りを紹介する『保検マジカル2』の出発式の映像です。tvN新シーズンの放送を控えた場面です。\n7. ソウル冠岳区の市場 21年目のオデン職人\n   ソウル冠岳区の市場で21年間オデンを作る職人を紹介する食の映像です。手作りのオデンやトッポッキが登場します。\n8. 映画『吹雪』MZ警官とカラス料理の場面\n   映画『吹雪』の場面で、若い警官がカラスを使った保養食を楽しむ様子を紹介する映像です。11月18日公開作品です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-11）\n\n1. NCT DREAM『Boogie Woogie』MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲のMV。爽やかな青春感が魅力の一曲です。\n2. 『무쇠소녀단3』ショートトラック挑戦編\n   ショートトラック金メダルを目指すメンバーの挑戦を追う番組『무쇠소녀단3』の一場面。険しい坂を降りるシーンが話題です。\n3. ILLIT『You're Under Arrest』チャレンジ\n   ILLITの『체포하겠어(You're Under Arrest)』に合わせたダンス映像。XLOVとのコラボで、キレのあるダンスが見どころです。\n4. CHAERYEONG『Lovesick』MV\n   ITZYのチェリョン（CHAERYEONG）による『Lovesick』のミュージックビデオ。アルバム発売を記念して公開されました。\n5. 『遮るのが好きな人』ジス×ナヨン先行映像\n   TWICEのナヨンとジスが、ソウル近郊の山本（サンボン）の街を散策しながら練習生時代を振り返る番組『틈만 나면,』の先行公開映像です。\n6. 『ボゴム魔法の理容室2』営業開始式\n   tvNドラマ『ボゴム魔法の理容室2』の営業開始式映像。パク・ボゴム、イ・サンイ、コ・ギョンピョの三兄弟の掛け合いが見どころです。\n7. MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』\n   MEOVVの『GO HARD MODE』シリーズの一編。メンバーが一人で食事をする様子を映したVlog風の映像です。\n8. 『最終面接』真犯人探しの予告\n   映画『最終面接』の予告映像。真犯人探しをテーマにした、予測不能な展開が特徴の作品です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -37,22 +37,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-10)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-11)",
     "rows": [
-     "1. ILLIT 'You're Under Arrest' #체포하겠어 video\n   ILLIT's performance clip for 'You're Under Arrest,' with a police-themed concept. Fans can enjoy the members' expressive styling and dance.",
-     "2. Doctor X: The White Mafia Era – Lee Jung-eun scene\n   A clip of Lee Jung-eun confronting hospital executives who punished a doctor for saving a patient. It is a highlight from SBS's Friday-Saturday drama.",
-     "3. Iron Girls 3 – short track challenge clip\n   A clip from tvN's 'Iron Girls 3' showing the members tackling a short track challenge. Fans can watch their training and effort.",
-     "4. Chef and My Fridge – Jisoo and the Dubai waffle\n   A clip from JTBC's 'Chef and My Fridge' where BLACKPINK's Jisoo tries a Dubai waffle and reacts to its price. Fans enjoy her candid reactions.",
-     "5. Bestie '연애의 조건' relay dance highlights\n   Highlights of Bestie's relay dance to '연애의 조건,' a song that gained attention again 13 years after its release. Fans can enjoy the members' dancing.",
-     "6. BABYMONSTER RUKA & PHARITA short clip\n   A short video featuring BABYMONSTER members RUKA and PHARITA. Fans can enjoy a brief look at the two members.",
-     "7. Kim Ji-won and the man who called her 'Doctor X'\n   A clip from episode 10 of 'Doctor X: The White Mafia Era' that highlights a scene between Kim Ji-won and another character. It is an SBS drama preview for fans.",
-     "8. Park Bo-gum's Magical Barber Shop 2 opening clip\n   An opening ceremony clip for 'Bogeom Magical 2' featuring the cast's playful brotherly moments. It previews tvN's new season.",
-     "9. Gwanak-gu market – 21-year fish cake master\n   A food video introducing a fish cake (odeng) craftsman who has worked at a Gwanak-gu market in Seoul for 21 years. Handmade fish cakes and tteokbokki appear.",
-     "10. Movie 'Snowstorm' – young officer enjoys a bird dish\n   A clip from the film 'Snowstorm' in which a young officer enjoys a traditional restorative dish. The film opens in Korean cinemas on November 18."
+     "1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM\". Fans can enjoy its fresh, youthful sound.",
+     "2. Iron Girls 3: Short Track Challenge Clip\n   A scene from \"Iron Girls 3\", following members aiming for a short track gold medal. It shows them descending a steep slope.",
+     "3. ILLIT 'You're Under Arrest' Challenge\n   A dance video set to ILLIT's \"You're Under Arrest\", made with XLOV. Fans can enjoy the sharp, powerful moves.",
+     "4. CHAERYEONG 'Lovesick' M/V\n   The music video for CHAERYEONG's \"Lovesick\" from ITZY, released ahead of her album launch. Fans can check out her solo sound.",
+     "5. Doctor X: The White Mafia Era, Key Scene\n   A scene from the SBS Friday-Saturday drama \"Doctor X: The White Mafia Era\", where Kim Ji-won and Lee Jung-eun stand up to powerful figures.",
+     "6. Jisoo x Nayeon Preview on Neighborhood Walk\n   An early preview of the variety show \"Time Is Ours\" episode 65, where Jisoo and Nayeon stroll around Sanbon and reflect on their trainee days.",
+     "7. Doctor X: The White Mafia Era, Character Highlights\n   A highlight clip from SBS's \"Doctor X: The White Mafia Era\" focusing on Kim Ji-won's scenes and character relationships.",
+     "8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n   An opening ceremony clip for tvN's \"Bo-gum's Magical Barbershop 2\", featuring the three brothers' playful interactions.",
+     "9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n   A vlog-style episode from MEOVV's \"GO HARD MODE\" series, showing a member having a meal alone.",
+     "10. Final Interview: Who's the Real Culprit Clip\n   A promotional clip for the film \"Final Interview\", a mystery built around the hunt for the real culprit with unpredictable twists."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-10)\n\n1. ILLIT 'You're Under Arrest' #체포하겠어 video\n   ILLIT's performance clip for 'You're Under Arrest,' with a police-themed concept. Fans can enjoy the members' expressive styling and dance.\n2. Doctor X: The White Mafia Era – Lee Jung-eun scene\n   A clip of Lee Jung-eun confronting hospital executives who punished a doctor for saving a patient. It is a highlight from SBS's Friday-Saturday drama.\n3. Iron Girls 3 – short track challenge clip\n   A clip from tvN's 'Iron Girls 3' showing the members tackling a short track challenge. Fans can watch their training and effort.\n4. Chef and My Fridge – Jisoo and the Dubai waffle\n   A clip from JTBC's 'Chef and My Fridge' where BLACKPINK's Jisoo tries a Dubai waffle and reacts to its price. Fans enjoy her candid reactions.\n5. Bestie '연애의 조건' relay dance highlights\n   Highlights of Bestie's relay dance to '연애의 조건,' a song that gained attention again 13 years after its release. Fans can enjoy the members' dancing.\n6. BABYMONSTER RUKA & PHARITA short clip\n   A short video featuring BABYMONSTER members RUKA and PHARITA. Fans can enjoy a brief look at the two members.\n7. Kim Ji-won and the man who called her 'Doctor X'\n   A clip from episode 10 of 'Doctor X: The White Mafia Era' that highlights a scene between Kim Ji-won and another character. It is an SBS drama preview for fans.\n8. Park Bo-gum's Magical Barber Shop 2 opening clip\n   An opening ceremony clip for 'Bogeom Magical 2' featuring the cast's playful brotherly moments. It previews tvN's new season.\n9. Gwanak-gu market – 21-year fish cake master\n   A food video introducing a fish cake (odeng) craftsman who has worked at a Gwanak-gu market in Seoul for 21 years. Handmade fish cakes and tteokbokki appear.\n10. Movie 'Snowstorm' – young officer enjoys a bird dish\n   A clip from the film 'Snowstorm' in which a young officer enjoys a traditional restorative dish. The film opens in Korean cinemas on November 18.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-11)\n\n1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM\". Fans can enjoy its fresh, youthful sound.\n2. Iron Girls 3: Short Track Challenge Clip\n   A scene from \"Iron Girls 3\", following members aiming for a short track gold medal. It shows them descending a steep slope.\n3. ILLIT 'You're Under Arrest' Challenge\n   A dance video set to ILLIT's \"You're Under Arrest\", made with XLOV. Fans can enjoy the sharp, powerful moves.\n4. CHAERYEONG 'Lovesick' M/V\n   The music video for CHAERYEONG's \"Lovesick\" from ITZY, released ahead of her album launch. Fans can check out her solo sound.\n5. Doctor X: The White Mafia Era, Key Scene\n   A scene from the SBS Friday-Saturday drama \"Doctor X: The White Mafia Era\", where Kim Ji-won and Lee Jung-eun stand up to powerful figures.\n6. Jisoo x Nayeon Preview on Neighborhood Walk\n   An early preview of the variety show \"Time Is Ours\" episode 65, where Jisoo and Nayeon stroll around Sanbon and reflect on their trainee days.\n7. Doctor X: The White Mafia Era, Character Highlights\n   A highlight clip from SBS's \"Doctor X: The White Mafia Era\" focusing on Kim Ji-won's scenes and character relationships.\n8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n   An opening ceremony clip for tvN's \"Bo-gum's Magical Barbershop 2\", featuring the three brothers' playful interactions.\n9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n   A vlog-style episode from MEOVV's \"GO HARD MODE\" series, showing a member having a meal alone.\n10. Final Interview: Who's the Real Culprit Clip\n   A promotional clip for the film \"Final Interview\", a mystery built around the hunt for the real culprit with unpredictable twists.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -62,22 +62,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-10)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-11)",
     "rows": [
-     "1. ILLIT 'You're Under Arrest' #체포하겠어 video",
-     "2. Doctor X: The White Mafia Era – Lee Jung-eun scene",
-     "3. Iron Girls 3 – short track challenge clip",
-     "4. Chef and My Fridge – Jisoo and the Dubai waffle",
-     "5. Bestie '연애의 조건' relay dance highlights",
-     "6. BABYMONSTER RUKA & PHARITA short clip",
-     "7. Kim Ji-won and the man who called her 'Doctor X'",
-     "8. Park Bo-gum's Magical Barber Shop 2 opening clip",
-     "9. Gwanak-gu market – 21-year fish cake master",
-     "10. Movie 'Snowstorm' – young officer enjoys a bird dish"
+     "1. NCT DREAM 'Boogie Woogie' MV",
+     "2. Iron Girls 3: Short Track Challenge Clip",
+     "3. ILLIT 'You're Under Arrest' Challenge",
+     "4. CHAERYEONG 'Lovesick' M/V",
+     "5. Doctor X: The White Mafia Era, Key Scene",
+     "6. Jisoo x Nayeon Preview on Neighborhood Walk",
+     "7. Doctor X: The White Mafia Era, Character Highlights",
+     "8. Bo-gum's Magical Barbershop 2: Opening Ceremony",
+     "9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'",
+     "10. Final Interview: Who's the Real Culprit Clip"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-10)\n\n1. ILLIT 'You're Under Arrest' #체포하겠어 video\n2. Doctor X: The White Mafia Era – Lee Jung-eun scene\n3. Iron Girls 3 – short track challenge clip\n4. Chef and My Fridge – Jisoo and the Dubai waffle\n5. Bestie '연애의 조건' relay dance highlights\n6. BABYMONSTER RUKA & PHARITA short clip\n7. Kim Ji-won and the man who called her 'Doctor X'\n8. Park Bo-gum's Magical Barber Shop 2 opening clip\n9. Gwanak-gu market – 21-year fish cake master\n10. Movie 'Snowstorm' – young officer enjoys a bird dish\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-11)\n\n1. NCT DREAM 'Boogie Woogie' MV\n2. Iron Girls 3: Short Track Challenge Clip\n3. ILLIT 'You're Under Arrest' Challenge\n4. CHAERYEONG 'Lovesick' M/V\n5. Doctor X: The White Mafia Era, Key Scene\n6. Jisoo x Nayeon Preview on Neighborhood Walk\n7. Doctor X: The White Mafia Era, Character Highlights\n8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n10. Final Interview: Who's the Real Culprit Clip\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
