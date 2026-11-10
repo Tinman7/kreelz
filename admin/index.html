@@ -461,8 +461,10 @@ const PLATS=["YouTube","TikTok","NAVER Clip"];
     box.addEventListener("click",e=>{ const b=e.target.closest("[data-xcopy]"); if(!b) return;
       navigator.clipboard.writeText(d.posts[+b.dataset.xcopy].text).then(()=>{ b.textContent="복사됨"; setTimeout(()=>b.textContent="복사",1500) }).catch(()=>{}) });
     if(d.card){ const img=fbCard({...d.card,brand:"KREELZ JAPAN"});
-      $("#xpMore").insertAdjacentHTML("afterbegin",`<div class="card xp"><div class="xp-h"><b>TOP5 카드</b> <span>일본 계정에 "출처 표기하면 자유 사용"으로 주는 이미지 · 우리 X 글에 첨부해도 좋아요</span></div>
-        <img class="fb-card" src="${img}" alt="TOP5"><div class="row" style="margin-top:8px"><a class="btn" download="kreelz-jp-top5-${esc(d.date)}.png" href="${img}">카드 이미지 저장</a><small class="note" style="margin:0">휴대폰은 길게 눌러 저장</small></div></div>`) }
+      // one tap (per David 2026-11-11): the link's preview is today's TOP5 card (jp/top5/, .github/workflows/top5card.yml)
+      const r1=[...String((d.card.rows[0]||{}).t||"")], t5=`韓国で今日いちばん見られているK動画TOP5（${d.card.date}）🇰🇷\n\n1位：${r1.length>40?r1.slice(0,40).join("")+"…":r1.join("")}\n\n5本まとめてどうぞ👇\nhttps://kreelz.com/jp/top5/?d=${String(d.date).replace(/-/g,"").slice(4)}\n#韓国 #KPOP #韓ドラ`;
+      $("#xpMore").insertAdjacentHTML("afterbegin",`<div class="card xp"><div class="xp-h"><b>TOP5 카드</b> <span>'X에 올리기'만 누르면 카드가 붙은 글이 열려요 · 일본 계정에 "출처 표기하면 자유 사용"으로 줘도 돼요</span></div>
+        <img class="fb-card" src="${img}" alt="TOP5"><pre class="xp-t" style="margin-top:8px">${esc(t5)}</pre><div class="row" style="margin-top:8px"><a class="btn primary" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${encodeURIComponent(t5)}">X에 올리기 (카드 포함)</a><a class="btn" download="kreelz-jp-top5-${esc(d.date)}.png" href="${img}">카드 이미지 저장</a></div><small class="note">링크 아래에 오늘 TOP5 카드가 미리보기로 붙어요 (00:10쯤 만들어짐)</small></div>`) }
     let R=d.replies10, XR=null;   // 10 replies a day (per David 2026-11-04); the first day's came in data/xreplies.json
     try{ XR=await fetch("/data/xreplies.json?"+Date.now()).then(r=>r.ok?r.json():null) }catch(_){}
     if(!R&&XR&&XR.date===d.date) R=XR.replies10;

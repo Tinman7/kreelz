@@ -1,0 +1,48 @@
+name: X TOP5 card (after the nightly)
+
+# Today's TOP5 as a link-preview picture for X (per David 2026-11-11): scripts/top5card.mjs draws jp/top5.png from
+# data/xposts.json and writes jp/top5/index.html (og:image / twitter:card). The admin's "X에 올리기" on the TOP5 card links
+# kreelz.com/jp/top5/?d=MMDD, so the post shows the card — David only presses Post.
+on:
+  workflow_run:
+    workflows: ["Nightly refresh (00:00 KST)"]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: top5card
+  cancel-in-progress: true
+
+jobs:
+  card:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Japanese fonts + Chromium
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-color-emoji >/dev/null
+          npm install --no-save --no-audit --no-fund playwright@1.56.0 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+      - name: Draw the card
+        run: node scripts/top5card.mjs
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add jp/top5.png jp/top5/index.html
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "X TOP5 card for $(node -p 'require("./data/xposts.json").date')"
+          git pull --rebase -q && git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
