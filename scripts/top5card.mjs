@@ -5,13 +5,23 @@
 // post, so X shows the card under the text. Runs after the nightly (.github/workflows/top5card.yml) — needs Chromium
 // (playwright) and Japanese fonts.
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
+// fonts from npm (@fontsource), no apt: the runner's apt mirror failed on 2026-11-12
+const req = createRequire(import.meta.url), css = [];
+for (const f of ["noto-sans-jp", "noto-sans-kr"]) for (const w of [500, 600, 700, 800, 900]) { try { css.push(pathToFileURL(req.resolve(`@fontsource/${f}/${w}.css`)).href); } catch (e) {} }
 
 const d = JSON.parse(fs.readFileSync("data/xposts.json", "utf8")), c = d.card;
+const clean = t => String(t || "").replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\uFE0F\u200D]/gu, "").replace(/\s{2,}/g, " ").trim();
+if (c && c.rows) c.rows = c.rows.map(r => ({ ...r, t: clean(r.t), ch: clean(r.ch) }));
 if (!c || !c.rows || !c.rows.length) { console.log("top5card: no card today"); process.exit(0); }
-const html = `<!doctype html><meta charset="utf-8"><body style="margin:0"><canvas id="c" width="1200" height="628"></canvas><script>
+const html = `<!doctype html><meta charset="utf-8">${css.map(h => `<link rel="stylesheet" href="${h}">`).join("")}<body style="margin:0"><canvas id="c" width="1200" height="628"></canvas><script>
+window.draw=()=>{
 const c=${JSON.stringify(c)}, W=1200, H=628, g=document.getElementById("c").getContext("2d");
-const F='"Noto Sans CJK JP","Noto Sans JP","Noto Color Emoji",sans-serif', AC="#E8445A", INK="#111318", MU="#7A808C";
+const F='"Noto Sans JP","Noto Sans KR","Noto Sans CJK JP",sans-serif', AC="#E8445A", INK="#111318", MU="#7A808C";
 const fit=(t,max)=>{ if(g.measureText(t).width<=max) return t; let s=[...t]; while(s.length && g.measureText(s.join("")+"…").width>max) s.pop(); return s.join("")+"…" };
 const fmt=v=>v>=1e6?(v/1e6).toFixed(1).replace(/\\.0$/,"")+"M":v>=1e3?Math.round(v/1e3)+"K":String(v);
 g.fillStyle="#fff"; g.fillRect(0,0,W,H); g.fillStyle=AC; g.fillRect(0,0,W,10);
@@ -28,10 +38,13 @@ rows.forEach((r,i)=>{ g.strokeStyle="#ECEEF2"; g.lineWidth=2; g.beginPath(); g.m
   g.textBaseline="alphabetic"; y+=76 });
 g.fillStyle=INK; g.font="800 24px "+F; g.fillText("▶ "+(c.url||"kreelz.com/jp"),56,H-26);
 g.fillStyle=MU; g.font="600 20px "+F; g.textAlign="right"; g.fillText(c.foot||"リアルタイム更新",W-56,H-27);
-window.PNG=document.getElementById("c").toDataURL("image/png");
+window.PNG=document.getElementById("c").toDataURL("image/png"); };
 </script>`;
-const b = await chromium.launch(), pg = await b.newPage();
-await pg.setContent(html); await pg.evaluate(() => document.fonts.ready);
+const b = await chromium.launch({ channel: process.env.CHROME_CHANNEL || undefined }), pg = await b.newPage();
+const tmp = path.join(os.tmpdir(), "kz-top5.html"); fs.writeFileSync(tmp, html);
+await pg.goto(pathToFileURL(tmp).href);
+const text = JSON.stringify(c) + "KREELZ JAPAN TOP 5 ▶ · views 0123456789…韓国で今日いちばん見られているリアルタイム更新";
+await pg.evaluate(async t => { for (const f of ["Noto Sans JP", "Noto Sans KR"]) for (const w of [500, 600, 700, 800, 900]) await document.fonts.load(`${w} 30px "${f}"`, t); await document.fonts.ready; window.draw(); }, text);
 await pg.waitForFunction(() => window.PNG);
 const png = Buffer.from((await pg.evaluate(() => window.PNG)).split(",")[1], "base64");
 await b.close();
