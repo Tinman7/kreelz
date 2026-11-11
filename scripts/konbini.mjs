@@ -119,7 +119,9 @@ if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/
     if (c.front) { front.add(c.id); if (c.front > frontU) frontU = c.front; }
     if (c.on) continue;
     keep.set(c.id, [c.id, c.cat || "k", c.views, c.up, rank(c.meta) || 0, rankIn(JP_ARTISTS, c.meta) || 0, c.meta[0].slice(0, 150), c.meta[2], c.short ? 1 : 0, c.jp ? 1 : 0]); }   // [9]: Japan edition only
-  const all = [...keep.values()].filter(x => Date.now() - Date.parse(x[3]) < 14 * DAY);
+  // hold (per David 2026-11-11): clips he asks for that were uploaded long ago stay in live.js until hold.until
+  const HOLD = new Set(old.hold && old.hold.until >= new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10) ? old.hold.ids || [] : []);
+  const all = [...keep.values()].filter(x => HOLD.has(x[0]) || Date.now() - Date.parse(x[3]) < 14 * DAY);
   const L = { ...old, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), pin: { until, ids: [...pin] }, ja: old.ja || {}, en: old.en || {},   // titles translated by hand stay
     front: front.size ? frontU + "|" + [...front].join("") : "" };   // other keys (spin_en, es, …) kept
   fs.writeFileSync(LIVE_F, "window.LIVE=" + JSON.stringify(L) + ";\n");
