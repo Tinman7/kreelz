@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10T17:40:17.466Z",
+ "updated": "2026-11-11T11:39:59.582Z",
  "site": "https://kreelz.com/",
  "from": "2026-10-12",
  "to": "2026-11-10",
@@ -94,6 +94,13 @@
    "clk": 2,
    "ctr": 1.9,
    "pos": 9.4
+  },
+  {
+   "k": "2026-11-09",
+   "imp": 85,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 9.1
   }
  ],
  "jpDays": [
@@ -187,43 +194,50 @@
    "clk": 0,
    "ctr": 0,
    "pos": 10.6
+  },
+  {
+   "k": "2026-11-09",
+   "imp": 65,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 9.9
   }
  ],
  "pages": [
   {
    "k": "https://kreelz.com/jp/k/andteam/",
-   "imp": 61,
+   "imp": 63,
    "clk": 3,
-   "ctr": 4.9,
-   "pos": 9.5
+   "ctr": 4.8,
+   "pos": 9.6
   },
   {
    "k": "https://kreelz.com/jp/k/music/",
-   "imp": 30,
+   "imp": 33,
    "clk": 3,
-   "ctr": 10,
-   "pos": 8.5
+   "ctr": 9.1,
+   "pos": 8.2
   },
   {
    "k": "https://kreelz.com/k/illit/",
-   "imp": 43,
+   "imp": 48,
    "clk": 3,
-   "ctr": 7,
-   "pos": 6.7
+   "ctr": 6.3,
+   "pos": 6.6
   },
   {
    "k": "https://kreelz.com/",
-   "imp": 21,
+   "imp": 24,
    "clk": 2,
-   "ctr": 9.5,
-   "pos": 3.5
+   "ctr": 8.3,
+   "pos": 3.7
   },
   {
    "k": "https://kreelz.com/jp/hot/illit-1st-win/",
-   "imp": 39,
+   "imp": 43,
    "clk": 2,
-   "ctr": 5.1,
-   "pos": 6
+   "ctr": 4.7,
+   "pos": 6.1
   },
   {
    "k": "https://kreelz.com/jp/k/choo-young-woo/",
@@ -241,14 +255,14 @@
   },
   {
    "k": "https://kreelz.com/k/hwang-in-youp/",
-   "imp": 19,
+   "imp": 20,
    "clk": 1,
-   "ctr": 5.3,
-   "pos": 10.5
+   "ctr": 5,
+   "pos": 10.4
   },
   {
    "k": "https://kreelz.com/hot/illit-1st-win/",
-   "imp": 44,
+   "imp": 45,
    "clk": 0,
    "ctr": 0,
    "pos": 6.2
@@ -290,10 +304,10 @@
   },
   {
    "k": "https://kreelz.com/jp/k/cha-eun-woo/",
-   "imp": 9,
+   "imp": 10,
    "clk": 0,
    "ctr": 0,
-   "pos": 34.7
+   "pos": 31.8
   },
   {
    "k": "https://kreelz.com/jp/k/cortis/",
@@ -311,17 +325,17 @@
   },
   {
    "k": "https://kreelz.com/jp/k/film/",
-   "imp": 10,
+   "imp": 11,
    "clk": 0,
    "ctr": 0,
-   "pos": 9.9
+   "pos": 9.3
   },
   {
    "k": "https://kreelz.com/jp/k/food/",
-   "imp": 4,
+   "imp": 5,
    "clk": 0,
    "ctr": 0,
-   "pos": 32.3
+   "pos": 27.8
   },
   {
    "k": "https://kreelz.com/jp/k/gong-yoo/",
@@ -339,10 +353,17 @@
   },
   {
    "k": "https://kreelz.com/jp/k/illit/",
-   "imp": 206,
+   "imp": 245,
    "clk": 0,
    "ctr": 0,
    "pos": 8.7
+  },
+  {
+   "k": "https://kreelz.com/jp/k/ji-sung/",
+   "imp": 2,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 1
   },
   {
    "k": "https://kreelz.com/jp/k/kim-jae-joong/",
@@ -352,27 +373,20 @@
    "pos": 51
   },
   {
-   "k": "https://kreelz.com/jp/k/nam-joo-hyuk/",
-   "imp": 2,
+   "k": "https://kreelz.com/jp/k/kim-seon-ho/",
+   "imp": 1,
    "clk": 0,
    "ctr": 0,
-   "pos": 63.5
-  },
-  {
-   "k": "https://kreelz.com/jp/k/nct-wish/",
-   "imp": 24,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 7.1
+   "pos": 91
   }
  ],
  "queries": [
   {
    "k": "illit clips",
-   "imp": 8,
+   "imp": 9,
    "clk": 2,
-   "ctr": 25,
-   "pos": 4.6
+   "ctr": 22.2,
+   "pos": 4.9
   },
   {
    "k": "&team 動画",
@@ -495,24 +509,24 @@
   },
   {
    "k": "illit shorts",
-   "imp": 8,
+   "imp": 12,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.6
+   "pos": 7.2
   },
   {
    "k": "illit ショート",
-   "imp": 1,
+   "imp": 2,
    "clk": 0,
    "ctr": 0,
-   "pos": 5
+   "pos": 8
   },
   {
    "k": "illit 動画",
-   "imp": 3,
+   "imp": 5,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.3
+   "pos": 6.8
   },
   {
    "k": "illit動画",
@@ -588,17 +602,17 @@
   },
   {
    "k": "illit ショート",
-   "imp": 1,
+   "imp": 2,
    "clk": 0,
    "ctr": 0,
-   "pos": 5
+   "pos": 8
   },
   {
    "k": "illit 動画",
-   "imp": 3,
+   "imp": 5,
    "clk": 0,
    "ctr": 0,
-   "pos": 7.3
+   "pos": 6.8
   },
   {
    "k": "illit動画",
@@ -644,18 +658,18 @@
   },
   {
    "k": "twice ショート",
-   "imp": 3,
+   "imp": 4,
    "clk": 0,
    "ctr": 0,
-   "pos": 9.7
+   "pos": 9.5
   }
  ],
  "countries": [
   {
    "k": "jpn",
-   "imp": 550,
+   "imp": 615,
    "clk": 10,
-   "ctr": 1.8,
+   "ctr": 1.6,
    "pos": 10.4
   },
   {
@@ -667,9 +681,9 @@
   },
   {
    "k": "deu",
-   "imp": 9,
+   "imp": 10,
    "clk": 1,
-   "ctr": 11.1,
+   "ctr": 10,
    "pos": 6.1
   },
   {
@@ -688,10 +702,17 @@
   },
   {
    "k": "kor",
-   "imp": 35,
+   "imp": 36,
    "clk": 1,
-   "ctr": 2.9,
-   "pos": 18.9
+   "ctr": 2.8,
+   "pos": 18.5
+  },
+  {
+   "k": "afg",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 9
   },
   {
    "k": "are",
@@ -748,13 +769,6 @@
    "clk": 0,
    "ctr": 0,
    "pos": 3
-  },
-  {
-   "k": "bra",
-   "imp": 5,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8.4
   }
  ]
 }

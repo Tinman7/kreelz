@@ -1,48 +1,48 @@
 {
- "date": "2026-11-11",
- "artist": "ILLIT",
- "actor": "Lee Jong-suk",
+ "date": "2026-11-12",
+ "artist": "ENHYPEN",
+ "actor": "Choo Young-woo",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: Kビューティー",
-   "text": "💄Kビューティーでいま見られているクリップ\n注目：[営業開始式] コ・ギョンピョのパパとよく見るというパク・ボゴムｗ\n▶ https://kreelz.com/jp/k/beauty/\n#韓国コスメ #Kビューティー",
-   "len": 165
+   "label": "카테고리: Kトラベル＆フード",
+   "text": "🍜Kトラベル＆フードでいま見られているクリップ\n注目：1時間だけどカニ食べ放題\n▶ https://kreelz.com/jp/k/food/\n#韓国グルメ #韓国旅行",
+   "len": 124
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/11）\n1. NCT DREAM『Boogie Woogie』MV\n2. 『무쇠소녀단3』ショートトラック挑戦編\n3. ILLIT『You're Under Arrest』チャレンジ\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 224
+   "text": "📰3分でわかる今日の韓国エンタメ（11/12）\n1. NCT DREAM「Boogie Woogie」MV\n2. ILLIT×TXT「\n3. TUIDE「not the vibe」\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 181
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "イ・ジョンソクの一番好きなビジュアルの瞬間は？✨\n#イジョンソク #韓国俳優",
-   "len": 72
+   "text": "ENHYPENの曲で、いま一番リピートしてるのは？🎧\nリプで教えてください！\n#ENHYPEN",
+   "len": 77
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ILLIT「体포하겠어」リルダンスハイライト | リレーダンス\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 164
+   "label": "아티스트: ENHYPEN",
+   "text": "🔥ENHYPEN（エンハイプン）の最新ショート・動画まとめ\nいま話題：名前を呼んで📢\n▶ https://kreelz.com/jp/k/enhypen/\n#ENHYPEN #KPOP",
+   "len": 118
   },
   {
    "time": "22:00",
-   "label": "배우: Lee Jong-suk",
-   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：That Little Nod Says It All 🥹 he can do it 😊 Lee jong suk & Shin min ah\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
-   "len": 210
+   "label": "배우: Choo Young-woo",
+   "text": "🎬チュ・ヨンウの最新動画まとめ\nいま話題：[第11話ハイライト] ただならぬミンジェの体調⚡ どうか健康で愛させてください🙏 第11話\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/choo-young-woo/\n#チュヨンウ #韓国俳優",
+   "len": 216
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "ENHYPEN 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ENHYPEN%20lang%3Aja&f=live"
    },
    {
-    "label": "イ・ジョンソク 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
+    "label": "チュ・ヨンウ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%83%81%E3%83%A5%E3%83%A8%E3%83%B3%E3%82%A6%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/11",
+  "date": "11/12",
   "rows": [
    {
     "t": "NCT DREAM エヌシーティー ドリーム 'Boogie Woogie' MV",
     "ch": "SMTOWN",
-    "v": 4984186
+    "v": 7265525
+   },
+   {
+    "t": "That Little Nod Says It All 🥹 he can do it 😊 イ・ジョンソク & シン・",
+    "ch": "Kdrama Couple",
+    "v": 3695687
    },
    {
     "t": "脚がほぐれないのがすごい ㄷㄷ",
     "ch": "디글 클래식 :Diggle Classic",
-    "v": 3015531
+    "v": 3586784
    },
    {
-    "t": "「こんなに笑ったの久しぶり笑」 ソ・ジャンフンを号泣させた…🔥 キム・ヒョンチョルのシボ声楽家の描写",
-    "ch": "JTBC Voyage",
-    "v": 2222628
+    "t": "[営業開始式] 容赦ないコ・ギョンピョｗ",
+    "ch": "디글 클래식 :Diggle Classic",
+    "v": 1983833
    },
    {
-    "t": "ILLIT「体포하겠어」リルダンスハイライト",
-    "ch": "M2",
-    "v": 2019756
-   },
-   {
-    "t": "患者を救ったのに懲戒処分を下したお偉いさんたち;; だから全員告訴してしまったイ・ジョンウンの気概🙌",
-    "ch": "SBS ",
-    "v": 1802758
+    "t": "[大脱出：都市怪談] 大脱出 事前集会 特：永遠に試験に入る",
+    "ch": "TVING 티빙",
+    "v": 1835402
    }
   ],
   "url": "kreelz.com/jp",
@@ -103,93 +103,93 @@
  "replies10": [
   {
    "time": "08:30",
-   "topic": "NCT DREAM『Boogie Woogie』MV",
+   "topic": "NCT DREAM「Boogie Woogie」MV",
    "search": "https://x.com/search?q=%23NCTDREAM%20lang%3Aja&f=live",
    "q": "#NCTDREAM",
    "video": "https://www.youtube.com/watch?v=wG7pnZttup8",
-   "text": "爽やかで青春らしい雰囲気と、グループの初期らしさが合わさった曲だと好評！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 111
+   "text": "韓国のファンの反応も最高でした😂 名曲だと絶賛する声が多く、初期の雰囲気も感じられて良いという反応が目立つ！",
+   "len": 107
   },
   {
    "time": "10:00",
-   "topic": "『무쇠소녀단3』ショートトラック挑戦編",
-   "search": "https://x.com/search?q=%EB%AC%B4%EC%87%A0%EC%86%8C%EB%85%80%EB%8B%A83%20lang%3Aja&f=live",
-   "q": "무쇠소녀단3",
-   "video": "https://www.youtube.com/watch?v=3_tipjD3pMA",
-   "text": "韓国のファンの反応も最高でした😂 険しい斜面を平気で降りる姿に驚き、「本当にすごい」と感嘆する声が多い！",
-   "len": 103
+   "topic": "ILLIT×TXT「",
+   "search": "https://x.com/search?q=%23%E3%83%88%E3%82%A5%E3%83%90%20lang%3Aja&f=live",
+   "q": "#トゥバ",
+   "video": "https://www.youtube.com/watch?v=ji0pG34GUio",
+   "text": "韓国でも話題になってます👀 ビームギュの姿に笑いが起き、歌やダンスを楽しみつつ温かい反応が多い！",
+   "len": 95
   },
   {
    "time": "11:30",
-   "topic": "ILLIT『You're Under Arrest』チャレンジ",
-   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
-   "q": "#アイリット",
-   "video": "https://www.youtube.com/watch?v=U65PzQFi5MI",
-   "text": "韓国でも話題になってます👀 原曲に近い完成度のダンスで、特にRUIのキレと表情が好評！",
-   "len": 82
-  },
-  {
-   "time": "13:00",
-   "topic": "『遮るのが好きな人』ジス×ナヨン先行映像",
-   "search": "https://x.com/search?q=%23TWICE%20lang%3Aja&f=live",
-   "q": "#TWICE",
-   "video": "https://www.youtube.com/watch?v=8kAPBEshGBA",
-   "text": "韓国のコメント欄を見たら、ジスの気取らない性格とナヨンの明るい笑顔が好評で、二人の相性の良さを喜ぶ声が多い！ わかる…！",
-   "len": 119
-  },
-  {
-   "time": "14:30",
-   "topic": "『ボゴム魔法の理容室2』営業開始式",
-   "search": "https://x.com/search?q=%E3%83%9C%E3%82%B4%E3%83%A0%E9%AD%94%E6%B3%95%E3%81%AE%E7%90%86%E5%AE%B9%E5%AE%A42%20lang%3Aja&f=live",
-   "q": "ボゴム魔法の理容室2",
-   "video": "https://www.youtube.com/watch?v=-lP1b5_Gu74",
-   "text": "韓国でもすごく盛り上がってます！ゴ・ギョンピョの登場シーンが面白く、三兄弟の仲の良さが好評！",
-   "len": 92
-  },
-  {
-   "time": "16:00",
-   "topic": "MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』",
-   "search": "https://x.com/search?q=%23MEOVV%20lang%3Aja&f=live",
-   "q": "#MEOVV",
-   "video": "https://www.youtube.com/watch?v=Kf1Nu208m44",
-   "text": "メンバーの一人飯に注目する声が多く、シリーズの続きを楽しみにするコメントが目立つ！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 121
-  },
-  {
-   "time": "17:30",
-   "topic": "キム・ヒョンチョル、チョ・ウォン、ソン…",
-   "search": "https://x.com/search?q=%E3%82%AD%E3%83%A0%20lang%3Aja&f=live",
-   "q": "キム",
-   "video": "https://www.youtube.com/watch?v=BSMKkArz65c",
-   "text": "韓国のファンの反応も最高でした😂 キム・ヒョンチョルのユーモアが好きな人には本当に面白いという反応が多い！",
+   "topic": "무쇠소녀단3 氷上の挑戦シーン",
+   "search": "https://x.com/search?q=%EB%AC%B4%EC%87%A0%EC%86%8C%EB%85%80%EB%8B%A83%20lang%3Aja&f=live",
+   "q": "무쇠소녀단3",
+   "video": "https://www.youtube.com/watch?v=3_tipjD3pMA",
+   "text": "韓国のコメント欄を見たら、斜面を平然と歩く出演者の様子に驚き、体力や身体能力を称える声が多い！ わかる…！",
    "len": 105
   },
   {
-   "time": "19:00",
-   "topic": "ジス、ドバイワッフルの食べ方に現実的な…",
-   "search": "https://x.com/search?q=%E3%82%B8%E3%82%B9%E3%80%81%E3%83%89%E3%83%90%E3%82%A4%E3%83%AF%E3%83%83%E3%83%95%E3%83%AB%E3%81%AE%E9%A3%9F%E3%81%B9%E6%96%B9%E3%81%AB%E7%8F%BE%20lang%3Aja&f=live",
-   "q": "ジス、ドバイワッフルの食べ方に現",
-   "video": "https://www.youtube.com/watch?v=saqEhd4Qez4",
-   "text": "韓国でも話題になってます👀 ジスのリアルな反応や、庶民的な感覚に共感する声が多い！",
-   "len": 81
-  },
-  {
-   "time": "20:30",
-   "topic": "『大脱出：都市怪談』事前集会の特別編",
+   "time": "13:00",
+   "topic": "『大脱出：都市怪談』0話 フル版",
    "search": "https://x.com/search?q=%E5%A4%A7%E8%84%B1%E5%87%BA%EF%BC%9A%E9%83%BD%E5%B8%82%E6%80%AA%E8%AB%87%20lang%3Aja&f=live",
    "q": "大脱出：都市怪談",
    "video": "https://www.youtube.com/watch?v=X6ALmrfHiq0",
-   "text": "韓国のコメント欄を見たら、キム・ジョンミンとシン・ドンの復帰を喜ぶ声が多く、カン・ホドンの不在を惜しむ声もある！ わかる…！",
-   "len": 123
+   "text": "韓国でもすごく盛り上がってます！キム・ジョンミンやシン・ドンの復帰を喜ぶ声が多く、一方で강호동の不在を惜しむ意見も見られる！",
+   "len": 124
+  },
+  {
+   "time": "14:30",
+   "topic": "『ボゴム・マジカル2』営業開始式",
+   "search": "https://x.com/search?q=%E3%83%9C%E3%82%B4%E3%83%A0%E3%83%BB%E3%83%9E%E3%82%B8%E3%82%AB%E3%83%AB2%20lang%3Aja&f=live",
+   "q": "ボゴム・マジカル2",
+   "video": "https://www.youtube.com/watch?v=-lP1b5_Gu74",
+   "text": "ゴ・ギョンピョの登場に笑いが起き、三兄弟の仲の良さが癒やしだという声が多い！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 115
+  },
+  {
+   "time": "16:00",
+   "topic": "MEOVV「一人飯、なんでするか(少し)わか…",
+   "search": "https://x.com/search?q=%23MEOVV%20lang%3Aja&f=live",
+   "q": "#MEOVV",
+   "video": "https://www.youtube.com/watch?v=Kf1Nu208m44",
+   "text": "韓国のファンの反応も最高でした😂 シリーズの続きを待っていた声や、メンバーの成長を喜ぶ反応が多い！",
+   "len": 97
+  },
+  {
+   "time": "17:30",
+   "topic": "映画『最終面接』犯人予想映像",
+   "search": "https://x.com/search?q=%E6%9C%80%E7%B5%82%E9%9D%A2%E6%8E%A5%20lang%3Aja&f=live",
+   "q": "最終面接",
+   "video": "https://www.youtube.com/watch?v=Nfvmwr5l40o",
+   "text": "韓国でも話題になってます👀 面白かったという感想や、受験生で観られないことを惜しむ声が見られる！",
+   "len": 95
+  },
+  {
+   "time": "19:00",
+   "topic": "ILLIT「体포하겠어」챌린지",
+   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
+   "q": "#アイリット",
+   "video": "https://www.youtube.com/watch?v=U65PzQFi5MI",
+   "text": "韓国のコメント欄を見たら、RUIの振付が力強くてキレが良いと褒める声が多く、表情やスタイルも好評です！ わかる…！",
+   "len": 110
+  },
+  {
+   "time": "20:30",
+   "topic": "LE SSERAFIM「ah chin jaw?」",
+   "search": "https://x.com/search?q=%23%E3%83%AB%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%A0%20lang%3Aja&f=live",
+   "q": "#ルセラフィム",
+   "video": "https://www.youtube.com/watch?v=xvak8xk7N2M",
+   "text": "韓国でもすごく盛り上がってます！CHAEWON、KAZUHAなどメンバーの可愛らしさや、Summer'sのかわいさを褒める声が目立ちます！",
+   "len": 117
   },
   {
    "time": "22:00",
-   "topic": "ジス『ADDICTED』SBS人気歌謡の舞台",
-   "search": "https://x.com/search?q=ADDICTED%20lang%3Aja&f=live",
-   "q": "ADDICTED",
-   "video": "https://www.youtube.com/watch?v=CEeI4XUeUFo",
-   "text": "韓国でもすごく盛り上がってます！ステージの美しさや、ジスの努力を称える声が多い！",
-   "len": 80
+   "topic": "ATEEZ ユミン＆ミンギ Shorts",
+   "search": "https://x.com/search?q=%23ATEEZ%20lang%3Aja&f=live",
+   "q": "#ATEEZ",
+   "video": "https://www.youtube.com/watch?v=MdI4oeU4Wvo",
+   "text": "ソン・ミンギの見つめる視線が話題で、ユンミンが避ける様子に笑う声が多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 115
   }
  ]
 }

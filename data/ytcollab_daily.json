@@ -1,33 +1,33 @@
 {
- "date": "2026-11-11",
+ "date": "2026-11-12",
  "updated": "2026-11-09T18:43:54.340Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCveg2OqejYV-Y_UsMOTNLqA",
-    "UCnRQgLid_0ePEXlrSQPNHrg",
-    "UCsnDrary1zSkV9RFyZ11K7w"
+    "UCtWAofIVAuETCyvncLcl4_w",
+    "UCtkdAwKUAEjCjJq3u94d3TA",
+    "UCi8WDd6UlZLAaQzdyqD6B-w"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-11）",
+    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-12）",
     "rows": [
-     "1. NCT DREAM『Boogie Woogie』MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲のMV。爽やかな青春感が魅力の一曲です。",
-     "2. 『무쇠소녀단3』ショートトラック挑戦編\n   ショートトラック金メダルを目指すメンバーの挑戦を追う番組『무쇠소녀단3』の一場面。険しい坂を降りるシーンが話題です。",
-     "3. ILLIT『You're Under Arrest』チャレンジ\n   ILLITの『체포하겠어(You're Under Arrest)』に合わせたダンス映像。XLOVとのコラボで、キレのあるダンスが見どころです。",
-     "4. CHAERYEONG『Lovesick』MV\n   ITZYのチェリョン（CHAERYEONG）による『Lovesick』のミュージックビデオ。アルバム発売を記念して公開されました。",
-     "5. 『遮るのが好きな人』ジス×ナヨン先行映像\n   TWICEのナヨンとジスが、ソウル近郊の山本（サンボン）の街を散策しながら練習生時代を振り返る番組『틈만 나면,』の先行公開映像です。",
-     "6. 『ボゴム魔法の理容室2』営業開始式\n   tvNドラマ『ボゴム魔法の理容室2』の営業開始式映像。パク・ボゴム、イ・サンイ、コ・ギョンピョの三兄弟の掛け合いが見どころです。",
-     "7. MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』\n   MEOVVの『GO HARD MODE』シリーズの一編。メンバーが一人で食事をする様子を映したVlog風の映像です。",
-     "8. 『最終面接』真犯人探しの予告\n   映画『最終面接』の予告映像。真犯人探しをテーマにした、予測不能な展開が特徴の作品です。"
+     "1. NCT DREAM「Boogie Woogie」MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲「Boogie Woogie」のミュージックビデオ。デビュー10周年を迎えた彼らの新しい一面を楽しめる。",
+     "2. ILLIT×TXT「#체포하겠어」\n   ILLITとTXTのヨンジュン・ビームギュが共演したコンテンツ「#체포하겠어(逮捕する)」。ユーモラスな雰囲気を楽しめる作品。",
+     "3. TUIDE「not the vibe」\n   TUIDEの楽曲「not the vibe」のMV。ELENAも参加している。",
+     "4. 무쇠소녀단3 氷上の挑戦シーン\n   tvN『무쇠소녀단3』で、出演者たちがショートトラックの金メダルを目指す挑戦を描いた場面。急斜面を降りるシーンが印象的。",
+     "5. 『大脱出：都市怪談』0話 フル版\n   TVINGオリジナル『大脱出：都市怪談』の0話フル版。キム・ジョンミンやシン・ドンらが出演する脱出バラエティ。",
+     "6. 『ボゴム・マジカル2』営業開始式\n   tvN『ボゴム・マジカル2』の出演者による場面。パク・ボゴムとコ・ギョンピョが兄弟のように絡む姿が見どころ。",
+     "7. MEOVV「一人飯、なんでするか(少し)わかった」\n   MEOVVのGO HARDシリーズの一編で、メンバーのリンが焼肉店で一人ご飯を食べる様子。",
+     "8. 映画『最終面接』犯人予想映像\n   映画『最終面接』の面接官たちが犯人を予想する映像。関係者の推理と鑑賞後の反応が紹介される。"
     ],
     "n": 8,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-11）\n\n1. NCT DREAM『Boogie Woogie』MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲のMV。爽やかな青春感が魅力の一曲です。\n2. 『무쇠소녀단3』ショートトラック挑戦編\n   ショートトラック金メダルを目指すメンバーの挑戦を追う番組『무쇠소녀단3』の一場面。険しい坂を降りるシーンが話題です。\n3. ILLIT『You're Under Arrest』チャレンジ\n   ILLITの『체포하겠어(You're Under Arrest)』に合わせたダンス映像。XLOVとのコラボで、キレのあるダンスが見どころです。\n4. CHAERYEONG『Lovesick』MV\n   ITZYのチェリョン（CHAERYEONG）による『Lovesick』のミュージックビデオ。アルバム発売を記念して公開されました。\n5. 『遮るのが好きな人』ジス×ナヨン先行映像\n   TWICEのナヨンとジスが、ソウル近郊の山本（サンボン）の街を散策しながら練習生時代を振り返る番組『틈만 나면,』の先行公開映像です。\n6. 『ボゴム魔法の理容室2』営業開始式\n   tvNドラマ『ボゴム魔法の理容室2』の営業開始式映像。パク・ボゴム、イ・サンイ、コ・ギョンピョの三兄弟の掛け合いが見どころです。\n7. MEOVV『혼밥 왜 하는지(좀) 알겠다.MOV』\n   MEOVVの『GO HARD MODE』シリーズの一編。メンバーが一人で食事をする様子を映したVlog風の映像です。\n8. 『最終面接』真犯人探しの予告\n   映画『最終面接』の予告映像。真犯人探しをテーマにした、予測不能な展開が特徴の作品です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-12）\n\n1. NCT DREAM「Boogie Woogie」MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲「Boogie Woogie」のミュージックビデオ。デビュー10周年を迎えた彼らの新しい一面を楽しめる。\n2. ILLIT×TXT「#체포하겠어」\n   ILLITとTXTのヨンジュン・ビームギュが共演したコンテンツ「#체포하겠어(逮捕する)」。ユーモラスな雰囲気を楽しめる作品。\n3. TUIDE「not the vibe」\n   TUIDEの楽曲「not the vibe」のMV。ELENAも参加している。\n4. 무쇠소녀단3 氷上の挑戦シーン\n   tvN『무쇠소녀단3』で、出演者たちがショートトラックの金メダルを目指す挑戦を描いた場面。急斜面を降りるシーンが印象的。\n5. 『大脱出：都市怪談』0話 フル版\n   TVINGオリジナル『大脱出：都市怪談』の0話フル版。キム・ジョンミンやシン・ドンらが出演する脱出バラエティ。\n6. 『ボゴム・マジカル2』営業開始式\n   tvN『ボゴム・マジカル2』の出演者による場面。パク・ボゴムとコ・ギョンピョが兄弟のように絡む姿が見どころ。\n7. MEOVV「一人飯、なんでするか(少し)わかった」\n   MEOVVのGO HARDシリーズの一編で、メンバーのリンが焼肉店で一人ご飯を食べる様子。\n8. 映画『最終面接』犯人予想映像\n   映画『最終面接』の面接官たちが犯人を予想する映像。関係者の推理と鑑賞後の反応が紹介される。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -37,22 +37,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-11)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-12)",
     "rows": [
-     "1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM\". Fans can enjoy its fresh, youthful sound.",
-     "2. Iron Girls 3: Short Track Challenge Clip\n   A scene from \"Iron Girls 3\", following members aiming for a short track gold medal. It shows them descending a steep slope.",
-     "3. ILLIT 'You're Under Arrest' Challenge\n   A dance video set to ILLIT's \"You're Under Arrest\", made with XLOV. Fans can enjoy the sharp, powerful moves.",
-     "4. CHAERYEONG 'Lovesick' M/V\n   The music video for CHAERYEONG's \"Lovesick\" from ITZY, released ahead of her album launch. Fans can check out her solo sound.",
-     "5. Doctor X: The White Mafia Era, Key Scene\n   A scene from the SBS Friday-Saturday drama \"Doctor X: The White Mafia Era\", where Kim Ji-won and Lee Jung-eun stand up to powerful figures.",
-     "6. Jisoo x Nayeon Preview on Neighborhood Walk\n   An early preview of the variety show \"Time Is Ours\" episode 65, where Jisoo and Nayeon stroll around Sanbon and reflect on their trainee days.",
-     "7. Doctor X: The White Mafia Era, Character Highlights\n   A highlight clip from SBS's \"Doctor X: The White Mafia Era\" focusing on Kim Ji-won's scenes and character relationships.",
-     "8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n   An opening ceremony clip for tvN's \"Bo-gum's Magical Barbershop 2\", featuring the three brothers' playful interactions.",
-     "9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n   A vlog-style episode from MEOVV's \"GO HARD MODE\" series, showing a member having a meal alone.",
-     "10. Final Interview: Who's the Real Culprit Clip\n   A promotional clip for the film \"Final Interview\", a mystery built around the hunt for the real culprit with unpredictable twists."
+     "1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM.\" Fans can enjoy the group's latest sound.",
+     "2. ILLIT x TXT '#Arrest' with Beomgyu\n   A collaboration with TXT's Beomgyu titled \"#You're Under Arrest\" featuring ILLIT. It offers a playful, lighthearted vibe.",
+     "3. TUIDE 'not the vibe' ft. ELENA\n   The music video for TUIDE's song \"not the vibe,\" featuring ELENA.",
+     "4. Iron Girls 3: steep slope challenge clip\n   A clip from tvN's \"Iron Girls 3\" showing the cast's short track gold-medal training, including a steep descent.",
+     "5. '100 Days of Deception' Ep. 11 preview\n   The preview for Episode 11 of tvN's 20th anniversary special drama \"100 Days of Deception,\" where there is no more room to retreat.",
+     "6. 'The Great Escape: Urban Legends' Ep. 0 full\n   The full version of Episode 0 of the TVING original \"The Great Escape: Urban Legends,\" a extreme escape adventure show.",
+     "7. 'DOCTOR X' Team Gye-su-jung highlights\n   A compilation of scenes from SBS's Friday-Saturday drama \"DOCTOR X: The Era of the White Mafia,\" highlighting key character dynamics.",
+     "8. 'Magical Barbershop 2' opening ceremony clip\n   A behind-the-scenes-style clip from tvN's \"Magical Barbershop 2,\" showing the cast's brotherly chemistry.",
+     "9. MEOVV 'I kinda get why people eat alone'\n   An episode of MEOVV's GO HARD series in which member Rin eats alone at a Korean barbecue restaurant.",
+     "10. 'Final Interview' culprit prediction video\n   A video of interviewers predicting the culprit in the film \"Final Interview,\" including their reactions after watching."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-11)\n\n1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM\". Fans can enjoy its fresh, youthful sound.\n2. Iron Girls 3: Short Track Challenge Clip\n   A scene from \"Iron Girls 3\", following members aiming for a short track gold medal. It shows them descending a steep slope.\n3. ILLIT 'You're Under Arrest' Challenge\n   A dance video set to ILLIT's \"You're Under Arrest\", made with XLOV. Fans can enjoy the sharp, powerful moves.\n4. CHAERYEONG 'Lovesick' M/V\n   The music video for CHAERYEONG's \"Lovesick\" from ITZY, released ahead of her album launch. Fans can check out her solo sound.\n5. Doctor X: The White Mafia Era, Key Scene\n   A scene from the SBS Friday-Saturday drama \"Doctor X: The White Mafia Era\", where Kim Ji-won and Lee Jung-eun stand up to powerful figures.\n6. Jisoo x Nayeon Preview on Neighborhood Walk\n   An early preview of the variety show \"Time Is Ours\" episode 65, where Jisoo and Nayeon stroll around Sanbon and reflect on their trainee days.\n7. Doctor X: The White Mafia Era, Character Highlights\n   A highlight clip from SBS's \"Doctor X: The White Mafia Era\" focusing on Kim Ji-won's scenes and character relationships.\n8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n   An opening ceremony clip for tvN's \"Bo-gum's Magical Barbershop 2\", featuring the three brothers' playful interactions.\n9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n   A vlog-style episode from MEOVV's \"GO HARD MODE\" series, showing a member having a meal alone.\n10. Final Interview: Who's the Real Culprit Clip\n   A promotional clip for the film \"Final Interview\", a mystery built around the hunt for the real culprit with unpredictable twists.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-12)\n\n1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM.\" Fans can enjoy the group's latest sound.\n2. ILLIT x TXT '#Arrest' with Beomgyu\n   A collaboration with TXT's Beomgyu titled \"#You're Under Arrest\" featuring ILLIT. It offers a playful, lighthearted vibe.\n3. TUIDE 'not the vibe' ft. ELENA\n   The music video for TUIDE's song \"not the vibe,\" featuring ELENA.\n4. Iron Girls 3: steep slope challenge clip\n   A clip from tvN's \"Iron Girls 3\" showing the cast's short track gold-medal training, including a steep descent.\n5. '100 Days of Deception' Ep. 11 preview\n   The preview for Episode 11 of tvN's 20th anniversary special drama \"100 Days of Deception,\" where there is no more room to retreat.\n6. 'The Great Escape: Urban Legends' Ep. 0 full\n   The full version of Episode 0 of the TVING original \"The Great Escape: Urban Legends,\" a extreme escape adventure show.\n7. 'DOCTOR X' Team Gye-su-jung highlights\n   A compilation of scenes from SBS's Friday-Saturday drama \"DOCTOR X: The Era of the White Mafia,\" highlighting key character dynamics.\n8. 'Magical Barbershop 2' opening ceremony clip\n   A behind-the-scenes-style clip from tvN's \"Magical Barbershop 2,\" showing the cast's brotherly chemistry.\n9. MEOVV 'I kinda get why people eat alone'\n   An episode of MEOVV's GO HARD series in which member Rin eats alone at a Korean barbecue restaurant.\n10. 'Final Interview' culprit prediction video\n   A video of interviewers predicting the culprit in the film \"Final Interview,\" including their reactions after watching.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -62,22 +62,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-11)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-12)",
     "rows": [
      "1. NCT DREAM 'Boogie Woogie' MV",
-     "2. Iron Girls 3: Short Track Challenge Clip",
-     "3. ILLIT 'You're Under Arrest' Challenge",
-     "4. CHAERYEONG 'Lovesick' M/V",
-     "5. Doctor X: The White Mafia Era, Key Scene",
-     "6. Jisoo x Nayeon Preview on Neighborhood Walk",
-     "7. Doctor X: The White Mafia Era, Character Highlights",
-     "8. Bo-gum's Magical Barbershop 2: Opening Ceremony",
-     "9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'",
-     "10. Final Interview: Who's the Real Culprit Clip"
+     "2. ILLIT x TXT '#Arrest' with Beomgyu",
+     "3. TUIDE 'not the vibe' ft. ELENA",
+     "4. Iron Girls 3: steep slope challenge clip",
+     "5. '100 Days of Deception' Ep. 11 preview",
+     "6. 'The Great Escape: Urban Legends' Ep. 0 full",
+     "7. 'DOCTOR X' Team Gye-su-jung highlights",
+     "8. 'Magical Barbershop 2' opening ceremony clip",
+     "9. MEOVV 'I kinda get why people eat alone'",
+     "10. 'Final Interview' culprit prediction video"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-11)\n\n1. NCT DREAM 'Boogie Woogie' MV\n2. Iron Girls 3: Short Track Challenge Clip\n3. ILLIT 'You're Under Arrest' Challenge\n4. CHAERYEONG 'Lovesick' M/V\n5. Doctor X: The White Mafia Era, Key Scene\n6. Jisoo x Nayeon Preview on Neighborhood Walk\n7. Doctor X: The White Mafia Era, Character Highlights\n8. Bo-gum's Magical Barbershop 2: Opening Ceremony\n9. MEOVV 'I Kind of Get Why People Eat Alone.MOV'\n10. Final Interview: Who's the Real Culprit Clip\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-12)\n\n1. NCT DREAM 'Boogie Woogie' MV\n2. ILLIT x TXT '#Arrest' with Beomgyu\n3. TUIDE 'not the vibe' ft. ELENA\n4. Iron Girls 3: steep slope challenge clip\n5. '100 Days of Deception' Ep. 11 preview\n6. 'The Great Escape: Urban Legends' Ep. 0 full\n7. 'DOCTOR X' Team Gye-su-jung highlights\n8. 'Magical Barbershop 2' opening ceremony clip\n9. MEOVV 'I kinda get why people eat alone'\n10. 'Final Interview' culprit prediction video\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
