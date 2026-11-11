@@ -1,0 +1,22 @@
+name: YouTube lookup (one-off)
+# details of clips David asks for (a few API units); results are in the run log only
+on:
+  workflow_dispatch:
+    inputs:
+      ids: { description: "video ids, comma separated", required: true }
+      ch_of: { description: "list the latest uploads of this video's channel", required: false, default: "" }
+permissions:
+  contents: read
+jobs:
+  look:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: node scripts/yt_lookup.mjs
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          IDS: ${{ inputs.ids }}
+          CH_OF: ${{ inputs.ch_of }}
