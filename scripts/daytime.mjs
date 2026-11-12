@@ -14,6 +14,7 @@ import fs from "node:fs";
 import zlib from "node:zlib";
 import { ARTISTS, JP_ARTISTS, rank, rankIn } from "./hybe.mjs";
 import { eatBlocked } from "./noeat.mjs";
+import { gate } from "./catgate.mjs";   // each clip in the tab it belongs to (per David 2026-11-12)
 
 const NEWSY = /폭행|사망|살인|사건|사고|블랙박스|범죄|경찰|숨진|참사|흉기|구속|재판|빚투|마약|음주운전/;
 const OUT = process.argv.slice(2).find(a => !a.startsWith("--")) || "live.js", DRY = process.argv.includes("--dry");
@@ -75,7 +76,8 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         if (NEWSY.test(t)) continue;   // accident / crime / court-case clips are not what fans come for
         // from the busiest channels (not the stage / artist ones): Korean content only — a Korean title or a priority artist
         if (!stage && !/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
-        cand.push({ id, ch, chName, cat, t, pub, views, rate: views / hrs, stage });
+        const cat2 = gate(cat, t, chName, ""); if (!cat2) continue;
+        cand.push({ id, ch, chName, cat: cat2, t, pub, views, rate: views / hrs, stage });
       }
     } catch (e) { feedFail++; }
   }

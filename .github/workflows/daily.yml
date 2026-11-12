@@ -233,6 +233,7 @@ jobs:
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           node scripts/noeat.mjs index.html || echo "eating-show filter skipped"   # no big-eating mukbang on either edition (per David 2026-10-29)
+          node scripts/catgate.mjs index.html || echo "category gate skipped"   # every clip in the tab it belongs to: Beauty, K-Travel & Food (Korean food and trips only), Shows / Screen (per David 2026-11-12)
           node scripts/jpvariety.mjs index.html || echo "jp variety list skipped"   # kreelz.com/jp Shows tab = Korean variety shows only (per David 2026-10-30)
           node scripts/korfilm.mjs index.html || true   # Film tab: Korean films only (per David 2026-10-30)
           node scripts/overseas.mjs index.html || echo "overseas check skipped"   # Screen/Film: only clips fans abroad respond to (per David 2026-11-02)
