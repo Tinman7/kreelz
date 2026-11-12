@@ -238,6 +238,7 @@ jobs:
           node scripts/korfilm.mjs index.html || true   # Film tab: Korean films only (per David 2026-10-30)
           node scripts/overseas.mjs index.html || echo "overseas check skipped"   # Screen/Film: only clips fans abroad respond to (per David 2026-11-02)
           node scripts/nowdrama.mjs index.html || echo "airing dramas skipped"   # Screen tab: dramas airing now first (per David 2026-10-30)
+          node scripts/focus.mjs index.html || echo "focus skipped"   # the focus artist leads All / Music / Shows (scripts/focus.json, per David 2026-11-12)
           node scripts/tving.mjs apply index.html || echo "TVING originals skipped"   # badge + 2 of the first 12 in Screen/Shows (per David 2026-11-03)
           node scripts/viral.mjs index.html || echo "viral ranking skipped"   # first screen = what gained the most views in a day (per David 2026-11-02)
           node scripts/captions.mjs index.html || echo "subtitles check skipped"   # 字幕/CC badge + "with subtitles" filter (per David 2026-10-30)

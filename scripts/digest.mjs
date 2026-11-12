@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import zlib from "node:zlib";
 import { unpackList } from "./packlists.mjs";
+import { FOCUS, focusOf } from "./focus.mjs";
 
 const YT = process.env.YT_API_KEY, AK = process.env.ANTHROPIC_API_KEY, MODEL = process.env.DIGEST_MODEL || "claude-haiku-5-5";
 const site = process.argv[2] || "index.html";
@@ -42,6 +43,21 @@ for (const x of cand) {
 }
 for (const x of cand) { if (pick.length >= 10) break; if (!pick.includes(x) && (perCh[x.ch] || 0) < 2) { perCh[x.ch] = (perCh[x.ch] || 0) + 1; pick.push(x) } }
 if (pick.length < 5) { console.log("digest: too few clips", pick.length); process.exit(0); }
+// Focus artist (per David 2026-11-12: "3분 그거도 항상 1등을 원희로"): one clip of hers is the day's no.1 — on the edition
+// scripts/focus.json names only (only: "ja"). The "first" ids, then her most-watched clip of the last 2 weeks, never the
+// clip that led in the last 6 days; any clip on the site counts (not only official channels of the last 2 days).
+if (FOCUS) {
+  const ONLY = { jp: "ja", en: "en" }[FOCUS.region] || "", used = new Set();
+  try { for (const f of fs.readdirSync("data/digest").sort().slice(-6)) { const d = JSON.parse(fs.readFileSync(`data/digest/${f}`, "utf8")); if (d.date !== BUILT) for (const x of d.items || []) if (x.lead) used.add(x.id); } } catch {}
+  const fc = [];
+  for (const [name, short] of [["FEED", false], ["SHORTS", true]]) { const s = str(name);
+    for (let i = 0; i + 16 <= s.length; i += 16) { const id = s.slice(i, i + 11), c = s[i + 11].toLowerCase(), vc = dec2(s.slice(i + 12, i + 14)), days = dec2(s.slice(i + 14, i + 16));
+      if (!"me".includes(c) || used.has(id)) continue; const o = tf("o", id) || [], v = vm[id] || [], t = o[0] || v[0];
+      if (!t || !focusOf(t, o[1] || v[2], v[5])) continue; const views = vc === 4095 ? 0 : Math.round(Math.pow(1.006, vc) - 1), fi = (FOCUS.first || []).indexOf(id);
+      fc.push({ id, short, cat: c === "m" ? "music" : "variety", t, ch: o[1] || v[2] || "", views, lead: true, ...(ONLY ? { only: ONLY } : {}), sc: (fi >= 0 ? 1e12 - fi : 0) + (days <= 14 ? 1e9 : 0) + views }); } }
+  fc.sort((a, b) => b.sc - a.sc);
+  if (fc[0]) { const k = pick.findIndex(x => x.id === fc[0].id); if (k >= 0) pick.splice(k, 1); pick.unshift(fc[0]); console.log("digest lead:", fc[0].id, fc[0].t.slice(0, 50)); }
+}
 // 40 more (per David 2026-11-03: Korean context is what fans abroad can't get elsewhere): the next most-watched clips,
 // still mixed (no more than 3 a channel), each explained in a line too, with what Korean viewers say in the comments
 const TOP = pick.length, MORE = +(process.env.DIGEST_MORE || 40), Q2 = { music: 14, drama: 9, variety: 9, film: 3, food: 3, beauty: 2 };
@@ -100,7 +116,7 @@ if (out) { let k = 0; parts.forEach((p, j) => p.forEach((_, i) => { if (answers[
 if (!out) { console.log("digest: no answer, yesterday's stays"); process.exit(0); }
 const clip = s => String(s || "").replace(/\s+/g, " ").trim();
 const all = pick.map((x, k) => { const o = out[String(k)] || {};
-  return { id: x.id, short: x.short, cat: x.cat, ch: x.ch, views: x.views, t: x.t,
+  return { id: x.id, short: x.short, cat: x.cat, ch: x.ch, views: x.views, t: x.t, ...(x.lead ? { lead: true } : {}), ...(x.only ? { only: x.only } : {}),
     ja_title: clip(o.ja_title).slice(0, 60), ja: clip(o.ja).slice(0, 140), en_title: clip(o.en_title).slice(0, 90), en: clip(o.en).slice(0, 220),
     es_title: clip(o.es_title).slice(0, 90), es: clip(o.es).slice(0, 220),
     ...(x.comments && o.kr_ja && (String(o.kr_ja).match(/[가-힣]/g) || []).length <= 6 ? { kr_ja: clip(o.kr_ja).slice(0, 120), kr_en: clip(o.kr_en).slice(0, 200), kr_es: clip(o.kr_es).slice(0, 200) } : {}) } });

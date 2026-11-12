@@ -16,7 +16,7 @@ import fs from "node:fs";
 import zlib from "node:zlib";
 
 export const PACKED = { PRIO_LIST: 1, PRIO_LIST_JP: 1, PRIO_ACT: 1, PRIO_ACTK_JP: 2, PRIO_CAP: 0, PRIO_JPVAR: 0, PRIO_OTT: 0,
-  PRIO_FAN: 0, PRIO_FAN_JP: 0, PRIO_JPO: 0, PRIO_LAST_JP: 0, PRIO_JPRECO: 0, PRIO_TVO: 0, PRIO_TRAVEL: 0 };
+  PRIO_FAN: 0, PRIO_FAN_JP: 0, PRIO_JPO: 0, PRIO_LAST_JP: 0, PRIO_JPRECO: 0, PRIO_TVO: 0, PRIO_TRAVEL: 0, PRIO_FOCUS: 0 };
 const SIDE = "data/lists.json.gz";
 const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const get = (h, n) => (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1];

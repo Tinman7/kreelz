@@ -148,7 +148,7 @@ const DIG = {}; try { for (const f of fs.readdirSync("data/digest")) { const d =
 const DAYS_ = Object.keys(DIG).sort().reverse().slice(0, 30);
 // the Japan edition keeps 100 Days of Deception and Doctor X out of its lists' first places (per David): not in its digest either
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;
-const dOK = ed => x => (ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) && (ed !== "es" || x.es);
+const dOK = ed => x => (!x.only || x.only === ed) && (ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)) && (ed !== "es" || x.es);
 const dItems = (ed, d) => d ? d.items.filter(dOK(ed)) : [];
 const dMore = (ed, d) => d && d.more ? d.more.filter(dOK(ed)) : [];
 // the digest's words for a clip, in the edition's language: [title, one line, what Korean viewers say]
@@ -607,7 +607,7 @@ console.log(`sitemap.xml: ${written.length + 2} urls`);
     for (let k = 0; k < Math.min(3, n); k++) picks.push(list[(dayN * 3 + k) % n].id);
     let kit = null;
     if (DG && DG.items && DG.items.length) {
-      const items = (cc === "JP" ? dItems("ja", DG) : DG.items).slice(0, 10);   // /jp rule: 100 Days of Deception and Doctor X left out
+      const items = (cc === "JP" ? dItems("ja", DG) : DG.items.filter(x => !x.only)).slice(0, 10);   // /jp rule: 100 Days of Deception and Doctor X left out
       if (cc === "JP") kit = { title: `📰韓国で今日いちばん見られているTOP${Math.min(10, dItems("ja", DG).length)}（${DG.date}）`, rows: items.map((x, i) => `${i + 1}. ${x.ja_title}\n   ${x.ja}`), n: items.length, link: "https://kreelz.com/jp/k/today/", credit: "出典：KREELZ JAPAN（https://kreelz.com/jp/）" };
       if (cc === "PH") kit = { title: `🔥 Top 10 clips Korea is watching today (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${x.en_title}\n   ${x.en}`), link: "https://kreelz.com/k/today/", credit: "Source: KREELZ (https://kreelz.com)" };
       if (cc === "ID") kit = { title: `🔥 Top 10 klip yang paling ditonton di Korea hari ini (${DG.date})`, rows: items.map((x, i) => `${i + 1}. ${tr("id", x.id) || x.en_title}`), link: "https://kreelz.com/k/today/", credit: "Sumber: KREELZ (https://kreelz.com)" };

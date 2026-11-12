@@ -17,7 +17,7 @@ const rpc = async (fn, body) => { const r = await fetch(`${SB_URL}/rest/v1/rpc/$
 
 const D = JSON.parse(fs.readFileSync("data/digest.json", "utf8"));
 const LAST_JP = /백일의 ?거짓말|100일의 ?거짓말|100 ?Days of Deception|百日の嘘|100日の嘘|닥터 ?X|Doctor ?X|ドクター ?X/i;   // /jp rule
-const items = (D.items || []).filter(x => ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`));
+const items = (D.items || []).filter(x => (!x.only || x.only === ed) && (ed !== "ja" || !LAST_JP.test(`${x.t || ""} ${x.ja_title} ${x.en_title}`)));
 if (!items.length) { console.log("push: no digest today"); process.exit(0); }
 const top = items[0], n = items.length - 1;
 const msg = ed === "ja"
