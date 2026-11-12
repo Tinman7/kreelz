@@ -1,33 +1,34 @@
 {
- "date": "2026-11-12",
+ "date": "2026-11-13",
  "updated": "2026-11-09T18:43:54.340Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCtWAofIVAuETCyvncLcl4_w",
-    "UCtkdAwKUAEjCjJq3u94d3TA",
-    "UCi8WDd6UlZLAaQzdyqD6B-w"
+    "UCgl55m7e8ulMedEJGEWonMg",
+    "UCrqIbSx_E0BMHp9LxUhFS4w",
+    "UCXjXkwDc9jHBDbacLRxEnIw"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP8（2026-11-12）",
+    "title": "📰韓国で今日いちばん見られているTOP9（2026-11-13）",
     "rows": [
-     "1. NCT DREAM「Boogie Woogie」MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲「Boogie Woogie」のミュージックビデオ。デビュー10周年を迎えた彼らの新しい一面を楽しめる。",
-     "2. ILLIT×TXT「#체포하겠어」\n   ILLITとTXTのヨンジュン・ビームギュが共演したコンテンツ「#체포하겠어(逮捕する)」。ユーモラスな雰囲気を楽しめる作品。",
-     "3. TUIDE「not the vibe」\n   TUIDEの楽曲「not the vibe」のMV。ELENAも参加している。",
-     "4. 무쇠소녀단3 氷上の挑戦シーン\n   tvN『무쇠소녀단3』で、出演者たちがショートトラックの金メダルを目指す挑戦を描いた場面。急斜面を降りるシーンが印象的。",
-     "5. 『大脱出：都市怪談』0話 フル版\n   TVINGオリジナル『大脱出：都市怪談』の0話フル版。キム・ジョンミンやシン・ドンらが出演する脱出バラエティ。",
-     "6. 『ボゴム・マジカル2』営業開始式\n   tvN『ボゴム・マジカル2』の出演者による場面。パク・ボゴムとコ・ギョンピョが兄弟のように絡む姿が見どころ。",
-     "7. MEOVV「一人飯、なんでするか(少し)わかった」\n   MEOVVのGO HARDシリーズの一編で、メンバーのリンが焼肉店で一人ご飯を食べる様子。",
-     "8. 映画『最終面接』犯人予想映像\n   映画『最終面接』の面接官たちが犯人を予想する映像。関係者の推理と鑑賞後の反応が紹介される。"
+     "1. TUIDE「not the vibe」ELENA\n   TUIDEのELENAが出演する楽曲ビデオ。ファンが注目する新しいパフォーマンス映像です。",
+     "2. ILLIT×TXT ヒョンジュ「逮捕します」\n   ILLITがTXTのBEOMGYUと共演した「You're Under Arrest」のパフォーマンス映像。ファンの注目ポイントです。",
+     "3. SEVENTEEN「GOING SEVENTEEN」EP.166 泥棒 #1\n   SEVENTEENのバラエティ番組『GOING SEVENTEEN』第166話。泥棒をテーマにした前編です。",
+     "4. ディズニープラス『再婚皇后』5-6話ハイライト\n   ディズニープラスのドラマ『再婚皇后』5～6話の見どころ映像です。皇帝の印象的な発言が中心です。",
+     "5. tvN『ただの人の友達』ハイライト：昼は別行動、夜は一緒に\n   日中は別々に旅をして夜は皆で食事をする、友人たちの旅番組のハイライトです。",
+     "6. SBS『隙あらば』65回先行公開 ジス×ナヨン\n   SBSのバラエティ『隙あらば』65回の先行映像。ジスとナヨンが散策しながら練習生時代を振り返ります。",
+     "7. MEOVV「ミシュラン三つ星シェフを夢見て」\n   MEOVVのメンバーが料理に挑戦する企画映像『GO HARD MODE』です。ANNAの料理シーンが話題になっています。",
+     "8. tvN『鉄の少女団3』第2弾ティーザー\n   tvN『鉄の少女団3』の第2弾ティーザーです。ショートトラックの金メダルに挑むメンバーの姿を描きます。",
+     "9. ILLIT×ZHANG HAO「逮捕します」\n   ILLITがZHANG HAOと共演した「You're Under Arrest」のパフォーマンス映像です。ファンが二人の相性を楽しむ内容です。"
     ],
-    "n": 8,
+    "n": 9,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP8（2026-11-12）\n\n1. NCT DREAM「Boogie Woogie」MV\n   NCT DREAMの6thアルバム『DREAM AFTER DREAM』収録曲「Boogie Woogie」のミュージックビデオ。デビュー10周年を迎えた彼らの新しい一面を楽しめる。\n2. ILLIT×TXT「#체포하겠어」\n   ILLITとTXTのヨンジュン・ビームギュが共演したコンテンツ「#체포하겠어(逮捕する)」。ユーモラスな雰囲気を楽しめる作品。\n3. TUIDE「not the vibe」\n   TUIDEの楽曲「not the vibe」のMV。ELENAも参加している。\n4. 무쇠소녀단3 氷上の挑戦シーン\n   tvN『무쇠소녀단3』で、出演者たちがショートトラックの金メダルを目指す挑戦を描いた場面。急斜面を降りるシーンが印象的。\n5. 『大脱出：都市怪談』0話 フル版\n   TVINGオリジナル『大脱出：都市怪談』の0話フル版。キム・ジョンミンやシン・ドンらが出演する脱出バラエティ。\n6. 『ボゴム・マジカル2』営業開始式\n   tvN『ボゴム・マジカル2』の出演者による場面。パク・ボゴムとコ・ギョンピョが兄弟のように絡む姿が見どころ。\n7. MEOVV「一人飯、なんでするか(少し)わかった」\n   MEOVVのGO HARDシリーズの一編で、メンバーのリンが焼肉店で一人ご飯を食べる様子。\n8. 映画『最終面接』犯人予想映像\n   映画『最終面接』の面接官たちが犯人を予想する映像。関係者の推理と鑑賞後の反応が紹介される。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP9（2026-11-13）\n\n1. TUIDE「not the vibe」ELENA\n   TUIDEのELENAが出演する楽曲ビデオ。ファンが注目する新しいパフォーマンス映像です。\n2. ILLIT×TXT ヒョンジュ「逮捕します」\n   ILLITがTXTのBEOMGYUと共演した「You're Under Arrest」のパフォーマンス映像。ファンの注目ポイントです。\n3. SEVENTEEN「GOING SEVENTEEN」EP.166 泥棒 #1\n   SEVENTEENのバラエティ番組『GOING SEVENTEEN』第166話。泥棒をテーマにした前編です。\n4. ディズニープラス『再婚皇后』5-6話ハイライト\n   ディズニープラスのドラマ『再婚皇后』5～6話の見どころ映像です。皇帝の印象的な発言が中心です。\n5. tvN『ただの人の友達』ハイライト：昼は別行動、夜は一緒に\n   日中は別々に旅をして夜は皆で食事をする、友人たちの旅番組のハイライトです。\n6. SBS『隙あらば』65回先行公開 ジス×ナヨン\n   SBSのバラエティ『隙あらば』65回の先行映像。ジスとナヨンが散策しながら練習生時代を振り返ります。\n7. MEOVV「ミシュラン三つ星シェフを夢見て」\n   MEOVVのメンバーが料理に挑戦する企画映像『GO HARD MODE』です。ANNAの料理シーンが話題になっています。\n8. tvN『鉄の少女団3』第2弾ティーザー\n   tvN『鉄の少女団3』の第2弾ティーザーです。ショートトラックの金メダルに挑むメンバーの姿を描きます。\n9. ILLIT×ZHANG HAO「逮捕します」\n   ILLITがZHANG HAOと共演した「You're Under Arrest」のパフォーマンス映像です。ファンが二人の相性を楽しむ内容です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -37,22 +38,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-12)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-13)",
     "rows": [
-     "1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM.\" Fans can enjoy the group's latest sound.",
-     "2. ILLIT x TXT '#Arrest' with Beomgyu\n   A collaboration with TXT's Beomgyu titled \"#You're Under Arrest\" featuring ILLIT. It offers a playful, lighthearted vibe.",
-     "3. TUIDE 'not the vibe' ft. ELENA\n   The music video for TUIDE's song \"not the vibe,\" featuring ELENA.",
-     "4. Iron Girls 3: steep slope challenge clip\n   A clip from tvN's \"Iron Girls 3\" showing the cast's short track gold-medal training, including a steep descent.",
-     "5. '100 Days of Deception' Ep. 11 preview\n   The preview for Episode 11 of tvN's 20th anniversary special drama \"100 Days of Deception,\" where there is no more room to retreat.",
-     "6. 'The Great Escape: Urban Legends' Ep. 0 full\n   The full version of Episode 0 of the TVING original \"The Great Escape: Urban Legends,\" a extreme escape adventure show.",
-     "7. 'DOCTOR X' Team Gye-su-jung highlights\n   A compilation of scenes from SBS's Friday-Saturday drama \"DOCTOR X: The Era of the White Mafia,\" highlighting key character dynamics.",
-     "8. 'Magical Barbershop 2' opening ceremony clip\n   A behind-the-scenes-style clip from tvN's \"Magical Barbershop 2,\" showing the cast's brotherly chemistry.",
-     "9. MEOVV 'I kinda get why people eat alone'\n   An episode of MEOVV's GO HARD series in which member Rin eats alone at a Korean barbecue restaurant.",
-     "10. 'Final Interview' culprit prediction video\n   A video of interviewers predicting the culprit in the film \"Final Interview,\" including their reactions after watching."
+     "1. TUIDE – \"not the vibe\" feat. ELENA\n   A music clip from TUIDE featuring ELENA. Fans may watch it for its new performance visuals.",
+     "2. ILLIT with TXT's BEOMGYU – \"You're Under Arrest\"\n   An ILLIT performance video of \"You're Under Arrest\" with TXT's BEOMGYU. Fans are drawn to the collaboration.",
+     "3. SEVENTEEN GOING SEVENTEEN EP.166 THIEF #1\n   Episode 166 of SEVENTEEN's variety show GOING SEVENTEEN, the first part of the \"Thief\" episode.",
+     "4. The Remarried Empress Ep.5-6 Highlights | Disney+\n   Highlights of episodes 5 and 6 of the Disney+ drama The Remarried Empress, centered on a memorable line from the emperor.",
+     "5. Just Human Friends Highlight: Separate Days, Dinner Together\n   A highlight from the tvN show Just Human Friends, where friends travel separately by day and eat dinner together at night.",
+     "6. 100 Days of Deception Ep.11 Preview\n   A preview of episode 11 of the tvN 20th anniversary special drama 100 Days of Deception.",
+     "7. Teaser Ep.65: JISOO×NAYEON Tour the Neighborhood\n   A preview of episode 65 of the SBS show Teukman Naminyeon, with JISOO and NAYEON touring the neighborhood and recalling their trainee days.",
+     "8. MEOVV Dreaming of a Michelin Three-Star Chef | GO HARD MODE\n   A GO HARD MODE segment from MEOVV in which the members try cooking, with ANNA's cooking scenes drawing attention.",
+     "9. Iron Girls 3 Second Teaser\n   The second teaser for the tvN show Iron Girls 3, following the cast's challenge to win a short track gold medal.",
+     "10. ILLIT with ZHANG HAO – \"You're Under Arrest\"\n   An ILLIT performance video of \"You're Under Arrest\" with ZHANG HAO. Fans enjoy the pairing of the two."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-12)\n\n1. NCT DREAM 'Boogie Woogie' MV\n   The music video for \"Boogie Woogie\" from NCT DREAM's 6th album \"DREAM AFTER DREAM.\" Fans can enjoy the group's latest sound.\n2. ILLIT x TXT '#Arrest' with Beomgyu\n   A collaboration with TXT's Beomgyu titled \"#You're Under Arrest\" featuring ILLIT. It offers a playful, lighthearted vibe.\n3. TUIDE 'not the vibe' ft. ELENA\n   The music video for TUIDE's song \"not the vibe,\" featuring ELENA.\n4. Iron Girls 3: steep slope challenge clip\n   A clip from tvN's \"Iron Girls 3\" showing the cast's short track gold-medal training, including a steep descent.\n5. '100 Days of Deception' Ep. 11 preview\n   The preview for Episode 11 of tvN's 20th anniversary special drama \"100 Days of Deception,\" where there is no more room to retreat.\n6. 'The Great Escape: Urban Legends' Ep. 0 full\n   The full version of Episode 0 of the TVING original \"The Great Escape: Urban Legends,\" a extreme escape adventure show.\n7. 'DOCTOR X' Team Gye-su-jung highlights\n   A compilation of scenes from SBS's Friday-Saturday drama \"DOCTOR X: The Era of the White Mafia,\" highlighting key character dynamics.\n8. 'Magical Barbershop 2' opening ceremony clip\n   A behind-the-scenes-style clip from tvN's \"Magical Barbershop 2,\" showing the cast's brotherly chemistry.\n9. MEOVV 'I kinda get why people eat alone'\n   An episode of MEOVV's GO HARD series in which member Rin eats alone at a Korean barbecue restaurant.\n10. 'Final Interview' culprit prediction video\n   A video of interviewers predicting the culprit in the film \"Final Interview,\" including their reactions after watching.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-13)\n\n1. TUIDE – \"not the vibe\" feat. ELENA\n   A music clip from TUIDE featuring ELENA. Fans may watch it for its new performance visuals.\n2. ILLIT with TXT's BEOMGYU – \"You're Under Arrest\"\n   An ILLIT performance video of \"You're Under Arrest\" with TXT's BEOMGYU. Fans are drawn to the collaboration.\n3. SEVENTEEN GOING SEVENTEEN EP.166 THIEF #1\n   Episode 166 of SEVENTEEN's variety show GOING SEVENTEEN, the first part of the \"Thief\" episode.\n4. The Remarried Empress Ep.5-6 Highlights | Disney+\n   Highlights of episodes 5 and 6 of the Disney+ drama The Remarried Empress, centered on a memorable line from the emperor.\n5. Just Human Friends Highlight: Separate Days, Dinner Together\n   A highlight from the tvN show Just Human Friends, where friends travel separately by day and eat dinner together at night.\n6. 100 Days of Deception Ep.11 Preview\n   A preview of episode 11 of the tvN 20th anniversary special drama 100 Days of Deception.\n7. Teaser Ep.65: JISOO×NAYEON Tour the Neighborhood\n   A preview of episode 65 of the SBS show Teukman Naminyeon, with JISOO and NAYEON touring the neighborhood and recalling their trainee days.\n8. MEOVV Dreaming of a Michelin Three-Star Chef | GO HARD MODE\n   A GO HARD MODE segment from MEOVV in which the members try cooking, with ANNA's cooking scenes drawing attention.\n9. Iron Girls 3 Second Teaser\n   The second teaser for the tvN show Iron Girls 3, following the cast's challenge to win a short track gold medal.\n10. ILLIT with ZHANG HAO – \"You're Under Arrest\"\n   An ILLIT performance video of \"You're Under Arrest\" with ZHANG HAO. Fans enjoy the pairing of the two.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -62,22 +63,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-12)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-13)",
     "rows": [
-     "1. NCT DREAM 'Boogie Woogie' MV",
-     "2. ILLIT x TXT '#Arrest' with Beomgyu",
-     "3. TUIDE 'not the vibe' ft. ELENA",
-     "4. Iron Girls 3: steep slope challenge clip",
-     "5. '100 Days of Deception' Ep. 11 preview",
-     "6. 'The Great Escape: Urban Legends' Ep. 0 full",
-     "7. 'DOCTOR X' Team Gye-su-jung highlights",
-     "8. 'Magical Barbershop 2' opening ceremony clip",
-     "9. MEOVV 'I kinda get why people eat alone'",
-     "10. 'Final Interview' culprit prediction video"
+     "1. TUIDE – \"not the vibe\" feat. ELENA",
+     "2. ILLIT with TXT's BEOMGYU – \"You're Under Arrest\"",
+     "3. SEVENTEEN GOING SEVENTEEN EP.166 THIEF #1",
+     "4. The Remarried Empress Ep.5-6 Highlights | Disney+",
+     "5. Just Human Friends Highlight: Separate Days, Dinner Together",
+     "6. 100 Days of Deception Ep.11 Preview",
+     "7. Teaser Ep.65: JISOO×NAYEON Tour the Neighborhood",
+     "8. MEOVV Dreaming of a Michelin Three-Star Chef | GO HARD MODE",
+     "9. Iron Girls 3 Second Teaser",
+     "10. ILLIT with ZHANG HAO – \"You're Under Arrest\""
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-12)\n\n1. NCT DREAM 'Boogie Woogie' MV\n2. ILLIT x TXT '#Arrest' with Beomgyu\n3. TUIDE 'not the vibe' ft. ELENA\n4. Iron Girls 3: steep slope challenge clip\n5. '100 Days of Deception' Ep. 11 preview\n6. 'The Great Escape: Urban Legends' Ep. 0 full\n7. 'DOCTOR X' Team Gye-su-jung highlights\n8. 'Magical Barbershop 2' opening ceremony clip\n9. MEOVV 'I kinda get why people eat alone'\n10. 'Final Interview' culprit prediction video\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-13)\n\n1. TUIDE – \"not the vibe\" feat. ELENA\n2. ILLIT with TXT's BEOMGYU – \"You're Under Arrest\"\n3. SEVENTEEN GOING SEVENTEEN EP.166 THIEF #1\n4. The Remarried Empress Ep.5-6 Highlights | Disney+\n5. Just Human Friends Highlight: Separate Days, Dinner Together\n6. 100 Days of Deception Ep.11 Preview\n7. Teaser Ep.65: JISOO×NAYEON Tour the Neighborhood\n8. MEOVV Dreaming of a Michelin Three-Star Chef | GO HARD MODE\n9. Iron Girls 3 Second Teaser\n10. ILLIT with ZHANG HAO – \"You're Under Arrest\"\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
