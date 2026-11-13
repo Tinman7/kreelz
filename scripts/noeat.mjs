@@ -29,7 +29,7 @@ export const EAT_T = /먹방\s*asmr|asmr\s*먹방|mukbang|eating\s*(show|sounds?
 const BAKU = /爆食/, TRIP = /旅|旅行|vlog|ツアー|コース|食べ歩き|ソウル|釜山|明洞|市場/i;
 // food channels that use those words for travel or restaurant visits, not eating shows
 const KEEP_CH = new Set(["어서와 한국은 처음이지", "성시경 SUNG SI KYUNG", "CHOIZA ROAD - 최자로드", "FOXandBEAR 여우곰채널",
-  "韓国観光公社 日本公式チャンネル", "EBSDocumentary (EBS 다큐)", "살찐삼촌 이장우", "김숙티비kimsookTV", "더들리", "옥스푼"].map(norm));
+  "韓国観光公社 日本公式チャンネル", "EBSDocumentary (EBS 다큐)", "살찐삼촌 이장우", "김숙티비kimsookTV", "더들리", "옥스푼", "비밀이야 bimirya", "비밀이야"].map(norm));
 const EAT_CH_RE = /(mukbang|먹방|eating)\s*(asmr)?$|^(asmr|먹방)/i;   // channel names that are eating shows by name
 
 // any food-tab clip whose title says mukbang, whatever the channel (per David 2026-11-02: "투어앤푸드에서 먹방 타이틀 다 빼")

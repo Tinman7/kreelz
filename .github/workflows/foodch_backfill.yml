@@ -1,0 +1,52 @@
+name: Food creators backfill (비밀이야, 더들리)
+
+# Per David 2026-11-13: the Korean-restaurant visits of 비밀이야 and 더들리, videos and shorts, into K-Travel & Food on both
+# editions (restaurants abroad, non-Korean food and eat-a-lot videos are left out by scripts/catgate.mjs). New uploads come
+# in with the nightly refresh (scripts/channels.json); this pulls in their back catalogue once. ~1 API unit per 50 clips.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Collect the two channels
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: node scripts/backfill.mjs foodch.json UCaKQ7_GT0k8u_sL0nE2tgkA:all::mukbang UCmJEpV4hLzGWLU5rrdOHMhQ:all::mukbang | tee backfill.log
+      - name: Merge, check categories, prioritise
+        run: |
+          BUILD=$(grep -o 'const FEED_BUILT = "[^"]*"' index.html | cut -d'"' -f2)
+          python3 scripts/daily_merge.py index.html foodch.json "$BUILD" index.next.html | tee merge.log
+          grep -q 'const SHORTS = "' index.next.html
+          mv index.next.html index.html
+          node scripts/noeat.mjs index.html
+          node scripts/catgate.mjs index.html | tee gate.log
+          node scripts/prio.mjs index.html data/vmeta.json.gz | tee prio.log
+          node scripts/focus.mjs index.html
+          node scripts/region.mjs index.html
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data jp live.js
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Food creators backfill: $(tail -1 backfill.log) | $(cat gate.log)"
+          git pull --rebase -q
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

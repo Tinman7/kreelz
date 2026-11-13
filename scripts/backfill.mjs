@@ -3,6 +3,8 @@
 import fs from "node:fs"; import zlib from "node:zlib";
 import { classify, channelPriors, koreanChannels } from "./classify.mjs";
 import { hasThumb } from "./thumbs.mjs";
+import { gate } from "./catgate.mjs";
+const FORCE = {};   // "<channelId>:N::mukbang" — a creator channel whose clips all go to one tab, if the category gate keeps them (per David 2026-11-13)
 const KEY = process.env.YT_API_KEY; if (!KEY) { console.error("YT_API_KEY missing"); process.exit(1); }
 const [outPath, ...specs] = process.argv.slice(2);
 const API = "https://www.googleapis.com/youtube/v3/", DAY = 864e5;
@@ -36,7 +38,7 @@ const longIds = new Set(), shortIds = new Set();
 // "@handle:N:Name" resolves an official channel by its handle; accepted only if its title contains Name and it has 500k+ subscribers
 const resolved = {};
 for (const spec of specs) {
-  let [ch, lim, name] = spec.split(":"); const max = lim === "all" ? 1e6 : +lim;
+  let [ch, lim, name, force] = spec.split(":"); const max = lim === "all" ? 1e6 : +lim; if (force) FORCE[ch] = force;
   if (ch.startsWith("@")) {
     const d = await call("channels", { part: "snippet,statistics", forHandle: ch });
     const c = (d.items || [])[0];
@@ -69,7 +71,7 @@ const good = new Set();
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
   if (!good.has(id)) { skipped++; continue; }
-  const v = info[id], cat = classify(v.meta, prior, true, kch);
+  const v = info[id], fc = FORCE[v.meta[1]], cat = fc ? (gate({ mukbang: "k", beauty: "b" }[fc] || "", v.meta[0], v.meta[2], v.meta[5]) ? fc : "") : classify(v.meta, prior, true, kch);
   if (!cat) { skipped++; continue; }
   if (shortIds.has(id)) out.shorts[id] = [cat, v.views, 1, v.days];
   else out.videos[id] = [cat, v.views, v.days, 1];

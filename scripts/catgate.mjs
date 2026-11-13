@@ -36,7 +36,10 @@ const WESTERN = /햄버거|버거|burger|バーガー|피자|pizza|ピザ|스테
 const ABROAD = /(일본|도쿄|東京|오사카|大阪|후쿠오카|福岡|교토|京都|삿포로|오키나와|대만|타이베이|台北|홍콩|香港|마카오|중국|상하이|베이징|태국|방콕|치앙마이|베트남|다낭|하노이|호치민|나트랑|푸꾸옥|필리핀|세부|보라카이|발리|싱가포르|말레이시아|인도|몽골|미국|뉴욕|la\b|하와이|괌|사이판|캐나다|유럽|파리|런던|영국|프랑스|이탈리아|로마|스페인|바르셀로나|독일|스위스|튀르키예|호주|시드니|뉴질랜드|두바이|이집트|멕시코|브라질|해외) ?(여행|워홀|현지|맛집|출장|한달|살기|먹방|편의점|길거리|야시장|마트|음식점|식당|에서 ?먹|가서|갔다|도착|1일차|\d일차|브이로그|vlog)|해외 ?여행|시드니|in시드니|워홀|도쿄|오사카|후쿠오카|교토|삿포로|오키나와|타이베이|방콕|다낭|하노이|호치민|베를린|파리 ?(맛집|여행|에서)|런던 ?(맛집|여행|에서)|뉴욕|로마 ?(맛집|여행)|하와이|코타키나발루|東京|大阪|福岡|\b(in|to) (japan|tokyo|osaka|taiwan|thailand|bangkok|vietnam|china|europe|usa|new york)\b/i;
 // channels that are about nothing else: Korea's tourism offices (always a trip) and restaurant guides (Korean restaurants unless the title says otherwise)
 const TRIP_CH = /visit ?korea|韓国観光公社|korea tourism|visit ?seoul|visit ?busan|visit ?jeju|imagine your korea/i;
-const FOOD_CH = /성시경|choiza ?road|최자로드|옥스푼|맛집남자|더들리|또간집|먹을텐데|맛있는 ?녀석들|백종원|paik|줄서는 ?식당|전현무계획/i;
+const FOOD_CH = /비밀이야|bimirya|성시경|choiza ?road|최자로드|옥스푼|맛집남자|더들리|또간집|먹을텐데|맛있는 ?녀석들|백종원|paik|줄서는 ?식당|전현무계획/i;
+// food creators put forward in K-Travel & Food (per David 2026-11-13: 비밀이야, 더들리 — their visits to Korean restaurants only)
+export const PRI_CH = [["d", /^더들리$/], ["b", /비밀이야|bimirya/i]];
+const priKey = c => (PRI_CH.find(([, rx]) => rx.test(String(c || "").trim())) || [])[0] || "";
 const SKIT = /유형|상황극|몰카|빌런|썰 ?(푼|풀)|콩트|꽁트|공감 ?(100|영상)|ㅋㅋㅋ.*유형|vs ?요즘/;
 const OFFK = /병원|후원금|드론|아나운서|귀농|귀촌|무인도|양식장|투망|조업|수양|동창|동기들|농사|공장|진돗개|강아지|반려견|고양이|훈련사|동물원|건축|집 ?짓|구옥|인테리어|아파트|전기세|곰팡이|리모델링|정년|퇴직|은퇴|전쟁|6·25|스님|산삼|어부|낚시|대물|타일|탈모|주식|부동산|재테크|피규어|포켓몬|게임|당뇨|혈당|당화혈|혈압|관절|지압|소화불량|건강 ?(비결|법|정보)|다이어트 ?비결|자연인/;
 
@@ -85,7 +88,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const k = sh(id); if (!(k in S)) { try { S[k] = JSON.parse(fs.readFileSync(`t/o/${k}.json`, "utf8")); } catch (e) { S[k] = {}; } }
     const o = S[k][id]; return o ? [o[0], o[1], []] : null; };
   let keepIds = new Set(); try { for (const g of JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")).groups || []) for (const id of g.ids || []) keepIds.add(id); } catch (e) {}
-  const moves = {}, ex = {}, trips = [];
+  const moves = {}, ex = {}, trips = [], pri = [];
   const stay = (k, e) => { if (dry) (ex[k] = ex[k] || []).push(`${e[1].slice(0, 18)} :: ${e[0].slice(0, 70)}`); };
   for (const name of ["FEED", "SHORTS"]) {
     const m0 = h.match(new RegExp(`const ${name} = "([^"]*)";`)); if (!m0) continue; const s = m0[1]; let out = "";
@@ -97,13 +100,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       if (!to) continue;
       if (to === cat) stay(cat + "=" + (cat === "k" && isTrip(e[0], e[1]) ? "trip" : ""), e);
       if (to === "k" && isTrip(e[0], e[1])) trips.push(id);
+      if (to === "k" && priKey(e[1])) pri.push(id + priKey(e[1]));
       out += id + (c0 === c0.toUpperCase() ? to.toUpperCase() : to) + row.slice(12);
     }
     h = h.replace(m0[0], () => `const ${name} = "${out}";`);
   }
   const tr = [...new Set(trips)];
+  if (/const PRIO_FOODCH = "[^"]*";/.test(h)) h = h.replace(/const PRIO_FOODCH = "[^"]*";/, () => `const PRIO_FOODCH = "${[...new Set(pri)].join("")}";`);
   if (/const PRIO_TRAVEL = "[^"]*";/.test(h)) h = h.replace(/const PRIO_TRAVEL = "[^"]*";/, () => `const PRIO_TRAVEL = "${tr.join("")}";`);
-  console.log("catgate:", JSON.stringify(moves), "trips", tr.length);
+  console.log("catgate:", JSON.stringify(moves), "trips", tr.length, "food creators", new Set(pri).size);
   if (dry) { const n = +(process.argv.find(a => a.startsWith("--n="))?.split("=")[1] || 12), only = process.argv.find(a => a.startsWith("--only="))?.slice(7);
     for (const [k, v] of Object.entries(ex)) { if (only && k !== only) continue; console.log("==", k, v.length); console.log(v.sort(() => Math.random() - 0.5).slice(0, n).join("\n")); } }
   else {
