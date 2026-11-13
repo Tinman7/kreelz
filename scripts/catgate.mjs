@@ -39,6 +39,10 @@ const TRIP_CH = /visit ?korea|韓国観光公社|korea tourism|visit ?seoul|visi
 const FOOD_CH = /비밀이야|bimirya|성시경|choiza ?road|최자로드|옥스푼|맛집남자|더들리|또간집|먹을텐데|맛있는 ?녀석들|백종원|paik|줄서는 ?식당|전현무계획/i;
 // food creators put forward in K-Travel & Food (per David 2026-11-13: 비밀이야, 더들리 — their visits to Korean restaurants only)
 export const PRI_CH = [["d", /^더들리$/], ["b", /비밀이야|bimirya/i]];
+// for these two (they review restaurants everywhere): only Korean food in Korea — a Korean dish or 한식 in the title, no
+// restaurant abroad, no foreign cuisine (French, Chinese, Italian … even in Seoul), no buffets, wine or hotel-pool talk
+const KDISH = /한식|한정식|韓定食|korean ?(food|bbq|dish|cuisine)|k-?food|김치|비빔|불고기|삼겹|목살|갈비|떡볶이|김밥|국밥|찌개|전골|냉면|막국수|칼국수|수제비|만두|순대|족발|보쌈|곱창|막창|대창|닭갈비|닭발|닭한마리|백숙|삼계탕|설렁탕|곰탕|해장국|감자탕|순두부|된장|청국장|쌈밥|파전|빈대떡|부침개|전집|육회|한우|소고기 ?(구이|집)|고깃집|돼지 ?(갈비|국밥)|생고기|숯불|노포|포장마차|포차|횟집|회 ?(센터|한 ?접시)|물회|조개구이|해물탕|아구찜|낙지|주꾸미|쭈꾸미|게장|장어|전복|대방어|방어|과메기|굴 ?(국밥|보쌈|전)|짜장|짬뽕|간짜장|탕수육|돈까스|떡국|분식|호떡|붕어빵|빙수|막걸리|소주|전통주|한식 ?주점|주막|백반|기사식당|시장|평양냉면|함흥|오리 ?(백숙|한마리|구이|탕)|토종닭|능이|추어탕|도가니|수육|편육|보리밥|비지|두부|묵|나물|한과|떡집|약과|팥/i;
+const FOREIGN = /후난|중식|중국|딤섬|마라|프랑스|프렌치|french|이탈리|이태리|italian|스페인|멕시|태국|베트남|인도|일식|일본|오마카세|스시|초밥|료칸|와인|wine|버터|양고기|랍스터|lobster|크랩|파이\b|뚝뜨|스테이크|파스타|피자|버거|뷔페|buffet|수영장|리조트|호텔 ?(뷔페|예약)|라운지|in ?(이탈리아|프랑스|일본|홍콩|태국|미국|스페인|파리|도쿄)|로마|밀라노|포지타노|홍콩|상하이|대만|싱가포르|두바이|하와이|뉴욕|런던|파리|도쿄|오사카|교토|후쿠오카|삿포로|방콕|구독자 ?(이벤트|분)|이벤트|q&a|qna|질문|디테일|vr/i;
 const priKey = c => (PRI_CH.find(([, rx]) => rx.test(String(c || "").trim())) || [])[0] || "";
 const SKIT = /유형|상황극|몰카|빌런|썰 ?(푼|풀)|콩트|꽁트|공감 ?(100|영상)|ㅋㅋㅋ.*유형|vs ?요즘/;
 const OFFK = /병원|후원금|드론|아나운서|귀농|귀촌|무인도|양식장|투망|조업|수양|동창|동기들|농사|공장|진돗개|강아지|반려견|고양이|훈련사|동물원|건축|집 ?짓|구옥|인테리어|아파트|전기세|곰팡이|리모델링|정년|퇴직|은퇴|전쟁|6·25|스님|산삼|어부|낚시|대물|타일|탈모|주식|부동산|재테크|피규어|포켓몬|게임|당뇨|혈당|당화혈|혈압|관절|지압|소화불량|건강 ?(비결|법|정보)|다이어트 ?비결|자연인/;
@@ -57,6 +61,7 @@ export function gate(cat, title, channel, tags) {
   if (cat === "k") {
     if (eatBlocked(t, c, "k")) return "";
     if (TRIP_CH.test(c)) return "k";
+    if (priKey(c)) return KDISH.test(t) && !FOREIGN.test(t) && !ABROAD.test(t) && !EATLOT.test(t) ? "k" : "";
     if (tv && isVariety(t, c, "e")) return "e";
     const food = KFOOD.test(t) || (FOOD_CH.test(c) && !WESTERN.test(t)), trip = tripIn(t), doc = /ebs|다큐|documentary/i.test(c);
     if (OFFK.test(t) && (doc || !food)) return "";      // houses, animals, health, war … whatever place they name
