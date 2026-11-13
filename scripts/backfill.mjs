@@ -71,7 +71,7 @@ const good = new Set();
 await Promise.all(Array.from({ length: 16 }, async () => { while (checks.length) { const id = checks.pop(); if (await hasThumb(id, shortIds.has(id) ? "s" : "v")) good.add(id); } }));
 for (const id of cand) {
   if (!good.has(id)) { skipped++; continue; }
-  const v = info[id], fc = FORCE[v.meta[1]], cat = fc ? (gate({ mukbang: "k", beauty: "b" }[fc] || "", v.meta[0], v.meta[2], v.meta[5]) ? fc : "") : classify(v.meta, prior, true, kch);
+  const v = info[id], fc = FORCE[v.meta[1]], L = { mukbang: "k", beauty: "b", music: "m", drama: "d", film: "f", entertainment: "e" }[fc] || fc, cat = fc ? (gate(L, v.meta[0], v.meta[2], v.meta[5]) === L ? L : "") : classify(v.meta, prior, true, kch);
   if (!cat) { skipped++; continue; }
   if (shortIds.has(id)) out.shorts[id] = [cat, v.views, 1, v.days];
   else out.videos[id] = [cat, v.views, v.days, 1];
