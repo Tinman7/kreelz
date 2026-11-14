@@ -1,35 +1,35 @@
 {
- "date": "2026-11-14",
+ "date": "2026-11-15",
  "updated": "2026-11-09T18:43:54.340Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCFKqiizhhgYgdEQIPsdJ4Pg",
-    "UCFd9V1ZDAH8ZAWcG---L6oA",
-    "UCk8SqKdYqfTmSFEhSX1iTgg"
+    "UCHnBrBporMiBF47Atx4264Q",
+    "UCMrnSM8ps4JyddymLpWUmSA",
+    "UC3d6KF5bWIM9R8iU_9rAajw"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-14）",
+    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-15）",
     "rows": [
-     "1. ILLIT ウォニの退勤路フルリ直キャム\n   音楽番組の帰り道、ILLITのウォニを撮ったファンカムです。明るく自然な振る舞いが見どころです。",
-     "2. ソン・ヘギョ主演『天天強烈に』予告編\n   1960〜80年代の韓国芸能界で成功を夢見た人々を描くNetflixシリーズの公式ティーザーです。12月11日配信開始です。",
-     "3. GIRLSET「young & dumb」MV\n   JYPエンターテインメント所属のガールグループGIRLSETによる新曲「young & dumb」のミュージックビデオです。",
-     "4. ILLIT×I-DLE「辞職します」コラボ\n   ILLITとI-DLEのソヨンが共演したコンテンツ映像です。ユーモラスな「辞めます」企画が見どころです。",
-     "5. 『離婚熟慮キャンプ』基準夫婦の相談回\n   JTBCの番組『離婚熟慮キャンプ』で、最長5時間に及んだ基準夫婦の相談の結末を伝える放送映像です。",
-     "6. TUIDE「not the vibe」MV\n   TUIDEの楽曲「not the vibe」の映像です。ELENAも参加しています。",
-     "7. ドラマ『再婚皇后』第7〜8話予告\n   ディズニープラスの韓国ドラマ『再婚皇后』第7〜8話の予告編です。ヘジンへの新たな想いが描かれます。",
-     "8. 『離婚熟慮キャンプ』怒る李好仙のハイライト\n   JTBCの『離婚熟慮キャンプ』で、解決策を拒み要求も曖昧な妻に、イ・ホソンが怒りを見せる場面のハイライトです。",
-     "9. MEOVV「GO HARD MODE」ミシュラン三つ星シェフ\n   MEOVVのYouTubeコンテンツで、ミシュラン三つ星シェフを夢見る料理企画です。メンバーの料理姿が見どころです。",
-     "10. 『ジャスト・メイクアップ』シーズン2予告\n   Coupang Playのメイクオーディション番組『ジャスト・メイクアップ』シーズン2のティーザー予告です。11月27日配信です。"
+     "1. ILLITウォンヒ、愛の弾丸を撃ちながら帰宅\n   ILLITのウォンヒが「愛の弾丸」を発射しながら帰る様子を収めたクリップです。ファンにとっては普段見られないメンバーの素顔を楽しめる映像です。",
+     "2. ENHYPEN「I Want You」公式MV\n   ENHYPENの楽曲「I Want You」の公式ミュージックビデオです。アルバム『THE SIN : PARALLEL WORLD』の世界観を映像で楽しめます。",
+     "3. CORTIS「무슨 생각하셨어요」\n   CORTISの「무슨 생각하셨어요」を紹介するクリップです。説明は少ないため、楽曲や活動を気軽にチェックできる動画です。",
+     "4. ILLIT「#fyp」\n   ILLITの「#fyp」と題された短い動画です。説明文はなく、メンバーの日常やパフォーマンスを手軽に楽しめる内容です。",
+     "5. Netflixドラマ『天天强烈』ティーザー予告\n   Netflixシリーズ『천천히 강렬하게』の公式ティーザー予告編です。1960〜80年代の韓国芸能界を舞台に、成功を夢見た人々の成長を描きます。",
+     "6. 離婚熟慮キャンプ、夫婦相談が長時間に\n   JTBC『離婚熟慮キャンプ』の一場面で、相談者夫婦が最長5時間にわたって相談を受けた結末を描く映像です。",
+     "7. 私ひとりで暮らす『ナ・ホンサン』、旧友との再会\n   MBC『私一人で暮らす』の一場面で、クー・ソンファンが昔の話題に戸惑いながら旧友と向き合う様子を映しています。",
+     "8. 映画『雪崩』、初雪のような好評\n   キム・ユンソク、クー・ギョファン出演の映画『雪崩』の実際の観客による好評を集めた映像です。11月18日に全国公開されます。",
+     "9. ソン・シギョン『食べるはずなのに』、ピッツェリアオ大学路本店\n   歌手ソン・シギョンが、ミュージシャンのキュヒョンと大学路のピザ店「ピッツェリアオ」を訪ねる食べ歩き映像です。店の住所も紹介されています。",
+     "10. GIRLSET「young & dumb」MV\n   JYP Entertainmentのガールズグループ GIRLSETの楽曲「young & dumb」の公式ミュージックビデオです。"
     ],
     "n": 10,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-14）\n\n1. ILLIT ウォニの退勤路フルリ直キャム\n   音楽番組の帰り道、ILLITのウォニを撮ったファンカムです。明るく自然な振る舞いが見どころです。\n2. ソン・ヘギョ主演『天天強烈に』予告編\n   1960〜80年代の韓国芸能界で成功を夢見た人々を描くNetflixシリーズの公式ティーザーです。12月11日配信開始です。\n3. GIRLSET「young & dumb」MV\n   JYPエンターテインメント所属のガールグループGIRLSETによる新曲「young & dumb」のミュージックビデオです。\n4. ILLIT×I-DLE「辞職します」コラボ\n   ILLITとI-DLEのソヨンが共演したコンテンツ映像です。ユーモラスな「辞めます」企画が見どころです。\n5. 『離婚熟慮キャンプ』基準夫婦の相談回\n   JTBCの番組『離婚熟慮キャンプ』で、最長5時間に及んだ基準夫婦の相談の結末を伝える放送映像です。\n6. TUIDE「not the vibe」MV\n   TUIDEの楽曲「not the vibe」の映像です。ELENAも参加しています。\n7. ドラマ『再婚皇后』第7〜8話予告\n   ディズニープラスの韓国ドラマ『再婚皇后』第7〜8話の予告編です。ヘジンへの新たな想いが描かれます。\n8. 『離婚熟慮キャンプ』怒る李好仙のハイライト\n   JTBCの『離婚熟慮キャンプ』で、解決策を拒み要求も曖昧な妻に、イ・ホソンが怒りを見せる場面のハイライトです。\n9. MEOVV「GO HARD MODE」ミシュラン三つ星シェフ\n   MEOVVのYouTubeコンテンツで、ミシュラン三つ星シェフを夢見る料理企画です。メンバーの料理姿が見どころです。\n10. 『ジャスト・メイクアップ』シーズン2予告\n   Coupang Playのメイクオーディション番組『ジャスト・メイクアップ』シーズン2のティーザー予告です。11月27日配信です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-15）\n\n1. ILLITウォンヒ、愛の弾丸を撃ちながら帰宅\n   ILLITのウォンヒが「愛の弾丸」を発射しながら帰る様子を収めたクリップです。ファンにとっては普段見られないメンバーの素顔を楽しめる映像です。\n2. ENHYPEN「I Want You」公式MV\n   ENHYPENの楽曲「I Want You」の公式ミュージックビデオです。アルバム『THE SIN : PARALLEL WORLD』の世界観を映像で楽しめます。\n3. CORTIS「무슨 생각하셨어요」\n   CORTISの「무슨 생각하셨어요」を紹介するクリップです。説明は少ないため、楽曲や活動を気軽にチェックできる動画です。\n4. ILLIT「#fyp」\n   ILLITの「#fyp」と題された短い動画です。説明文はなく、メンバーの日常やパフォーマンスを手軽に楽しめる内容です。\n5. Netflixドラマ『天天强烈』ティーザー予告\n   Netflixシリーズ『천천히 강렬하게』の公式ティーザー予告編です。1960〜80年代の韓国芸能界を舞台に、成功を夢見た人々の成長を描きます。\n6. 離婚熟慮キャンプ、夫婦相談が長時間に\n   JTBC『離婚熟慮キャンプ』の一場面で、相談者夫婦が最長5時間にわたって相談を受けた結末を描く映像です。\n7. 私ひとりで暮らす『ナ・ホンサン』、旧友との再会\n   MBC『私一人で暮らす』の一場面で、クー・ソンファンが昔の話題に戸惑いながら旧友と向き合う様子を映しています。\n8. 映画『雪崩』、初雪のような好評\n   キム・ユンソク、クー・ギョファン出演の映画『雪崩』の実際の観客による好評を集めた映像です。11月18日に全国公開されます。\n9. ソン・シギョン『食べるはずなのに』、ピッツェリアオ大学路本店\n   歌手ソン・シギョンが、ミュージシャンのキュヒョンと大学路のピザ店「ピッツェリアオ」を訪ねる食べ歩き映像です。店の住所も紹介されています。\n10. GIRLSET「young & dumb」MV\n   JYP Entertainmentのガールズグループ GIRLSETの楽曲「young & dumb」の公式ミュージックビデオです。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -39,22 +39,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-14)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-15)",
     "rows": [
-     "1. Tantara official teaser | Netflix\n   The official teaser for Netflix's series about people chasing success in 1960s–80s Korean entertainment, streaming from December 11.",
-     "2. GIRLSET \"young & dumb\" music video\n   The music video for \"young & dumb\" by GIRLSET, the girl group from JYP Entertainment.",
-     "3. #퇴사하겠어 with I-DLE's SOYEON | ILLIT\n   An ILLIT content video with I-DLE's SOYEON in a playful \"I quit\" themed collaboration.",
-     "4. Divorce Camp: Gijun couple's counseling ending\n   A clip from JTBC's Divorce Camp showing the outcome of a counseling session with the Gijun couple, which lasted up to five hours.",
-     "5. TUIDE \"not the vibe\" with ELENA\n   A video for TUIDE's song \"not the vibe\", featuring ELENA.",
-     "6. The Remarried Empress Ep. 7-8 preview | Disney+\n   A preview of episodes 7 and 8 of the Disney+ drama The Remarried Empress, which begins a new romance for the empress.",
-     "7. Divorce Camp highlight: Lee Ho-seon's anger\n   A highlight from JTBC's Divorce Camp where Lee Ho-seon grows angry at a wife who rejects solutions and states her demands vaguely.",
-     "8. MEOVV \"GO HARD MODE\": dreaming of three Michelin stars\n   A MEOVV content video where the members dream of becoming three-Michelin-star chefs, with cooking as the main focus.",
-     "9. Just Makeup Season 2 teaser | Coupang Play\n   The teaser for Season 2 of the makeup competition Just Makeup on Coupang Play, streaming November 27.",
-     "10. LUCY \"다시!\" MV\n   The music video for \"다시!\" by the band LUCY, mixing a strong beat with a lyrical mood."
+     "1. ENHYPEN 'I Want You' official music video\n   The official music video for ENHYPEN's 'I Want You,' part of the THE SIN : PARALLEL WORLD project. Fans can enjoy the visual world of the album.",
+     "2. CORTIS '무슨 생각하셨어요' clip\n   A short clip from CORTIS titled '무슨 생각하셨어요.' The description is brief, so it is a quick way to catch the group's latest content.",
+     "3. ILLIT '#fyp' short video\n   A short ILLIT video titled '#fyp' with no description provided. It offers a quick look at the group's everyday moments or performance.",
+     "4. Netflix series 'Slowly, Intensely' official teaser\n   The official teaser for the Netflix series 'Slowly, Intensely,' set in 1960s–80s Korean entertainment. It follows people who chased success with nothing but determination. Parts release December 11, 18, and 25.",
+     "5. Divorce Reflection Camp: couple's 5-hour counseling\n   A clip from JTBC's 'Divorce Reflection Camp' showing a couple's counseling session, which ran up to five hours before its outcome. Fans of the show can watch the resolution.",
+     "6. Doctor X: The Age of the White Mafia – Gye Su-jeong's past\n   A clip from SBS's 'Doctor X: The Age of the White Mafia' revealing Gye Su-jeong's past and a shocking truth. It is a key episode ahead of the series finale.",
+     "7. I Live Alone: Koo Seong-hwan faces old classmates' stories\n   A clip from MBC's 'I Live Alone' where Koo Seong-hwan gets flustered as old stories from his school days come up. Fans can enjoy the lighthearted moments.",
+     "8. Film 'Heavy Snow': early audience praise\n   A compilation of real audience reactions praising the film 'Heavy Snow,' starring Kim Yun-seok and Koo Kyo-hwan. It opens in theaters nationwide on November 18.",
+     "9. Sung Si-kyung's 'Eat Them Anyway': Pizzeria O Daehak-ro\n   Singer Sung Si-kyung visits Pizzeria O in Daehak-ro with Kyuhyun for a food trip. The description includes the restaurant's address.",
+     "10. GIRLSET 'young & dumb' music video\n   The official music video for 'young & dumb' by GIRLSET, a girl group from JYP Entertainment. Fans can watch the group's latest visual release."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-14)\n\n1. Tantara official teaser | Netflix\n   The official teaser for Netflix's series about people chasing success in 1960s–80s Korean entertainment, streaming from December 11.\n2. GIRLSET \"young & dumb\" music video\n   The music video for \"young & dumb\" by GIRLSET, the girl group from JYP Entertainment.\n3. #퇴사하겠어 with I-DLE's SOYEON | ILLIT\n   An ILLIT content video with I-DLE's SOYEON in a playful \"I quit\" themed collaboration.\n4. Divorce Camp: Gijun couple's counseling ending\n   A clip from JTBC's Divorce Camp showing the outcome of a counseling session with the Gijun couple, which lasted up to five hours.\n5. TUIDE \"not the vibe\" with ELENA\n   A video for TUIDE's song \"not the vibe\", featuring ELENA.\n6. The Remarried Empress Ep. 7-8 preview | Disney+\n   A preview of episodes 7 and 8 of the Disney+ drama The Remarried Empress, which begins a new romance for the empress.\n7. Divorce Camp highlight: Lee Ho-seon's anger\n   A highlight from JTBC's Divorce Camp where Lee Ho-seon grows angry at a wife who rejects solutions and states her demands vaguely.\n8. MEOVV \"GO HARD MODE\": dreaming of three Michelin stars\n   A MEOVV content video where the members dream of becoming three-Michelin-star chefs, with cooking as the main focus.\n9. Just Makeup Season 2 teaser | Coupang Play\n   The teaser for Season 2 of the makeup competition Just Makeup on Coupang Play, streaming November 27.\n10. LUCY \"다시!\" MV\n   The music video for \"다시!\" by the band LUCY, mixing a strong beat with a lyrical mood.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-15)\n\n1. ENHYPEN 'I Want You' official music video\n   The official music video for ENHYPEN's 'I Want You,' part of the THE SIN : PARALLEL WORLD project. Fans can enjoy the visual world of the album.\n2. CORTIS '무슨 생각하셨어요' clip\n   A short clip from CORTIS titled '무슨 생각하셨어요.' The description is brief, so it is a quick way to catch the group's latest content.\n3. ILLIT '#fyp' short video\n   A short ILLIT video titled '#fyp' with no description provided. It offers a quick look at the group's everyday moments or performance.\n4. Netflix series 'Slowly, Intensely' official teaser\n   The official teaser for the Netflix series 'Slowly, Intensely,' set in 1960s–80s Korean entertainment. It follows people who chased success with nothing but determination. Parts release December 11, 18, and 25.\n5. Divorce Reflection Camp: couple's 5-hour counseling\n   A clip from JTBC's 'Divorce Reflection Camp' showing a couple's counseling session, which ran up to five hours before its outcome. Fans of the show can watch the resolution.\n6. Doctor X: The Age of the White Mafia – Gye Su-jeong's past\n   A clip from SBS's 'Doctor X: The Age of the White Mafia' revealing Gye Su-jeong's past and a shocking truth. It is a key episode ahead of the series finale.\n7. I Live Alone: Koo Seong-hwan faces old classmates' stories\n   A clip from MBC's 'I Live Alone' where Koo Seong-hwan gets flustered as old stories from his school days come up. Fans can enjoy the lighthearted moments.\n8. Film 'Heavy Snow': early audience praise\n   A compilation of real audience reactions praising the film 'Heavy Snow,' starring Kim Yun-seok and Koo Kyo-hwan. It opens in theaters nationwide on November 18.\n9. Sung Si-kyung's 'Eat Them Anyway': Pizzeria O Daehak-ro\n   Singer Sung Si-kyung visits Pizzeria O in Daehak-ro with Kyuhyun for a food trip. The description includes the restaurant's address.\n10. GIRLSET 'young & dumb' music video\n   The official music video for 'young & dumb' by GIRLSET, a girl group from JYP Entertainment. Fans can watch the group's latest visual release.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -64,22 +64,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-14)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-15)",
     "rows": [
-     "1. Tantara official teaser | Netflix",
-     "2. GIRLSET \"young & dumb\" music video",
-     "3. #퇴사하겠어 with I-DLE's SOYEON | ILLIT",
-     "4. Divorce Camp: Gijun couple's counseling ending",
-     "5. TUIDE \"not the vibe\" with ELENA",
-     "6. The Remarried Empress Ep. 7-8 preview | Disney+",
-     "7. Divorce Camp highlight: Lee Ho-seon's anger",
-     "8. MEOVV \"GO HARD MODE\": dreaming of three Michelin stars",
-     "9. Just Makeup Season 2 teaser | Coupang Play",
-     "10. LUCY \"다시!\" MV"
+     "1. ENHYPEN 'I Want You' official music video",
+     "2. CORTIS '무슨 생각하셨어요' clip",
+     "3. ILLIT '#fyp' short video",
+     "4. Netflix series 'Slowly, Intensely' official teaser",
+     "5. Divorce Reflection Camp: couple's 5-hour counseling",
+     "6. Doctor X: The Age of the White Mafia – Gye Su-jeong's past",
+     "7. I Live Alone: Koo Seong-hwan faces old classmates' stories",
+     "8. Film 'Heavy Snow': early audience praise",
+     "9. Sung Si-kyung's 'Eat Them Anyway': Pizzeria O Daehak-ro",
+     "10. GIRLSET 'young & dumb' music video"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-14)\n\n1. Tantara official teaser | Netflix\n2. GIRLSET \"young & dumb\" music video\n3. #퇴사하겠어 with I-DLE's SOYEON | ILLIT\n4. Divorce Camp: Gijun couple's counseling ending\n5. TUIDE \"not the vibe\" with ELENA\n6. The Remarried Empress Ep. 7-8 preview | Disney+\n7. Divorce Camp highlight: Lee Ho-seon's anger\n8. MEOVV \"GO HARD MODE\": dreaming of three Michelin stars\n9. Just Makeup Season 2 teaser | Coupang Play\n10. LUCY \"다시!\" MV\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-15)\n\n1. ENHYPEN 'I Want You' official music video\n2. CORTIS '무슨 생각하셨어요' clip\n3. ILLIT '#fyp' short video\n4. Netflix series 'Slowly, Intensely' official teaser\n5. Divorce Reflection Camp: couple's 5-hour counseling\n6. Doctor X: The Age of the White Mafia – Gye Su-jeong's past\n7. I Live Alone: Koo Seong-hwan faces old classmates' stories\n8. Film 'Heavy Snow': early audience praise\n9. Sung Si-kyung's 'Eat Them Anyway': Pizzeria O Daehak-ro\n10. GIRLSET 'young & dumb' music video\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
