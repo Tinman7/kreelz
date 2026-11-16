@@ -1,48 +1,48 @@
 {
- "date": "2026-11-16",
- "artist": "ILLIT",
- "actor": "Lee Jong-suk",
+ "date": "2026-11-17",
+ "artist": "ENHYPEN",
+ "actor": "Ahn Hyo-seop",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: 韓国ドラマ",
-   "text": "📺韓国ドラマでいま見られているクリップ\n注目：ヘインリー vs コセア 🔥 再婚皇后 👑\n▶ https://kreelz.com/jp/k/drama/\n#韓国ドラマ",
-   "len": 119
+   "label": "카테고리: 韓国バラエティ",
+   "text": "😂韓国バラエティでいま見られているクリップ\n注目：[何して遊ぶ？] 視聴者ピック✔️ ソウル歌謡祭で聴きたい90～95年代の歌 TOP 5\n▶ https://kreelz.com/jp/k/variety/\n#韓国バラエティ",
+   "len": 166
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/16）\n1. ILLITウォンヒの空港ファッションが話題に\n2. ENHYPEN「I Want You」公式MV\n3. CORTIS「무슨 생각하셨어요」\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 214
+   "text": "📰3分でわかる今日の韓国エンタメ（11/17）\n1. ILLIT「ib:miewooni」TikTokで話題の動画\n2. ENHYPEN「I Want You」公式MV\n3. CORTIS「무슨 생각하셨어요」\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 213
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "最近ハマってるK-POPの曲は？🎧\n1曲だけ選ぶなら？リプで教えてください！\n#KPOP #KPOP好きさんと繋がりたい",
-   "len": 101
+   "text": "韓国に行ったら絶対食べたいもの、何ですか？🍜\n私はまずトッポッキ…！\n#韓国グルメ #韓国旅行",
+   "len": 89
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：みんな逮捕しましょう。\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 132
+   "label": "아티스트: ENHYPEN",
+   "text": "🔥ENHYPEN（エンハイプン）の最新ショート・動画まとめ\nいま話題：ENHYPEN (エンハイプン) 'I Want You' Official MV\n▶ https://kreelz.com/jp/k/enhypen/\n#ENHYPEN #KPOP",
+   "len": 151
   },
   {
    "time": "22:00",
-   "label": "배우: Lee Jong-suk",
-   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：ヘインリー vs コセア 🔥 再婚皇后 👑\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
-   "len": 172
+   "label": "배우: Ahn Hyo-seop",
+   "text": "🎬アン・ヒョソプの最新動画まとめ\nいま話題：[真実エンディング] 結局生放送で明らかになったアン・ヒョソプの正体…衝撃を受けた実の母チャン・ヨン…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/ahn-hyo-seop/\n#アンヒョソプ #韓国俳優",
+   "len": 236
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "ENHYPEN 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ENHYPEN%20lang%3Aja&f=live"
    },
    {
-    "label": "イ・ジョンソク 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
+    "label": "アン・ヒョソプ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A2%E3%83%B3%E3%83%92%E3%83%A7%E3%82%BD%E3%83%97%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/16",
+  "date": "11/17",
   "rows": [
    {
     "t": "ENHYPEN (エンハイプン) 'I Want You' Official MV",
     "ch": "HYBE LABELS",
-    "v": 17610359
+    "v": 20697300
    },
    {
     "t": "何を考えていましたか",
     "ch": "CORTIS",
-    "v": 3608305
-   },
-   {
-    "t": "恋愛の条件 (Love Options) - BESTie（ベスティ）[ミュージックバンク/Music Bank]",
-    "ch": "KBS Kpop",
-    "v": 2891864
+    "v": 4018527
    },
    {
     "t": "BESTie (ベスティ) - Love Options (恋愛の条件)",
     "ch": "MBCkpop",
-    "v": 2874617
+    "v": 3629955
    },
    {
     "t": "ヘインリー vs コセア 🔥 再婚皇后 👑",
     "ch": "ThrillVille",
-    "v": 2093567
+    "v": 2707697
+   },
+   {
+    "t": "[ aespa - WDA + Switchblade + LEMONADE (4K)",
+    "ch": "멜론 Melon",
+    "v": 1995736
    }
   ],
   "url": "kreelz.com/jp",
@@ -107,89 +107,89 @@
    "search": "https://x.com/search?q=%23CORTIS%20lang%3Aja&f=live",
    "q": "#CORTIS",
    "video": "https://www.youtube.com/watch?v=LAUBwtYCpGo",
-   "text": "アラビア語のファンコメントが多く、ファンへの感謝や、ある曲が動画になったことへの驚きが目立ちます！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 137
+   "text": "韓国のファンの反応も最高でした😂 アラビア語のファンのコメントが多く、音楽や推しへの感謝の声が中心です！",
+   "len": 103
   },
   {
    "time": "10:00",
-   "topic": "『再婚皇后』7〜8話予告編｜Disney+",
-   "search": "https://x.com/search?q=%E5%86%8D%E5%A9%9A%E7%9A%87%E5%90%8E%20lang%3Aja&f=live",
-   "q": "再婚皇后",
-   "video": "https://www.youtube.com/watch?v=gjAqnREd-6g",
-   "text": "韓国のファンの反応も最高でした😂 10話で終わるのは短すぎるという声が多く、シーズン2を求める意見が目立ちます！",
-   "len": 108
+   "topic": "BESTie「Love Options」MusicCore出演",
+   "search": "https://x.com/search?q=Love%20Options%20lang%3Aja&f=live",
+   "q": "Love Options",
+   "video": "https://www.youtube.com/watch?v=yWuDTKE3gUE",
+   "text": "韓国でも話題になってます👀 メンバーのダンス・歌唱力・ビジュアルとスタイリングを絶賛する声が多いです！",
+   "len": 101
   },
   {
    "time": "11:30",
-   "topic": "『天天(チョンチョン)と強烈に』公式ティ…",
-   "search": "https://x.com/search?q=%E5%A4%A9%E5%A4%A9(%E3%83%81%E3%83%A7%E3%83%B3%E3%83%81%E3%83%A7%E3%83%B3)%E3%81%A8%E5%BC%B7%E7%83%88%E3%81%AB%20lang%3Aja&f=live",
-   "q": "天天(チョンチョン)と強烈に",
-   "video": "https://www.youtube.com/watch?v=iEmGtIh60DE",
-   "text": "韓国でも話題になってます👀 ソン・ヘギョの新しい挑戦や、脚本家ノ・ヒギョンの作品への期待が多く寄せられています！",
+   "topic": "『遊んでる場合じゃない』視聴者リクエス…",
+   "search": "https://x.com/search?q=%E9%81%8A%E3%82%93%E3%81%A7%E3%82%8B%E5%A0%B4%E5%90%88%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%20lang%3Aja&f=live",
+   "q": "遊んでる場合じゃない",
+   "video": "https://www.youtube.com/watch?v=Q55jCK6uwbU",
+   "text": "韓国のコメント欄を見たら、ゲスト歌手の歌唱力と、出演者たちの笑いあふれるやり取りを喜ぶ声が多いです！ わかる…！",
    "len": 111
   },
   {
    "time": "13:00",
-   "topic": "『遊んでる場合じゃない』ソウル歌謡祭",
-   "search": "https://x.com/search?q=%E9%81%8A%E3%82%93%E3%81%A7%E3%82%8B%E5%A0%B4%E5%90%88%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%20lang%3Aja&f=live",
-   "q": "遊んでる場合じゃない",
-   "video": "https://www.youtube.com/watch?v=Q55jCK6uwbU",
-   "text": "韓国のコメント欄を見たら、ユ・ヨンウの「記憶の習作」の披露に驚きや称賛が集まり、番組の編集への労いも見られます！ わかる…！",
-   "len": 123
+   "topic": "冷蔵庫を頼む：チョン・ホヨン VS チャン…",
+   "search": "https://x.com/search?q=%E5%86%B7%E8%94%B5%E5%BA%AB%E3%82%92%E9%A0%BC%E3%82%80%EF%BC%9A%E3%83%81%E3%83%A7%E3%83%B3%20lang%3Aja&f=live",
+   "q": "冷蔵庫を頼む：チョン",
+   "video": "https://www.youtube.com/watch?v=mFHy0LI1yAc",
+   "text": "韓国でもすごく盛り上がってます！ウヨンがキュウリを克服する場面や、ジスの気さくな態度を好意的に見る声が多いです！",
+   "len": 112
   },
   {
    "time": "14:30",
-   "topic": "ソン・シギョンの『食べるはずなのに』ピ…",
-   "search": "https://x.com/search?q=%E9%A3%9F%E3%81%B9%E3%82%8B%E3%81%AF%E3%81%9A%E3%81%AA%E3%81%AE%E3%81%AB%20lang%3Aja&f=live",
-   "q": "食べるはずなのに",
-   "video": "https://www.youtube.com/watch?v=K7pq2n6ABb0",
-   "text": "韓国でもすごく盛り上がってます！二人の仲の良さや、会話の心地よさを楽しむ声が多く見られます！",
-   "len": 92
+   "topic": "『失恋した人たちのための七時朝食会』メ…",
+   "search": "https://x.com/search?q=%E5%A4%B1%E6%81%8B%E3%81%97%E3%81%9F%E4%BA%BA%E3%81%9F%E3%81%A1%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E4%B8%83%E6%99%82%E6%9C%9D%E9%A3%9F%E4%BC%9A%20lang%3Aja&f=live",
+   "q": "失恋した人たちのための七時朝食会",
+   "video": "https://www.youtube.com/watch?v=N3dRcwfrIY8",
+   "text": "スジの冬らしい雰囲気と映画の公開を楽しみにする声が多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 99
   },
   {
    "time": "16:00",
-   "topic": "BESTie「Love Options」MusicCore",
-   "search": "https://x.com/search?q=Love%20Options%20lang%3Aja&f=live",
-   "q": "Love Options",
-   "video": "https://www.youtube.com/watch?v=yWuDTKE3gUE",
-   "text": "ダンス・歌唱・ビジュアルへの称賛や、衣装の評判が多く寄せられています！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 109
+   "topic": "TXT「Angel Bite」公式ティーザー2",
+   "search": "https://x.com/search?q=%23%E3%83%88%E3%82%A5%E3%83%90%20lang%3Aja&f=live",
+   "q": "#トゥバ",
+   "video": "https://www.youtube.com/watch?v=0kKD3b2nwfQ",
+   "text": "韓国のファンの反応も最高でした😂 新アルバムへの期待や、コンサートの思い出を語る声が多いです！",
+   "len": 93
   },
   {
    "time": "17:30",
-   "topic": "aespa「WDA・Switchblade・LEMONADE」MMA…",
+   "topic": "aespa MMA2026 パフォーマンス（4K）",
    "search": "https://x.com/search?q=%23aespa%20lang%3Aja&f=live",
    "q": "#aespa",
    "video": "https://www.youtube.com/watch?v=cnSMlOc9L5k",
-   "text": "韓国のファンの反応も最高でした😂 ボーカルの安定感とステージの迫力を称賛する声が多いです！",
-   "len": 89
+   "text": "韓国でも話題になってます👀 ニンニンとウィンターのボーカルと舞台での存在感が称賛されています！",
+   "len": 93
   },
   {
    "time": "19:00",
-   "topic": "BESTie「恋愛の条件」ミュージックバンク",
-   "search": "https://x.com/search?q=%E6%81%8B%E6%84%9B%E3%81%AE%E6%9D%A1%E4%BB%B6%20lang%3Aja&f=live",
-   "q": "恋愛の条件",
-   "video": "https://www.youtube.com/watch?v=InaRJ8kI8qE",
-   "text": "韓国でも話題になってます👀 ライブの上手さや、コーデの大人っぽさを褒める声が目立ちます！",
-   "len": 87
+   "topic": "ILLIT MMA2026 4冠受賞の瞬間",
+   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
+   "q": "#アイリット",
+   "video": "https://www.youtube.com/watch?v=o4rOY-Xx0FA",
+   "text": "韓国のコメント欄を見たら、4冠のお祝いと、ILLITへの愛を伝えるコメントが多く寄せられています！ わかる…！",
+   "len": 103
   },
   {
    "time": "20:30",
-   "topic": "I.O.I「WHATTA MAN・갑자기」MMA2026",
-   "search": "https://x.com/search?q=WHATTA%20MAN%E3%83%BB%EA%B0%91%EC%9E%90%EA%B8%B0%20lang%3Aja&f=live",
-   "q": "WHATTA MAN・갑자기",
+   "topic": "I.O.I MMA2026 パフォーマンス（4K）",
+   "search": "https://x.com/search?q=I.O.I%20lang%3Aja&f=live",
+   "q": "I.O.I",
    "video": "https://www.youtube.com/watch?v=gGPjJUgm_S4",
-   "text": "韓国のコメント欄を見たら、メンバー同士が抱き合うラストの場面に感動し、再会を願う声が多いです！ わかる…！",
-   "len": 105
+   "text": "韓国でもすごく盛り上がってます！メンバーの再会と抱擁に感動し、懐かしさで涙を流すファンが多いです！",
+   "len": 98
   },
   {
    "time": "22:00",
-   "topic": "ATEEZ「UP・Drip・BAD」MMA2026",
-   "search": "https://x.com/search?q=%23ATEEZ%20lang%3Aja&f=live",
-   "q": "#ATEEZ",
-   "video": "https://www.youtube.com/watch?v=BrFOiHPH7mg",
-   "text": "韓国でもすごく盛り上がってます！激しいダンスの中でも生歌を披露する実力が称賛されています！",
-   "len": 90
+   "topic": "BESTie「恋愛の条件」インキガヨ",
+   "search": "https://x.com/search?q=%E6%81%8B%E6%84%9B%E3%81%AE%E6%9D%A1%E4%BB%B6%20lang%3Aja&f=live",
+   "q": "恋愛の条件",
+   "video": "https://www.youtube.com/watch?v=kBvCCRnp8ZM",
+   "text": "ヘリョンの美貌が絶賛され、特に今回の衣装が完璧だと評価されています！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 107
   }
  ]
 }
