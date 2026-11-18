@@ -266,7 +266,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git pull --rebase -q
+          # the hourly daytime job also rewrites the hot pages (11/18 the night's work was lost on a data/hot.json conflict):
+          # for those generated files the night's version wins; any other conflict still stops the publish
+          if ! git pull --rebase -q; then
+            for f in $(git diff --name-only --diff-filter=U); do
+              case "$f" in
+                data/hot.json|sitemap-hot.xml|hot/*|jp/hot/*|es/hot/*|live.js) git checkout --theirs -- "$f" && git add "$f" ;;
+                *) echo "conflict in $f"; git rebase --abort; exit 1 ;;
+              esac
+            done
+            GIT_EDITOR=true git rebase --continue
+          fi
           git push
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
           echo "published at $(TZ=Asia/Seoul date '+%F %T') KST"

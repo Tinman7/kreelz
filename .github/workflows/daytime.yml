@@ -37,8 +37,11 @@ jobs:
         run: |
           git config user.name "kreelz-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          node scripts/hot_pages.mjs || true   # hot pages follow the day's finds (per David 2026-11-06)
-          git add live.js data/hot.json sitemap-hot.xml; git add -A hot jp/hot es/hot
+          # hot pages follow the day's finds (per David 2026-11-06) — not while the nightly refresh is at work (19:00–00:30 KST),
+          # which rewrites them too
+          H=$(TZ=Asia/Seoul date +%H)
+          if [ "$H" -lt 19 ]; then node scripts/hot_pages.mjs || true; git add data/hot.json sitemap-hot.xml; git add -A hot jp/hot es/hot; fi
+          git add live.js
           git commit -qm "Daytime: $(tail -1 daytime.log | head -c 180)" || { echo "nothing new"; exit 0; }
           git pull --rebase -q && git push -q
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
