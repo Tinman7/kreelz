@@ -1,35 +1,35 @@
 {
- "date": "2026-11-18",
+ "date": "2026-11-19",
  "updated": "2026-11-16T18:29:21.002Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCp94jLyHGovwJj8In-8JpaQ",
-    "UC0RJAtZGjcUfwskb_AKGw3Q",
-    "UCn3hCkj3xMnOkVEkw3G5CLQ"
+    "UCFQ5D7fQAHZ4AsfSal4AgIA",
+    "UCveg2OqejYV-Y_UsMOTNLqA",
+    "UCnRQgLid_0ePEXlrSQPNHrg"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-18）",
+    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-19）",
     "rows": [
-     "1. IVE ウォニ、ちびっこ仲間とのかわいいショート\n   IVEのウォニンとレイが、かわいいしぐさで見せるショート動画です。ファンにとってはいつもの愛らしい雰囲気を楽しめる一本です。",
-     "2. TXT「Angel Bite」公式MV\n   TXTの新曲「Angel Bite」の公式ミュージックビデオです。制作クレジットも掲載されており、映像作品として見どころの多い一本です。",
-     "3. Stray Kids チャンビン＆ハン、「애기 체포하겠어」\n   Stray Kidsの公式チャンネルによる、チャンビンとハンが登場する動画です。新曲「THIS & THAT」のリミックス配信も案内されています。",
-     "4. TUIDE ソヒとイ・ハニ、横顔に注目のショート\n   TUIDEのソヒとイ・ハニが、左右をめぐるやりとりを見せる短い動画です。メンバーの自然な掛け合いを楽しめます。",
-     "5. 『遊べばいいのに』ユ・ヨンウ、スタンディングオベーション級の歌唱\n   バラエティ番組『遊べばいいのに』で、お笑い芸人ユ・ヨンウが歌手たちの前で披露した歌唱の場面です。",
-     "6. 『The Remarried Empress』シーズン1 第1話（英語字幕）\n   Disney+フィリピン公式による、ネイバーWEBTOON原作ドラマの第1話全編です。皇后と皇帝をめぐる宮廷の波乱が描かれます。",
-     "7. 『JUST MAKEUP』シーズン2 5MC予告編\n   Coupang Play『JUST MAKEUP』シーズン2の5人のMCを紹介する予告編です。テヨン、ウィンター、イム・ユナなどが登場します。",
-     "8. 『ユ・クイズ・オン・ザ・ブロック』AIの現実を語る回\n   tvN番組『ユ・クイズ・オン・ザ・ブロック』のクリップです。AIの現状について、ユ・ジェソクらが話す内容となっています。",
-     "9. 映画『失恋した人のための七時の朝食会』メイン予告編\n   スジとイ・ジヌクが出演する映画『失恋した人のための七時の朝食会』のメイン予告編です。12月30日に劇場公開されます。",
-     "10. 『IDOL'S TABLE』第7話 先行公開 ごはんを何杯食べた？\n   Mnet Plusのトーク番組『IDOL'S TABLE』第7話の先行映像です。海外アイドルたちが韓国の家庭料理を味わう様子が見られます。"
+     "1. ミュージックバンクの爆笑シーン集\n   ミュージックバンクで起きた面白い場面を集めたショート動画です。K-POPファンなら笑えるはずです。",
+     "2. CORTISの短い動画「somehow survived」\n   CORTISの短い動画で、説明文はありません。メンバーの素顔が見られる一本です。",
+     "3. TXT「Angel Bite」公式MV\n   TXTの新曲「Angel Bite」の公式ミュージックビデオです。スタッフクレジットも含まれています。",
+     "4. Stray Kids「THIS & THAT」\n   Stray Kidsの楽曲「THIS & THAT」の配信告知動画です。リミックス版も同時に紹介されています。",
+     "5. ユ・ヨンウ、歌手たちからスタンディングオベーション\n   『遊んでる場合じゃない』でコメディアンのユ・ヨンウが歌手たちから立ち上がって拍手を受けた場面です。",
+     "6. 『The Remarried Empress』第1話（英語字幕）\n   Disney+フィリピン版の『The Remarried Empress』シーズン1第1話全編です。英語字幕付きで、Naverウェブトゥーンが原作です。",
+     "7. 『ただの人友達』1話予告\n   tvN『ただの人友達』の初回予告編です。イ・ソジンやハン・ジミンら出演者が、長年の友人との新たな旅を描きます。",
+     "8. 『JUST MAKEUP』シーズン2 5MC予告\n   Coupang Playの『JUST MAKEUP』シーズン2の5MC予告編です。テヨン、ウィンター、イム・ユナらが出演します。",
+     "9. ENHYPEN JAKEの料理の秘密\n   ENHYPENの公式チャンネルによる、JAKEの料理の腕前をテーマにした動画です。ファンなら楽しめる内容です。",
+     "10. 『失恋した人のための7時朝食会』メイン予告編\n   スジとイ・ジヌクが出演する映画『失恋した人のための7時朝食会』のメイン予告編です。12月30日に劇場公開されます。"
     ],
     "n": 10,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-18）\n\n1. IVE ウォニ、ちびっこ仲間とのかわいいショート\n   IVEのウォニンとレイが、かわいいしぐさで見せるショート動画です。ファンにとってはいつもの愛らしい雰囲気を楽しめる一本です。\n2. TXT「Angel Bite」公式MV\n   TXTの新曲「Angel Bite」の公式ミュージックビデオです。制作クレジットも掲載されており、映像作品として見どころの多い一本です。\n3. Stray Kids チャンビン＆ハン、「애기 체포하겠어」\n   Stray Kidsの公式チャンネルによる、チャンビンとハンが登場する動画です。新曲「THIS & THAT」のリミックス配信も案内されています。\n4. TUIDE ソヒとイ・ハニ、横顔に注目のショート\n   TUIDEのソヒとイ・ハニが、左右をめぐるやりとりを見せる短い動画です。メンバーの自然な掛け合いを楽しめます。\n5. 『遊べばいいのに』ユ・ヨンウ、スタンディングオベーション級の歌唱\n   バラエティ番組『遊べばいいのに』で、お笑い芸人ユ・ヨンウが歌手たちの前で披露した歌唱の場面です。\n6. 『The Remarried Empress』シーズン1 第1話（英語字幕）\n   Disney+フィリピン公式による、ネイバーWEBTOON原作ドラマの第1話全編です。皇后と皇帝をめぐる宮廷の波乱が描かれます。\n7. 『JUST MAKEUP』シーズン2 5MC予告編\n   Coupang Play『JUST MAKEUP』シーズン2の5人のMCを紹介する予告編です。テヨン、ウィンター、イム・ユナなどが登場します。\n8. 『ユ・クイズ・オン・ザ・ブロック』AIの現実を語る回\n   tvN番組『ユ・クイズ・オン・ザ・ブロック』のクリップです。AIの現状について、ユ・ジェソクらが話す内容となっています。\n9. 映画『失恋した人のための七時の朝食会』メイン予告編\n   スジとイ・ジヌクが出演する映画『失恋した人のための七時の朝食会』のメイン予告編です。12月30日に劇場公開されます。\n10. 『IDOL'S TABLE』第7話 先行公開 ごはんを何杯食べた？\n   Mnet Plusのトーク番組『IDOL'S TABLE』第7話の先行映像です。海外アイドルたちが韓国の家庭料理を味わう様子が見られます。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-19）\n\n1. ミュージックバンクの爆笑シーン集\n   ミュージックバンクで起きた面白い場面を集めたショート動画です。K-POPファンなら笑えるはずです。\n2. CORTISの短い動画「somehow survived」\n   CORTISの短い動画で、説明文はありません。メンバーの素顔が見られる一本です。\n3. TXT「Angel Bite」公式MV\n   TXTの新曲「Angel Bite」の公式ミュージックビデオです。スタッフクレジットも含まれています。\n4. Stray Kids「THIS & THAT」\n   Stray Kidsの楽曲「THIS & THAT」の配信告知動画です。リミックス版も同時に紹介されています。\n5. ユ・ヨンウ、歌手たちからスタンディングオベーション\n   『遊んでる場合じゃない』でコメディアンのユ・ヨンウが歌手たちから立ち上がって拍手を受けた場面です。\n6. 『The Remarried Empress』第1話（英語字幕）\n   Disney+フィリピン版の『The Remarried Empress』シーズン1第1話全編です。英語字幕付きで、Naverウェブトゥーンが原作です。\n7. 『ただの人友達』1話予告\n   tvN『ただの人友達』の初回予告編です。イ・ソジンやハン・ジミンら出演者が、長年の友人との新たな旅を描きます。\n8. 『JUST MAKEUP』シーズン2 5MC予告\n   Coupang Playの『JUST MAKEUP』シーズン2の5MC予告編です。テヨン、ウィンター、イム・ユナらが出演します。\n9. ENHYPEN JAKEの料理の秘密\n   ENHYPENの公式チャンネルによる、JAKEの料理の腕前をテーマにした動画です。ファンなら楽しめる内容です。\n10. 『失恋した人のための7時朝食会』メイン予告編\n   スジとイ・ジヌクが出演する映画『失恋した人のための7時朝食会』のメイン予告編です。12月30日に劇場公開されます。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -39,22 +39,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-18)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-19)",
     "rows": [
-     "1. TXT 'Angel Bite' Official MV\n   The official music video for TXT's 'Angel Bite', with full production credits listed. A release fans will want to watch closely.",
-     "2. Stray Kids Changbin and Han in a 'THIS & THAT' Shorts clip\n   An official Stray Kids Shorts featuring Changbin and Han, promoting the 'THIS & THAT' release and its remixes. Fans can enjoy the members' playful side.",
-     "3. TUIDE's Seohee and Yi Hani in a playful short\n   A short TUIDE clip where Seohee and Yi Hani share a light moment about left and right. Fans can enjoy their natural chemistry.",
-     "4. Yoo Young-woo gets a standing ovation from singers on 'Hangout with Yoo'\n   On the variety show 'Hangout with Yoo', comedian Yoo Young-woo performs in front of singers and receives a standing ovation. Fans watch for the surprise performance.",
-     "5. The Remarried Empress S1E1 full episode with English subtitles\n   The full first episode of The Remarried Empress, based on the Naver webtoon, uploaded by Disney+ Philippines with English subtitles. It follows a palace conflict between the empress and emperor.",
-     "6. Just Makeup Season 2 five-MC teaser\n   A teaser introducing the five MCs of Coupang Play's Just Makeup Season 2, including Taeyeon, Winter, and Im Yoon-ah. The show premieres November 27.",
-     "7. 'You Quiz on the Block' clip on the reality of AI\n   A clip from the tvN show 'You Quiz on the Block' about the realities of AI, with host Yoo Jae-suk. Fans may enjoy the discussion on a current topic.",
-     "8. Main trailer for the film 'Breakfast Club for the Heartbroken'\n   The main trailer for the film 'Breakfast Club for the Heartbroken', starring Suzy and Lee Jin-wook. It opens in theaters on December 30.",
-     "9. 'IDOL'S TABLE' EP.07 preview: home-cooked Korean meals\n   A preview of episode 7 of Mnet Plus's talk show 'IDOL'S TABLE', where global idols talk about K-food and home-cooked meals. The full episode airs Wednesday.",
-     "10. TXT 'Angel Bite' official teaser 2\n   The second official teaser for TXT's 'Angel Bite', with production credits listed. It builds anticipation ahead of the music video."
+     "1. CORTIS short clip: \"somehow survived\"\n   A short clip from CORTIS with no description provided. Fans may enjoy a quick look at the group.",
+     "2. TXT \"Angel Bite\" official MV\n   The official music video for TXT's song \"Angel Bite,\" directed by DQM, with full staff credits in the description. Fans will want to watch the new visuals.",
+     "3. Stray Kids \"THIS & THAT\" release clip\n   A release video for Stray Kids' \"THIS & THAT,\" which also introduces the \"This Remixes\" and \"That Remixes\" versions. Fans can find links to streaming platforms.",
+     "4. Comedian Yoo Young-woo gets standing ovation from singers\n   From the variety show \"Hangout with Yoo,\" comedian Yoo Young-woo receives a standing ovation from singers after his performance. Fans may enjoy his surprising vocal skills.",
+     "5. The Remarried Empress S1E1 full episode (ENG SUB)\n   Full episode 1 of season 1 of The Remarried Empress with English subtitles, based on the Naver webtoon. Shin Mina and Ju Jihoon star as the emperor and empress of an eastern empire.",
+     "6. \"Just Human Friends\" episode 1 preview\n   A preview of the first episode of tvN's \"Just Human Friends,\" featuring Lee Seo-jin, Han Ji-min, and others. The cast travels with long-time friends from different generations and backgrounds.",
+     "7. \"JUST MAKEUP\" Season 2 five-MC teaser\n   A teaser for Season 2 of Coupang Play's \"JUST MAKEUP,\" featuring five MCs who change each round. Taeyeon, Winter, Jang Do-yeon, Nayeon, and Im Yoon-ah are announced.",
+     "8. ENHYPEN JAKE's cooking secret\n   An ENHYPEN video focusing on member JAKE and his cooking skills. Fans can enjoy a lighter look at the group.",
+     "9. \"7 AM Breakfast Club for the Heartbroken\" main trailer\n   The main trailer for the film \"7 AM Breakfast Club for the Heartbroken,\" starring Suzy and Lee Jin-wook, opening in theaters December 30. Fans have welcomed Suzy's return to the story.",
+     "10. CORTIS short clip: \"mole check\"\n   A short CORTIS clip titled \"mole check\" with no description. Fans may enjoy a quick, playful look at the group."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-18)\n\n1. TXT 'Angel Bite' Official MV\n   The official music video for TXT's 'Angel Bite', with full production credits listed. A release fans will want to watch closely.\n2. Stray Kids Changbin and Han in a 'THIS & THAT' Shorts clip\n   An official Stray Kids Shorts featuring Changbin and Han, promoting the 'THIS & THAT' release and its remixes. Fans can enjoy the members' playful side.\n3. TUIDE's Seohee and Yi Hani in a playful short\n   A short TUIDE clip where Seohee and Yi Hani share a light moment about left and right. Fans can enjoy their natural chemistry.\n4. Yoo Young-woo gets a standing ovation from singers on 'Hangout with Yoo'\n   On the variety show 'Hangout with Yoo', comedian Yoo Young-woo performs in front of singers and receives a standing ovation. Fans watch for the surprise performance.\n5. The Remarried Empress S1E1 full episode with English subtitles\n   The full first episode of The Remarried Empress, based on the Naver webtoon, uploaded by Disney+ Philippines with English subtitles. It follows a palace conflict between the empress and emperor.\n6. Just Makeup Season 2 five-MC teaser\n   A teaser introducing the five MCs of Coupang Play's Just Makeup Season 2, including Taeyeon, Winter, and Im Yoon-ah. The show premieres November 27.\n7. 'You Quiz on the Block' clip on the reality of AI\n   A clip from the tvN show 'You Quiz on the Block' about the realities of AI, with host Yoo Jae-suk. Fans may enjoy the discussion on a current topic.\n8. Main trailer for the film 'Breakfast Club for the Heartbroken'\n   The main trailer for the film 'Breakfast Club for the Heartbroken', starring Suzy and Lee Jin-wook. It opens in theaters on December 30.\n9. 'IDOL'S TABLE' EP.07 preview: home-cooked Korean meals\n   A preview of episode 7 of Mnet Plus's talk show 'IDOL'S TABLE', where global idols talk about K-food and home-cooked meals. The full episode airs Wednesday.\n10. TXT 'Angel Bite' official teaser 2\n   The second official teaser for TXT's 'Angel Bite', with production credits listed. It builds anticipation ahead of the music video.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-19)\n\n1. CORTIS short clip: \"somehow survived\"\n   A short clip from CORTIS with no description provided. Fans may enjoy a quick look at the group.\n2. TXT \"Angel Bite\" official MV\n   The official music video for TXT's song \"Angel Bite,\" directed by DQM, with full staff credits in the description. Fans will want to watch the new visuals.\n3. Stray Kids \"THIS & THAT\" release clip\n   A release video for Stray Kids' \"THIS & THAT,\" which also introduces the \"This Remixes\" and \"That Remixes\" versions. Fans can find links to streaming platforms.\n4. Comedian Yoo Young-woo gets standing ovation from singers\n   From the variety show \"Hangout with Yoo,\" comedian Yoo Young-woo receives a standing ovation from singers after his performance. Fans may enjoy his surprising vocal skills.\n5. The Remarried Empress S1E1 full episode (ENG SUB)\n   Full episode 1 of season 1 of The Remarried Empress with English subtitles, based on the Naver webtoon. Shin Mina and Ju Jihoon star as the emperor and empress of an eastern empire.\n6. \"Just Human Friends\" episode 1 preview\n   A preview of the first episode of tvN's \"Just Human Friends,\" featuring Lee Seo-jin, Han Ji-min, and others. The cast travels with long-time friends from different generations and backgrounds.\n7. \"JUST MAKEUP\" Season 2 five-MC teaser\n   A teaser for Season 2 of Coupang Play's \"JUST MAKEUP,\" featuring five MCs who change each round. Taeyeon, Winter, Jang Do-yeon, Nayeon, and Im Yoon-ah are announced.\n8. ENHYPEN JAKE's cooking secret\n   An ENHYPEN video focusing on member JAKE and his cooking skills. Fans can enjoy a lighter look at the group.\n9. \"7 AM Breakfast Club for the Heartbroken\" main trailer\n   The main trailer for the film \"7 AM Breakfast Club for the Heartbroken,\" starring Suzy and Lee Jin-wook, opening in theaters December 30. Fans have welcomed Suzy's return to the story.\n10. CORTIS short clip: \"mole check\"\n   A short CORTIS clip titled \"mole check\" with no description. Fans may enjoy a quick, playful look at the group.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -64,22 +64,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-18)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-19)",
     "rows": [
-     "1. TXT 'Angel Bite' Official MV",
-     "2. Stray Kids Changbin and Han in a 'THIS & THAT' Shorts clip",
-     "3. TUIDE's Seohee and Yi Hani in a playful short",
-     "4. Yoo Young-woo gets a standing ovation from singers on 'Hangout with Yoo'",
-     "5. The Remarried Empress S1E1 full episode with English subtitles",
-     "6. Just Makeup Season 2 five-MC teaser",
-     "7. 'You Quiz on the Block' clip on the reality of AI",
-     "8. Main trailer for the film 'Breakfast Club for the Heartbroken'",
-     "9. 'IDOL'S TABLE' EP.07 preview: home-cooked Korean meals",
-     "10. TXT 'Angel Bite' official teaser 2"
+     "1. CORTIS short clip: \"somehow survived\"",
+     "2. TXT \"Angel Bite\" official MV",
+     "3. Stray Kids \"THIS & THAT\" release clip",
+     "4. Comedian Yoo Young-woo gets standing ovation from singers",
+     "5. The Remarried Empress S1E1 full episode (ENG SUB)",
+     "6. \"Just Human Friends\" episode 1 preview",
+     "7. \"JUST MAKEUP\" Season 2 five-MC teaser",
+     "8. ENHYPEN JAKE's cooking secret",
+     "9. \"7 AM Breakfast Club for the Heartbroken\" main trailer",
+     "10. CORTIS short clip: \"mole check\""
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-18)\n\n1. TXT 'Angel Bite' Official MV\n2. Stray Kids Changbin and Han in a 'THIS & THAT' Shorts clip\n3. TUIDE's Seohee and Yi Hani in a playful short\n4. Yoo Young-woo gets a standing ovation from singers on 'Hangout with Yoo'\n5. The Remarried Empress S1E1 full episode with English subtitles\n6. Just Makeup Season 2 five-MC teaser\n7. 'You Quiz on the Block' clip on the reality of AI\n8. Main trailer for the film 'Breakfast Club for the Heartbroken'\n9. 'IDOL'S TABLE' EP.07 preview: home-cooked Korean meals\n10. TXT 'Angel Bite' official teaser 2\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-19)\n\n1. CORTIS short clip: \"somehow survived\"\n2. TXT \"Angel Bite\" official MV\n3. Stray Kids \"THIS & THAT\" release clip\n4. Comedian Yoo Young-woo gets standing ovation from singers\n5. The Remarried Empress S1E1 full episode (ENG SUB)\n6. \"Just Human Friends\" episode 1 preview\n7. \"JUST MAKEUP\" Season 2 five-MC teaser\n8. ENHYPEN JAKE's cooking secret\n9. \"7 AM Breakfast Club for the Heartbroken\" main trailer\n10. CORTIS short clip: \"mole check\"\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }

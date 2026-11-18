@@ -1,28 +1,28 @@
 {
  "date": "2026-11-18",
- "checked": 20840,
- "ok": 20820,
+ "checked": 22645,
+ "ok": 22626,
  "unknown": 0,
  "no_embed": 0,
  "private": 8,
- "deleted": 12,
- "removed": 20,
+ "deleted": 11,
+ "removed": 19,
  "held_back": false,
  "examples": {
   "no_embed": [],
   "private": [
-   "EE3--uh3kHE",
-   "vMxJjX3pSA4",
-   "464O_lIEXEY",
-   "liFAWQFpHEo",
-   "uxc2S8vh9JQ"
+   "KvSCzzj6CdA",
+   "mNSEhfeBvgA",
+   "wh_NntEhOFA",
+   "EFmMOIMWwTU",
+   "eNyw3rzByoo"
   ],
   "deleted": [
-   "1_5fdUhlzmM",
-   "dDahgTMFR1Q",
-   "9f9Mi7RHFPA",
-   "tdupnVBoaNI",
-   "yezua7fqfgg"
+   "_AAaxCMjkmI",
+   "PVIlILSJBcE",
+   "G_4AT3tygKE",
+   "RlGvnPWW504",
+   "oXpYckz3gVk"
   ]
  },
  "history": [
@@ -88,8 +88,8 @@
   },
   {
    "date": "2026-11-18",
-   "checked": 20840,
-   "removed": 20
+   "checked": 22645,
+   "removed": 19
   }
  ]
 }
