@@ -2,6 +2,33 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "illit_mama",
+   "topic": "hot",
+   "cat": "m",
+   "front": "2026-11-25",
+   "since": "2023-11-01",
+   "search_until": "2026-11-25",
+   "until": "2026-11-25",
+   "per_night": 8,
+   "min_views": 3000,
+   "_note": "Both editions, on the front for a week (per David 2026-11-18): ILLIT at the MAMA AWARDS — the 2026 MAMA stage (Osaka, 11/20), red carpet, fancams, acceptance, and their earlier MAMA stages. Searched every night and by the 16:20 live run until 11/25.",
+   "require": [
+    "아일릿|ILLIT|アイリット",
+    "MAMA|마마 ?어워즈|마마어워즈|ママ|엠넷 ?아시안"
+   ],
+   "not": "reaction|리액션|lyrics?|가사|playlist|loop|1 ?hour|predict|예측|투표|vote|nominee|후보|ranking|순위",
+   "queries": [
+    "ILLIT 2026 MAMA AWARDS",
+    "아일릿 2026 MAMA",
+    "ILLIT MAMA performance",
+    "아일릿 MAMA 무대",
+    "ILLIT MAMA red carpet",
+    "アイリット MAMA",
+    "ILLIT MAMA fancam",
+    "아일릿 마마 직캠"
+   ]
+  },
+  {
    "name": "wonhee_twosome",
    "topic": "hot",
    "cat": "e",
