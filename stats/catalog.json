@@ -1,67 +1,67 @@
 {
- "build": "2026-11-19",
- "generated_at": "2026-11-18T11:31:20.705Z",
+ "build": "2026-11-20",
+ "generated_at": "2026-11-19T19:00:59.194Z",
  "total": {
-  "all": 61446,
-  "shorts": 29799,
-  "videos": 31647
+  "all": 60941,
+  "shorts": 29456,
+  "videos": 31485
  },
  "by_category": {
   "music": {
-   "shorts": 11949,
-   "videos": 16551,
-   "all": 28500
+   "shorts": 11964,
+   "videos": 16558,
+   "all": 28522
   },
   "screen": {
-   "shorts": 4761,
-   "videos": 5947,
-   "all": 10708
+   "shorts": 4800,
+   "videos": 5888,
+   "all": 10688
   },
   "ent": {
-   "shorts": 5326,
-   "videos": 5744,
-   "all": 11070
+   "shorts": 5241,
+   "videos": 5769,
+   "all": 11010
   },
   "beauty": {
-   "shorts": 5104,
-   "videos": 1468,
-   "all": 6572
+   "shorts": 5075,
+   "videos": 1467,
+   "all": 6542
   },
   "kfood": {
-   "shorts": 2659,
-   "videos": 1937,
-   "all": 4596
+   "shorts": 2376,
+   "videos": 1803,
+   "all": 4179
   }
  },
  "new_today": {
-  "all": 2177,
-  "shorts": 1347,
-  "videos": 830,
+  "all": 171,
+  "shorts": 56,
+  "videos": 115,
   "by_category": {
    "music": {
-    "shorts": 306,
-    "videos": 235,
-    "all": 541
+    "shorts": 8,
+    "videos": 2,
+    "all": 10
    },
    "screen": {
-    "shorts": 171,
-    "videos": 174,
-    "all": 345
+    "shorts": 18,
+    "videos": 10,
+    "all": 28
    },
    "ent": {
-    "shorts": 249,
-    "videos": 214,
-    "all": 463
+    "shorts": 27,
+    "videos": 100,
+    "all": 127
    },
    "beauty": {
-    "shorts": 274,
-    "videos": 33,
-    "all": 307
+    "shorts": 1,
+    "videos": 3,
+    "all": 4
    },
    "kfood": {
-    "shorts": 347,
-    "videos": 174,
-    "all": 521
+    "shorts": 2,
+    "videos": 0,
+    "all": 2
    }
   }
  }

@@ -1,48 +1,48 @@
 {
- "date": "2026-11-19",
- "artist": "CORTIS",
- "actor": "Ahn Hyo-seop",
+ "date": "2026-11-20",
+ "artist": "ILLIT",
+ "actor": "Gong Yoo",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: Kトラベル＆フード",
-   "text": "🍜Kトラベル＆フードでいま見られているクリップ\n注目：料理の腕の秘密 🤫\n▶ https://kreelz.com/jp/k/food/\n#韓国グルメ #韓国旅行",
-   "len": 118
+   "label": "카테고리: 韓国映画",
+   "text": "🎬韓国映画でいま見られているクリップ\n注目：さらに大きくなった판、さらに鋭くなった家族 [家族計画 シーズン2] ティーザー予告編\n▶ https://kreelz.com/jp/k/film/\n#韓国映画",
+   "len": 160
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/19）\n1. ミュージックバンクの爆笑シーン集\n2. CORTISの短い動画「somehow survived」\n3. TXT「Angel Bite」公式MV\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 212
+   "text": "📰3分でわかる今日の韓国エンタメ（11/20）\n1. ILLIT ウォニの新作ホリデーケーキ\n2. CORTIS「somehow survived」MV\n3. ILLIT 受験生への応援メッセージ\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 211
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "CORTISの曲で、いま一番リピートしてるのは？🎧\nリプで教えてください！\n#CORTIS",
-   "len": 75
+   "text": "ILLITを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#ILLIT #アイリット",
+   "len": 107
   },
   {
    "time": "19:00",
-   "label": "아티스트: CORTIS",
-   "text": "🔥CORTIS（コルティス）の最新ショート・動画まとめ\nいま話題：somehow survived\n▶ https://kreelz.com/jp/k/cortis/\n#CORTIS #KPOP",
-   "len": 116
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：スヌン応援します🍀\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 128
   },
   {
    "time": "22:00",
-   "label": "배우: Ahn Hyo-seop",
-   "text": "🎬アン・ヒョソプの最新動画まとめ\nいま話題：[真実エンディング] 結局生放送で明らかになったアン・ヒョソプの正体…衝撃を受けた実の母チャン・ヨン…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/ahn-hyo-seop/\n#アンヒョソプ #韓国俳優",
-   "len": 236
+   "label": "배우: Gong Yoo",
+   "text": "🎬コン・ユの最新動画まとめ\nいま話題：ユ・ジェソクとゴンユの下顎運命説(?)\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/gong-yoo/\n#コンユ #韓国俳優",
+   "len": 160
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "CORTIS 최신 일본어 글",
-    "url": "https://x.com/search?q=%23CORTIS%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "アン・ヒョソプ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A2%E3%83%B3%E3%83%92%E3%83%A7%E3%82%BD%E3%83%97%20lang%3Aja&f=live"
+    "label": "コン・ユ 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%B3%E3%83%B3%E3%83%A6%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/19",
+  "date": "11/20",
   "rows": [
    {
-    "t": "애기 체포하겠어🚨",
-    "ch": "Stray Kids",
-    "v": 2997546
+    "t": "スヌン応援します🍀",
+    "ch": "ILLIT",
+    "v": 2490166
    },
    {
-    "t": "ハヌヤ、左だってばｗｗｗ🤣",
-    "ch": "TUIDE",
-    "v": 2612235
+    "t": "[第1話予告] 想像もしなかった55年来の幼なじみ男友達登場ㄱ",
+    "ch": "채널십오야",
+    "v": 1312938
    },
    {
-    "t": "CORTIS（コルティス）MMA 2026 ‘MONEYMONEYMONEY’ + ‘REDRED’ + ‘YOUNGC",
-    "ch": "CORTIS",
-    "v": 1657928
+    "t": "さらに大きくなった판、さらに鋭くなった家族 [家族計画 シーズン2] ティーザー予告編",
+    "ch": "쿠팡플레이 Coupang Play",
+    "v": 1097248
    },
    {
-    "t": "ジス先輩と一緒にカッコいい行動😎",
-    "ch": "ATEEZ",
-    "v": 1320816
+    "t": "イム・ユナからウィンターまで！史上最高の5MC登場 [ジャストメイク] シーズン2 5MCの予告編",
+    "ch": "쿠팡플레이 Coupang Play",
+    "v": 1077732
    },
    {
-    "t": "ダン・ニャンスクール 閉校後の新学期",
-    "ch": "Stray Kids",
-    "v": 1200258
+    "t": "ソン・シギョンの「食べるはずだった」",
+    "ch": "성시경 SUNG SI KYUNG",
+    "v": 868927
    }
   ],
   "url": "kreelz.com/jp",
@@ -103,93 +103,93 @@
  "replies10": [
   {
    "time": "08:30",
-   "topic": "Stray Kids「THIS & THAT」",
-   "search": "https://x.com/search?q=%23%E3%82%B9%E3%82%AD%E3%82%BA%20lang%3Aja&f=live",
-   "q": "#スキズ",
-   "video": "https://www.youtube.com/watch?v=bpTbA5-A3a8",
-   "text": "韓国のコメント欄を見たら、「子供の頃のバンが大人になった」という温かい声が多いです！ わかる…！",
-   "len": 95
+   "topic": "ILLIT ウォニの新作ホリデーケーキ",
+   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
+   "q": "#アイリット",
+   "video": "https://www.youtube.com/watch?v=vZWVKUb7OG8",
+   "text": "韓国でもすごく盛り上がってます！ウォニの可愛さが際立つ広告だと、ケーキを手で食べる姿に笑う声が多い！",
+   "len": 100
   },
   {
    "time": "10:00",
-   "topic": "『ただの人友達』1話予告",
-   "search": "https://x.com/search?q=%E3%81%9F%E3%81%A0%E3%81%AE%E4%BA%BA%E5%8F%8B%E9%81%94%20lang%3Aja&f=live",
-   "q": "ただの人友達",
+   "topic": "イ・ソジン主演『ただの人間の友だち』第…",
+   "search": "https://x.com/search?q=%E3%81%9F%E3%81%A0%E3%81%AE%E4%BA%BA%E9%96%93%E3%81%AE%E5%8F%8B%E3%81%A0%E3%81%A1%20lang%3Aja&f=live",
+   "q": "ただの人間の友だち",
    "video": "https://www.youtube.com/watch?v=s3dqA2nSOmQ",
-   "text": "韓国でもすごく盛り上がってます！出演者たちの初めての戸惑いぶりや、大先輩の登場に笑う声が多いです！",
-   "len": 98
+   "text": "イ・ソジンが先輩の登場に慌てる姿に笑うコメントが多い！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 93
   },
   {
    "time": "11:30",
-   "topic": "『JUST MAKEUP』シーズン2 5MC予告",
-   "search": "https://x.com/search?q=JUST%20MAKEUP%20lang%3Aja&f=live",
-   "q": "JUST MAKEUP",
-   "video": "https://www.youtube.com/watch?v=jS9OuwckDEM",
-   "text": "豪華なMCラインナップに、見た目の美しさを褒める声が多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 99
+   "topic": "『家族計画』シーズン2 ティーザー予告編",
+   "search": "https://x.com/search?q=%E5%AE%B6%E6%97%8F%E8%A8%88%E7%94%BB%20lang%3Aja&f=live",
+   "q": "家族計画",
+   "video": "https://www.youtube.com/watch?v=cBHXKJiXFJs",
+   "text": "韓国のファンの反応も最高でした😂 シーズン1を絶賛し、シーズン2を待つ声が多い！",
+   "len": 77
   },
   {
    "time": "13:00",
-   "topic": "『失恋した人のための7時朝食会』メイン…",
-   "search": "https://x.com/search?q=%E5%A4%B1%E6%81%8B%E3%81%97%E3%81%9F%E4%BA%BA%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE7%E6%99%82%E6%9C%9D%E9%A3%9F%E4%BC%9A%20lang%3Aja&f=live",
-   "q": "失恋した人のための7時朝食会",
-   "video": "https://www.youtube.com/watch?v=N3dRcwfrIY8",
-   "text": "韓国のファンの反応も最高でした😂 スジの新作を待っていたという喜びの声が多いです！",
-   "len": 81
+   "topic": "『再婚皇后』7-8話ハイライト",
+   "search": "https://x.com/search?q=%E5%86%8D%E5%A9%9A%E7%9A%87%E5%90%8E%20lang%3Aja&f=live",
+   "q": "再婚皇后",
+   "video": "https://www.youtube.com/watch?v=B8YEqD_tsuE",
+   "text": "韓国でも話題になってます👀 ジヌンの演技とセヨンの熱演を称賛する声が多い！",
+   "len": 73
   },
   {
    "time": "14:30",
-   "topic": "ILLIT×ITZY「体포하겠어」チャレンジ",
-   "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
-   "q": "#アイリット",
-   "video": "https://www.youtube.com/watch?v=Fk526q1hOwg",
-   "text": "韓国でも話題になってます👀 ITZYとILLITのメンバーが揃った姿に喜ぶ声が多く、ウォニのポリス制服も好評です！",
-   "len": 104
+   "topic": "ソン・シギョン『食べるはずだったのに』…",
+   "search": "https://x.com/search?q=%E9%A3%9F%E3%81%B9%E3%82%8B%E3%81%AF%E3%81%9A%E3%81%A0%E3%81%A3%E3%81%9F%E3%81%AE%E3%81%AB%20lang%3Aja&f=live",
+   "q": "食べるはずだったのに",
+   "video": "https://www.youtube.com/watch?v=LPWSoypmsD4",
+   "text": "韓国のコメント欄を見たら、チェリョンの明るさと礼儀正しさを褒めるコメントが多い！ わかる…！",
+   "len": 91
   },
   {
    "time": "16:00",
-   "topic": "TUIDE「하늬야 왼쪽이라고」",
-   "search": "https://x.com/search?q=%23TUIDE%20lang%3Aja&f=live",
-   "q": "#TUIDE",
-   "video": "https://www.youtube.com/watch?v=8htnO-098LU",
-   "text": "韓国のコメント欄を見たら、セヒの美しい横顔やメイクを褒める声が多く、かわいいと盛り上がっています！ わかる…！",
-   "len": 109
+   "topic": "『ラジオスター』キム・ガンジ出演回",
+   "search": "https://x.com/search?q=%E3%83%A9%E3%82%B8%E3%82%AA%E3%82%B9%E3%82%BF%E3%83%BC%20lang%3Aja&f=live",
+   "q": "ラジオスター",
+   "video": "https://www.youtube.com/watch?v=_t8SmtNLUy8",
+   "text": "韓国でもすごく盛り上がってます！キム・ガンジの面白さに笑い、音楽も褒める声が多い！",
+   "len": 82
   },
   {
    "time": "17:30",
-   "topic": "TXT「Angel Bite」公式ティーザー2",
-   "search": "https://x.com/search?q=%23%E3%83%88%E3%82%A5%E3%83%90%20lang%3Aja&f=live",
-   "q": "#トゥバ",
-   "video": "https://www.youtube.com/watch?v=0kKD3b2nwfQ",
-   "text": "韓国でもすごく盛り上がってます！新アルバムへの期待が高まり、コンサートの思い出を語る声もあります！",
-   "len": 98
+   "topic": "CL「ICONIC」M/Vティーザー",
+   "search": "https://x.com/search?q=ICONIC%20lang%3Aja&f=live",
+   "q": "ICONIC",
+   "video": "https://www.youtube.com/watch?v=znwIxkF7nZQ",
+   "text": "CLが戻ってきたことを喜ぶ声が多く、彼女の新曲への期待が伝わってきます！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 109
   },
   {
    "time": "19:00",
-   "topic": "「私の有罪人間」イム・シワン×キム・ジ…",
-   "search": "https://x.com/search?q=%E7%A7%81%E3%81%AE%E6%9C%89%E7%BD%AA%E4%BA%BA%E9%96%93%20lang%3Aja&f=live",
-   "q": "私の有罪人間",
-   "video": "https://www.youtube.com/watch?v=_hWzoCHQslM",
-   "text": "イ・ジュンを手なずける場面が面白く、「もっと見たい」という声が多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 111
+   "topic": "「ジャスト・メイクアップ」シーズン2 5M…",
+   "search": "https://x.com/search?q=%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%88%E3%83%BB%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%20lang%3Aja&f=live",
+   "q": "ジャスト・メイクアップ",
+   "video": "https://www.youtube.com/watch?v=jS9OuwckDEM",
+   "text": "韓国のファンの反応も最高でした😂 出演するアイドルや芸能人の美しさに驚き、特にイム・ユナの存在感を称賛する声があります！",
+   "len": 119
   },
   {
    "time": "20:30",
-   "topic": "ATEEZ「GOLDENHOUR」ジス×ジャンル",
-   "search": "https://x.com/search?q=%23ATEEZ%20lang%3Aja&f=live",
-   "q": "#ATEEZ",
-   "video": "https://www.youtube.com/watch?v=vV3Hc2Wg23s",
-   "text": "韓国のファンの反応も最高でした😂 ジス（JISOO）の性格の良さや可愛さに感動する声が多いです！",
-   "len": 90
+   "topic": "「私の有罪人間」ジェヒの頬キスシーン",
+   "search": "https://x.com/search?q=%E7%A7%81%E3%81%AE%E6%9C%89%E7%BD%AA%E4%BA%BA%E9%96%93%20lang%3Aja&f=live",
+   "q": "私の有罪人間",
+   "video": "https://www.youtube.com/watch?v=_hWzoCHQslM",
+   "text": "韓国でも話題になってます👀 俳優の演技の上手さを褒め、もっと見たいという声が多いです！",
+   "len": 85
   },
   {
    "time": "22:00",
-   "topic": "i-dle ミヨン「Ahri Charm」",
-   "search": "https://x.com/search?q=%23GIDLE%20lang%3Aja&f=live",
-   "q": "#GIDLE",
-   "video": "https://www.youtube.com/watch?v=cXmnywzL2EM",
-   "text": "韓国でも話題になってます👀 ミヨンのアーリ姿が本物のキャラクターより美しいと称賛する声が多いです！",
-   "len": 97
+   "topic": "TXT ウォンヒ×ボムギュ『PERFECTSTORM』",
+   "search": "https://x.com/search?q=%23%E3%83%88%E3%82%A5%E3%83%90%20lang%3Aja&f=live",
+   "q": "#トゥバ",
+   "video": "https://www.youtube.com/watch?v=cz310Op8tnQ",
+   "text": "韓国のコメント欄を見たら、ウォンヒとボムギュの組み合わせが可愛いという声が多く、ビジュアルや仲の良さを褒めています！ わかる…！",
+   "len": 127
   }
  ]
 }
