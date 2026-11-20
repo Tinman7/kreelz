@@ -1,35 +1,35 @@
 {
- "date": "2026-11-20",
+ "date": "2026-11-21",
  "updated": "2026-11-16T18:29:21.002Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCsnDrary1zSkV9RFyZ11K7w",
-    "UCtWAofIVAuETCyvncLcl4_w",
-    "UCtkdAwKUAEjCjJq3u94d3TA"
+    "UCi8WDd6UlZLAaQzdyqD6B-w",
+    "UCgl55m7e8ulMedEJGEWonMg",
+    "UCrqIbSx_E0BMHp9LxUhFS4w"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-20）",
+    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-21）",
     "rows": [
-     "1. ILLIT ウォニの新作ホリデーケーキ\n   ILLITのウォニがハマったという新作ホリデーケーキのCM。ウォニの可愛さが詰まった映像で、ファンの注目を集めそう。",
-     "2. CORTIS「somehow survived」MV\n   CORTISの楽曲「somehow survived」の公式動画。説明文はなく、楽曲のミュージックビデオとして紹介されている。",
-     "3. ILLIT 受験生への応援メッセージ\n   ILLITが大学修学能力試験を受ける受験生に送った応援動画。受験生へのエールを届けるメッセージ映像。",
-     "4. Stray Kids I.N「NO RETURN」スキズ・プレイヤー\n   Stray KidsのI.N「NO RETURN」を収めた『SKZ-PLAYER』の映像。作詞・作曲にはバンチャンも参加している。",
-     "5. イ・ソジン主演『ただの人間の友だち』第1話予告\n   tvN新番組『그냥사람친구』の第1話予告編。イ・ソジンら世代も違う6人が、長年の友人との旅に出る。11月27日放送。",
-     "6. 『家族計画』シーズン2 ティーザー予告編\n   Coupang Playのシリーズ『家族計画』シーズン2のティーザー予告。12月18日夜8時に配信開始される。",
-     "7. 『再婚皇后』7-8話ハイライト\n   Disney+の『再婚皇后』第7・8話のハイライト映像。皇帝と皇后の関係が描かれる名場面をまとめたクリップ。",
-     "8. ソン・シギョン『食べるはずだったのに』ホン博士生肉店\n   歌手ソン・シギョンのグルメ動画で、ゲストのチェリョンと論賢洞(ノンヒョンドン)の焼肉店ホン博士生肉店を訪れる。",
-     "9. 『ラジオスター』キム・ガンジ出演回\n   MBC『ラジオスター』に出演したキム・ガンジ(Sultan)の回。音楽と明るいトークで笑いを誘う。11月18日放送。",
-     "10. ILLIT「体ポリス」ironmouseコラボ\n   ILLITがironmouseとコラボした『You're Under Arrest』関連のショート動画。"
+     "1. アイリット曲にブームミックス乗せる回\n   バラエティ番組『놀라운토요일』の短い映像。ブームがアイリットの曲に独自のミックスを重ねて笑いを誘う場面です。",
+     "2. CORTIS「somehow survived」\n   CORTISの楽曲『somehow survived』のミュージック動画です。グループの新しい音楽を聴きたいファンに向けた映像です。",
+     "3. 『再婚皇后』9-10話予告編\n   ディズニープラスの韓国ドラマ『再婚皇后』第9〜10話の予告編です。皇后ナビエの決断が現実となる展開が描かれます。",
+     "4. ILLIT「受験応援します」\n   ILLITが大学修学能力試験を受ける受験生を応援するメッセージ動画です。受験生の心に寄り添う内容です。",
+     "5. 『離婚熟慮キャンプ』夫婦相談ハイライト\n   JTBCの番組『離婚熟慮キャンプ』の相談場面のハイライトです。夫婦カウンセリング中の厳しい指摘が映されています。",
+     "6. 『ジャスト・メイクアップ』シーズン2メイン予告\n   クーパンプレイのビューティーサバイバル番組『ジャスト・メイクアップ』シーズン2のメイン予告編です。11月27日配信開始の案内です。",
+     "7. 『ただの人間の友達』1話予告\n   tvNの新バラエティ『ただの人間の友達』第1話の予告です。イ・ソジンら世代の異なる友人たちが旅をする様子が描かれます。",
+     "8. Stray Kids「You cannot return」\n   Stray Kidsの楽曲『You cannot return』の公式映像です。アルバム『THIS & THAT』のリミックス音源の配信案内も含まれています。",
+     "9. ソン・シギョン『食べるはずなのに』～論峴洞の生肉店\n   歌手ソン・シギョンのグルメ動画で、ゲストのチェリョンと論峴洞（ノンヒョンドン）の焼肉店を訪れます。",
+     "10. 映画『大雪』好評レビュー\n   キム・ユンソク、ク・キョファン出演の映画『大雪（폭설）』の観客の好評レビューをまとめた動画です。"
     ],
     "n": 10,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-20）\n\n1. ILLIT ウォニの新作ホリデーケーキ\n   ILLITのウォニがハマったという新作ホリデーケーキのCM。ウォニの可愛さが詰まった映像で、ファンの注目を集めそう。\n2. CORTIS「somehow survived」MV\n   CORTISの楽曲「somehow survived」の公式動画。説明文はなく、楽曲のミュージックビデオとして紹介されている。\n3. ILLIT 受験生への応援メッセージ\n   ILLITが大学修学能力試験を受ける受験生に送った応援動画。受験生へのエールを届けるメッセージ映像。\n4. Stray Kids I.N「NO RETURN」スキズ・プレイヤー\n   Stray KidsのI.N「NO RETURN」を収めた『SKZ-PLAYER』の映像。作詞・作曲にはバンチャンも参加している。\n5. イ・ソジン主演『ただの人間の友だち』第1話予告\n   tvN新番組『그냥사람친구』の第1話予告編。イ・ソジンら世代も違う6人が、長年の友人との旅に出る。11月27日放送。\n6. 『家族計画』シーズン2 ティーザー予告編\n   Coupang Playのシリーズ『家族計画』シーズン2のティーザー予告。12月18日夜8時に配信開始される。\n7. 『再婚皇后』7-8話ハイライト\n   Disney+の『再婚皇后』第7・8話のハイライト映像。皇帝と皇后の関係が描かれる名場面をまとめたクリップ。\n8. ソン・シギョン『食べるはずだったのに』ホン博士生肉店\n   歌手ソン・シギョンのグルメ動画で、ゲストのチェリョンと論賢洞(ノンヒョンドン)の焼肉店ホン博士生肉店を訪れる。\n9. 『ラジオスター』キム・ガンジ出演回\n   MBC『ラジオスター』に出演したキム・ガンジ(Sultan)の回。音楽と明るいトークで笑いを誘う。11月18日放送。\n10. ILLIT「体ポリス」ironmouseコラボ\n   ILLITがironmouseとコラボした『You're Under Arrest』関連のショート動画。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-21）\n\n1. アイリット曲にブームミックス乗せる回\n   バラエティ番組『놀라운토요일』の短い映像。ブームがアイリットの曲に独自のミックスを重ねて笑いを誘う場面です。\n2. CORTIS「somehow survived」\n   CORTISの楽曲『somehow survived』のミュージック動画です。グループの新しい音楽を聴きたいファンに向けた映像です。\n3. 『再婚皇后』9-10話予告編\n   ディズニープラスの韓国ドラマ『再婚皇后』第9〜10話の予告編です。皇后ナビエの決断が現実となる展開が描かれます。\n4. ILLIT「受験応援します」\n   ILLITが大学修学能力試験を受ける受験生を応援するメッセージ動画です。受験生の心に寄り添う内容です。\n5. 『離婚熟慮キャンプ』夫婦相談ハイライト\n   JTBCの番組『離婚熟慮キャンプ』の相談場面のハイライトです。夫婦カウンセリング中の厳しい指摘が映されています。\n6. 『ジャスト・メイクアップ』シーズン2メイン予告\n   クーパンプレイのビューティーサバイバル番組『ジャスト・メイクアップ』シーズン2のメイン予告編です。11月27日配信開始の案内です。\n7. 『ただの人間の友達』1話予告\n   tvNの新バラエティ『ただの人間の友達』第1話の予告です。イ・ソジンら世代の異なる友人たちが旅をする様子が描かれます。\n8. Stray Kids「You cannot return」\n   Stray Kidsの楽曲『You cannot return』の公式映像です。アルバム『THIS & THAT』のリミックス音源の配信案内も含まれています。\n9. ソン・シギョン『食べるはずなのに』～論峴洞の生肉店\n   歌手ソン・シギョンのグルメ動画で、ゲストのチェリョンと論峴洞（ノンヒョンドン）の焼肉店を訪れます。\n10. 映画『大雪』好評レビュー\n   キム・ユンソク、ク・キョファン出演の映画『大雪（폭설）』の観客の好評レビューをまとめた動画です。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -39,22 +39,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-20)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-21)",
     "rows": [
-     "1. CORTIS - \"somehow survived\" music video\n   A video for CORTIS's track \"somehow survived\" posted on the group's channel. The description is empty.",
-     "2. ILLIT cheers on students taking the CSAT\n   ILLIT sends encouragement to students taking Korea's college entrance exam, the CSAT. The description has no further details.",
-     "3. Stray Kids I.N \"NO RETURN\" | SKZ-PLAYER\n   Stray Kids' SKZ-PLAYER video featuring I.N's \"NO RETURN\". Lyrics and composition credits include Bang Chan (3RACHA).",
-     "4. Just Human Friends Ep.1 preview with Lee Seo-jin\n   Preview of tvN's new travel variety show Just Human Friends, following six people of different ages and jobs with long-time friends. Premieres November 27.",
-     "5. Family Planning Season 2 teaser | Coupang Play\n   Teaser for season 2 of the Coupang Play series Family Planning, premiering December 18 at 8 p.m. KST.",
-     "6. The Remarried Empress Ep.7-8 highlights | Disney+\n   Highlights from episodes 7 and 8 of Disney+'s The Remarried Empress, featuring key scenes between the emperor and empress.",
-     "7. Sung Si-kyung's Eat Ten Dish: Hong Doctor Raw Meat, Nonhyeon-dong\n   Singer Sung Si-kyung's food video with guest Chaeryeong at Hong Doctor Raw Meat in Nonhyeon-dong, Seoul.",
-     "8. 100 Days of Deception special preview | Park Jin-young and Jin Seon-kyu\n   A special early preview from tvN's 100 Days of Deception showing a father and son confronting each other directly.",
-     "9. Radio Star with Kim Gan-ji (Sultan)\n   Radio Star episode featuring Kim Gan-ji of Sultan, a comedic talk show appearance broadcast on November 18.",
-     "10. ILLIT \"You're Under Arrest\" with ironmouse\n   A short video from ILLIT featuring the \"You're Under Arrest\" theme, shared with ironmouse and The Wildcard Club."
+     "1. CORTIS - \"somehow survived\"\n   The music video for CORTIS's song \"somehow survived\". Fans of the group will want to hear their new track.",
+     "2. The Remarried Empress Ep 9-10 preview\n   The preview for episodes 9 and 10 of the Disney+ Korean drama The Remarried Empress. It shows the empress's final declaration becoming reality.",
+     "3. ILLIT cheers on students taking the CSAT\n   ILLIT sends a message of support to students taking Korea's college entrance exam. Fans will appreciate the encouraging words.",
+     "4. Divorce Camp highlight: counselor's blunt advice\n   A highlight from JTBC's Divorce Camp, showing expert Lee Ho-seon giving direct feedback to a couple during counseling.",
+     "5. Just Makeup Season 2 main teaser\n   The main teaser for season 2 of Coupang Play's beauty survival show Just Makeup, with a 300 million won prize. It premieres November 27.",
+     "6. Just Human Friends Ep 1 preview\n   A preview for episode 1 of the new tvN variety show Just Human Friends, following six friends of different ages on a trip together. It premieres November 27.",
+     "7. Stray Kids - \"You cannot return\"\n   An official video for Stray Kids' song \"You cannot return\". The description links to the THIS & THAT album and its remix versions.",
+     "8. Sung Si-kyung's Eat Dinner Anyway: Nonhyeon-dong beef spot\n   A food video from singer Sung Si-kyung's channel, where he visits a Nonhyeon-dong beef restaurant with guest Chaeryeong.",
+     "9. Heavy Snow: audience reviews compilation\n   A compilation of audience reviews for the film Heavy Snow (폭설), starring Kim Yoon-seok and Koo Kyo-hwan. It is now screening.",
+     "10. ILLIT x IronMouse - \"You're Under Arrest\"\n   A short video in which ILLIT collaborates with VTuber IronMouse on the track \"You're Under Arrest\". It is aimed at fans of both."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-20)\n\n1. CORTIS - \"somehow survived\" music video\n   A video for CORTIS's track \"somehow survived\" posted on the group's channel. The description is empty.\n2. ILLIT cheers on students taking the CSAT\n   ILLIT sends encouragement to students taking Korea's college entrance exam, the CSAT. The description has no further details.\n3. Stray Kids I.N \"NO RETURN\" | SKZ-PLAYER\n   Stray Kids' SKZ-PLAYER video featuring I.N's \"NO RETURN\". Lyrics and composition credits include Bang Chan (3RACHA).\n4. Just Human Friends Ep.1 preview with Lee Seo-jin\n   Preview of tvN's new travel variety show Just Human Friends, following six people of different ages and jobs with long-time friends. Premieres November 27.\n5. Family Planning Season 2 teaser | Coupang Play\n   Teaser for season 2 of the Coupang Play series Family Planning, premiering December 18 at 8 p.m. KST.\n6. The Remarried Empress Ep.7-8 highlights | Disney+\n   Highlights from episodes 7 and 8 of Disney+'s The Remarried Empress, featuring key scenes between the emperor and empress.\n7. Sung Si-kyung's Eat Ten Dish: Hong Doctor Raw Meat, Nonhyeon-dong\n   Singer Sung Si-kyung's food video with guest Chaeryeong at Hong Doctor Raw Meat in Nonhyeon-dong, Seoul.\n8. 100 Days of Deception special preview | Park Jin-young and Jin Seon-kyu\n   A special early preview from tvN's 100 Days of Deception showing a father and son confronting each other directly.\n9. Radio Star with Kim Gan-ji (Sultan)\n   Radio Star episode featuring Kim Gan-ji of Sultan, a comedic talk show appearance broadcast on November 18.\n10. ILLIT \"You're Under Arrest\" with ironmouse\n   A short video from ILLIT featuring the \"You're Under Arrest\" theme, shared with ironmouse and The Wildcard Club.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-21)\n\n1. CORTIS - \"somehow survived\"\n   The music video for CORTIS's song \"somehow survived\". Fans of the group will want to hear their new track.\n2. The Remarried Empress Ep 9-10 preview\n   The preview for episodes 9 and 10 of the Disney+ Korean drama The Remarried Empress. It shows the empress's final declaration becoming reality.\n3. ILLIT cheers on students taking the CSAT\n   ILLIT sends a message of support to students taking Korea's college entrance exam. Fans will appreciate the encouraging words.\n4. Divorce Camp highlight: counselor's blunt advice\n   A highlight from JTBC's Divorce Camp, showing expert Lee Ho-seon giving direct feedback to a couple during counseling.\n5. Just Makeup Season 2 main teaser\n   The main teaser for season 2 of Coupang Play's beauty survival show Just Makeup, with a 300 million won prize. It premieres November 27.\n6. Just Human Friends Ep 1 preview\n   A preview for episode 1 of the new tvN variety show Just Human Friends, following six friends of different ages on a trip together. It premieres November 27.\n7. Stray Kids - \"You cannot return\"\n   An official video for Stray Kids' song \"You cannot return\". The description links to the THIS & THAT album and its remix versions.\n8. Sung Si-kyung's Eat Dinner Anyway: Nonhyeon-dong beef spot\n   A food video from singer Sung Si-kyung's channel, where he visits a Nonhyeon-dong beef restaurant with guest Chaeryeong.\n9. Heavy Snow: audience reviews compilation\n   A compilation of audience reviews for the film Heavy Snow (폭설), starring Kim Yoon-seok and Koo Kyo-hwan. It is now screening.\n10. ILLIT x IronMouse - \"You're Under Arrest\"\n   A short video in which ILLIT collaborates with VTuber IronMouse on the track \"You're Under Arrest\". It is aimed at fans of both.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -64,22 +64,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-20)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-21)",
     "rows": [
-     "1. CORTIS - \"somehow survived\" music video",
-     "2. ILLIT cheers on students taking the CSAT",
-     "3. Stray Kids I.N \"NO RETURN\" | SKZ-PLAYER",
-     "4. Just Human Friends Ep.1 preview with Lee Seo-jin",
-     "5. Family Planning Season 2 teaser | Coupang Play",
-     "6. The Remarried Empress Ep.7-8 highlights | Disney+",
-     "7. Sung Si-kyung's Eat Ten Dish: Hong Doctor Raw Meat, Nonhyeon-dong",
-     "8. 100 Days of Deception special preview | Park Jin-young and Jin Seon-kyu",
-     "9. Radio Star with Kim Gan-ji (Sultan)",
-     "10. ILLIT \"You're Under Arrest\" with ironmouse"
+     "1. CORTIS - \"somehow survived\"",
+     "2. The Remarried Empress Ep 9-10 preview",
+     "3. ILLIT cheers on students taking the CSAT",
+     "4. Divorce Camp highlight: counselor's blunt advice",
+     "5. Just Makeup Season 2 main teaser",
+     "6. Just Human Friends Ep 1 preview",
+     "7. Stray Kids - \"You cannot return\"",
+     "8. Sung Si-kyung's Eat Dinner Anyway: Nonhyeon-dong beef spot",
+     "9. Heavy Snow: audience reviews compilation",
+     "10. ILLIT x IronMouse - \"You're Under Arrest\""
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-20)\n\n1. CORTIS - \"somehow survived\" music video\n2. ILLIT cheers on students taking the CSAT\n3. Stray Kids I.N \"NO RETURN\" | SKZ-PLAYER\n4. Just Human Friends Ep.1 preview with Lee Seo-jin\n5. Family Planning Season 2 teaser | Coupang Play\n6. The Remarried Empress Ep.7-8 highlights | Disney+\n7. Sung Si-kyung's Eat Ten Dish: Hong Doctor Raw Meat, Nonhyeon-dong\n8. 100 Days of Deception special preview | Park Jin-young and Jin Seon-kyu\n9. Radio Star with Kim Gan-ji (Sultan)\n10. ILLIT \"You're Under Arrest\" with ironmouse\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-21)\n\n1. CORTIS - \"somehow survived\"\n2. The Remarried Empress Ep 9-10 preview\n3. ILLIT cheers on students taking the CSAT\n4. Divorce Camp highlight: counselor's blunt advice\n5. Just Makeup Season 2 main teaser\n6. Just Human Friends Ep 1 preview\n7. Stray Kids - \"You cannot return\"\n8. Sung Si-kyung's Eat Dinner Anyway: Nonhyeon-dong beef spot\n9. Heavy Snow: audience reviews compilation\n10. ILLIT x IronMouse - \"You're Under Arrest\"\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
