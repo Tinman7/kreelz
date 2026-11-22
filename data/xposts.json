@@ -1,48 +1,48 @@
 {
- "date": "2026-11-22",
- "artist": "ILLIT",
- "actor": "Lee Jong-suk",
+ "date": "2026-11-23",
+ "artist": "TXT",
+ "actor": "Park Bo-gum",
  "posts": [
   {
    "time": "08:00",
    "label": "카테고리: 韓国ドラマ",
-   "text": "📺韓国ドラマでいま見られているクリップ\n注目：彼女はヘインリーの女王🔥 再婚皇后👑\n▶ https://kreelz.com/jp/k/drama/\n#韓国ドラマ",
-   "len": 119
+   "text": "📺韓国ドラマでいま見られているクリップ\n注目：皇后ナビエの新たな始まり | [再婚皇后] 9-10話予告編 | ディズニー+\n▶ https://kreelz.com/jp/k/drama/\n#韓国ドラマ",
+   "len": 148
   },
   {
    "time": "12:00",
    "label": "오늘의 3분 요약 TOP3",
-   "text": "📰3分でわかる今日の韓国エンタメ（11/22）\n1. ILLIT ウォンヒ、圧巻のパフォーマンス\n2. ILLIT「Under Arrest」MV\n3. TXT「Angel Bite」パフォーマンスフィルム\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 219
+   "text": "📰3分でわかる今日の韓国エンタメ（11/23）\n1. ILLIT・ウォンヒ、日本番組での進化まとめ\n2. ILLIT「1000% style」マイクロ動画\n3. TXT「Angel Bite」パフォーマンスフィルム\n解説つきの全部はこちら▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 231
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "今期見てる韓国ドラマ、教えてください！📺\nおすすめも大歓迎です🙌\n#韓国ドラマ #韓ドラ好きさんと繋がりたい",
-   "len": 103
+   "text": "最近ハマってるK-POPの曲は？🎧\n1曲だけ選ぶなら？リプで教えてください！\n#KPOP #KPOP好きさんと繋がりたい",
+   "len": 101
   },
   {
    "time": "19:00",
-   "label": "아티스트: ILLIT",
-   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：[ ILLIT（アイリット）- It's Me (MAMA Ver.) + D.B : SECRET AGENT + 逮捕するぞ | Mnet 261120 放送\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
-   "len": 205
+   "label": "아티스트: TXT",
+   "text": "🔥TXT（トゥバ）の最新ショート・動画まとめ\nいま話題：TXT（トゥモローバイトゥギャザー）「Angel Bite」Performance Film\n▶ https://kreelz.com/jp/k/txt/\n#TXT #トゥバ #KPOP",
+   "len": 161
   },
   {
    "time": "22:00",
-   "label": "배우: Lee Jong-suk",
-   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：彼女はヘインリーの女王🔥 再婚皇后👑\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
-   "len": 172
+   "label": "배우: Park Bo-gum",
+   "text": "🎬パク・ボゴムの最新動画まとめ\nいま話題：[놀면 뭐하니] 환승보컬에 메기남까지 등장? 존박의 간택을 받는 가수는?💞\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/park-bo-gum/\n#パクボゴム #韓国俳優",
+   "len": 203
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "ILLIT 최신 일본어 글",
-    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
+    "label": "TXT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23TXT%20lang%3Aja&f=live"
    },
    {
-    "label": "イ・ジョンソク 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
+    "label": "パク・ボゴム 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%83%91%E3%82%AF%E3%83%9C%E3%82%B4%E3%83%A0%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/22",
+  "date": "11/23",
   "rows": [
    {
     "t": "TXT（トゥモローバイトゥギャザー）「Angel Bite」Performance Film",
     "ch": "TOMORROW X TOGETHER OFFICIAL",
-    "v": 7947613
+    "v": 12979895
    },
    {
-    "t": "彼女はヘインリーの女王🔥 再婚皇后👑",
-    "ch": "ThrillVille",
-    "v": 3629955
-   },
-   {
-    "t": "ヘインリーが王になった🔥 再婚皇后👑",
-    "ch": "ThrillVille",
-    "v": 3051826
+    "t": "[ BIGBANG (ビッグバン) - 'WOW, BiiiG COSMOS!'",
+    "ch": "Mnet K-POP",
+    "v": 4583766
    },
    {
     "t": "[ ILLIT（アイリット）- It's Me (MAMA Ver.) + D.B : SECRET AGENT + 逮",
     "ch": "Mnet K-POP",
-    "v": 2490166
+    "v": 3853728
    },
    {
-    "t": "かわいい義兄さん🎀 再婚皇后👑",
-    "ch": "ThrillVille",
-    "v": 1891129
+    "t": "[ CORTIS - REDRED + TNT",
+    "ch": "Mnet K-POP",
+    "v": 3107089
+   },
+   {
+    "t": "「人間の暮らしはみんな同じだね」普段あまりマグロを食べないのに、スタッフのためにマグロの刺身を切ると聞いて、準備しておい",
+    "ch": "EBSDocumentary (EBS 다큐)",
+    "v": 2505107
    }
   ],
   "url": "kreelz.com/jp",
@@ -103,93 +103,93 @@
  "replies10": [
   {
    "time": "08:30",
-   "topic": "ILLIT ウォンヒ、圧巻のパフォーマンス",
+   "topic": "ILLIT「1000% style」マイクロ動画",
    "search": "https://x.com/search?q=%23%E3%82%A2%E3%82%A4%E3%83%AA%E3%83%83%E3%83%88%20lang%3Aja&f=live",
    "q": "#アイリット",
-   "video": "https://www.youtube.com/watch?v=JInvN-2upZk",
-   "text": "韓国のファンの反応も最高でした😂 緊張が伝わるのに完璧にこなす姿に、スター性を感じるという声が多いです！",
-   "len": 103
+   "video": "https://www.youtube.com/watch?v=32LQLoQoLfY",
+   "text": "韓国でも話題になってます👀 メンバーのかわいさに感動する声が多いです！",
+   "len": 69
   },
   {
    "time": "10:00",
-   "topic": "『再婚皇后』9-10話予告編｜ディズニープ…",
+   "topic": "ドラマ『再婚皇后』9〜10話予告編",
    "search": "https://x.com/search?q=%E5%86%8D%E5%A9%9A%E7%9A%87%E5%90%8E%20lang%3Aja&f=live",
    "q": "再婚皇后",
    "video": "https://www.youtube.com/watch?v=EcDN7__lyTw",
-   "text": "韓国でも話題になってます👀 シーズン2がないことへの不満や、十話で終わる展開への驚きの声が多く見られます！",
-   "len": 104
+   "text": "韓国のコメント欄を見たら、第2シーズンを望む声が多く、物語の続きへの期待が見えます！ わかる…！",
+   "len": 94
   },
   {
    "time": "11:30",
-   "topic": "『全知的な視点』先行公開｜ユ・ヨンウ×…",
-   "search": "https://x.com/search?q=%E5%85%A8%E7%9F%A5%E7%9A%84%E3%81%AA%E8%A6%96%E7%82%B9%20lang%3Aja&f=live",
-   "q": "全知的な視点",
-   "video": "https://www.youtube.com/watch?v=OxxzofD3bEY",
-   "text": "韓国のコメント欄を見たら、三人の組み合わせが楽しく、食べっぷりや芸人のような掛け合いに笑う声が多いです！ わかる…！",
-   "len": 115
+   "topic": "『ジャスト・メイクアップ』シーズン2メ…",
+   "search": "https://x.com/search?q=%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%88%E3%83%BB%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%20lang%3Aja&f=live",
+   "q": "ジャスト・メイクアップ",
+   "video": "https://www.youtube.com/watch?v=mMyWe36PcRU",
+   "text": "韓国でもすごく盛り上がってます！ユナの美しさに圧倒されたという声や、テヨンとのMCに期待する声が目立ちます！",
+   "len": 106
   },
   {
    "time": "13:00",
-   "topic": "『ジャスト・メイクアップ』シーズン2出…",
-   "search": "https://x.com/search?q=%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%88%E3%83%BB%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%20lang%3Aja&f=live",
-   "q": "ジャスト・メイクアップ",
-   "video": "https://www.youtube.com/watch?v=gPw__8opR1w",
-   "text": "韓国でもすごく盛り上がってます！シーズン1に続く豪華なラインナップや、話題の作品を手がけたメイクアップ担当者への期待の声が多いです！",
-   "len": 131
+   "topic": "『遊んでる場合じゃないですよ』環承ボー…",
+   "search": "https://x.com/search?q=%E9%81%8A%E3%82%93%E3%81%A7%E3%82%8B%E5%A0%B4%E5%90%88%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%E3%81%A7%E3%81%99%E3%82%88%20lang%3Aja&f=live",
+   "q": "遊んでる場合じゃないですよ",
+   "video": "https://www.youtube.com/watch?v=IMvMdV5HQZs",
+   "text": "各曲の歌唱や、ハーモニーの即興に感心する声があります！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 93
   },
   {
    "time": "14:30",
-   "topic": "ENHYPEN 2026MAMA大賞受賞コメント",
-   "search": "https://x.com/search?q=%23ENHYPEN%20lang%3Aja&f=live",
-   "q": "#ENHYPEN",
-   "video": "https://www.youtube.com/watch?v=ZDViEJWNHjk",
-   "text": "大賞受賞を祝うコメントが多く、ファンへの感謝や「受賞に値する」という声が中心です！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 121
+   "topic": "『全知的参観視点』先行公開 ユ・ヨンウ×…",
+   "search": "https://x.com/search?q=%E5%85%A8%E7%9F%A5%E7%9A%84%E5%8F%82%E8%A6%B3%E8%A6%96%E7%82%B9%20lang%3Aja&f=live",
+   "q": "全知的参観視点",
+   "video": "https://www.youtube.com/watch?v=OxxzofD3bEY",
+   "text": "韓国のファンの反応も最高でした😂 三人のかけ合いの相性の良さや、予能の上手さに笑う声が多いです！",
+   "len": 95
   },
   {
    "time": "16:00",
-   "topic": "BOYNEXTDOOR「Open ending」KNOCK ON Vol.2",
-   "search": "https://x.com/search?q=%23%E3%83%9C%E3%82%A4%E3%83%8D%E3%82%AF%20lang%3Aja&f=live",
-   "q": "#ボイネク",
-   "video": "https://www.youtube.com/watch?v=r8_jEa3MtLg",
-   "text": "韓国のファンの反応も最高でした😂 ハン・テサンがソンホを突然押すシーンに笑う声が多く、彼のキャラクターを面白がるコメントが目立ちます！",
-   "len": 133
+   "topic": "IVE「붕어빵 먹을 때 된 거 같아요」",
+   "search": "https://x.com/search?q=%23IVE%20lang%3Aja&f=live",
+   "q": "#IVE",
+   "video": "https://www.youtube.com/watch?v=I1_MgHVO5pQ",
+   "text": "韓国でも話題になってます👀 ユジンとレイの可愛さや美しさを称える声が多いです！",
+   "len": 77
   },
   {
    "time": "17:30",
-   "topic": "LE SSERAFIM「Summerz with」猫と遊ぶ動画",
-   "search": "https://x.com/search?q=%23%E3%83%AB%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%A0%20lang%3Aja&f=live",
-   "q": "#ルセラフィム",
-   "video": "https://www.youtube.com/watch?v=mK_Vn-f1wvw",
-   "text": "韓国でも話題になってます👀 メンバーの可愛らしい雰囲気に好感を示すコメントが多いです！",
-   "len": 85
+   "topic": "BIGBANG「WOW, BiiiG COSMOS!」MAMA2026",
+   "search": "https://x.com/search?q=%23BIGBANG%20lang%3Aja&f=live",
+   "q": "#BIGBANG",
+   "video": "https://www.youtube.com/watch?v=f0-Oq0kh298",
+   "text": "韓国のコメント欄を見たら、過去のヒット曲ではなく新曲で構成されたステージに、長年の活動姿勢を評価する声が多い！ わかる…！",
+   "len": 121
   },
   {
    "time": "19:00",
-   "topic": "ジャスト・メイクアップ シーズン2 予告編",
-   "search": "https://x.com/search?q=%E3%82%B8%E3%83%A3%E3%82%B9%E3%83%88%20lang%3Aja&f=live",
-   "q": "ジャスト",
-   "video": "https://www.youtube.com/watch?v=mMyWe36PcRU",
-   "text": "韓国のコメント欄を見たら、ユナの美しさや、テヨンとユナのMC起用を喜ぶコメントが目立ちます！ わかる…！",
-   "len": 101
+   "topic": "CORTIS「REDRED」「TNT」MAMA2026",
+   "search": "https://x.com/search?q=%23CORTIS%20lang%3Aja&f=live",
+   "q": "#CORTIS",
+   "video": "https://www.youtube.com/watch?v=ust4rA6wK9E",
+   "text": "韓国でもすごく盛り上がってます！エネルギッシュなパフォーマンスとデビュー1年目とは思えない存在感に驚く声が多い！",
+   "len": 111
   },
   {
    "time": "20:30",
-   "topic": "KBS時代劇『文武』第3話 先行公開",
-   "search": "https://x.com/search?q=%E6%96%87%E6%AD%A6%20lang%3Aja&f=live",
-   "q": "文武",
-   "video": "https://www.youtube.com/watch?v=DC3AK3eEZo4",
-   "text": "韓国でもすごく盛り上がってます！チャン・ヒョクの迫力ある演技を絶賛する声が多く、没入感が高いとの感想もあります！",
-   "len": 112
+   "topic": "LE SSERAFIM「Saki」「SPAGHETTI」MAMA版",
+   "search": "https://x.com/search?q=%23%E3%83%AB%E3%82%BB%E3%83%A9%E3%83%95%E3%82%A3%E3%83%A0%20lang%3Aja&f=live",
+   "q": "#ルセラフィム",
+   "video": "https://www.youtube.com/watch?v=o0MlNWgDjaM",
+   "text": "360度ステージを生かしたパフォーマンスとライブの安定感を称える声が多い！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
+   "len": 110
   },
   {
    "time": "22:00",
-   "topic": "『私の一人暮らし』ヨンジュンのパスタ作り",
-   "search": "https://x.com/search?q=%23%E3%83%88%E3%82%A5%E3%83%90%20lang%3Aja&f=live",
-   "q": "#トゥバ",
-   "video": "https://www.youtube.com/watch?v=_4XYFXW0nfc",
-   "text": "ヨンジュンの食べる姿や料理の様子が可愛いと笑うコメントが多いです！ 韓国でも同じ気持ちの人が多くて嬉しい🥹",
-   "len": 105
+   "topic": "ENHYPEN MAMA大賞受賞の感想",
+   "search": "https://x.com/search?q=%23ENHYPEN%20lang%3Aja&f=live",
+   "q": "#ENHYPEN",
+   "video": "https://www.youtube.com/watch?v=ZDViEJWNHjk",
+   "text": "韓国のファンの反応も最高でした😂 受賞の喜びに感動する声と、メンバーのユーモアあふれる動画を楽しむ声がある！",
+   "len": 107
   }
  ]
 }
