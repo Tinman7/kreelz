@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T17:57:35.777Z",
+ "updated": "2026-11-23T12:04:53.549Z",
  "site": "https://kreelz.com/",
  "from": "2026-10-24",
  "to": "2026-11-22",
@@ -178,6 +178,13 @@
    "clk": 2,
    "ctr": 0.9,
    "pos": 12.8
+  },
+  {
+   "k": "2026-11-21",
+   "imp": 247,
+   "clk": 4,
+   "ctr": 1.6,
+   "pos": 11.4
   }
  ],
  "jpDays": [
@@ -355,35 +362,42 @@
    "clk": 0,
    "ctr": 0,
    "pos": 12.5
+  },
+  {
+   "k": "2026-11-21",
+   "imp": 175,
+   "clk": 1,
+   "ctr": 0.6,
+   "pos": 12.5
   }
  ],
  "pages": [
   {
    "k": "https://kreelz.com/k/illit/",
-   "imp": 104,
-   "clk": 6,
-   "ctr": 5.8,
-   "pos": 6.5
+   "imp": 128,
+   "clk": 7,
+   "ctr": 5.5,
+   "pos": 6.4
   },
   {
    "k": "https://kreelz.com/jp/k/andteam/",
-   "imp": 135,
+   "imp": 144,
    "clk": 4,
-   "ctr": 3,
-   "pos": 9.3
+   "ctr": 2.8,
+   "pos": 9.2
   },
   {
    "k": "https://kreelz.com/jp/k/illit/",
-   "imp": 524,
+   "imp": 555,
    "clk": 4,
-   "ctr": 0.8,
-   "pos": 8.2
+   "ctr": 0.7,
+   "pos": 8.1
   },
   {
    "k": "https://kreelz.com/jp/k/music/",
-   "imp": 55,
+   "imp": 56,
    "clk": 4,
-   "ctr": 7.3,
+   "ctr": 7.1,
    "pos": 9.4
   },
   {
@@ -395,80 +409,87 @@
   },
   {
    "k": "https://kreelz.com/jp/hot/illit-1st-win/",
-   "imp": 77,
+   "imp": 83,
    "clk": 3,
-   "ctr": 3.9,
-   "pos": 6.7
+   "ctr": 3.6,
+   "pos": 6.6
   },
   {
    "k": "https://kreelz.com/jp/",
-   "imp": 8,
+   "imp": 9,
    "clk": 2,
-   "ctr": 25,
-   "pos": 4.1
-  },
-  {
-   "k": "https://kreelz.com/jp/k/stray-kids/",
-   "imp": 133,
-   "clk": 2,
-   "ctr": 1.5,
-   "pos": 7.4
+   "ctr": 22.2,
+   "pos": 4.6
   },
   {
    "k": "https://kreelz.com/jp/k/boynextdoor/",
-   "imp": 21,
-   "clk": 1,
-   "ctr": 4.8,
-   "pos": 11.4
+   "imp": 26,
+   "clk": 2,
+   "ctr": 7.7,
+   "pos": 10.1
+  },
+  {
+   "k": "https://kreelz.com/jp/k/stray-kids/",
+   "imp": 139,
+   "clk": 2,
+   "ctr": 1.4,
+   "pos": 7.4
+  },
+  {
+   "k": "https://kreelz.com/k/hwang-in-youp/",
+   "imp": 37,
+   "clk": 2,
+   "ctr": 5.4,
+   "pos": 12.5
   },
   {
    "k": "https://kreelz.com/jp/k/choo-young-woo/",
-   "imp": 10,
+   "imp": 12,
    "clk": 1,
-   "ctr": 10,
-   "pos": 45.4
+   "ctr": 8.3,
+   "pos": 43.7
   },
   {
    "k": "https://kreelz.com/jp/k/cortis/",
-   "imp": 51,
+   "imp": 57,
    "clk": 1,
-   "ctr": 2,
-   "pos": 11.3
+   "ctr": 1.8,
+   "pos": 10.8
   },
   {
    "k": "https://kreelz.com/jp/k/seventeen/",
-   "imp": 15,
+   "imp": 18,
    "clk": 1,
-   "ctr": 6.7,
-   "pos": 9.4
+   "ctr": 5.6,
+   "pos": 8.5
   },
   {
    "k": "https://kreelz.com/jp/k/tws/",
-   "imp": 20,
+   "imp": 22,
    "clk": 1,
-   "ctr": 5,
+   "ctr": 4.5,
    "pos": 6.3
   },
   {
    "k": "https://kreelz.com/k/boynextdoor/",
-   "imp": 15,
+   "imp": 16,
    "clk": 1,
-   "ctr": 6.7,
-   "pos": 15.9
+   "ctr": 6.3,
+   "pos": 16.5
+  },
+  {
+   "k": "https://kreelz.com/k/cha-eun-woo/",
+   "imp": 24,
+   "clk": 1,
+   "ctr": 4.2,
+   "pos": 31.5
   },
   {
    "k": "https://kreelz.com/k/cortis/",
-   "imp": 84,
+   "imp": 95,
    "clk": 1,
-   "ctr": 1.2,
-   "pos": 7.1
-  },
-  {
-   "k": "https://kreelz.com/k/hwang-in-youp/",
-   "imp": 33,
-   "clk": 1,
-   "ctr": 3,
-   "pos": 13.5
+   "ctr": 1.1,
+   "pos": 7.6
   },
   {
    "k": "https://kreelz.com/k/seventeen/",
@@ -479,7 +500,7 @@
   },
   {
    "k": "https://kreelz.com/hot/illit-1st-win/",
-   "imp": 54,
+   "imp": 55,
    "clk": 0,
    "ctr": 0,
    "pos": 6.9
@@ -500,17 +521,17 @@
   },
   {
    "k": "https://kreelz.com/jp/k/ahn-hyo-seop/",
-   "imp": 9,
+   "imp": 10,
    "clk": 0,
    "ctr": 0,
-   "pos": 61.6
+   "pos": 60.7
   },
   {
    "k": "https://kreelz.com/jp/k/beauty/",
-   "imp": 5,
+   "imp": 6,
    "clk": 0,
    "ctr": 0,
-   "pos": 5.4
+   "pos": 6
   },
   {
    "k": "https://kreelz.com/jp/k/cha-eun-woo/",
@@ -521,25 +542,18 @@
   },
   {
    "k": "https://kreelz.com/jp/k/enhypen/",
-   "imp": 20,
+   "imp": 23,
    "clk": 0,
    "ctr": 0,
-   "pos": 6.9
-  },
-  {
-   "k": "https://kreelz.com/jp/k/film/",
-   "imp": 15,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8.3
+   "pos": 7.3
   }
  ],
  "queries": [
   {
    "k": "illit clips",
-   "imp": 15,
+   "imp": 16,
    "clk": 2,
-   "ctr": 13.3,
+   "ctr": 12.5,
    "pos": 5.8
   },
   {
@@ -572,10 +586,17 @@
   },
   {
    "k": "ストレイ キッズ 最新 動画",
-   "imp": 56,
+   "imp": 59,
    "clk": 1,
-   "ctr": 1.8,
-   "pos": 7.3
+   "ctr": 1.7,
+   "pos": 7.2
+  },
+  {
+   "k": "&team動画",
+   "imp": 2,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 11
   },
   {
    "k": "ahn hyo seop edit",
@@ -597,6 +618,13 @@
    "clk": 0,
    "ctr": 0,
    "pos": 67
+  },
+  {
+   "k": "cha eun woo videos",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 8
   },
   {
    "k": "cha eun-woo",
@@ -635,24 +663,38 @@
   },
   {
    "k": "choo young woo",
-   "imp": 1,
+   "imp": 3,
    "clk": 0,
    "ctr": 0,
-   "pos": 40
+   "pos": 20.7
   },
   {
    "k": "choo young-woo",
-   "imp": 4,
+   "imp": 6,
    "clk": 0,
    "ctr": 0,
-   "pos": 41.5
+   "pos": 34.2
   },
   {
    "k": "choo youngwoo",
-   "imp": 2,
+   "imp": 4,
    "clk": 0,
    "ctr": 0,
-   "pos": 45
+   "pos": 31.8
+  },
+  {
+   "k": "clip illit",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 12
+  },
+  {
+   "k": "cortis animation",
+   "imp": 1,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 10
   },
   {
    "k": "cortis clip",
@@ -677,38 +719,10 @@
   },
   {
    "k": "cortis shorts",
-   "imp": 9,
+   "imp": 10,
    "clk": 0,
    "ctr": 0,
-   "pos": 5.9
-  },
-  {
-   "k": "enhypen clips",
-   "imp": 3,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8
-  },
-  {
-   "k": "enhypen short",
-   "imp": 3,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 5
-  },
-  {
-   "k": "enhypen shorts",
-   "imp": 17,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8
-  },
-  {
-   "k": "foodman",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 20
+   "pos": 5.7
   }
  ],
  "jpQueries": [
@@ -742,10 +756,17 @@
   },
   {
    "k": "ストレイ キッズ 最新 動画",
-   "imp": 56,
+   "imp": 59,
    "clk": 1,
-   "ctr": 1.8,
-   "pos": 7.3
+   "ctr": 1.7,
+   "pos": 7.2
+  },
+  {
+   "k": "&team動画",
+   "imp": 2,
+   "clk": 0,
+   "ctr": 0,
+   "pos": 11
   },
   {
    "k": "cha eun woo",
@@ -809,43 +830,36 @@
    "clk": 0,
    "ctr": 0,
    "pos": 2
-  },
-  {
-   "k": "illit clip",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 7
   }
  ],
  "countries": [
   {
    "k": "jpn",
-   "imp": 1571,
-   "clk": 23,
-   "ctr": 1.5,
+   "imp": 1741,
+   "clk": 24,
+   "ctr": 1.4,
    "pos": 11.8
   },
   {
    "k": "deu",
-   "imp": 27,
+   "imp": 28,
    "clk": 3,
-   "ctr": 11.1,
-   "pos": 11.4
+   "ctr": 10.7,
+   "pos": 11.3
   },
   {
    "k": "kor",
-   "imp": 70,
+   "imp": 78,
    "clk": 3,
-   "ctr": 4.3,
-   "pos": 24.1
+   "ctr": 3.8,
+   "pos": 25.5
   },
   {
    "k": "ind",
-   "imp": 40,
+   "imp": 45,
    "clk": 2,
-   "ctr": 5,
-   "pos": 6.2
+   "ctr": 4.4,
+   "pos": 6.4
   },
   {
    "k": "nga",
@@ -856,17 +870,24 @@
   },
   {
    "k": "usa",
-   "imp": 88,
+   "imp": 98,
    "clk": 2,
-   "ctr": 2.3,
-   "pos": 11.4
+   "ctr": 2,
+   "pos": 11.1
+  },
+  {
+   "k": "are",
+   "imp": 5,
+   "clk": 1,
+   "ctr": 20,
+   "pos": 4
   },
   {
    "k": "gbr",
-   "imp": 16,
+   "imp": 20,
    "clk": 1,
-   "ctr": 6.3,
-   "pos": 8.8
+   "ctr": 5,
+   "pos": 7.9
   },
   {
    "k": "grc",
@@ -876,6 +897,20 @@
    "pos": 5
   },
   {
+   "k": "mmr",
+   "imp": 11,
+   "clk": 1,
+   "ctr": 9.1,
+   "pos": 6.1
+  },
+  {
+   "k": "pak",
+   "imp": 6,
+   "clk": 1,
+   "ctr": 16.7,
+   "pos": 5.2
+  },
+  {
    "k": "afg",
    "imp": 2,
    "clk": 0,
@@ -883,18 +918,11 @@
    "pos": 8.5
   },
   {
-   "k": "are",
-   "imp": 4,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 4.8
-  },
-  {
    "k": "arg",
-   "imp": 4,
+   "imp": 5,
    "clk": 0,
    "ctr": 0,
-   "pos": 39.8
+   "pos": 32.2
   },
   {
    "k": "arm",
@@ -909,20 +937,6 @@
    "clk": 0,
    "ctr": 0,
    "pos": 9
-  },
-  {
-   "k": "aze",
-   "imp": 1,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 9
-  },
-  {
-   "k": "bel",
-   "imp": 5,
-   "clk": 0,
-   "ctr": 0,
-   "pos": 8
   }
  ]
 }

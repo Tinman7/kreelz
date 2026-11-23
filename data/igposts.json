@@ -1,5 +1,5 @@
 {
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "items": [
   {
    "ed": "ja",
@@ -8,32 +8,32 @@
    "card": {
     "title": "韓国で今日いちばん見られている",
     "big": "TOP 5",
-    "date": "11/23",
+    "date": "11/24",
     "rows": [
-     {
-      "t": "TXT（トゥモローバイトゥギャザー）「Angel Bite」Performance Film",
-      "ch": "TOMORROW X TOGETHER OFFICIAL",
-      "v": 12979895
-     },
      {
       "t": "[ BIGBANG (ビッグバン) - 'WOW, BiiiG COSMOS!'",
       "ch": "Mnet K-POP",
-      "v": 4583766
+      "v": 5197327
      },
      {
       "t": "[ ILLIT（アイリット）- It's Me (MAMA Ver.) + D.B : SECRET AGENT + 逮",
       "ch": "Mnet K-POP",
-      "v": 3853728
+      "v": 4190374
      },
      {
       "t": "[ CORTIS - REDRED + TNT",
       "ch": "Mnet K-POP",
-      "v": 3107089
+      "v": 3544127
+     },
+     {
+      "t": "変わらない Thank you, ENGENE! Love you always ❤️",
+      "ch": "ENHYPEN",
+      "v": 2961896
      },
      {
       "t": "「人間の暮らしはみんな同じだね」普段あまりマグロを食べないのに、スタッフのためにマグロの刺身を切ると聞いて、準備しておい",
       "ch": "EBSDocumentary (EBS 다큐)",
-      "v": 2505107
+      "v": 2823488
      }
     ],
     "url": "kreelz.com/jp",
@@ -41,7 +41,7 @@
    },
    "link": "https://kreelz.com/jp/k/today/",
    "sticker": "今日のTOP5を見る",
-   "caption": "📰韓国で今日いちばん見られているK-POP・韓ドラ TOP5（11/23）\n\n1. TXT（トゥモローバイトゥギャザー）「Angel Bite」Performance Film（13M回）\n2. [ BIGBANG (ビッグバン) - 'WOW, BiiiG COSMOS!'（4.6M回）\n3. [ ILLIT（アイリット）- It's Me (MAMA Ver.) + D.B : SECRET AGENT + 逮（3.9M回）\n4. [ CORTIS - REDRED + TNT（3.1M回）\n5. 「人間の暮らしはみんな同じだね」普段あまりマグロを食べないのに、スタッフのためにマグロの刺身を切ると聞いて、準備しておい（2.5M回）\n\n解説つきの全部はプロフィールのリンクから👆\nリアルタイム更新・無料\n.\n#KPOP #韓国ドラマ #韓ドラ #韓国エンタメ #KPOP好きな人と繋がりたい #韓国好きな人と繋がりたい #KPOP好きさんと繋がりたい #TXT #トゥバ #パクボゴム #韓国俳優"
+   "caption": "📰韓国で今日いちばん見られているK-POP・韓ドラ TOP5（11/24）\n\n1. [ BIGBANG (ビッグバン) - 'WOW, BiiiG COSMOS!'（5.2M回）\n2. [ ILLIT（アイリット）- It's Me (MAMA Ver.) + D.B : SECRET AGENT + 逮（4.2M回）\n3. [ CORTIS - REDRED + TNT（3.5M回）\n4. 変わらない Thank you, ENGENE! Love you always ❤️（3M回）\n5. 「人間の暮らしはみんな同じだね」普段あまりマグロを食べないのに、スタッフのためにマグロの刺身を切ると聞いて、準備しておい（2.8M回）\n\n解説つきの全部はプロフィールのリンクから👆\nリアルタイム更新・無料\n.\n#KPOP #韓国ドラマ #韓ドラ #韓国エンタメ #KPOP好きな人と繋がりたい #韓国好きな人と繋がりたい #韓国バラエティ #ILLIT #アイリット #ジェジュン #韓国俳優"
   },
   {
    "ed": "en",
@@ -49,39 +49,39 @@
    "time": "19:00~21:00 (필리핀 18:00~20:00)",
    "card": {
     "title": "TODAY'S TOP 5 K-CLIPS",
-    "date": "Nov 23",
+    "date": "Nov 24",
     "rows": [
-     {
-      "t": "TXT (TOMORROW X TOGETHER) 'Angel Bite' Performance Film",
-      "ch": "TOMORROW X TOGETHER OFFICIAL",
-      "v": 12979895
-     },
-     {
-      "t": "NAYEON “BABY ANGEL” M/V",
-      "ch": "JYP Entertainment",
-      "v": 9566964
-     },
-     {
-      "t": "CL - ‘ICONIC’ M/V",
-      "ch": "THEBLACKLABEL",
-      "v": 7806256
-     },
      {
       "t": "SANTOS BRAVOS x &TEAM - “ORIGAMI” OFFICIAL MV",
       "ch": "HYBE LABELS",
-      "v": 6071942
+      "v": 8387230
      },
      {
       "t": "[ BIGBANG - 'WOW, BiiiG COSMOS!' | Mnet Broadcast 261121",
       "ch": "Mnet K-POP",
-      "v": 4583766
+      "v": 5197327
+     },
+     {
+      "t": "[ ILLIT - It′s Me (MAMA Ver.) + D.B : SECRET AGENT + Arrest Me | Mnet…",
+      "ch": "Mnet K-POP",
+      "v": 4190374
+     },
+     {
+      "t": "[ CORTIS - REDRED + TNT | Mnet Broadcast 261121",
+      "ch": "Mnet K-POP",
+      "v": 3544127
+     },
+     {
+      "t": "We'll become the ones who never change! Thank you, ENGENE! Love you a…",
+      "ch": "ENHYPEN",
+      "v": 2961896
      }
     ],
     "url": "kreelz.com/k/today"
    },
    "link": "https://kreelz.com/k/today/",
    "sticker": "See today's Top 5",
-   "caption": "🔥 Today's Top 5 K-Clips (Nov 23)\n\n1. TXT (TOMORROW X TOGETHER) 'Angel Bite' Performance Film\n2. NAYEON “BABY ANGEL” M/V\n3. CL - ‘ICONIC’ M/V\n4. SANTOS BRAVOS x &TEAM - “ORIGAMI” OFFICIAL MV\n5. [ BIGBANG - 'WOW, BiiiG COSMOS!' | Mnet Broadcast 261121\n\nWatch them all → link in bio 👆\nUpdated in real time · Free\n.\n#kpop #kdrama #koreandrama #kpopfyp #kdramaedits #kpopedit #kreelz #parkbogum #twice"
+   "caption": "🔥 Today's Top 5 K-Clips (Nov 24)\n\n1. SANTOS BRAVOS x &TEAM - “ORIGAMI” OFFICIAL MV\n2. [ BIGBANG - 'WOW, BiiiG COSMOS!' | Mnet Broadcast 261121\n3. [ ILLIT - It′s Me (MAMA Ver.) + D.B : SECRET AGENT + Arrest Me | Mnet…\n4. [ CORTIS - REDRED + TNT | Mnet Broadcast 261121\n5. We'll become the ones who never change! Thank you, ENGENE! Love you a…\n\nWatch them all → link in bio 👆\nUpdated in real time · Free\n.\n#kpop #kdrama #koreandrama #kpopfyp #kdramaedits #kpopedit #kreelz #ahnhyoseop #illit"
   }
  ]
 }
