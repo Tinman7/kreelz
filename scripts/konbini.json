@@ -56,6 +56,29 @@
    "done": true
   },
   {
+   "name": "hybe_challenge_backfill",
+   "topic": "hot",
+   "cat": "m",
+   "until": "2026-11-27",
+   "per_night": 6,
+   "min_views": 50000,
+   "_note": "One-off (two nights): the most-watched challenges of CORTIS, ILLIT, LE SSERAFIM and BTS since mid-2025, so the back catalogue has no gaps.",
+   "require": [
+    "코르티스|CORTIS|コルティス|아일릿|ILLIT|アイリット|르세라핌|LE ?SSERAFIM|ルセラフィム|방탄|BTS|정국|jungkook|지민|jimin|뷔\\b|\\bV\\b|태형|슈가|suga|제이홉|j-hope|진\\b|\\bjin\\b|RM\\b|남준",
+    "챌린지|challenge|チャレンジ|#\\w*challenge"
+   ],
+   "not": "reaction|리액션|react|tutorial|튜토리얼|mirror|거울모드|안무 ?배우기|dance ?cover|커버댄스|커버 ?댄스|cover by|kpop in public|in public|lyrics|가사|playlist|1 ?hour|compilation 20\\d\\d|루프|loop|ai ?cover|karaoke|노래방|pov|fmv",
+   "queries": [
+    "CORTIS challenge",
+    "ILLIT challenge",
+    "LE SSERAFIM challenge",
+    "BTS challenge",
+    "코르티스 챌린지",
+    "아일릿 챌린지"
+   ],
+   "since": "2025-06-01"
+  },
+  {
    "name": "hybe_challenge_core",
    "topic": "hot",
    "cat": "m",
