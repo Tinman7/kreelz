@@ -76,7 +76,8 @@
     "코르티스 챌린지",
     "아일릿 챌린지"
    ],
-   "since": "2025-06-01"
+   "since": "2025-06-01",
+   "done": true
   },
   {
    "name": "hybe_challenge_core",
@@ -97,7 +98,8 @@
     "ILLIT challenge",
     "LE SSERAFIM challenge",
     "BTS challenge"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "hybe_challenge_more",
@@ -127,7 +129,8 @@
     "아일릿 챌린지",
     "르세라핌 챌린지",
     "방탄 챌린지"
-   ]
+   ],
+   "done": true
   },
   {
    "name": "naksan_night",

@@ -1,35 +1,35 @@
 {
- "date": "2026-11-25",
+ "date": "2026-11-26",
  "updated": "2026-11-23T20:09:35.968Z",
  "countries": {
   "JP": {
    "name": "일본",
    "total": 25,
    "picks": [
-    "UCvqf_bMKPn-gp9VIxMhp1Lg",
-    "UClGyxzSGvnO9TJQuRdb8BoQ",
-    "UC2zjne2yjqx1fZ19ixdsN5A"
+    "UCtvnZga6nQyHc_x9_GRWxlA",
+    "UCp94jLyHGovwJj8In-8JpaQ",
+    "UC0RJAtZGjcUfwskb_AKGw3Q"
    ],
    "subject": "【ご提案】韓国で今日いちばん見られているK-POP・韓ドラ情報を無料でご提供します（KREELZ JAPAN）",
    "body": "{channel}様\n\nはじめまして。韓国・ソウルで「KREELZ JAPAN」（https://kreelz.com/jp/）を個人で運営しているDavidと申します。いつも動画を楽しく拝見しています。\n\nKREELZ JAPANは、韓国でいま見られているK-POP・韓国ドラマ・バラエティの公式動画を、リアルタイムで日本語タイトル付きでまとめている無料サイトです。{channel}様の動画づくりのお役に立てればと思い、2つご提案させてください。\n\n① 毎日の「韓国で今日いちばん見られているTOP10」（日本語タイトル・1行解説付き）を、動画の素材として自由にお使いいただけます。概要欄に「出典：KREELZ JAPAN（https://kreelz.com/jp/）」とご記載いただくことだけがお願いです。\n\n② KREELZ JAPANの「おすすめクリエイター」として、{channel}様の動画をサイトで無料でご紹介させていただけませんか。再生はすべてYouTubeの埋め込みプレーヤーなので、再生数は{channel}様のチャンネルに入ります。\n\n本日分の例：https://kreelz.com/jp/k/today/\n\nご興味があれば、このメールにご返信いただけると嬉しいです。お忙しいところ失礼いたしました。\n\nKREELZ JAPAN 運営 David\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-25）",
+    "title": "📰韓国で今日いちばん見られているTOP10（2026-11-26）",
     "rows": [
-     "1. ILLIT ウォニ、MAMA 2026で大きな舞台を終える\n   ILLITのウォニが出演したMAMA 2026の舞台を収めたクリップ。ファンが推しの姿を見返したくなる映像。",
-     "2. IVE、2026 MAMAの受賞とステージ\n   IVEが2026 MAMAで見せた舞台や受賞の様子を伝えるショート動画。",
-     "3. CORTIS、MAMA 2026で4冠達成\n   CORTISが2026 MAMAで4つの受賞を果たしたことへの感謝を伝える投稿。ファンへのメッセージとして見られる。",
-     "4. ILLIT、スクワットに挑戦する撮影映像\n   ILLITのメンバーが「Squat」に挑戦する映像で、「体制捕まえる」をテーマにした企画。",
-     "5. タク・ジェフン、チェ・ジョンアン紹介で父親自慢\n   『未熟な息子たち』で、タク・ジェフンがチェ・ジョンアンを紹介しようとしたら、ジョン・ジュノが自分の父親の経歴を語り出す場面。",
-     "6. 『離婚熟慮キャンプ』、ソ・ジャンフン関連の場面\n   JTBCの『離婚熟慮キャンプ』から、ソ・ジャンフンが話題になった場面を集めた動画。番組の見どころを振り返る内容。",
-     "7. 『高校刑事』1次予告編\n   ユン・ギョンホとキム・ヘユンが主演する映画『高校刑事』の予告編。本物の高校生役と本物の刑事役の組み合わせが特徴。",
-     "8. 『幻惑』モーションポスター、スジ×キム・ソンホ\n   ディズニープラスで2026年1月6日に独占配信されるヴァンパイアミステリー『幻惑』のモーションポスター。",
-     "9. ソン・シギョン『食べるはずなのに』、ウルチロ山水甲山\n   歌手ソン・シギョンのYouTube番組『食べるはずなのに』で、ソウル中区のスンデクッパ店を訪ねた回。",
-     "10. 『JUST MAKEUP』シーズン1の振り返り、ソ・オク\n   Coupang Playの『JUST MAKEUP』シーズン1を振り返る動画。審査員ソ・オクが細部から完成度を見極める基準に注目。"
+     "1. ILLIT ウォンヒ、ファンサでキキのNEONチャレンジ\n   ウォンヒが魔女の宅急便のキキに扮し、A2O LITEの「NEON」を踊ったファンサイン会の映像です。ファンサービスの場面を見たい人に向いています。",
+     "2. IVE、2026MAMAの受賞を喜ぶ短い映像\n   IVEが2026MAMAで受賞した際の映像です。受賞の喜びやステージを見返したいファンに向いています。",
+     "3. CORTIS、2026MAMA4冠を伝える映像\n   CORTISが2026MAMAで4冠を獲得したことを伝える映像です。受賞を喜ぶファンに向いています。",
+     "4. ILLIT、「Squat」のショート動画\n   ILLITがスクワットをしながら「You're Under Arrest」を披露する短い動画です。ILLITのかわいい表情を見たいファンに向いています。",
+     "5. オ・ジョンテ、娘のカイスト早期入学に大喜び\n   お笑い芸人オ・ジョンテが、科学高校を飛び級卒業した娘の話題で喜ぶ場面です。『同床異夢2』が好きな視聴者に向いています。",
+     "6. 映画『高校刑事』1次予告編\n   ユン・ギョンホとキム・ヘユンが出演する映画『高校刑事』の予告編です。2027年1月公開のコメディアクション作品に関心のある人に向いています。",
+     "7. 『探偵たちの営業秘密』138回、夫婦の疑惑\n   チャンネルAの実話系番組で、夜に外出する妻の行動や娘の話題を調べる138回の放送です。実際の調査劇に関心のある視聴者に向いています。",
+     "8. ディズニープラス『幻惑』モーションポスター\n   スジとキム・ソノが出演するディズニープラスの吸血鬼ミステリー作品『幻惑』のモーションポスターです。1月6日配信の作品に関心のある人に向いています。",
+     "9. ソン・シギョン『食べるのに』、乙支路の山水甲山\n   歌手ソン・シギョンが、ソウル乙支路の『山水甲山』でスンデグッを食べる回です。食べ歩きや一人飯の雰囲気が好きな視聴者に向いています。",
+     "10. 『ジャストメイクアップ』シーズン1振り返り\n   クーパンプレイの『ジャストメイクアップ』2ラウンドで話題になった出演者TOP3をまとめた映像です。前回の放送を見返したい視聴者に向いています。"
     ],
     "n": 10,
     "link": "https://kreelz.com/jp/k/today/",
     "credit": "出典：KREELZ JAPAN（https://kreelz.com/jp/）",
-    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-25）\n\n1. ILLIT ウォニ、MAMA 2026で大きな舞台を終える\n   ILLITのウォニが出演したMAMA 2026の舞台を収めたクリップ。ファンが推しの姿を見返したくなる映像。\n2. IVE、2026 MAMAの受賞とステージ\n   IVEが2026 MAMAで見せた舞台や受賞の様子を伝えるショート動画。\n3. CORTIS、MAMA 2026で4冠達成\n   CORTISが2026 MAMAで4つの受賞を果たしたことへの感謝を伝える投稿。ファンへのメッセージとして見られる。\n4. ILLIT、スクワットに挑戦する撮影映像\n   ILLITのメンバーが「Squat」に挑戦する映像で、「体制捕まえる」をテーマにした企画。\n5. タク・ジェフン、チェ・ジョンアン紹介で父親自慢\n   『未熟な息子たち』で、タク・ジェフンがチェ・ジョンアンを紹介しようとしたら、ジョン・ジュノが自分の父親の経歴を語り出す場面。\n6. 『離婚熟慮キャンプ』、ソ・ジャンフン関連の場面\n   JTBCの『離婚熟慮キャンプ』から、ソ・ジャンフンが話題になった場面を集めた動画。番組の見どころを振り返る内容。\n7. 『高校刑事』1次予告編\n   ユン・ギョンホとキム・ヘユンが主演する映画『高校刑事』の予告編。本物の高校生役と本物の刑事役の組み合わせが特徴。\n8. 『幻惑』モーションポスター、スジ×キム・ソンホ\n   ディズニープラスで2026年1月6日に独占配信されるヴァンパイアミステリー『幻惑』のモーションポスター。\n9. ソン・シギョン『食べるはずなのに』、ウルチロ山水甲山\n   歌手ソン・シギョンのYouTube番組『食べるはずなのに』で、ソウル中区のスンデクッパ店を訪ねた回。\n10. 『JUST MAKEUP』シーズン1の振り返り、ソ・オク\n   Coupang Playの『JUST MAKEUP』シーズン1を振り返る動画。審査員ソ・オクが細部から完成度を見極める基準に注目。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
+    "text": "📰韓国で今日いちばん見られているTOP10（2026-11-26）\n\n1. ILLIT ウォンヒ、ファンサでキキのNEONチャレンジ\n   ウォンヒが魔女の宅急便のキキに扮し、A2O LITEの「NEON」を踊ったファンサイン会の映像です。ファンサービスの場面を見たい人に向いています。\n2. IVE、2026MAMAの受賞を喜ぶ短い映像\n   IVEが2026MAMAで受賞した際の映像です。受賞の喜びやステージを見返したいファンに向いています。\n3. CORTIS、2026MAMA4冠を伝える映像\n   CORTISが2026MAMAで4冠を獲得したことを伝える映像です。受賞を喜ぶファンに向いています。\n4. ILLIT、「Squat」のショート動画\n   ILLITがスクワットをしながら「You're Under Arrest」を披露する短い動画です。ILLITのかわいい表情を見たいファンに向いています。\n5. オ・ジョンテ、娘のカイスト早期入学に大喜び\n   お笑い芸人オ・ジョンテが、科学高校を飛び級卒業した娘の話題で喜ぶ場面です。『同床異夢2』が好きな視聴者に向いています。\n6. 映画『高校刑事』1次予告編\n   ユン・ギョンホとキム・ヘユンが出演する映画『高校刑事』の予告編です。2027年1月公開のコメディアクション作品に関心のある人に向いています。\n7. 『探偵たちの営業秘密』138回、夫婦の疑惑\n   チャンネルAの実話系番組で、夜に外出する妻の行動や娘の話題を調べる138回の放送です。実際の調査劇に関心のある視聴者に向いています。\n8. ディズニープラス『幻惑』モーションポスター\n   スジとキム・ソノが出演するディズニープラスの吸血鬼ミステリー作品『幻惑』のモーションポスターです。1月6日配信の作品に関心のある人に向いています。\n9. ソン・シギョン『食べるのに』、乙支路の山水甲山\n   歌手ソン・シギョンが、ソウル乙支路の『山水甲山』でスンデグッを食べる回です。食べ歩きや一人飯の雰囲気が好きな視聴者に向いています。\n10. 『ジャストメイクアップ』シーズン1振り返り\n   クーパンプレイの『ジャストメイクアップ』2ラウンドで話題になった出演者TOP3をまとめた映像です。前回の放送を見返したい視聴者に向いています。\n\nhttps://kreelz.com/jp/k/today/\n出典：KREELZ JAPAN（https://kreelz.com/jp/）"
    }
   },
   "PH": {
@@ -39,22 +39,22 @@
    "subject": "Free daily \"What Korea is watching\" Top 10 for your videos — KREELZ",
    "body": "Hi {channel},\n\nI'm David, and I run KREELZ (https://kreelz.com) from Seoul — a free site that collects the K-pop, K-drama and variety clips Korea is watching right now, updated in real time. I enjoy your channel and thought we could help each other:\n\n1) Free material: every day we make a \"Top 10 clips Korea is watching today\" list with a one-line explanation of each. You're welcome to use it in your videos — all we ask is a credit line in the description: \"Source: KREELZ (https://kreelz.com)\".\n\n2) Featured creator: we'd love to feature your videos on KREELZ for fans in the Philippines and Southeast Asia, for free. Videos play in YouTube's own player, so every view counts for your channel.\n\nToday's list: https://kreelz.com/k/today/\n\nIf you're interested, just reply to this email. Salamat!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 clips Korea is watching today (2026-11-25)",
+    "title": "🔥 Top 10 clips Korea is watching today (2026-11-26)",
     "rows": [
-     "1. IVE at the 2026 MAMA Awards\n   A short video of IVE's stage and award moment at the 2026 MAMA Awards. Fans may want to watch the performance again.",
-     "2. CORTIS Thanks Core Fans for MAMA 2026 Four Wins\n   A post from CORTIS thanking fans for helping them win four awards at the 2026 MAMA Awards. The description is brief.",
-     "3. ILLIT Squat Challenge with \"You're Under Arrest\"\n   ILLIT members take on a squat challenge in this video tied to their song \"You're Under Arrest.\" Fans may enjoy their playful expressions.",
-     "4. 100 Days of Deception Episode 15 Preview\n   The preview for Episode 15 of tvN's 20th-anniversary drama \"100 Days of Deception,\" focusing on Soran's fate. Fans can see what comes next.",
-     "5. Tak Jae-hoon Tries to Set Up Chae Jung-an, Jung Joon-ho Brags About Dad\n   On SBS's \"My Little Old Boy,\" Tak Jae-hoon tries to introduce Chae Jung-an, but Jung Joon-ho ends up bragging about Tak's father's career. A lighthearted variety moment.",
-     "6. Divorce Reflection Camp: Seo Jang-hoon Moments\n   A JTBC clip gathering highlights from \"Divorce Reflection Camp,\" including a segment on Seo Jang-hoon. Fans can revisit memorable moments.",
-     "7. \"High School Detective\" Teaser Trailer\n   The first teaser for the film \"High School Detective,\" starring Yoon Kyung-ho as a high schooler and Kim Hye-yoon as a detective. The comedy action mystery opens in January 2027.",
-     "8. \"Portraits of Delusion\" Motion Poster with Suzy and Kim Seon-ho\n   A motion poster for the vampire mystery \"Portraits of Delusion,\" starring Suzy and Kim Seon-ho, exclusively on Disney+ from January 6.",
-     "9. Sung Si-kyung's \"Should Be Eating\": Euljiro Sansugapsan\n   Singer Sung Si-kyung visits Sansugapsan in Euljiro, Seoul, for his food show \"Should Be Eating.\" Fans enjoy his solo eating style.",
-     "10. Judge Seo Ok on Detail in \"Just Makeup\" Season 1 Recap\n   A Coupang Play recap of \"Just Makeup\" season 1, highlighting judge Seo Ok's criteria for judging detail. Season 2 premieres November 27."
+     "1. IVE celebrating their win at the 2026 MAMA Awards\n   A short clip from the 2026 MAMA Awards featuring IVE after their award win. Fans can revisit the group's celebration and stage.",
+     "2. CORTIS celebrating their four wins at the 2026 MAMA\n   A clip celebrating CORTIS's four wins at the 2026 MAMA Awards, with thanks to fans. Suits fans who want to share the group's achievement.",
+     "3. ILLIT doing squats with \"You're Under Arrest\"\n   A short ILLIT video of the members doing squats with the \"You're Under Arrest\" theme. Fans may enjoy their cute expressions and playful energy.",
+     "4. 100 Days of Deception: Is Ga-kyung's mom also Tae-ung's mom?\n   A clip from tvN's drama 100 Days of Deception raising questions about the family ties between the main characters. Viewers following the plot may find it intriguing.",
+     "5. Comedian Oh Jung-tae delighted by daughter's early KAIST entry\n   In SBS's Same Bed, Different Dreams 2, comedian Oh Jung-tae beams over his daughter's news about entering KAIST early after graduating from a science high school. Suits fans of the show's family stories.",
+     "6. Highschool Detective (Go-deung Hyungsa) teaser trailer\n   The first teaser for the film Highschool Detective, starring Yoon Kyung-ho and Kim Hye-yoon. A comedy action mystery set for a January 2027 release.",
+     "7. Detectives' Business Secrets Ep. 138: a wife's secret\n   Episode 138 of the true-story show Detectives' Business Secrets, where a case involves a wife's nighttime outings and a daughter's school news. Suits viewers who enjoy real-life investigation stories.",
+     "8. Delusion (현혹) motion poster from Disney+\n   A motion poster for the Disney+ vampire mystery Delusion, starring Suzy and Kim Seon-ho, releasing exclusively on January 6. Suits fans of the series.",
+     "9. Sung Si-kyung's Eat Then Sleep: Eulji-ro Sansugapsan\n   Singer Sung Si-kyung eats at Sansugapsan in Eulji-ro, Seoul, in this episode of Eat Then Sleep. Suits viewers who enjoy solo dining and restaurant visits.",
+     "10. Just Makeup Season 1 recap: top 3 standout contestants\n   A recap from Coupang Play highlighting the top three most talked-about contestants from Just Makeup's second round. Good for viewers who want to revisit the season."
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Source: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 clips Korea is watching today (2026-11-25)\n\n1. IVE at the 2026 MAMA Awards\n   A short video of IVE's stage and award moment at the 2026 MAMA Awards. Fans may want to watch the performance again.\n2. CORTIS Thanks Core Fans for MAMA 2026 Four Wins\n   A post from CORTIS thanking fans for helping them win four awards at the 2026 MAMA Awards. The description is brief.\n3. ILLIT Squat Challenge with \"You're Under Arrest\"\n   ILLIT members take on a squat challenge in this video tied to their song \"You're Under Arrest.\" Fans may enjoy their playful expressions.\n4. 100 Days of Deception Episode 15 Preview\n   The preview for Episode 15 of tvN's 20th-anniversary drama \"100 Days of Deception,\" focusing on Soran's fate. Fans can see what comes next.\n5. Tak Jae-hoon Tries to Set Up Chae Jung-an, Jung Joon-ho Brags About Dad\n   On SBS's \"My Little Old Boy,\" Tak Jae-hoon tries to introduce Chae Jung-an, but Jung Joon-ho ends up bragging about Tak's father's career. A lighthearted variety moment.\n6. Divorce Reflection Camp: Seo Jang-hoon Moments\n   A JTBC clip gathering highlights from \"Divorce Reflection Camp,\" including a segment on Seo Jang-hoon. Fans can revisit memorable moments.\n7. \"High School Detective\" Teaser Trailer\n   The first teaser for the film \"High School Detective,\" starring Yoon Kyung-ho as a high schooler and Kim Hye-yoon as a detective. The comedy action mystery opens in January 2027.\n8. \"Portraits of Delusion\" Motion Poster with Suzy and Kim Seon-ho\n   A motion poster for the vampire mystery \"Portraits of Delusion,\" starring Suzy and Kim Seon-ho, exclusively on Disney+ from January 6.\n9. Sung Si-kyung's \"Should Be Eating\": Euljiro Sansugapsan\n   Singer Sung Si-kyung visits Sansugapsan in Euljiro, Seoul, for his food show \"Should Be Eating.\" Fans enjoy his solo eating style.\n10. Judge Seo Ok on Detail in \"Just Makeup\" Season 1 Recap\n   A Coupang Play recap of \"Just Makeup\" season 1, highlighting judge Seo Ok's criteria for judging detail. Season 2 premieres November 27.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 clips Korea is watching today (2026-11-26)\n\n1. IVE celebrating their win at the 2026 MAMA Awards\n   A short clip from the 2026 MAMA Awards featuring IVE after their award win. Fans can revisit the group's celebration and stage.\n2. CORTIS celebrating their four wins at the 2026 MAMA\n   A clip celebrating CORTIS's four wins at the 2026 MAMA Awards, with thanks to fans. Suits fans who want to share the group's achievement.\n3. ILLIT doing squats with \"You're Under Arrest\"\n   A short ILLIT video of the members doing squats with the \"You're Under Arrest\" theme. Fans may enjoy their cute expressions and playful energy.\n4. 100 Days of Deception: Is Ga-kyung's mom also Tae-ung's mom?\n   A clip from tvN's drama 100 Days of Deception raising questions about the family ties between the main characters. Viewers following the plot may find it intriguing.\n5. Comedian Oh Jung-tae delighted by daughter's early KAIST entry\n   In SBS's Same Bed, Different Dreams 2, comedian Oh Jung-tae beams over his daughter's news about entering KAIST early after graduating from a science high school. Suits fans of the show's family stories.\n6. Highschool Detective (Go-deung Hyungsa) teaser trailer\n   The first teaser for the film Highschool Detective, starring Yoon Kyung-ho and Kim Hye-yoon. A comedy action mystery set for a January 2027 release.\n7. Detectives' Business Secrets Ep. 138: a wife's secret\n   Episode 138 of the true-story show Detectives' Business Secrets, where a case involves a wife's nighttime outings and a daughter's school news. Suits viewers who enjoy real-life investigation stories.\n8. Delusion (현혹) motion poster from Disney+\n   A motion poster for the Disney+ vampire mystery Delusion, starring Suzy and Kim Seon-ho, releasing exclusively on January 6. Suits fans of the series.\n9. Sung Si-kyung's Eat Then Sleep: Eulji-ro Sansugapsan\n   Singer Sung Si-kyung eats at Sansugapsan in Eulji-ro, Seoul, in this episode of Eat Then Sleep. Suits viewers who enjoy solo dining and restaurant visits.\n10. Just Makeup Season 1 recap: top 3 standout contestants\n   A recap from Coupang Play highlighting the top three most talked-about contestants from Just Makeup's second round. Good for viewers who want to revisit the season.\n\nhttps://kreelz.com/k/today/\nSource: KREELZ (https://kreelz.com)"
    }
   },
   "ID": {
@@ -64,22 +64,22 @@
    "subject": "Gratis setiap hari: Top 10 klip yang paling ditonton di Korea untuk konten kamu — KREELZ",
    "body": "Halo {channel},\n\nSaya David, pengelola KREELZ (https://kreelz.com) dari Seoul — situs gratis yang mengumpulkan klip K-pop, drama Korea, dan variety show yang sedang ramai ditonton di Korea, diperbarui secara real-time. Saya suka konten kamu dan punya dua tawaran:\n\n1) Bahan konten gratis: setiap hari kami membuat daftar \"Top 10 klip yang paling ditonton di Korea hari ini\" lengkap dengan penjelasan singkat. Silakan dipakai di video kamu — cukup cantumkan di deskripsi: \"Sumber: KREELZ (https://kreelz.com)\".\n\n2) Kreator pilihan: kami ingin menampilkan video kamu di KREELZ untuk penggemar di Indonesia, gratis. Video diputar lewat pemutar YouTube resmi, jadi semua penayangan masuk ke channel kamu.\n\nDaftar hari ini: https://kreelz.com/k/today/\n\nKalau tertarik, balas saja email ini ya. Terima kasih!\n\nDavid — KREELZ\nkreelzkorea@gmail.com",
    "kit": {
-    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-25)",
+    "title": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-26)",
     "rows": [
-     "1. IVE at the 2026 MAMA Awards",
-     "2. CORTIS Thanks Core Fans for MAMA 2026 Four Wins",
-     "3. ILLIT Squat Challenge with \"You're Under Arrest\"",
-     "4. 100 Days of Deception Episode 15 Preview",
-     "5. Tak Jae-hoon Tries to Set Up Chae Jung-an, Jung Joon-ho Brags About Dad",
-     "6. Divorce Reflection Camp: Seo Jang-hoon Moments",
-     "7. \"High School Detective\" Teaser Trailer",
-     "8. \"Portraits of Delusion\" Motion Poster with Suzy and Kim Seon-ho",
-     "9. Sung Si-kyung's \"Should Be Eating\": Euljiro Sansugapsan",
-     "10. Judge Seo Ok on Detail in \"Just Makeup\" Season 1 Recap"
+     "1. IVE celebrating their win at the 2026 MAMA Awards",
+     "2. CORTIS celebrating their four wins at the 2026 MAMA",
+     "3. ILLIT doing squats with \"You're Under Arrest\"",
+     "4. 100 Days of Deception: Is Ga-kyung's mom also Tae-ung's mom?",
+     "5. Comedian Oh Jung-tae delighted by daughter's early KAIST entry",
+     "6. Highschool Detective (Go-deung Hyungsa) teaser trailer",
+     "7. Detectives' Business Secrets Ep. 138: a wife's secret",
+     "8. Delusion (현혹) motion poster from Disney+",
+     "9. Sung Si-kyung's Eat Then Sleep: Eulji-ro Sansugapsan",
+     "10. Just Makeup Season 1 recap: top 3 standout contestants"
     ],
     "link": "https://kreelz.com/k/today/",
     "credit": "Sumber: KREELZ (https://kreelz.com)",
-    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-25)\n\n1. IVE at the 2026 MAMA Awards\n2. CORTIS Thanks Core Fans for MAMA 2026 Four Wins\n3. ILLIT Squat Challenge with \"You're Under Arrest\"\n4. 100 Days of Deception Episode 15 Preview\n5. Tak Jae-hoon Tries to Set Up Chae Jung-an, Jung Joon-ho Brags About Dad\n6. Divorce Reflection Camp: Seo Jang-hoon Moments\n7. \"High School Detective\" Teaser Trailer\n8. \"Portraits of Delusion\" Motion Poster with Suzy and Kim Seon-ho\n9. Sung Si-kyung's \"Should Be Eating\": Euljiro Sansugapsan\n10. Judge Seo Ok on Detail in \"Just Makeup\" Season 1 Recap\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
+    "text": "🔥 Top 10 klip yang paling ditonton di Korea hari ini (2026-11-26)\n\n1. IVE celebrating their win at the 2026 MAMA Awards\n2. CORTIS celebrating their four wins at the 2026 MAMA\n3. ILLIT doing squats with \"You're Under Arrest\"\n4. 100 Days of Deception: Is Ga-kyung's mom also Tae-ung's mom?\n5. Comedian Oh Jung-tae delighted by daughter's early KAIST entry\n6. Highschool Detective (Go-deung Hyungsa) teaser trailer\n7. Detectives' Business Secrets Ep. 138: a wife's secret\n8. Delusion (현혹) motion poster from Disney+\n9. Sung Si-kyung's Eat Then Sleep: Eulji-ro Sansugapsan\n10. Just Makeup Season 1 recap: top 3 standout contestants\n\nhttps://kreelz.com/k/today/\nSumber: KREELZ (https://kreelz.com)"
    }
   }
  }
