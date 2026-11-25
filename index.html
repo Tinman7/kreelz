@@ -2596,7 +2596,16 @@ const SSORTS={ new:(a,b)=>(a.days<0)-(b.days<0)||a.days-b.days||b.views-a.views,
 /* live.js shorts (see FV above) */
 (function(){ const have=new Set(SV.map(v=>v.id)); (LIVE.s||[]).forEach(x=>{ const cat=FCAT[x[1]]; if(!cat||have.has(x[0])) return;
   SV.push({id:x[0],cat,ok:false,views:+x[2]||0,days:liveDays(x[3]),r:SV.length}); SBYCAT[cat]=(SBYCAT[cat]||0)+1 }) })();
-function shortsList(){ return lastJP(focusUp(ncMix(hotMix(memoList("s",shortsList0))))) }   // hotMix reads titles, so it runs every time
+/* Fan edits (per David 2026-11-25): fun shorts that fans and other creators made of the HYBE / priority artists (not official or
+   broadcaster channels; scripts/fanedit.mjs) get one place in every 6 of the shorts in All and Music (about 17%), a different start each day */
+const PRIO_FANEDIT = "hV4qpHZ0148NDJFBZptKM8ca-j7MKdaukyG7VkDP6YKYXwA2W0KIQa0-0BwVP3JCM8CgF1NxklZOAxz1V7I32s6QkMdCese2Di0sYjea1FwJkI2410qOH90W88BECijqcc7Qgr4Q1zJZZBk-2EZnbwDJDQNRfrQ4aQbWMDYHp_I-YkfUwHUHRlOLhbgmtA5SWlO4jY9xL_6MYoxVIJ-i_1dSpXMg8sH1pFtR8_gebLf7bTDODQgGqlJI8D4RMqr0u-7GG1Vktm_H9rKJzM8YUmnz5NMpD4LHzjJcQrOzMmI5nsX6WkxUz27AflpLDw8iC6dHxBXbsIGqgHgkU1jRwFUqLcYelGTQ9Cv3o3ah--cufl0PkveMf0YyAMRqo25JA_0X8YCvUwxEcjTR8l-pTo0zB1RFimiNlUcBBR4Tbxljgoj2fBuHxGE8kDUG67uHzHElsYlVBkYfj8kuyEyRqnT3UNoQEFDQlkNA-QLfOSFpjVgNJmXdkTbeEwziUGRNjd7r4iXLlYzzEeFc6u_PSAksSfAafBaSFqHFnMDvj44kTGVl8wVDjRyxO1xMBvL1AE8yH-M_5zP_U2lIFIZokPU6T2kBYMobI72fLT6MI2oW-FT8AgE2A9L6FKAmPsIeukxieSQxATnheNRdMHeUVJWaGuNBwwM3Bx6PQrB9qE0HvKLdkYtBgHu2UEPxTBGk4kGGrNdjTn4j56g8-b1pok9YjDKH61V7spdz1NJQndyMY863EJzRlKQOS-CqqagIZgdYbzg9GpoBABd6EuFM2_3YIVJQ0LhLpaIrztfx_hQt2konlRjZC9Z28Nlb9FhfZoAc9x8qfJSgcO0WmTJ2SRtgII-eAHcuhTpKIugI3MdaUPTsx8HrmIqqyT8aStETf5djE8pG3wDAe3MysOxbQHRVPzGocBKK8uJPUA82-AavMuI8sciaOgI9u3kIIq0L8sbEmjJgzvDdHYMJje8XF1Ep_SwNoAHEC1tYFRR5EQQxkm9NpTCEboeQvNaadUQ5po40E9du440f_waAXrSSYKC2q53s6qbwWRgI7SDz5nU_Z-WUnt3Q5sTfG8UGDV3WURWXRE4qv2C4Xk0M6zjatZYkD1zlbAzrD8T6-U2p-q08ABu-v5PBLAzoyZDlfmYG9Wc9chH368_EQUfS0RMuBvcsgie3q5E4yXFI5UVLhHPUymUXxoBLSbZAJURvYPxXxtP8A4LXN3q07LhEB7bWLdDmZa4lHs2UCySvb0X512vmm2UVY2cfC3kSzTIkdpCG9AfTilQhpIMtLgQx7k61DcW3_EmB8BwL6dUWLzOY7dlEi0AcJf4PCVKTB9nQY0wCcJanXMYjshn7taV5t1ps7VXa9QfbtoA_nGgjrd1zFsqEV4gd9mHiM-YJICP2Rogw0lbfgQAVaIcVI1fr9OQeb0GJsb8UOl-mM7nVvIrG-OTsMMwXWp3WRRcabOxBuQ7MQgUINC1URRSJc5B_oMBK6SVIz73BQIrJGQcIrk9EinW7OENbVJPy1QO8QxFAiygs5xLwU4tqudOv-i8zmr3H0gyohsWoH2yWhpCfwCCtOhpiYdTgvwFG5pY8l4UwwSVz6st3MktegK8gKIrcwbdjFoPebzZoywsBfp1A40Iaf4415DQPqs";
+const EDITSET=new Set(); (function(){ const s=kzUnpack(typeof PRIO_FANEDIT==="string"?PRIO_FANEDIT:""); for(let i=0;i+11<=s.length;i+=11) EDITSET.add(s.slice(i,i+11)) })();
+const editMix=l=>{ if(!EDITSET.size || !(state.cat==="all"||state.cat==="music") || state.q.trim()) return l;
+  const e=[], r=[]; l.forEach(v=>(EDITSET.has(v.id)?e:r).push(v)); if(!e.length) return l;
+  const d=(Math.floor(Date.now()/864e5)*6)%e.length, E=e.slice(d).concat(e.slice(0,d)), out=[]; let i=0;
+  r.forEach((v,k)=>{ out.push(v); if(k%5===4 && i<E.length) out.push(E[i++]) });
+  return out.concat(E.slice(i)) };
+function shortsList(){ return lastJP(focusUp(ncMix(editMix(hotMix(memoList("s",shortsList0)))))) }   // hotMix reads titles, so it runs every time
 function shortsList0(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&!BAD.has(v.id)&&(!fstate.cc||CAPSET.has(v.id)));

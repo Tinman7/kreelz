@@ -80,6 +80,47 @@
    "done": true
   },
   {
+   "name": "hybe_fanedit",
+   "topic": "hot",
+   "cat": "m",
+   "since_days": 30,
+   "until": "2099-12-31",
+   "per_night": 4,
+   "rotate": true,
+   "min_views": 100000,
+   "shorts_only": true,
+   "_note": "Per David 2026-11-25: fun shorts that fans and other YouTubers edited of the HYBE artists (funny / cute moments, edits), high views — about 10-20% of the shorts. scripts/fanedit.mjs marks the fan-made ones and the app gives them 1 place in 6 in All / Music.",
+   "require": [
+    "코르티스|CORTIS|コルティス|아일릿|ILLIT|アイリット|르세라핌|LE ?SSERAFIM|ルセラフィム|방탄|BTS|防弾|정국|jungkook|ジョングク|지민|jimin|ジミン|태형|taehyung|テテ|석진|진ㅋ|\\bjin\\b|슈가|suga|제이홉|j-hope|남준|\\bRM\\b|원희|wonhee|ウォンヒ|민주|minju|윤아|yunah|모카|moka|이로하|iroha|사쿠라|sakura|채원|chaewon|윤진|yunjin|카즈하|kazuha|은채|eunchae|마틴|martin|주훈|juhoon|성현|seonghyeon|건호|keonho|제임스|james|투바투|TXT|세븐틴|SEVENTEEN|엔하이픈|ENHYPEN|보넥도|BOYNEXTDOOR|투어스|TWS|캣츠아이|KATSEYE",
+    "funny|funniest|moments?\\b|cute|\\bedits?\\b|#edit|kpopedit|chaos|crack|meme|\\blol\\b|ㅋㅋ|웃긴|웃김|웃음|귀여|귀엽|레전드|모먼트|케미|티키타카|댕청|허당|애교|aegyo|사랑스|面白|おもしろ|可愛|かわい|爆笑|ハプニング|天然|尊い|まとめ|ほっこり"
+   ],
+   "not": "이유|논란|사건|무슨 ?일|발열|중단|탈퇴|열애|해체|소송|충격|衝撃|理由|炎上|news|뉴스|근황|해명|사과|불화|왕따|저격|비난|악플|reaction|리액션|반응|fancam|직캠|cover|커버|tutorial|mirror|kiss|jealous|rizz|subscribe|구독|\\bai\\b|lyrics?|가사|full ?(ver|version)|풀버전|playlist|1 ?hour|loop",
+   "queries": [
+    "BTS funny moments",
+    "CORTIS funny moments",
+    "ILLIT cute moments",
+    "LE SSERAFIM funny moments",
+    "방탄 웃긴 쇼츠",
+    "코르티스 웃긴",
+    "아일릿 귀여운",
+    "르세라핌 웃긴",
+    "BTS 面白い",
+    "ILLIT 可愛い",
+    "LE SSERAFIM 面白い",
+    "CORTIS 可愛い",
+    "BTS edit",
+    "ILLIT edit",
+    "LE SSERAFIM edit",
+    "CORTIS edit",
+    "TXT funny moments",
+    "SEVENTEEN funny moments",
+    "ENHYPEN funny moments",
+    "BOYNEXTDOOR funny moments",
+    "TWS cute moments",
+    "KATSEYE funny moments"
+   ]
+  },
+  {
    "name": "hybe_challenge_core",
    "topic": "hot",
    "cat": "m",
