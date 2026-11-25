@@ -167,8 +167,8 @@ tfoot td{font-weight:800;border-bottom:0}
     </div>
     <div class="card tw">
       <table>
-        <thead><tr><th style="text-align:left">오늘 국가별</th><th>방문자</th><th>재생</th></tr></thead>
-        <tbody id="liveGeo"><tr><td colspan="3" class="empty">불러오는 중…</td></tr></tbody>
+        <thead><tr><th style="text-align:left">오늘 국가별 <small style="font-weight:500">봇 의심 제외</small></th><th>방문자</th><th>재생</th><th>봇 의심</th></tr></thead>
+        <tbody id="liveGeo"><tr><td colspan="4" class="empty">불러오는 중…</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -177,6 +177,10 @@ tfoot td{font-weight:800;border-bottom:0}
     <div class="card top"><h3>오늘 인기 일반 영상</h3><ol id="liveTopV"></ol></div>
     <div class="card"><h3 style="margin:0 0 10px;font-size:14.5px;font-weight:800">최근 30분 재생</h3><ul class="recent" id="liveRecent"></ul></div>
   </div>
+  <details class="card" id="botBox" style="margin-top:12px"><summary style="cursor:pointer;font-size:14px;font-weight:800">봇 점검 · 오늘 나라 × 기기 시간대 <small id="botNote" style="color:var(--muted);font-weight:500"></small></summary>
+    <p class="note" style="margin:8px 0">봇 의심 기준: 중국 본토 IP · 시간대가 UTC/GMT · 중국 시간대 · 싱가포르/홍콩 IP인데 아시아·오세아니아 밖 시간대 · 시간대 없음 · 같은 IP에서 하루 5명 이상. 기록은 지우지 않고 따로 셉니다(setup/bots.sql).</p>
+    <div class="tw"><table><thead><tr><th style="text-align:left">나라</th><th style="text-align:left">기기 시간대</th><th>방문자</th><th>봇 의심</th><th>재생</th><th>고유 IP</th></tr></thead><tbody id="botBody"><tr><td colspan="6" class="empty">불러오는 중…</td></tr></tbody></table></div>
+  </details>
 
   <h2>사용자 피드백 <small id="fbNote">사이트 아래쪽 "피드백 보내기"로 들어온 메시지 · 영어판·일본판 모두</small></h2>
   <div class="card"><ul class="fbl" id="fbList"><li class="empty">불러오는 중…</li></ul></div>
@@ -290,23 +294,23 @@ tfoot td{font-weight:800;border-bottom:0}
   <div class="grid kpis">
     <div class="card kpi"><div class="l">어제 KREELZ 방문자</div><div class="v" id="vY">–</div><div class="s" id="vYS"></div></div>
     <div class="card kpi"><div class="l">어제 KREELZ에서 본 영상 수</div><div class="v" id="pY">–</div><div class="s" id="pYS"></div></div>
-    <div class="card kpi"><div class="l">KREELZ 누적 방문자</div><div class="v" id="vAll">–</div><div class="s">브라우저 기준 고유 방문자</div></div>
+    <div class="card kpi"><div class="l">KREELZ 누적 방문자</div><div class="v" id="vAll">–</div><div class="s">브라우저 기준 고유 방문자 · 봇 포함</div></div>
     <div class="card kpi"><div class="l">KREELZ 누적 재생 · 좋아요 · 댓글</div><div class="v" id="pAll">–</div><div class="s" id="lcAll"></div></div>
   </div>
   <div class="card" style="margin-top:12px">
-    <div style="font-size:14px;font-weight:800;margin-bottom:6px">일별 방문자 · 재생 수 <small style="color:var(--muted);font-weight:500">최근 30일</small></div>
+    <div style="font-size:14px;font-weight:800;margin-bottom:6px">일별 방문자 · 재생 수 <small style="color:var(--muted);font-weight:500">최근 30일 · 봇 의심 제외</small></div>
     <div id="visitChart"></div>
     <div class="legend"><span><i style="background:var(--accent)"></i>방문자</span><span><i style="background:var(--accent2)"></i>재생 수</span></div>
   </div>
 
-  <h2>국가별 방문자 <small id="geoNote">브라우저 기준 방문자 · 하루 단위 고유 IP · 재생 수</small></h2>
+  <h2>국가별 방문자 <small id="geoNote">브라우저 기준 방문자 · 하루 단위 고유 IP · 재생 수 (봇 의심은 따로)</small></h2>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
     <span class="seg" id="geoPeriod" role="group" aria-label="기간"><button type="button" data-g="yesterday" aria-pressed="false">어제</button><button type="button" data-g="7" aria-pressed="false">최근 7일</button><button type="button" data-g="30" aria-pressed="true">최근 30일</button><button type="button" data-g="all" aria-pressed="false">누적</button></span>
   </div>
   <div class="card tw">
     <table>
-      <thead><tr><th style="text-align:left">국가</th><th>방문자</th><th>고유 IP</th><th>재생</th><th style="text-align:left;width:32%">방문자 비율</th></tr></thead>
-      <tbody id="geoBody"><tr><td colspan="5" class="empty">불러오는 중…</td></tr></tbody>
+      <thead><tr><th style="text-align:left">국가</th><th>방문자</th><th>고유 IP</th><th>재생</th><th>봇 의심</th><th style="text-align:left;width:30%">방문자 비율</th></tr></thead>
+      <tbody id="geoBody"><tr><td colspan="6" class="empty">불러오는 중…</td></tr></tbody>
     </table>
   </div>
 
@@ -724,13 +728,14 @@ $("#ttList").addEventListener("click",async e=>{
 
 /* ---------- visits / plays / likes / comments (Supabase, finished days only) ---------- */
 async function loadUsage(){
-  const [t,d]=await Promise.all([sb.rpc("admin_totals"),sb.rpc("admin_daily",{n:30})]);
+  let [t,d]=await Promise.all([sb.rpc("admin_totals"),sb.rpc("admin_daily_real",{n:30})]);
+  const RD=!d.error; if(!RD) d=await sb.rpc("admin_daily",{n:30});   // admin_daily_real = without suspected bots (setup/bots.sql)
   if(t.error||d.error){ $("#visitChart").innerHTML=`<p class="empty err">통계를 불러오지 못했습니다. Supabase에 admin.sql을 실행했는지 확인해 주세요.<br>${esc((t.error||d.error).message)}</p>`; return }
   const T=t.data[0]||{}, D=d.data||[], y=D[D.length-1]||{visitors:0,plays:0,day:""}, y2=D[D.length-2];
   $("#dayLabel").textContent=y.day?`어제 ${y.day} 마감 기준`:"";
   $("#vY").textContent=nf(y.visitors); $("#pY").textContent=nf(y.plays);
   const diff=(a,b)=>b==null?"":`전날 대비 ${a-b>=0?"+":""}${nf(a-b)}`;
-  $("#vYS").textContent=y2?diff(y.visitors,y2.visitors):""; $("#pYS").textContent=y2?diff(y.plays,y2.plays):"";
+  $("#vYS").textContent=(y2?diff(y.visitors,y2.visitors):"")+(RD&&y.bots!=null?` · 봇 의심 ${nf(y.bots)}명 제외`:""); $("#pYS").textContent=y2?diff(y.plays,y2.plays):"";
   $("#vAll").textContent=nf(T.visitors_all); $("#pAll").textContent=nf(T.plays_all);
   $("#lcAll").textContent=`좋아요 ${nf(T.likes_all)} · 댓글 ${nf(T.comments_all)}`;
   $("#visitChart").innerHTML=bars(D);
@@ -785,13 +790,14 @@ let geoPeriod="30";
 const ccName=(()=>{ let dn=null; try{ dn=new Intl.DisplayNames(["ko"],{type:"region"}) }catch(e){} return c=>{ if(c==="??") return "알 수 없음"; try{ return dn?dn.of(c):c }catch(e){ return c } } })();
 const ccFlag=c=>/^[A-Z]{2}$/.test(c)?String.fromCodePoint(...[...c].map(x=>0x1F1E6+x.charCodeAt(0)-65)):"🌐";
 async function loadCountries(){
-  $("#geoBody").innerHTML=`<tr><td colspan="5" class="empty">불러오는 중…</td></tr>`;
-  const {data,error}=await sb.rpc("admin_countries",{period:geoPeriod});
-  if(error){ $("#geoBody").innerHTML=`<tr><td colspan="5" class="empty err" style="text-align:left;white-space:normal">국가별 통계를 불러오지 못했습니다. Supabase에 setup/geo.sql을 실행했는지 확인해 주세요.<br>${esc(error.message)}</td></tr>`; return }
-  const R=(data||[]).filter(r=>r.visitors>0||r.plays>0), tot=R.reduce((a,r)=>a+Number(r.visitors),0)||1;
-  if(!R.length){ $("#geoBody").innerHTML=`<tr><td colspan="5" class="empty">아직 데이터가 없습니다. 국가 기록은 geo.sql 실행 다음 날부터 쌓입니다.</td></tr>`; return }
+  $("#geoBody").innerHTML=`<tr><td colspan="6" class="empty">불러오는 중…</td></tr>`;
+  let {data,error}=await sb.rpc("admin_countries_real",{period:geoPeriod}); const RC=!error;
+  if(!RC) ({data,error}=await sb.rpc("admin_countries",{period:geoPeriod}));
+  if(error){ $("#geoBody").innerHTML=`<tr><td colspan="6" class="empty err" style="text-align:left;white-space:normal">국가별 통계를 불러오지 못했습니다. Supabase에 setup/geo.sql을 실행했는지 확인해 주세요.<br>${esc(error.message)}</td></tr>`; return }
+  const R=(data||[]).filter(r=>r.visitors>0||r.plays>0||r.bots>0), tot=R.reduce((a,r)=>a+Number(r.visitors),0)||1;
+  if(!R.length){ $("#geoBody").innerHTML=`<tr><td colspan="6" class="empty">아직 데이터가 없습니다. 국가 기록은 geo.sql 실행 다음 날부터 쌓입니다.</td></tr>`; return }
   $("#geoBody").innerHTML=R.map(r=>{ const pct=Math.round(1000*r.visitors/tot)/10;
-    return `<tr><td style="text-align:left">${ccFlag(r.country)} ${esc(ccName(r.country))}${r.country==="??"?' <small style="color:var(--muted)">(국가 기록 전 방문 포함)</small>':""}</td><td>${nf(r.visitors)}</td><td>${nf(r.ips)}</td><td>${nf(r.plays)}</td>
+    return `<tr><td style="text-align:left">${ccFlag(r.country)} ${esc(ccName(r.country))}${r.country==="??"?' <small style="color:var(--muted)">(국가 기록 전 방문 포함)</small>':""}</td><td>${nf(r.visitors)}</td><td>${nf(r.ips)}</td><td>${nf(r.plays)}</td><td style="color:var(--muted)">${RC?nf(r.bots):"–"}</td>
       <td style="text-align:left"><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;border-radius:4px;background:var(--line);overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:var(--accent)"></i></div><span style="min-width:44px;text-align:right">${pct}%</span></div></td></tr>` }).join("");
 }
 $("#geoPeriod").addEventListener("click",e=>{ const b=e.target.closest("[data-g]"); if(!b) return; geoPeriod=b.dataset.g;
@@ -844,21 +850,30 @@ function hourBars(H){
 async function loadLive(){
   const {data:L,error}=await sb.rpc("admin_live");
   if(error){ $("#liveStamp").innerHTML=`<span class="err">실시간 통계를 불러오지 못했습니다 (Supabase에 setup/live.sql 실행 필요): ${esc(error.message)}</span>`; return }
-  $("#liveV").textContent=nf(L.visitors); $("#liveVS").textContent=`고유 IP ${nf(L.ips)}개`;
-  $("#liveP").textContent=nf(L.plays); $("#livePS").textContent=`좋아요 ${nf(L.likes)} · 댓글 ${nf(L.comments)}`;
+  const RL=L.real_visitors!=null;   // setup/bots.sql run: suspected bots counted apart
+  $("#liveV").textContent=nf(RL?L.real_visitors:L.visitors); $("#liveVS").textContent=RL?`봇 의심 ${nf(L.bots)}명 제외 · 고유 IP ${nf(L.real_ips)}개`:`고유 IP ${nf(L.ips)}개`;
+  $("#liveP").textContent=nf(RL?L.real_plays:L.plays); $("#livePS").textContent=(RL?`봇 의심 ${nf(L.bot_plays)}회 제외 · `:"")+`좋아요 ${nf(L.likes)} · 댓글 ${nf(L.comments)}`;
   $("#liveA").textContent=nf(L.active30); $("#liveAS").textContent=`최근 30분 재생 ${nf(L.plays30)}회`;
   const C=(L.countries||[]).filter(r=>r.v>0||r.p>0), c0=C.find(r=>r.c!=="??")||C[0];
   $("#liveC").textContent=c0?`${ccFlag(c0.c)} ${ccName(c0.c)}`:"–"; $("#liveCS").textContent=c0?`방문자 ${nf(c0.v)} · 재생 ${nf(c0.p)}`:"";
   const k=new Date(new Date(L.now).toLocaleString("en-US",{timeZone:"Asia/Seoul"})).getHours();
   $("#liveChart").innerHTML=hourBars((L.hourly||[]).filter(r=>r.h<=k));
-  $("#liveGeo").innerHTML=C.length? C.slice(0,12).map(r=>`<tr><td style="text-align:left">${ccFlag(r.c)} ${esc(ccName(r.c))}</td><td>${nf(r.v)}</td><td>${nf(r.p)}</td></tr>`).join("") : `<tr><td colspan="3" class="empty">오늘은 아직 방문이 없습니다</td></tr>`;
+  $("#liveGeo").innerHTML=C.length? C.slice(0,12).map(r=>`<tr><td style="text-align:left">${ccFlag(r.c)} ${esc(ccName(r.c))}</td><td>${nf(r.v)}</td><td>${nf(r.p)}</td><td style="color:var(--muted)">${r.bv!=null?nf(r.bv):"–"}</td></tr>`).join("") : `<tr><td colspan="4" class="empty">오늘은 아직 방문이 없습니다</td></tr>`;
   const S=await shortsSet(), isS=id=>S.has(id)||String(id).startsWith("tt:"), top=(L.top||[]).map(r=>({video_id:r.id,n:r.n}));
   const withT=async l=>Promise.all(l.map(async r=>({...r,...(await title(r.video_id))})));
   const [a,b]=await Promise.all([withT(top.filter(r=>isS(r.video_id)).slice(0,5)), withT(top.filter(r=>!isS(r.video_id)).slice(0,5))]);
   rows($("#liveTopS"),a,"회"); rows($("#liveTopV"),b,"회");
   const R=await Promise.all((L.recent||[]).map(async r=>({at:r.t, c:r.c||"??", ...(await title(r.id))})));
   $("#liveRecent").innerHTML=R.length? R.map(r=>`<li><time>${hm(r.at)}</time><span title="${esc(ccName(r.c))}">${ccFlag(r.c)}</span><span class="t">${esc(r.t||"")}</span></li>`).join("") : `<li class="empty" style="display:block">최근 30분 동안 재생이 없습니다</li>`;
+  loadBotCheck().catch(()=>{});
   $("#liveStamp").textContent=`오늘 0시(한국 시간)부터 지금까지 · 30초마다 자동 갱신 · 마지막 갱신 ${new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date())}`;
+}
+async function loadBotCheck(){
+  const {data,error}=await sb.rpc("admin_bot_check");
+  if(error){ $("#botBody").innerHTML=`<tr><td colspan="6" class="empty" style="text-align:left;white-space:normal">Supabase에 setup/bots.sql을 실행하면 여기 보입니다. (${esc(error.message)})</td></tr>`; return }
+  const D=data||[], all=D.reduce((a,r)=>a+Number(r.visitors),0), b=D.reduce((a,r)=>a+Number(r.bots),0);
+  $("#botNote").textContent=all?`오늘 방문자 ${nf(all)}명 중 봇 의심 ${nf(b)}명 (${Math.round(100*b/all)}%)`:"";
+  $("#botBody").innerHTML=D.length? D.map(r=>`<tr${Number(r.bots)?' style="color:var(--muted)"':""}><td style="text-align:left">${ccFlag(r.country)} ${esc(ccName(r.country))}</td><td style="text-align:left">${esc(r.tz)}</td><td>${nf(r.visitors)}</td><td>${nf(r.bots)}</td><td>${nf(r.plays)}</td><td>${nf(r.ips)}</td></tr>`).join("") : `<tr><td colspan="6" class="empty">오늘은 아직 방문이 없습니다</td></tr>`;
 }
 function liveLoop(){ clearTimeout(liveT); if(!$("#app").hidden && document.visibilityState==="visible") loadLive().catch(()=>{}); liveT=setTimeout(liveLoop,30000) }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") liveLoop() });
