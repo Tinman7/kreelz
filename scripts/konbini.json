@@ -56,6 +56,57 @@
    "done": true
   },
   {
+   "name": "hybe_challenge_core",
+   "topic": "hot",
+   "cat": "m",
+   "since_days": 21,
+   "until": "2099-12-31",
+   "per_night": 4,
+   "min_views": 20000,
+   "_note": "Per David 2026-11-25: HYBE artists' dance challenges — their own songs or other artists' — collected without gaps. CORTIS, ILLIT, LE SSERAFIM and BTS every night (the official channels are collected too; this finds the ones on other artists', music-show and label channels).",
+   "require": [
+    "코르티스|CORTIS|コルティス|아일릿|ILLIT|アイリット|르세라핌|LE ?SSERAFIM|ルセラフィム|방탄|BTS|정국|jungkook|지민|jimin|뷔\\b|\\bV\\b|태형|슈가|suga|제이홉|j-hope|진\\b|\\bjin\\b|RM\\b|남준",
+    "챌린지|challenge|チャレンジ|#\\w*challenge"
+   ],
+   "not": "reaction|리액션|react|tutorial|튜토리얼|mirror|거울모드|안무 ?배우기|dance ?cover|커버댄스|커버 ?댄스|cover by|kpop in public|in public|lyrics|가사|playlist|1 ?hour|compilation 20\\d\\d|루프|loop|ai ?cover|karaoke|노래방|pov|fmv",
+   "queries": [
+    "CORTIS challenge",
+    "ILLIT challenge",
+    "LE SSERAFIM challenge",
+    "BTS challenge"
+   ]
+  },
+  {
+   "name": "hybe_challenge_more",
+   "topic": "hot",
+   "cat": "m",
+   "since_days": 21,
+   "until": "2099-12-31",
+   "per_night": 2,
+   "rotate": true,
+   "min_views": 20000,
+   "_note": "Per David 2026-11-25: the other HYBE label artists' challenges, two of them a night in turn.",
+   "require": [
+    "투모로우바이투게더|TXT|TOMORROW ?X ?TOGETHER|세븐틴|SEVENTEEN|엔하이픈|ENHYPEN|보이넥스트도어|BOYNEXTDOOR|BND|투어스|TWS|캣츠아이|KATSEYE|앤팀|&TEAM|프로미스나인|fromis_?9|코르티스|CORTIS|아일릿|ILLIT|르세라핌|LE ?SSERAFIM",
+    "챌린지|challenge|チャレンジ|#\\w*challenge"
+   ],
+   "not": "reaction|리액션|react|tutorial|튜토리얼|mirror|거울모드|안무 ?배우기|dance ?cover|커버댄스|커버 ?댄스|cover by|kpop in public|in public|lyrics|가사|playlist|1 ?hour|compilation 20\\d\\d|루프|loop|ai ?cover|karaoke|노래방|pov|fmv",
+   "queries": [
+    "TXT challenge",
+    "SEVENTEEN challenge",
+    "ENHYPEN challenge",
+    "BOYNEXTDOOR challenge",
+    "TWS challenge",
+    "KATSEYE challenge",
+    "&TEAM challenge",
+    "fromis_9 challenge",
+    "코르티스 챌린지",
+    "아일릿 챌린지",
+    "르세라핌 챌린지",
+    "방탄 챌린지"
+   ]
+  },
+  {
    "name": "naksan_night",
    "topic": "hot",
    "cat": "k",
