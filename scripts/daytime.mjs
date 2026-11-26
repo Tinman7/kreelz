@@ -118,8 +118,9 @@ if (process.env.YT_API_KEY) {
   for (const { v, k } of [...seen.values()].sort((a, b) => a.k - b.k)) {
     const sn = v.snippet || {}, t = sn.title || "", chName = sn.channelTitle || "", ch = sn.channelId || "", vc = sn.categoryId || "";
     if (!(vc in TCAT) || NEWSY.test(t) || POL.test(t) || POL.test(chName) || !sn.publishedAt) continue;
-    if (!/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;   // Korean content
-    const base = TCAT[vc] || usual(ch) || "e"; if (eatBlocked(t, chName, base)) continue;
+    // K-content the site already carries: a channel whose clips are on KREELZ, or a priority artist (not just any Korean-language upload)
+    if (!usual(ch) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
+    const base = usual(ch) || TCAT[vc] || "e"; if (eatBlocked(t, chName, base)) continue;
     const cat = gate(base, t, chName, sn.tags || ""); if (!cat) continue;
     T.push({ id: v.id, ch, chName, cat, t, pub: sn.publishedAt, views: +(v.statistics || {}).viewCount || 0, k });
     if (T.length >= 24) break;
