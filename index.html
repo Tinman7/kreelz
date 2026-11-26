@@ -2386,7 +2386,9 @@ const focusUp=l=>{ if(!FOCUS.on || !FOCUS.set.size || !(state.cat==="all"||state
   const f=l.filter(v=>FOCUS.set.has(v.id)); if(!f.length) return l;
   const head=FOCUS.first.map(id=>f.find(v=>v.id===id)).filter(Boolean), hs=new Set(head); let r=f.filter(v=>!hs.has(v));
   if(r.length){ const k=(Math.floor(Date.parse(kstDay())/864e5)*3)%r.length; r=r.slice(k).concat(r.slice(0,k)) }
-  const p=head.concat(r).slice(0,8), t=new Set(p); return p.concat(l.filter(v=>!t.has(v))) };
+  // the front list (e.g. ILLIT at the Blue Dragon Film Awards, per David 2026-11-27 "일본판에는 하나도 안 올라와") stays ahead of the focus clips
+  const lead=FRONT.size&&state.cat!=="ent"?l.slice(0,14).filter(v=>FRONT.has(v.id)):[], ls=new Set(lead);
+  const p=head.concat(r).filter(v=>!ls.has(v)).slice(0,8), t=new Set([...lead,...p]); return lead.concat(p,l.filter(v=>!t.has(v))) };
 function feedList(){ return lastJP(focusUp(pinUp(memoList("f",feedList0)))) }   // pinUp reads titles (/jp: Japanese clips first), so it runs every time
 function feedList0(){
   const q=state.q.trim().toLowerCase();
