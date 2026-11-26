@@ -2391,7 +2391,14 @@ const focusUp=l=>{ if(!FOCUS.on || !FOCUS.set.size || !(state.cat==="all"||state
   const p=head.concat(r).slice(0,4), t=new Set(p), rest=l.filter(v=>!t.has(v)), out=[]; let k=0;
   rest.forEach((v,n)=>{ out.push(v); if(n%5===4 && k<p.length) out.push(p[k++]) });
   return out.concat(p.slice(k)) };
-function feedList(){ return lastJP(focusUp(pinUp(memoList("f",feedList0)))) }   // pinUp reads titles (/jp: Japanese clips first), so it runs every time
+/* Korea's trending now (per David 2026-11-27, both editions): live.js "trend" = YouTube's trending chart for Korea, entertainment
+   only, refreshed every hour by scripts/daytime.mjs. Up to 6 of them come right after the front list and pins, in every tab. */
+const TREND=new Map(); (function(){ const T=(window.LIVE||{}).trend; if(!T||!Array.isArray(T.ids)||Date.now()-Date.parse(T.at)>36*3600e3) return; T.ids.forEach((id,k)=>TREND.set(id,k)) })();
+const trendUp=l=>{ if(!TREND.size || state.q.trim()) return l;
+  const lead=l.slice(0,14).filter(v=>FRONT.has(v.id)||PINS.has(v.id)), ls=new Set(lead);
+  const tr=l.filter(v=>TREND.has(v.id)&&!ls.has(v)).sort((a,b)=>TREND.get(a.id)-TREND.get(b.id)).slice(0,6); if(!tr.length) return l;
+  const t=new Set([...lead,...tr]); return lead.concat(tr,l.filter(v=>!t.has(v))) };
+function feedList(){ return lastJP(focusUp(trendUp(pinUp(memoList("f",feedList0))))) }   // pinUp reads titles (/jp: Japanese clips first), so it runs every time
 function feedList0(){
   const q=state.q.trim().toLowerCase();
   let l=FV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&(!fstate.cc||CAPSET.has(v.id)));
@@ -2610,7 +2617,7 @@ const editMix=l=>{ if(!EDITSET.size || !(state.cat==="all"||state.cat==="music")
   const d=(Math.floor(Date.now()/864e5)*6)%e.length, E=e.slice(d).concat(e.slice(0,d)), out=[]; let i=0;
   r.forEach((v,k)=>{ out.push(v); if(k%5===4 && i<E.length) out.push(E[i++]) });
   return out.concat(E.slice(i)) };
-function shortsList(){ return lastJP(focusUp(ncMix(editMix(hotMix(memoList("s",shortsList0)))))) }   // hotMix reads titles, so it runs every time
+function shortsList(){ return lastJP(focusUp(trendUp(ncMix(editMix(hotMix(memoList("s",shortsList0))))))) }   // hotMix reads titles, so it runs every time
 function shortsList0(){
   const q=state.q.trim().toLowerCase();
   let l=SV.filter(v=>inCat(v)&&(!fstate.official||v.ok)&&!BAD.has(v.id)&&(!fstate.cc||CAPSET.has(v.id)));

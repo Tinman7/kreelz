@@ -98,6 +98,46 @@ await Promise.all(pick.map(async c => {
 }));
 const add = pick.filter(c => okIds.has(c.id));
 
+// ---- Korea's trending now (per David 2026-11-27: "그때그때 핫 트렌드를 일본판도 영어판도 맨 앞에", like Naver's 연예 now page):
+// YouTube's own trending chart for Korea (videos.list chart=mostPopular, 1 API unit per call, 3 calls an hour), entertainment,
+// music, film and comedy only — no news, politics, sports or games, accident / crime clips, mukbang rules kept, each clip in
+// its tab (catgate). The top ones go in live.js "trend" (ranked); the app puts up to 6 of them right after the front list
+// and pins in each tab, on both editions. Clips not on the site yet are added like the other daytime finds.
+const POL = /대통령|국회|국힘|민주당|국민의힘|정당|선거|탄핵|윤석열|이재명|김건희|한동훈|검찰|특검|뉴스|속보|news|시사|정치|북한|전쟁|관세/i;
+const TCAT = { "10": "m", "1": "f", "24": "", "23": "e", "22": "" };
+let trend = old.trend || null;
+if (process.env.YT_API_KEY) {
+  const seen = new Map(); let calls = 0;
+  for (const vc of ["", "10", "24", "1", "23"]) {
+    try {
+      const r = await (await fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({ part: "snippet,statistics,contentDetails", chart: "mostPopular", regionCode: "KR", maxResults: "50", ...(vc ? { videoCategoryId: vc } : {}), key: process.env.YT_API_KEY }), { signal: AbortSignal.timeout(15000) })).json();
+      calls++; (r.items || []).forEach((v, k) => { const o = seen.get(v.id); if (!o || k < o.k) seen.set(v.id, { v, k }); });
+    } catch (e) {}
+  }
+  const T = [];
+  for (const { v, k } of [...seen.values()].sort((a, b) => a.k - b.k)) {
+    const sn = v.snippet || {}, t = sn.title || "", chName = sn.channelTitle || "", ch = sn.channelId || "", vc = sn.categoryId || "";
+    if (!(vc in TCAT) || NEWSY.test(t) || POL.test(t) || POL.test(chName) || !sn.publishedAt) continue;
+    if (!/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;   // Korean content
+    const base = TCAT[vc] || usual(ch) || "e"; if (eatBlocked(t, chName, base)) continue;
+    const cat = gate(base, t, chName, sn.tags || ""); if (!cat) continue;
+    T.push({ id: v.id, ch, chName, cat, t, pub: sn.publishedAt, views: +(v.statistics || {}).viewCount || 0, k });
+    if (T.length >= 24) break;
+  }
+  const tOk = new Set(), tShort = new Set();
+  await Promise.all(T.map(async c => { try {
+    if (onSite.has(c.id) || inLive.has(c.id)) { tOk.add(c.id); return; }
+    const r = await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent("https://www.youtube.com/watch?v=" + c.id)}`, { signal: AbortSignal.timeout(8000) });
+    if (r.status !== 200) return; tOk.add(c.id);
+    const s = await fetch(`https://www.youtube.com/shorts/${c.id}`, { method: "HEAD", redirect: "manual", signal: AbortSignal.timeout(8000) });
+    if (s.status === 200) tShort.add(c.id);
+  } catch (e) {} }));
+  const T2 = T.filter(c => tOk.has(c.id));
+  for (const c of T2) if (!onSite.has(c.id) && !inLive.has(c.id) && !add.some(x => x.id === c.id)) { add.push(c); if (tShort.has(c.id)) shorts.add(c.id); }
+  if (calls) trend = { at: new Date().toISOString(), ids: T2.map(c => c.id) };
+  console.log(`trend: ${calls} chart calls, ${seen.size} trending, ${T2.length} kept:`, T2.slice(0, 8).map(c => `${c.cat} ${c.t.slice(0, 40)}`).join(" / "));
+}
+
 // ---- titles: Japanese for every new clip, English and Spanish for Korean ones (live.js keeps them by title)
 const tx = { ja: { ...(old.ja || {}) }, en: { ...(old.en || {}) }, es: { ...(old.es || {}) } };
 async function claude(system, titles) {
@@ -146,12 +186,13 @@ const kstDay = iso => new Date(Date.parse(iso) + 9 * 3600e3).toISOString().slice
 const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
 for (const c of add) keep.set(c.id, [c.id, c.cat, c.views, kstDay(c.pub), rank([c.t, c.ch]) || 0, rankIn(JP_ARTISTS, [c.t, c.ch]) || 0, c.t.slice(0, 150), c.chName, shorts.has(c.id) ? 1 : 0, 0, 1]);
 // hold (per David 2026-11-11): clips he asks for that were uploaded long ago stay in live.js until hold.until
+const TRENDSET = new Set((trend && trend.ids) || []);   // trending clips stay while they trend, whatever their upload day
 const HOLD = new Set(old.hold && old.hold.until >= kstDay(new Date().toISOString()) ? old.hold.ids || [] : []);
 const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   // daytime finds the nightly took in are no longer needed here
-  .filter(x => HOLD.has(x[0]) || Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
+  .filter(x => HOLD.has(x[0]) || TRENDSET.has(x[0]) || Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
-const L = { ...old, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
+const L = { ...old, ...(trend ? { trend } : {}), built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
 if (!DRY) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
 console.log(add.slice(0, 15).map(c => `  ${c.stage ? "stage" : c.cat} ${shorts.has(c.id) ? "short" : "video"} ${c.views} (${Math.round(c.rate)}/h) ${c.chName}: ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ channels: chans.size, feeds, feed_failed: feedFail, taking_off: cand.length, added: DRY ? 0 : add.length, would_add: add.length, shorts: add.filter(c => shorts.has(c.id)).length }));
