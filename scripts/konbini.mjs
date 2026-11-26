@@ -113,7 +113,9 @@ if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/
   const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
   const pin = new Set((old.pin && old.pin.ids) || []); let until = (old.pin && old.pin.until) || "";
   // front (ILLIT's win, per David 2026-11-06): clips of groups with front: "YYYY-MM-DD" go on the front of All / Music
-  const fp = String(old.front || "").split("|"); let frontU = fp[0] || ""; const front = new Set((fp[1] || "").match(/.{11}/g) || []);
+  const fp = String(old.front || "").split("|"), today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  const alive = (fp[0] || "") >= today;   // an expired front starts empty, so old clips don't come back with a new group's date (2026-11-27)
+  let frontU = alive ? fp[0] : ""; const front = new Set(alive ? (fp[1] || "").match(/.{11}/g) || [] : []);
   for (const c of cand) { if (!good.has(c.id) || eatBlocked(c.meta && c.meta[0], c.meta && c.meta[2], c.cat || "k")) continue;
     if (c.pin) { pin.add(c.id); if (c.until > until) until = c.until; }
     if (c.front) { front.add(c.id); if (c.front > frontU) frontU = c.front; }
