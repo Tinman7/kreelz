@@ -389,7 +389,7 @@ Sitemap: ${SITE}/sitemap-hot.xml
 
 // crawlable topic links in the footer of both app pages
 const block = ed => `<!--topics--><nav class="topics" aria-label="${ed === "en" ? "Browse" : "一覧"}">` +
-  [["today", ...PAGES[ed].filter(p => p.kind === "today")], ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["show", ...PAGES[ed].filter(p => p.kind === "show")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
+  [/* "today" (3-minute digest) link removed per David 2026-11-27 */ ["artist", ...PAGES[ed].filter(p => p.kind === "artist")], ["actor", ...PAGES[ed].filter(p => p.kind === "actor")], ["show", ...PAGES[ed].filter(p => p.kind === "show")], ["cat", ...PAGES[ed].filter(p => p.kind === "cat")]]
     .map(([, ...ps]) => ps.map(p => `<a href="/${ED[ed].dir}/${p.slug}/">${esc(p.name)}</a>`).join("")).filter(Boolean).join(`<i></i>`) +
   `<a href="/${ED[ed].dir}/">${T[ed].hubL}</a>` + (ed === "en" ? `<i></i><a href="/es/k/" hreflang="es" lang="es">Español</a>` : "") + (ed === "ja" ? `<i></i><a href="https://x.com/${XJP}" target="_blank" rel="me noopener">X（旧Twitter）@${XJP}</a>` : "") + `</nav><!--/topics-->`;
 for (const [file, ed] of [["index.html", "en"], ["jp/index.html", "ja"]]) {
