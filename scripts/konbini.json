@@ -2,6 +2,43 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "illit_bluedragon",
+   "topic": "hot",
+   "cat": "m",
+   "front": "2026-12-03",
+   "since": "2026-11-25",
+   "search_until": "2026-11-30",
+   "until": "2026-12-03",
+   "per_night": 3,
+   "min_views": 5000,
+   "_note": "Both editions, on the front until 12/3 (per David 2026-11-26): ILLIT's 'You're Under Arrest' stage at the 47th Blue Dragon Film Awards (KBS, 11/25) — the full stage first, then fun fan-made highlight shorts (actors doing the dance, Wonhee x Koo Kyo-hwan). Searched every night until 11/30.",
+   "require": [
+    "아일릿|ILLIT|アイリット|원희|wonhee",
+    "청룡|blue ?dragon|青龍"
+   ],
+   "not": "reaction|리액션|순위|ranking|팩트체크|lyrics?|가사",
+   "queries": [
+    "아일릿 청룡영화상",
+    "ILLIT Blue Dragon Film Awards",
+    "아일릿 체포하겠어 청룡"
+   ],
+   "ids": [
+    "JHB-rgooTSo",
+    "XBMJdjRgWKo",
+    "6CC8nNYpCRk",
+    "sk3x0wkzPx8",
+    "roY1uWW6XMY",
+    "teXhciR2hPo",
+    "_en1B2PxSyI",
+    "7uhMDuh-cX8",
+    "Bi4YiPydPF0",
+    "F9InoEoZ4d4",
+    "f6MxK3RgFK0",
+    "xVtjp7d-uy8",
+    "eTbch2k4N0w"
+   ]
+  },
+  {
    "name": "illit_mama",
    "topic": "hot",
    "cat": "m",
