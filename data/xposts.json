@@ -1,48 +1,48 @@
 {
- "date": "2026-11-27",
- "artist": "CORTIS",
- "actor": "Lee Jun-ho",
+ "date": "2026-11-28",
+ "artist": "ILLIT",
+ "actor": "Lee Jong-suk",
  "posts": [
   {
    "time": "08:00",
-   "label": "카테고리: 韓国映画",
-   "text": "🎬韓国映画でいま見られているクリップ\n注目：[高校生刑事] 1次予告編\n▶ https://kreelz.com/jp/k/film/\n#韓国映画",
-   "len": 102
+   "label": "카테고리: K-POP",
+   "text": "🎤K-POPでいま見られているクリップ\n注目：Stray Kids 『SUIATSU』 Music Video\n▶ https://kreelz.com/jp/k/music/\n#KPOP",
+   "len": 107
   },
   {
    "time": "12:00",
    "label": "오늘의 인기 TOP3",
-   "text": "📈今日の韓国エンタメ人気クリップ（11/27）\n1. 🏆🏆་࿐\n2. 2026 MAMA 4冠を作ってくれたコア、ありがとう大好きです 🏆🏆🏆🏆…\n3. in this town, everybody goes REDRED including me\n▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
-   "len": 218
+   "text": "📈今日の韓国エンタメ人気クリップ（11/28）\n1. 🚨 🩷\n2. Stray Kids 『SUIATSU』 Music Video\n3. 흥\n▶ https://kreelz.com/jp/k/today/\n#韓国エンタメ #KPOP",
+   "len": 141
   },
   {
    "time": "15:00",
    "label": "질문 글 (링크 없음)",
-   "text": "CORTISを好きになったきっかけの曲・ステージは？💕\nみんなの“沼落ち”エピソード聞きたいです！\n#CORTIS",
-   "len": 97
+   "text": "イ・ジョンソクの出演作で、一番好きなドラマは？📺\nおすすめの名場面もぜひ！\n#イジョンソク #韓国ドラマ",
+   "len": 99
   },
   {
    "time": "19:00",
-   "label": "아티스트: CORTIS",
-   "text": "🔥CORTIS（コルティス）の最新ショート・動画まとめ\nいま話題：2026 MAMA 4冠を作ってくれたコア、ありがとう大好きです 🏆🏆🏆🏆❤️‍🔥\n▶ https://kreelz.com/jp/k/cortis/\n#CORTIS #KPOP",
-   "len": 169
+   "label": "아티스트: ILLIT",
+   "text": "🔥ILLIT（アイリット）の最新ショート・動画まとめ\nいま話題：ILLIT (아일릿) 축하공연 〈♬ 체포하겠어〉 [제47회 청룡영화상 시상식] | KBS 261125 방송\n▶ https://kreelz.com/jp/k/illit/\n#ILLIT #アイリット #KPOP",
+   "len": 196
   },
   {
    "time": "22:00",
-   "label": "배우: Lee Jun-ho",
-   "text": "🎬イ・ジュノの最新動画まとめ\nいま話題：タク・ジェフン、チェ・ジョンアンとの仲を取り持とうとして、自分の父親の経歴までアピールするチョン・…\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jun-ho/\n#イジュノ #韓国俳優",
-   "len": 229
+   "label": "배우: Lee Jong-suk",
+   "text": "🎬イ・ジョンソクの最新動画まとめ\nいま話題：나비에와 야반도주한 이종새 멋짐폭발 미친결말 왕후\nドラマ名場面・インタビュー・ファンミまで👇\n▶ https://kreelz.com/jp/k/lee-jong-suk/\n#イジョンソク #韓国俳優",
+   "len": 186
   }
  ],
  "engage": {
   "search": [
    {
-    "label": "CORTIS 최신 일본어 글",
-    "url": "https://x.com/search?q=%23CORTIS%20lang%3Aja&f=live"
+    "label": "ILLIT 최신 일본어 글",
+    "url": "https://x.com/search?q=%23ILLIT%20lang%3Aja&f=live"
    },
    {
-    "label": "イ・ジュノ 최신 일본어 글",
-    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A5%E3%83%8E%20lang%3Aja&f=live"
+    "label": "イ・ジョンソク 최신 일본어 글",
+    "url": "https://x.com/search?q=%23%E3%82%A4%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%82%AF%20lang%3Aja&f=live"
    },
    {
     "label": "K-POP 화제 글 (일본어)",
@@ -69,32 +69,32 @@
  "card": {
   "title": "韓国で今日いちばん見られている",
   "big": "TOP 5",
-  "date": "11/27",
+  "date": "11/28",
   "rows": [
    {
-    "t": "2026 MAMA 4冠を作ってくれたコア、ありがとう大好きです 🏆🏆🏆🏆❤️‍🔥",
-    "ch": "CORTIS",
-    "v": 7947613
+    "t": "コーリャン酒を飲みながら恨み節を始めたヨ・エスター💦 (ft. 旅行中に夢の国へ行ってしまったホン・ヘゴルㅋㅋ)",
+    "ch": "SBS ",
+    "v": 2345571
    },
    {
-    "t": "🐷🐰.｡oO( うちの🐶、カンフー上手でしょ )",
-    "ch": "Stray Kids",
-    "v": 3358361
+    "t": "科学高校の早期卒業の天才な長女の知らせに口が耳まで裂けたお笑い芸人オ・ジョンテㅋㅋ",
+    "ch": "SBS ",
+    "v": 1628440
    },
    {
-    "t": "チャン・ジェフンが一般女性を口説くのにかかる時間ㅋㅋ🔥",
-    "ch": "드라마보는 남자",
-    "v": 2627908
+    "t": "「このままだとサービスエリアも時間の問題」みんな帰宅した午前2時にも食べられるサービスエリアのラーメン、誰が作っているの",
+    "ch": "EBSDocumentary (EBS 다큐)",
+    "v": 1497614
    },
    {
-    "t": "晩餐歌 (マンチャンガ) Covered by IVE GAEUL",
+    "t": "[スペシャル先行公開] ジン・ソンギュに刃を向けたパク・ジニョン⚔「あなたはあの日、この演説を絶対に終えられないでしょう",
+    "ch": "tvN DRAMA",
+    "v": 617872
+   },
+   {
+    "t": "IVE アイブ 2026 MAMA PERFORMANCE REHEARSAL",
     "ch": "IVE",
-    "v": 1846415
-   },
-   {
-    "t": "Oh my oh MAMA 今この瞬間！Thank you MONSTIEZ! 🏆❤️",
-    "ch": "BABYMONSTER",
-    "v": 1760133
+    "v": 606882
    }
   ],
   "url": "kreelz.com/jp",
