@@ -16,7 +16,8 @@ for (const name of ["FEED", "SHORTS"]) {
   for (let i = 0; i + 16 <= s.length; i += 16) rows.push({ id: s.slice(i, i + 11), cat: s[i + 11].toLowerCase(), days: dec2(s.slice(i + 14, i + 16)) });
 }
 const onSite = new Set(rows.map(r => r.id));
-const todo = rows.filter(r => !(r.id in known) && r.cat !== "b").sort((a, b) => a.days - b.days).slice(0, MAX).map(r => r.id);
+const todo = rows.filter(r => !(r.id in known))   // Beauty included since 2026-11-27 (captioned clips move up there)
+  .sort((a, b) => a.days - b.days).slice(0, MAX).map(r => r.id);
 let used = 0, asked = 0, quota = false;
 if (KEY && todo.length) {
   for (let i = 0; i < todo.length; i += 50) {
