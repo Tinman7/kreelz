@@ -243,6 +243,7 @@ jobs:
           node scripts/tving.mjs apply index.html || echo "TVING originals skipped"   # badge + 2 of the first 12 in Screen/Shows (per David 2026-11-03)
           node scripts/viral.mjs index.html || echo "viral ranking skipped"   # first screen = what gained the most views in a day (per David 2026-11-02)
           node scripts/captions.mjs index.html || echo "subtitles check skipped"   # 字幕/CC badge + "with subtitles" filter (per David 2026-10-30)
+          node scripts/showsgate.mjs index.html || echo "shows gate skipped"   # Shows tab: only stars / subtitled / TVING Originals (per David 2026-11-27)
           node scripts/digest.mjs index.html || echo "digest skipped"   # "today in 3 minutes" pages (per David 2026-10-30)
           node scripts/gsc.mjs || echo "search console skipped"   # admin '검색 노출' (per David 2026-11-02)
           node scripts/region.mjs index.html      # kreelz.com/jp and other region editions of the same page

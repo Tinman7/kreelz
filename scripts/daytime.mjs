@@ -14,7 +14,8 @@ import fs from "node:fs";
 import zlib from "node:zlib";
 import { ARTISTS, JP_ARTISTS, rank, rankIn } from "./hybe.mjs";
 import { eatBlocked } from "./noeat.mjs";
-import { gate } from "./catgate.mjs";   // each clip in the tab it belongs to (per David 2026-11-12)
+import { gate } from "./catgate.mjs";
+import { showOk } from "./showsgate.mjs";   // Shows tab: stars, subtitled channels or nothing (per David 2026-11-27)   // each clip in the tab it belongs to (per David 2026-11-12)
 
 const NEWSY = /폭행|사망|살인|사건|사고|블랙박스|범죄|경찰|숨진|참사|흉기|구속|재판|빚투|마약|음주운전/;
 const OUT = process.argv.slice(2).find(a => !a.startsWith("--")) || "live.js", DRY = process.argv.includes("--dry");
@@ -76,7 +77,7 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         if (NEWSY.test(t)) continue;   // accident / crime / court-case clips are not what fans come for
         // from the busiest channels (not the stage / artist ones): Korean content only — a Korean title or a priority artist
         if (!stage && !/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
-        const cat2 = gate(cat, t, chName, ""); if (!cat2) continue;
+        const cat2 = gate(cat, t, chName, ""); if (!cat2 || (cat2 === "e" && !showOk(t, chName, ""))) continue;
         cand.push({ id, ch, chName, cat: cat2, t, pub, views, rate: views / hrs, stage });
       }
     } catch (e) { feedFail++; }
@@ -121,7 +122,7 @@ if (process.env.YT_API_KEY) {
     // K-content the site already carries: a channel whose clips are on KREELZ, or a priority artist (not just any Korean-language upload)
     if (!usual(ch) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
     const base = usual(ch) || TCAT[vc] || "e"; if (eatBlocked(t, chName, base)) continue;
-    const cat = gate(base, t, chName, sn.tags || ""); if (!cat) continue;
+    const cat = gate(base, t, chName, sn.tags || ""); if (!cat || (cat === "e" && !showOk(t, chName, sn.tags))) continue;
     T.push({ id: v.id, ch, chName, cat, t, pub: sn.publishedAt, views: +(v.statistics || {}).viewCount || 0, k });
     if (T.length >= 24) break;
   }
@@ -188,7 +189,7 @@ if (process.env.X_BEARER && process.env.YT_API_KEY) {
         if (views < 20000 || NEWSY.test(t) || POL.test(t) || POL.test(chName) || ["25", "17", "20"].includes(vc)) continue;
         if (!/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
         const base = usual(ch) || TCAT[vc] || "e"; if (eatBlocked(t, chName, base)) continue;
-        const cat = gate(base, t, chName, sn.tags || ""); if (!cat) continue;
+        const cat = gate(base, t, chName, sn.tags || ""); if (!cat || (cat === "e" && !showOk(t, chName, sn.tags))) continue;
         let ok = onSite.has(v.id) || inLive.has(v.id), short = false;
         if (!ok) try {
           ok = (await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent("https://www.youtube.com/watch?v=" + v.id)}`, { signal: AbortSignal.timeout(8000) })).status === 200;

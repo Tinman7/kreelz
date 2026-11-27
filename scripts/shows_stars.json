@@ -1,0 +1,10 @@
+{
+ "_note": "Shows tab (per David 2026-11-27): only variety clips with the K-pop artists he gave (scripts/hybe.mjs) or well-known actors of the dramas people talk about now (scripts/actors.mjs + the names below), or clips with subtitles / from subtitling channels, or TVING Originals. Add names here (Korean|English|Japanese, regex).",
+ "names": [
+  "원희|wonhee|ウォンヒ", "민주|minju|ミンジュ", "모카|moka|モカ", "이로하|iroha|イロハ", "윤아(?=.*(?:아일릿|illit))",
+  "카즈하|kazuha|カズハ", "김채원|chaewon|チェウォン", "사쿠라|sakura|サクラ", "허윤진|yunjin|ユンジン", "홍은채|eunchae|ウンチェ",
+  "마틴|martin(?=.*cortis)", "주훈|juhoon", "성현(?=.*(?:코르티스|cortis))", "건호(?=.*(?:코르티스|cortis))", "제임스(?=.*(?:코르티스|cortis))",
+  "정국|jungkook|ジョングク", "지민|jimin|ジミン", "뷔(?![가-힣])|\\bV\\b(?=.*bts)|태형|taehyung|テテ", "진(?=.*(?:방탄|bts))|\\bjin\\b(?=.*bts)|석진", "슈가|suga|윤기", "제이홉|j-?hope|호석", "남준|\\bRM\\b",
+  "한지민", "주지훈", "신민아", "이종석", "박보영", "김혜윤", "김수현", "아이유|\\biu\\b", "수지", "고윤정", "김지원", "박은빈", "이준호", "임윤아"
+ ]
+}
