@@ -1,10 +1,36 @@
 {
- "_note": "Shows tab (per David 2026-11-27): only variety clips with the K-pop artists he gave (scripts/hybe.mjs) or well-known actors of the dramas people talk about now (scripts/actors.mjs + the names below), or clips with subtitles / from subtitling channels, or TVING Originals. Add names here (Korean|English|Japanese, regex).",
- "names": [
-  "원희|wonhee|ウォンヒ", "민주|minju|ミンジュ", "모카|moka|モカ", "이로하|iroha|イロハ", "윤아(?=.*(?:아일릿|illit))",
-  "카즈하|kazuha|カズハ", "김채원|chaewon|チェウォン", "사쿠라|sakura|サクラ", "허윤진|yunjin|ユンジン", "홍은채|eunchae|ウンチェ",
-  "마틴|martin(?=.*cortis)", "주훈|juhoon", "성현(?=.*(?:코르티스|cortis))", "건호(?=.*(?:코르티스|cortis))", "제임스(?=.*(?:코르티스|cortis))",
-  "정국|jungkook|ジョングク", "지민|jimin|ジミン", "뷔(?![가-힣])|\\bV\\b(?=.*bts)|태형|taehyung|テテ", "진(?=.*(?:방탄|bts))|\\bjin\\b(?=.*bts)|석진", "슈가|suga|윤기", "제이홉|j-?hope|호석", "남준|\\bRM\\b",
-  "한지민", "주지훈", "신민아", "이종석", "박보영", "김혜윤", "김수현", "아이유|\\biu\\b", "수지", "고윤정", "김지원", "박은빈", "이준호", "임윤아"
+ "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group (Big Hit, BELIFT LAB, Source Music, Pledis, KOZ, ADOR, HYBE Japan, HYBE x Geffen / Latin America) plus TWICE and BLACKPINK — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese.",
+ "idols": [
+  "방탄소년단|\\bbts\\b|bangtan|防弾少年団|정국|jung ?kook|ジョングク|지민|\\bjimin\\b|ジミン|김태형|태형|taehyung|テテ|김석진|석진|\\bjin\\b(?=.*bts)|슈가|\\bsuga\\b|민윤기|제이홉|j-?hope|정호석|김남준|\\bRM\\b(?=.*bts)",
+  "투모로우바이투게더|투바투|\\btxt\\b|tomorrow ?x ?together|연준|yeonjun|수빈(?=.*(?:투바투|txt))|범규|beomgyu|태현(?=.*(?:투바투|txt))|휴닝카이|hueningkai",
+  "코르티스|cortis|コルティス|마틴(?=.*(?:코르티스|cortis))|주훈|juhoon|성현(?=.*(?:코르티스|cortis))|건호(?=.*(?:코르티스|cortis))|제임스(?=.*(?:코르티스|cortis))",
+  "엔하이픈|enhypen|정원(?=.*(?:엔하이픈|enhypen))|희승|heeseung|제이크|\\bjake\\b(?=.*enhypen)|성훈(?=.*(?:엔하이픈|enhypen))|선우(?=.*(?:엔하이픈|enhypen))|니키(?=.*(?:엔하이픈|enhypen))|\\bni-ki\\b",
+  "아일릿|illit|アイリット|원희|wonhee|ウォンヒ|민주(?=.*(?:아일릿|illit))|minju(?=.*illit)|모카(?=.*(?:아일릿|illit))|이로하|iroha|윤아(?=.*(?:아일릿|illit))",
+  "르세라핌|le ?sserafim|ルセラフィム|김채원|chaewon(?=.*sserafim)|사쿠라(?=.*(?:르세라핌|sserafim))|미야와키 ?사쿠라|허윤진|yunjin|카즈하|kazuha|カズハ|홍은채|eunchae",
+  "세븐틴|seventeen|\\bsvt\\b|부석순|호시(?=.*(?:세븐틴|seventeen))|우지(?=.*(?:세븐틴|seventeen))|민규(?=.*(?:세븐틴|seventeen))|도겸|dk(?=.*seventeen)|승관|부승관|정한(?=.*(?:세븐틴|seventeen))|조슈아(?=.*(?:세븐틴|seventeen))|버논(?=.*(?:세븐틴|seventeen))|디에잇|the ?8|원우(?=.*(?:세븐틴|seventeen))|준(?=.*(?:세븐틴|seventeen))|에스쿱스|s\\.?coups|디노(?=.*(?:세븐틴|seventeen))",
+  "투어스|\\btws\\b|신유(?=.*(?:투어스|tws))|도훈(?=.*(?:투어스|tws))|영재(?=.*(?:투어스|tws))|한진(?=.*(?:투어스|tws))|지훈(?=.*(?:투어스|tws))|경민(?=.*(?:투어스|tws))",
+  "보이넥스트도어|보넥도|boynextdoor|성호(?=.*(?:보넥도|boynextdoor))|리우(?=.*(?:보넥도|boynextdoor))|명재현|재현(?=.*(?:보넥도|boynextdoor))|태산(?=.*(?:보넥도|boynextdoor))|이한(?=.*(?:보넥도|boynextdoor))|운학",
+  "뉴진스|newjeans|ニュージーンズ|민지(?=.*(?:뉴진스|newjeans))|하니(?=.*(?:뉴진스|newjeans))|팜하니|다니엘(?=.*(?:뉴진스|newjeans))|해린(?=.*(?:뉴진스|newjeans))|혜인(?=.*(?:뉴진스|newjeans))",
+  "앤팀|&team|andteam|エンティーム",
+  "캣츠아이|캐츠아이|katseye",
+  "santos ?bravos|산토스 ?브라보스",
+  "트와이스|\\bTWICE\\b|misamo|미사모|나연(?=.*(?:트와이스|twice))|정연(?=.*(?:트와이스|twice))|모모(?=.*(?:트와이스|twice))|사나(?=.*(?:트와이스|twice))|지효(?=.*(?:트와이스|twice))|미나(?=.*(?:트와이스|twice))|다현(?=.*(?:트와이스|twice))|채영(?=.*(?:트와이스|twice))|쯔위|tzuyu",
+  "블랙핑크|blackpink|ブラックピンク|제니(?=.*(?:블랙핑크|blackpink))|\\bjennie\\b|지수(?=.*(?:블랙핑크|blackpink))|\\bjisoo\\b|로제|ros[eé]\\b|리사(?=.*(?:블랙핑크|blackpink))|lalisa|\\blisa\\b(?=.*blackpink)"
+ ],
+ "actors": [
+  "한지민",
+  "주지훈",
+  "신민아",
+  "이종석",
+  "박보영",
+  "김혜윤",
+  "김수현",
+  "아이유|\\biu\\b",
+  "수지(?![가-힣])",
+  "고윤정",
+  "김지원",
+  "박은빈",
+  "이준호",
+  "임윤아"
  ]
 }
