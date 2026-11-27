@@ -1771,7 +1771,10 @@ const GUEST_PICKS = MEMBERSHIP ? 6 : Infinity;   // curated title cards
 CONTENT.forEach(it=>{ if(it.cat==="drama"||it.cat==="film") it.cat="screen" });
 ICONS.screen = ICONS.drama;
 ICONS.ent = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14c.9 1.6 2.1 2.4 3.5 2.4s2.6-.8 3.5-2.4"/><path d="M9 9.5h.01M15 9.5h.01"/></svg>';
-CATS.splice(0, CATS.length, {id:"all"},{id:"music"},{id:"screen"},{id:"ent"},{id:"beauty"},{id:"mukbang"}); CONTENT.forEach(i=>{ if(i.cat==="events") i.cat="music" }); if(state.cat==="events") state.cat="all";   /* Events tab removed (per David 2026-11-27): award / concert cards go to Music */
+CATS.splice(0, CATS.length, {id:"all"},{id:"music"},{id:"screen"},{id:"ent"},{id:"beauty"},{id:"mukbang"});
+/* the Events tab was removed (per David 2026-11-27): award shows and concerts go to K-pop (Music), a deep link to it opens All */
+CONTENT.forEach(i=>{ if(i.cat==="events") i.cat="music" });
+if(state.cat==="events") state.cat="all";
 CONTENT.forEach((it,i)=>{it.id=i; it.t=it.date?new Date(it.date):new Date()});
 CONTENT.forEach(it=>{
   const list = VIDEOS[it.title] || (it.yt ? [["yt",it.yt,it.vlabel||"",it.ch||""]] : []);
