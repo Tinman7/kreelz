@@ -1,0 +1,48 @@
+name: Video notes for Beauty / Travel & Food (after the nightly)
+
+# "What's in this video" (per David 2026-11-27): products, places, menus and prices from each clip's description, in
+# Japanese / English / Spanish, for viewers who can't follow Korean without subtitles. scripts/vnotes.mjs → data/vnotes.json
+# (80 clips a night; only that file is committed, so it never touches the nightly's files).
+on:
+  workflow_run:
+    workflows: ["Nightly refresh (00:00 KST)"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      n: { description: "clips this run", required: false, default: "80" }
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: vnotes
+  cancel-in-progress: false
+
+jobs:
+  notes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Notes
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/vnotes.mjs --n=${{ inputs.n || '80' }}
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "kreelz-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/vnotes.json
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "Video notes (Beauty / Travel & Food)"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 20; done
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
