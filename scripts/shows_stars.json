@@ -13,6 +13,7 @@
   "앤팀|&team|andteam|エンティーム",
   "캣츠아이|캐츠아이|katseye",
   "santos ?bravos|산토스 ?브라보스",
+  "튜이드|트위드(?=.*(?:하이브|abd|서연|서희|엘레나|지아|사키|세아|이하늬|sun ?kiss))|tuide|テュイド|(?:서희|서연|엘레나|지아|사키|세아|이하늬)(?=.*(?:튜이드|tuide))",
   "트와이스|\\bTWICE\\b|misamo|미사모|나연(?=.*(?:트와이스|twice))|정연(?=.*(?:트와이스|twice))|모모(?=.*(?:트와이스|twice))|사나(?=.*(?:트와이스|twice))|지효(?=.*(?:트와이스|twice))|미나(?=.*(?:트와이스|twice))|다현(?=.*(?:트와이스|twice))|채영(?=.*(?:트와이스|twice))|쯔위|tzuyu",
   "블랙핑크|blackpink|ブラックピンク|제니(?=.*(?:블랙핑크|blackpink))|\\bjennie\\b|지수(?=.*(?:블랙핑크|blackpink))|\\bjisoo\\b|로제|ros[eé]\\b|리사(?=.*(?:블랙핑크|blackpink))|lalisa|\\blisa\\b(?=.*blackpink)",
   "아이브|\\bive\\b(?=.*(?:kpop|아이브|장원영|안유진|wonyoung|yujin|starship))|장원영|wonyoung|안유진|레이(?=.*(?:아이브|ive))|리즈(?=.*(?:아이브|ive))|가을(?=.*(?:아이브|ive))|이서(?=.*(?:아이브|ive))",
