@@ -1,0 +1,5 @@
+{
+ "_note": "X → YouTube default rule (per David 2026-11-27): for each new K-content trend in Korea, read the top video posts (most likes / retweets) and search YouTube with the trend + their hashtags. posts=true reads up to 10 posts per trend (X API $0.005 a post: 15 trends a day ≈ $0.75 a day, about $23 a month on top of the trends list). Waiting for David's OK on that budget; false = trend name only.",
+ "posts": false,
+ "per_trend": 10
+}

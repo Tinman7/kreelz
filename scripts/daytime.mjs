@@ -144,6 +144,7 @@ if (process.env.YT_API_KEY) {
 // posts read or written), the ones about what KREELZ carries (a priority artist, or a word found in 3+ clip titles on the site;
 // no news, politics or incidents), each new one searched once on YouTube (uploads of the last 48 hours, Korean, most viewed;
 // at most 2 a run and 15 a day = 1,500 of the 10,000 daily units). Up to 3 clips per trend lead live.js "trend" for 24 hours.
+let XCFG = { posts: false }; try { XCFG = JSON.parse(fs.readFileSync("scripts/xtrend.json", "utf8")); } catch (e) {}
 let xstate = old.xtr || { seen: {}, day: "", n: 0, picks: [] };
 if (process.env.X_BEARER && process.env.YT_API_KEY) {
   const today = new Date(NOW + 9 * 3600e3).toISOString().slice(0, 10);
@@ -164,7 +165,16 @@ if (process.env.X_BEARER && process.env.YT_API_KEY) {
   console.log(`x trends: ${xt.length} in Korea, ${rel.length} about K-content (${rel.slice(0, 10).join(", ")}), searching ${fresh.join(", ") || "none"}`);
   for (const n of fresh) {
     xstate.seen[n] = NOW; xstate.n++;
-    const q = n.replace(/^#/, "").replace(/_/g, " ");
+    let q = n.replace(/^#/, "").replace(/_/g, " ");
+    // the default rule: the most liked / retweeted video posts on the trend give the YouTube keywords (their hashtags)
+    if (XCFG.posts) try {
+      const xr = await (await fetch("https://api.x.com/2/tweets/search/recent?" + new URLSearchParams({ query: `${n.startsWith("#") ? n : `"${q}"`} has:videos -is:retweet -is:reply`, max_results: String(Math.max(10, Math.min(100, XCFG.per_trend || 10))), sort_order: "relevancy", "tweet.fields": "public_metrics,entities,lang" }), { headers: { Authorization: `Bearer ${process.env.X_BEARER}` }, signal: AbortSignal.timeout(15000) })).json();
+      const top = (xr.data || []).map(p => ({ p, sc: ((p.public_metrics || {}).like_count || 0) + 2 * ((p.public_metrics || {}).retweet_count || 0) })).sort((a, b) => b.sc - a.sc).slice(0, 3);
+      const tags = {}; for (const { p, sc } of top) for (const h of ((p.entities || {}).hashtags || [])) { const t = h.tag.replace(/_/g, " "); if (t && !q.includes(t) && !POL.test(t)) tags[t] = (tags[t] || 0) + sc + 1; }
+      const extra = Object.keys(tags).sort((a, b) => tags[b] - tags[a]).slice(0, 2);
+      if (extra.length) q = `${q} ${extra.join(" ")}`;
+      console.log(`  [${n}] x posts: ${(xr.data || []).length}, top ${top.map(t => t.sc).join("/")} → "${q}"`);
+    } catch (e) { console.log(`  [${n}] x posts failed:`, e.message); }
     try {
       const sr = await (await fetch("https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({ part: "id", type: "video", q, order: "viewCount", regionCode: "KR", relevanceLanguage: "ko", maxResults: "15", publishedAfter: new Date(NOW - 2 * DAY).toISOString(), key: process.env.YT_API_KEY }), { signal: AbortSignal.timeout(15000) })).json();
       const ids = (sr.items || []).map(x => x.id && x.id.videoId).filter(Boolean); if (!ids.length) { console.log(`  [${n}] nothing`, sr.error ? sr.error.message : ""); continue; }
