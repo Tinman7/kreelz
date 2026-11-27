@@ -29,7 +29,8 @@ jobs:
       - name: Newest uploads taking off → live.js
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          YT_API_KEY: ${{ secrets.YT_API_KEY }}   # Korea's trending chart only: 5 units an hour
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}   # Korea's trending chart (5 units an hour) + up to 15 searches a day for X trends
+          X_BEARER: ${{ secrets.X_BEARER }}   # X API (pay per use, approved by David 2026-11-27): Korea's trends only
         run: node scripts/daytime.mjs live.js ${{ inputs.dry == 'yes' && '--dry' || '' }} 2>&1 | tee daytime.log
       - name: Publish live.js
         if: inputs.dry != 'yes'

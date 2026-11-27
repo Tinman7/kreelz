@@ -139,6 +139,64 @@ if (process.env.YT_API_KEY) {
   console.log(`trend: ${calls} chart calls, ${seen.size} trending, ${T2.length} kept:`, T2.slice(0, 8).map(c => `${c.cat} ${c.t.slice(0, 40)}`).join(" / "));
 }
 
+// ---- X (Twitter) trends in Korea → the clips on YouTube (per David 2026-11-27: "X에서 파악한 다음에 그 영상들을 유튜브에서 찾아서",
+// paid X API approved by David, about $5 a month). Every hour: Korea's X trends (official API, X_BEARER secret; trends only, no
+// posts read or written), the ones about what KREELZ carries (a priority artist, or a word found in 3+ clip titles on the site;
+// no news, politics or incidents), each new one searched once on YouTube (uploads of the last 48 hours, Korean, most viewed;
+// at most 2 a run and 15 a day = 1,500 of the 10,000 daily units). Up to 3 clips per trend lead live.js "trend" for 24 hours.
+let xstate = old.xtr || { seen: {}, day: "", n: 0, picks: [] };
+if (process.env.X_BEARER && process.env.YT_API_KEY) {
+  const today = new Date(NOW + 9 * 3600e3).toISOString().slice(0, 10);
+  if (xstate.day !== today) { xstate.day = today; xstate.n = 0; }
+  for (const k of Object.keys(xstate.seen)) if (NOW - xstate.seen[k] > 3 * DAY) delete xstate.seen[k];
+  xstate.picks = (xstate.picks || []).filter(p => NOW - p.at < DAY);
+  let xt = [];
+  try {
+    const r = await fetch("https://api.x.com/2/trends/by/woeid/23424868?max_trends=30", { headers: { Authorization: `Bearer ${process.env.X_BEARER}` }, signal: AbortSignal.timeout(15000) });
+    const j = await r.json(); xt = (j.data || []).map(x => String(x.trend_name || "").trim()).filter(Boolean);
+    if (!r.ok) console.log("x trends:", r.status, JSON.stringify(j).slice(0, 200));
+  } catch (e) { console.log("x trends failed:", e.message); }
+  const titles = Object.values(vmeta).map(m => (m && m[0]) || "");
+  const onSiteWord = w => { if (w.length < 2) return false; let n = 0; for (const t of titles) if (t.includes(w) && ++n >= 3) return true; return false; };
+  const rel = xt.filter(n => { const w = n.replace(/^#/, "").replace(/_/g, " ").trim();
+    return w && !POL.test(w) && !NEWSY.test(w) && (rank([w, ""]) || rankIn(JP_ARTISTS, [w, ""]) || onSiteWord(w)); });
+  const fresh = rel.filter(n => !xstate.seen[n]).slice(0, Math.max(0, Math.min(2, 15 - xstate.n)));
+  console.log(`x trends: ${xt.length} in Korea, ${rel.length} about K-content (${rel.slice(0, 10).join(", ")}), searching ${fresh.join(", ") || "none"}`);
+  for (const n of fresh) {
+    xstate.seen[n] = NOW; xstate.n++;
+    const q = n.replace(/^#/, "").replace(/_/g, " ");
+    try {
+      const sr = await (await fetch("https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({ part: "id", type: "video", q, order: "viewCount", regionCode: "KR", relevanceLanguage: "ko", maxResults: "15", publishedAfter: new Date(NOW - 2 * DAY).toISOString(), key: process.env.YT_API_KEY }), { signal: AbortSignal.timeout(15000) })).json();
+      const ids = (sr.items || []).map(x => x.id && x.id.videoId).filter(Boolean); if (!ids.length) { console.log(`  [${n}] nothing`, sr.error ? sr.error.message : ""); continue; }
+      const vr = await (await fetch("https://www.googleapis.com/youtube/v3/videos?" + new URLSearchParams({ part: "snippet,statistics", id: ids.join(","), key: process.env.YT_API_KEY }), { signal: AbortSignal.timeout(15000) })).json();
+      const got = [];
+      for (const v of vr.items || []) {
+        const sn = v.snippet || {}, t = sn.title || "", chName = sn.channelTitle || "", ch = sn.channelId || "", vc = sn.categoryId || "";
+        const views = +(v.statistics || {}).viewCount || 0;
+        if (views < 20000 || NEWSY.test(t) || POL.test(t) || POL.test(chName) || ["25", "17", "20"].includes(vc)) continue;
+        if (!/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
+        const base = usual(ch) || TCAT[vc] || "e"; if (eatBlocked(t, chName, base)) continue;
+        const cat = gate(base, t, chName, sn.tags || ""); if (!cat) continue;
+        let ok = onSite.has(v.id) || inLive.has(v.id), short = false;
+        if (!ok) try {
+          ok = (await fetch(`https://www.youtube.com/oembed?format=json&url=${encodeURIComponent("https://www.youtube.com/watch?v=" + v.id)}`, { signal: AbortSignal.timeout(8000) })).status === 200;
+          if (ok) short = (await fetch(`https://www.youtube.com/shorts/${v.id}`, { method: "HEAD", redirect: "manual", signal: AbortSignal.timeout(8000) })).status === 200;
+        } catch (e) { ok = false; }
+        if (!ok) continue;
+        const c = { id: v.id, ch, chName, cat, t, pub: sn.publishedAt, views };
+        if (!onSite.has(c.id) && !inLive.has(c.id) && !add.some(x => x.id === c.id)) { add.push(c); if (short) shorts.add(c.id); }
+        got.push(c); if (got.length >= 3) break;
+      }
+      for (const c of got) xstate.picks.unshift({ id: c.id, at: NOW, kw: n });
+      console.log(`  [${n}] ${got.length} clips:`, got.map(c => `${c.cat} ${c.views} ${c.t.slice(0, 40)}`).join(" / "));
+    } catch (e) { console.log(`  [${n}] failed:`, e.message); }
+  }
+}
+if (xstate.picks && xstate.picks.length) {
+  const xi = [...new Set(xstate.picks.map(p => p.id))];
+  trend = { at: (trend && trend.at) || new Date().toISOString(), ids: [...new Set([...xi, ...((trend && trend.ids) || [])])] };
+}
+
 // ---- titles: Japanese for every new clip, English and Spanish for Korean ones (live.js keeps them by title)
 const tx = { ja: { ...(old.ja || {}) }, en: { ...(old.en || {}) }, es: { ...(old.es || {}) } };
 async function claude(system, titles) {
@@ -193,7 +251,7 @@ const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   /
   .filter(x => HOLD.has(x[0]) || TRENDSET.has(x[0]) || Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
-const L = { ...old, ...(trend ? { trend } : {}), built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
+const L = { ...old, ...(trend ? { trend } : {}), xtr: xstate, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
 if (!DRY) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
 console.log(add.slice(0, 15).map(c => `  ${c.stage ? "stage" : c.cat} ${shorts.has(c.id) ? "short" : "video"} ${c.views} (${Math.round(c.rate)}/h) ${c.chName}: ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ channels: chans.size, feeds, feed_failed: feedFail, taking_off: cand.length, added: DRY ? 0 : add.length, would_add: add.length, shorts: add.filter(c => shorts.has(c.id)).length }));
