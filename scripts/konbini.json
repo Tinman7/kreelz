@@ -2,6 +2,21 @@
  "_note": "K-Food tab searches (both editions), one group per theme; each group runs first_run searches on its first night, then per_night in rotation (100 YouTube API units each). topic \"hot\" = a viral moment: runs every night until \"until\", before the rotation (not counted in KF_SEARCHES), category \"cat\", both regexes in \"require\" must match; node scripts/konbini.mjs out.json --hot runs only these. pin = also pinned at the top of All and Music until \"until\" (scripts/prio.mjs PRIO_PIN; live.js pin).",
  "groups": [
   {
+   "name": "wonhee_cake_xmas",
+   "topic": "hot",
+   "cat": "m",
+   "pin": true,
+   "since": "2026-06-01",
+   "search_until": "2026-11-28",
+   "until": "2026-12-25",
+   "ids": [
+    "r9PZeePPlwc"
+   ],
+   "queries": [],
+   "shorts_only": true,
+   "_note": "Per David 2026-11-27: until Christmas, Wonhee eating the Twosome Place cake (cream on her face) as a short up front on both editions — ILLIT's own short '#광고 먹방 ASMR #투썸플레이스 #아박가토 #WONHEE' (1.6M)."
+  },
+  {
    "name": "illit_bluedragon",
    "topic": "hot",
    "cat": "m",

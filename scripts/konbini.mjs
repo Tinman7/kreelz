@@ -111,7 +111,8 @@ for (const c of cand) { if (!good.has(c.id) || c.on || eatBlocked(c.meta && c.me
 if (LIVE_F && !CHECK) {   // [id, cat, views, upload day, rank (global), rank (/jp), title, channel]
   const old = (() => { try { return JSON.parse(fs.readFileSync(LIVE_F, "utf8").replace(/^window\.LIVE=/, "").replace(/;\s*$/, "")) } catch (e) { return { v: [], s: [] } } })();
   const keep = new Map([...(old.v || []), ...(old.s || [])].map(x => [x[0], x]));
-  const pin = new Set((old.pin && old.pin.ids) || []); let until = (old.pin && old.pin.until) || "";
+  const pinAlive = ((old.pin && old.pin.until) || "") >= new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // an expired pin list starts empty (2026-11-27)
+  const pin = new Set(pinAlive ? (old.pin && old.pin.ids) || [] : []); let until = pinAlive ? (old.pin && old.pin.until) || "" : "";
   // front (ILLIT's win, per David 2026-11-06): clips of groups with front: "YYYY-MM-DD" go on the front of All / Music
   const fp = String(old.front || "").split("|"), today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
   const alive = (fp[0] || "") >= today;   // an expired front starts empty, so old clips don't come back with a new group's date (2026-11-27)
