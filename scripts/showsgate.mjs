@@ -46,14 +46,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   for (const n of ["FEED", "SHORTS"]) {
     const s = str(n); let o = "";
     for (let i = 0; i + 16 <= s.length; i += 16) { const row = s.slice(i, i + 16), id = row.slice(0, 11);
-      if (row[11] === "e" && !keep.has(id)) { const m = vm[id];
+      if (row[11].toLowerCase() === "e" && !keep.has(id)) { const m = vm[id];
         if (m && !showOk(m[0], m[2], m[5], { captions: cap[id] === 1, tving: TVO.has(id) })) { drops.push(id); continue; }
         if (m) { const w = showWhere(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`, cap[id] === 1 || TVO.has(id) || SUB_CH.test(m[2] || ""));
           if (!w.en) enx.push(id); if (!w.jp) jpx.push(id); } }
       o += row; }
     out[n] = o;
   }
-  const e = n => (str(n).match(/.{16}/g) || []).filter(r => r[11] === "e").length;
+  const e = n => (str(n).match(/.{16}/g) || []).filter(r => r[11].toLowerCase() === "e").length;
   console.log(`showsgate: Shows clips ${e("FEED")} videos + ${e("SHORTS")} shorts → dropping ${drops.length}`);
   console.log(drops.slice(0, 12).map(id => `  - ${vm[id][2]} | ${vm[id][0].slice(0, 60)}`).join("\n"));
   // live.js (clips found during the day): the same rule

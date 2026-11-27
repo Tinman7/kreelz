@@ -14,7 +14,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   let vm = {}; try { vm = JSON.parse(zlib.gunzipSync(fs.readFileSync("data/vmeta.json.gz"))); } catch (e) {}
   const ids = [];
   for (const n of ["FEED", "SHORTS"]) { const s = (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || "";
-    for (let i = 0; i + 16 <= s.length; i += 16) { const id = s.slice(i, i + 11), m = vm[id]; if (s[i + 11] !== "m" || !m) continue;
+    for (let i = 0; i + 16 <= s.length; i += 16) { const id = s.slice(i, i + 11), m = vm[id]; if (s[i + 11].toLowerCase() !== "m" || !m) continue;
       if (SM_CH.has(m[1]) || SM_RX.test(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`)) ids.push(id); } }
   h = h.replace(/const PRIO_SM = "[^"]*";/, () => `const PRIO_SM = "${[...new Set(ids)].join("")}";`);
   fs.writeFileSync(site, h); console.log("smtag:", ids.length, "SM clips in Music");
