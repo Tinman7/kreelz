@@ -1,5 +1,5 @@
 {
- "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group except NewJeans (per David: 뉴진스는 빼) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese.",
+ "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group except NewJeans (per David: 뉴진스는 빼) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese. No SM Entertainment idols (per David 2026-11-27; 'sm_out' are taken out of the hybe.mjs lists here). MAMAMOO stays.",
  "idols": [
   "방탄소년단|\\bbts\\b|bangtan|防弾少年団|정국|jung ?kook|ジョングク|지민|\\bjimin\\b|ジミン|김태형|태형|taehyung|テテ|김석진|석진|\\bjin\\b(?=.*bts)|슈가|\\bsuga\\b|민윤기|제이홉|j-?hope|정호석|김남준|\\bRM\\b(?=.*bts)",
   "투모로우바이투게더|투바투|\\btxt\\b|tomorrow ?x ?together|연준|yeonjun|수빈(?=.*(?:투바투|txt))|범규|beomgyu|태현(?=.*(?:투바투|txt))|휴닝카이|hueningkai",
@@ -17,22 +17,16 @@
   "블랙핑크|blackpink|ブラックピンク|제니(?=.*(?:블랙핑크|blackpink))|\\bjennie\\b|지수(?=.*(?:블랙핑크|blackpink))|\\bjisoo\\b|로제|ros[eé]\\b|리사(?=.*(?:블랙핑크|blackpink))|lalisa|\\blisa\\b(?=.*blackpink)",
   "아이브|\\bive\\b(?=.*(?:kpop|아이브|장원영|안유진|wonyoung|yujin|starship))|장원영|wonyoung|안유진|레이(?=.*(?:아이브|ive))|리즈(?=.*(?:아이브|ive))|가을(?=.*(?:아이브|ive))|이서(?=.*(?:아이브|ive))",
   "\\(여자\\)아이들|아이들(?=.*(?:미연|소연|우기|민니|슈화))|\\(g\\)i-?dle|\\bi-?dle\\b|미연(?=.*(?:아이들|idle))|전소연|우기(?=.*(?:아이들|idle))",
-  "레드벨벳|red ?velvet|아이린(?=.*(?:레드벨벳|red ?velvet))|슬기(?=.*(?:레드벨벳|red ?velvet))|웬디(?=.*(?:레드벨벳|red ?velvet))|조이(?=.*(?:레드벨벳|red ?velvet))",
   "있지(?=.*(?:itzy|예지|류진|채령|유나))|\\bitzy\\b",
   "엔믹스|nmixx|해원(?=.*(?:엔믹스|nmixx))|설윤|sullyoon",
   "베이비몬스터|babymonster|아현(?=.*(?:베이비몬스터|babymonster))|루카(?=.*(?:베이비몬스터|babymonster))",
   "키스오브라이프|kiss ?of ?life|\\bkiof\\b|나띠(?=.*(?:키오프|kiss))",
-  "하츠투하츠|hearts ?2 ?hearts|하투하",
   "미야오|meovv",
-  "샤이니|shinee|민호(?=.*(?:샤이니|shinee))|태민(?![가-힣])|키(?=.*(?:샤이니|shinee))|온유(?=.*(?:샤이니|shinee))",
-  "슈퍼주니어|super ?junior|슈주|이특|은혁|규현|신동(?=.*(?:슈주|슈퍼주니어))|희철(?=.*(?:슈주|슈퍼주니어|아는형님))|김희철",
   "더보이즈|the ?boyz",
   "플레이브|plave",
-  "소녀시대|girls'? ?generation|\\bsnsd\\b|태연(?![가-힣])|윤아(?=.*(?:소녀시대|snsd))|효연|수영(?=.*(?:소녀시대|snsd))|유리(?=.*(?:소녀시대|snsd))|서현(?=.*(?:소녀시대|snsd))|티파니(?=.*(?:소녀시대|snsd))",
   "마마무|mamamoo|화사(?![가-힣])|솔라(?=.*(?:마마무|mamamoo))|문별|휘인",
   "에이핑크|apink",
   "위너(?=.*(?:송민호|강승윤|김진우|이승훈))|송민호|강승윤",
-  "엔시티|\\bnct\\b|도영(?=.*(?:nct|엔시티))|재현(?=.*(?:nct|엔시티))|마크(?=.*(?:nct|엔시티))|해찬",
   "킥플립|kickflip",
   "싸이커스|xikers",
   "제로베이스원|zerobaseone|\\bzb1\\b|성한빈|장하오"
@@ -52,5 +46,19 @@
   "박은빈",
   "이준호",
   "임윤아"
+ ],
+ "sm_out": [
+  "aespa",
+  "NCT",
+  "NCT 127",
+  "NCT DREAM",
+  "NCT WISH",
+  "RIIZE",
+  "EXO",
+  "Red Velvet",
+  "SHINee",
+  "Super Junior",
+  "Girls' Generation",
+  "Hearts2Hearts"
  ]
 }

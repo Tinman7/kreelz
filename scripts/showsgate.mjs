@@ -13,7 +13,8 @@ import { ARTISTS, JP_ARTISTS, EXTRA_MALE } from "./hybe.mjs";
 let CFG = {}; try { CFG = JSON.parse(fs.readFileSync(new URL("./shows_stars.json", import.meta.url), "utf8")); } catch (e) {}
 // idols: every HYBE-label group + TWICE + BLACKPINK (the file) and the top idols the site already follows — Stray Kids, ATEEZ,
 // NCT, RIIZE, ... (scripts/hybe.mjs) (per David 2026-11-27); actors: scripts/actors.mjs + the file's list
-const RX = [...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE, ...ACTORS, ...JP_ACTORS].map(a => a[2]).concat([...(CFG.idols || []), ...(CFG.actors || [])].map(s => new RegExp(s, "i")));
+const SM_OUT = new Set(CFG.sm_out || []);   // no SM Entertainment idols (per David 2026-11-27)
+const RX = [...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE].filter(a => !SM_OUT.has(a[0])).concat(ACTORS, JP_ACTORS).map(a => a[2]).concat([...(CFG.idols || []), ...(CFG.actors || [])].map(s => new RegExp(s, "i")));
 export const SUB_CH = /kbs world|arirang|kocowa|viki|netflix k-?content|tving global|mnet k-?pop|kbs kpop|1thek|dingo|studio choom/i;
 export const hasStar = text => RX.some(r => r.test(text));
 /** a variety clip worth keeping on the Shows tab? */
