@@ -1,5 +1,5 @@
 {
- "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group (Big Hit, BELIFT LAB, Source Music, Pledis, KOZ, ADOR, HYBE Japan, HYBE x Geffen / Latin America) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese.",
+ "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group except NewJeans (per David: 뉴진스는 빼) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese.",
  "idols": [
   "방탄소년단|\\bbts\\b|bangtan|防弾少年団|정국|jung ?kook|ジョングク|지민|\\bjimin\\b|ジミン|김태형|태형|taehyung|テテ|김석진|석진|\\bjin\\b(?=.*bts)|슈가|\\bsuga\\b|민윤기|제이홉|j-?hope|정호석|김남준|\\bRM\\b(?=.*bts)",
   "투모로우바이투게더|투바투|\\btxt\\b|tomorrow ?x ?together|연준|yeonjun|수빈(?=.*(?:투바투|txt))|범규|beomgyu|태현(?=.*(?:투바투|txt))|휴닝카이|hueningkai",
@@ -10,7 +10,6 @@
   "세븐틴|seventeen|\\bsvt\\b|부석순|호시(?=.*(?:세븐틴|seventeen))|우지(?=.*(?:세븐틴|seventeen))|민규(?=.*(?:세븐틴|seventeen))|도겸|dk(?=.*seventeen)|승관|부승관|정한(?=.*(?:세븐틴|seventeen))|조슈아(?=.*(?:세븐틴|seventeen))|버논(?=.*(?:세븐틴|seventeen))|디에잇|the ?8|원우(?=.*(?:세븐틴|seventeen))|준(?=.*(?:세븐틴|seventeen))|에스쿱스|s\\.?coups|디노(?=.*(?:세븐틴|seventeen))",
   "투어스|\\btws\\b|신유(?=.*(?:투어스|tws))|도훈(?=.*(?:투어스|tws))|영재(?=.*(?:투어스|tws))|한진(?=.*(?:투어스|tws))|지훈(?=.*(?:투어스|tws))|경민(?=.*(?:투어스|tws))",
   "보이넥스트도어|보넥도|boynextdoor|성호(?=.*(?:보넥도|boynextdoor))|리우(?=.*(?:보넥도|boynextdoor))|명재현|재현(?=.*(?:보넥도|boynextdoor))|태산(?=.*(?:보넥도|boynextdoor))|이한(?=.*(?:보넥도|boynextdoor))|운학",
-  "뉴진스|newjeans|ニュージーンズ|민지(?=.*(?:뉴진스|newjeans))|하니(?=.*(?:뉴진스|newjeans))|팜하니|다니엘(?=.*(?:뉴진스|newjeans))|해린(?=.*(?:뉴진스|newjeans))|혜인(?=.*(?:뉴진스|newjeans))",
   "앤팀|&team|andteam|エンティーム",
   "캣츠아이|캐츠아이|katseye",
   "santos ?bravos|산토스 ?브라보스",
