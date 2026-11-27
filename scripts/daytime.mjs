@@ -214,13 +214,16 @@ if (AK && Object.keys(xgot).length) try {
     body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 3000, thinking: { type: "disabled" },
       system: `You write one short line telling international K-content fans why something is trending in Korea right now. For each key you get a Korean X (Twitter) trend, the text of its most liked posts and the titles of YouTube clips about it.
 Write what happened and why Koreans are reacting, in your own words (never copy a post), as plain facts from the material only: no guessing, no rumours, no opinions, no hype words, no hashtags, no emojis. Name people the way fans abroad know them. At most 90 characters each.
-Give it in Japanese ("ja", natural for Japanese fans, Korean names in katakana with a middle dot), English ("en") and Latin American Spanish ("es"). If the material does not show what happened, use "" for all three.
-Output ONLY JSON: {"<key>": {"ja": "...", "en": "...", "es": "..."}, ...}`,
+Give it in Japanese ("ja", natural for Japanese fans, Korean names in katakana with a middle dot), English ("en") and Latin American Spanish ("es").
+Also a short story of 3-4 sentences (at most 320 characters) for fans who tap for more: who, what happened, how Korean viewers reacted, why it's fun — same rules, facts from the material only — as "sja", "sen", "ses".
+If the material does not show what happened, use "" for everything.
+Output ONLY JSON: {"<key>": {"ja": "...", "en": "...", "es": "...", "sja": "...", "sen": "...", "ses": "..."}, ...}`,
       messages: [{ role: "user", content: JSON.stringify(input) }] }) });
   const d = await r.json(); const t = (d.content || []).map(c => c.text || "").join("");
   const o = r.ok ? JSON.parse(t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1)) : {};
   for (const [n, got] of Object.entries(xgot)) { const c = o[n]; if (!c || !(c.ja || c.en)) continue;
-    for (const g of got) ctx[g.id] = { ja: String(c.ja || "").slice(0, 120), en: String(c.en || "").slice(0, 120), es: String(c.es || "").slice(0, 120), kw: n, at: NOW };
+    const cut = (x, k) => String(x || "").slice(0, k);
+    for (const g of got) ctx[g.id] = { ja: cut(c.ja, 120), en: cut(c.en, 120), es: cut(c.es, 120), sja: cut(c.sja, 400), sen: cut(c.sen, 400), ses: cut(c.ses, 400), kw: n, at: NOW };
     console.log(`  ctx [${n}] ${c.en}`); }
 } catch (e) { console.log("ctx skipped:", e.message); }
 if (xstate.picks && xstate.picks.length) {
