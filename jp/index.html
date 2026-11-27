@@ -667,6 +667,8 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
 .fja{position:absolute;right:8px;bottom:8px;font-style:normal;font-size:10.5px;font-weight:800;background:#fff;color:var(--accent);padding:3px 7px;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 @media (max-width:640px){.sth .fja{font-size:9px;padding:2px 5px;right:5px;bottom:5px}}
 .fcc{color:#1E6FD9}
+.fctx{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;font-size:11.5px;line-height:1.35;color:var(--muted);margin-top:3px}
+.ctx{font-size:13px;line-height:1.5;color:var(--text);background:var(--soft);border-radius:8px;padding:7px 10px;margin:6px 0}
 .ftv{left:8px;right:auto;top:8px;bottom:auto;background:#FF153C;color:#fff}
 @media (max-width:640px){.sth .ftv,.fth .ftv{left:5px;top:5px;right:auto;bottom:auto}}
 .fth .ftv,.sth .ftv{right:auto;bottom:auto}   /* TVING badge stayed stretched over the whole thumbnail on phones (David 2026-11-27) */
@@ -805,7 +807,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
 
 <dialog id="sheet" aria-labelledby="shTitle">
   <div class="sh-head">
-    <div class="sh-titles"><span class="label" id="shCat"></span><h2 id="shTitle"></h2><p class="orig" id="shOrig" hidden></p><p id="shMeta"></p></div>
+    <div class="sh-titles"><span class="label" id="shCat"></span><h2 id="shTitle"></h2><p class="orig" id="shOrig" hidden></p><p class="ctx" id="shCtx" hidden></p><p id="shMeta"></p></div>
     <button id="shClose" class="sh-x" type="button" data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="stage" id="stage"></div>
@@ -826,7 +828,7 @@ dialog.sp.sp-prep:not([open]){display:block;position:fixed;inset:0;margin:auto;o
     <div class="sp-side">
       <div class="sp-top"><span class="label" id="spCat"></span><button type="button" class="sh-x" data-close data-i18n-aria="close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
       <h2 id="spTitle"></h2>
-      <p class="orig" id="spOrig" hidden></p>
+      <p class="orig" id="spOrig" hidden></p><p class="ctx" id="spCtx" hidden></p>
       <p class="sp-meta" id="spMeta"></p>
       <div class="sp-rail">
         <div class="soc" id="spSoc" hidden></div>
@@ -2396,6 +2398,11 @@ const focusUp=l=>{ if(!FOCUS.on || !FOCUS.set.size || !(state.cat==="all"||state
   return out.concat(p.slice(k)) };
 /* Korea's trending now (per David 2026-11-27, both editions): live.js "trend" = YouTube's trending chart for Korea, entertainment
    only, refreshed every hour by scripts/daytime.mjs. Up to 6 of them come right after the front list and pins, in every tab. */
+/* why it's trending in Korea (per David 2026-11-27): one line under the title of the X-trend clips, written by Claude from the
+   X trend, its top posts and the clip titles (scripts/daytime.mjs → live.js "ctx"), in the viewer's language */
+const CTX=(function(){ const c=(window.LIVE||{}).ctx; return c&&typeof c==="object"?c:{} })();
+const ctxOf=id=>{ const c=CTX[id]; if(!c) return ""; return c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||c.en||"" };
+const ctxLine=id=>{ const c=ctxOf(id); return c?`<span class="fctx">🔥 ${esc(c)}</span>`:"" };
 const TREND=new Map(); (function(){ const T=(window.LIVE||{}).trend; if(!T||!Array.isArray(T.ids)||Date.now()-Date.parse(T.at)>36*3600e3) return; T.ids.forEach((id,k)=>TREND.set(id,k)) })();
 const trendUp=l=>{ if(!TREND.size || state.q.trim()) return l;
   const lead=l.slice(0,14).filter(v=>FRONT.has(v.id)||PINS.has(v.id)), ls=new Set(lead);
@@ -2438,7 +2445,7 @@ function fcard(v){
   const m=meta[v.id];
   return `<a class="fv" data-cat="${v.cat}" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" data-fv="${v.id}">
     <span class="fth"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)"><em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}${jaBadge(v)}</span>
-    <span class="ft${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
+    <span class="ft${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>${ctxLine(v.id)}
     <span class="fm"><span class="fch" data-fc="${v.id}">${m?esc(m.ch):"&nbsp;"}</span><span>${viewsLine(v)}</span></span>
   </a>`;
 }
@@ -2637,7 +2644,7 @@ function scard(v,k){
     <span class="sth">${v.tt?ttImg(v):`<img src="${sCard(v.id)}" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)">`}
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}${jaBadge(v)}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
-    <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>
+    <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>${ctxLine(v.id)}
     <span class="fch" data-fc="${v.id}">${m?esc(m.ch):"&nbsp;"}</span>
   </a>`;
 }
@@ -2864,6 +2871,7 @@ function spInfo(){
   $("#spCat").textContent=flabel(v.cat);
   $("#spTitle").textContent=title||t("loading");
   $("#spOrig").textContent = m.t && title!==m.t ? t("tr_orig",{t:m.t}) : ""; $("#spOrig").hidden = !(m.t && title!==m.t);
+  { const c=ctxOf(v.id); $("#spCtx").textContent=c?"🔥 "+c:""; $("#spCtx").hidden=!c }
   $("#spMeta").textContent=[m.ch, v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
   renderSoc("#spSoc", v.id);
   $("#spOpen").href=v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`;
@@ -3275,6 +3283,7 @@ function fillSheetText(){
   $("#shCat").textContent = it.feed ? flabel(it.cat) : catLabel(it.cat);
   $("#shTitle").textContent = title;
   $("#shOrig").textContent = title!==it.title ? t("tr_orig",{t:it.title}) : ""; $("#shOrig").hidden = title===it.title;
+  { const c=it.feed?ctxOf(it.feed.id):""; $("#shCtx").textContent=c?"🔥 "+c:""; $("#shCtx").hidden=!c }
   $("#shMeta").textContent = it.feed ? [it.who, flabel(it.cat), viewsLine(it.feed)].filter(Boolean).join(" · ")
     : `${it.who} · ${tx(it.kind)} · ${it.ongoing?t("weekly"):whenStr(it)}`;
   const b = it.blurb ? tx(it.blurb) : "";

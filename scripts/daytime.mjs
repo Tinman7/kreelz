@@ -145,6 +145,7 @@ if (process.env.YT_API_KEY) {
 // no news, politics or incidents), each new one searched once on YouTube (uploads of the last 48 hours, Korean, most viewed;
 // at most 2 a run and 15 a day = 1,500 of the 10,000 daily units). Up to 3 clips per trend lead live.js "trend" for 24 hours.
 let XCFG = { posts: false }; try { XCFG = JSON.parse(fs.readFileSync("scripts/xtrend.json", "utf8")); } catch (e) {}
+const xtexts = {}, xgot = {};   // per new trend: its top posts (text) and the clips found
 let xstate = old.xtr || { seen: {}, day: "", n: 0, picks: [] };
 if (process.env.X_BEARER && process.env.YT_API_KEY) {
   const today = new Date(NOW + 9 * 3600e3).toISOString().slice(0, 10);
@@ -173,6 +174,7 @@ if (process.env.X_BEARER && process.env.YT_API_KEY) {
       const tags = {}; for (const { p, sc } of top) for (const h of ((p.entities || {}).hashtags || [])) { const t = h.tag.replace(/_/g, " "); if (t && !q.includes(t) && !POL.test(t)) tags[t] = (tags[t] || 0) + sc + 1; }
       const extra = Object.keys(tags).sort((a, b) => tags[b] - tags[a]).slice(0, 2);
       if (extra.length) q = `${q} ${extra.join(" ")}`;
+      xtexts[n] = top.map(t => String(t.p.text || "").replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim().slice(0, 240)).filter(Boolean);
       console.log(`  [${n}] x posts: ${(xr.data || []).length}, top ${top.map(t => t.sc).join("/")} → "${q}"`);
     } catch (e) { console.log(`  [${n}] x posts failed:`, e.message); }
     try {
@@ -198,10 +200,29 @@ if (process.env.X_BEARER && process.env.YT_API_KEY) {
         got.push(c); if (got.length >= 3) break;
       }
       for (const c of got) xstate.picks.unshift({ id: c.id, at: NOW, kw: n });
+      if (got.length) xgot[n] = got;
       console.log(`  [${n}] ${got.length} clips:`, got.map(c => `${c.cat} ${c.views} ${c.t.slice(0, 40)}`).join(" / "));
     } catch (e) { console.log(`  [${n}] failed:`, e.message); }
   }
 }
+// one line on why it's trending, per new trend, in Japanese / English / Spanish (Claude; a few cents a day) → live.js "ctx" by clip
+const ctx = Object.fromEntries(Object.entries(old.ctx || {}).filter(([, c]) => c && NOW - (c.at || 0) < 36 * 3600e3));
+if (AK && Object.keys(xgot).length) try {
+  const input = Object.fromEntries(Object.entries(xgot).map(([n, got]) => [n, { trend: n, top_posts: xtexts[n] || [], clip_titles: got.map(c => c.t) }]));
+  const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST",
+    headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+    body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 3000, thinking: { type: "disabled" },
+      system: `You write one short line telling international K-content fans why something is trending in Korea right now. For each key you get a Korean X (Twitter) trend, the text of its most liked posts and the titles of YouTube clips about it.
+Write what happened and why Koreans are reacting, in your own words (never copy a post), as plain facts from the material only: no guessing, no rumours, no opinions, no hype words, no hashtags, no emojis. Name people the way fans abroad know them. At most 90 characters each.
+Give it in Japanese ("ja", natural for Japanese fans, Korean names in katakana with a middle dot), English ("en") and Latin American Spanish ("es"). If the material does not show what happened, use "" for all three.
+Output ONLY JSON: {"<key>": {"ja": "...", "en": "...", "es": "..."}, ...}`,
+      messages: [{ role: "user", content: JSON.stringify(input) }] }) });
+  const d = await r.json(); const t = (d.content || []).map(c => c.text || "").join("");
+  const o = r.ok ? JSON.parse(t.slice(t.indexOf("{"), t.lastIndexOf("}") + 1)) : {};
+  for (const [n, got] of Object.entries(xgot)) { const c = o[n]; if (!c || !(c.ja || c.en)) continue;
+    for (const g of got) ctx[g.id] = { ja: String(c.ja || "").slice(0, 120), en: String(c.en || "").slice(0, 120), es: String(c.es || "").slice(0, 120), kw: n, at: NOW };
+    console.log(`  ctx [${n}] ${c.en}`); }
+} catch (e) { console.log("ctx skipped:", e.message); }
 if (xstate.picks && xstate.picks.length) {
   const xi = [...new Set(xstate.picks.map(p => p.id))];
   trend = { at: (trend && trend.at) || new Date().toISOString(), ids: [...new Set([...xi, ...((trend && trend.ids) || [])])] };
@@ -261,7 +282,7 @@ const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   /
   .filter(x => HOLD.has(x[0]) || TRENDSET.has(x[0]) || Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
-const L = { ...old, ...(trend ? { trend } : {}), xtr: xstate, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
+const L = { ...old, ...(trend ? { trend } : {}), xtr: xstate, ctx, built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
 if (!DRY) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
 console.log(add.slice(0, 15).map(c => `  ${c.stage ? "stage" : c.cat} ${shorts.has(c.id) ? "short" : "video"} ${c.views} (${Math.round(c.rate)}/h) ${c.chName}: ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ channels: chans.size, feeds, feed_failed: feedFail, taking_off: cand.length, added: DRY ? 0 : add.length, would_add: add.length, shorts: add.filter(c => shorts.has(c.id)).length }));
