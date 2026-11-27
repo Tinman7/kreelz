@@ -148,17 +148,27 @@ if (process.env.YT_API_KEY) {
 let XCFG = { posts: false }; try { XCFG = JSON.parse(fs.readFileSync("scripts/xtrend.json", "utf8")); } catch (e) {}
 const xtexts = {}, xgot = {};   // per new trend: its top posts (text) and the clips found
 let xstate = old.xtr || { seen: {}, day: "", n: 0, picks: [] };
-if (process.env.X_BEARER && process.env.YT_API_KEY) {
+if (process.env.YT_API_KEY) {   // X trends when X_BEARER is set, otherwise Google Trends Korea (free RSS) — per David 2026-11-27, X flagged his accounts
   const today = new Date(NOW + 9 * 3600e3).toISOString().slice(0, 10);
   if (xstate.day !== today) { xstate.day = today; xstate.n = 0; }
   for (const k of Object.keys(xstate.seen)) if (NOW - xstate.seen[k] > 3 * DAY) delete xstate.seen[k];
   xstate.picks = (xstate.picks || []).filter(p => NOW - p.at < DAY);
   let xt = [];
-  try {
+  if (process.env.X_BEARER) try {
     const r = await fetch("https://api.x.com/2/trends/by/woeid/23424868?max_trends=30", { headers: { Authorization: `Bearer ${process.env.X_BEARER}` }, signal: AbortSignal.timeout(15000) });
     const j = await r.json(); xt = (j.data || []).map(x => String(x.trend_name || "").trim()).filter(Boolean);
     if (!r.ok) console.log("x trends:", r.status, JSON.stringify(j).slice(0, 200));
   } catch (e) { console.log("x trends failed:", e.message); }
+  // Google Trends: what Korea is searching right now (public RSS, no key, no cost) — each with the news headlines behind it,
+  // which feed the one-line "why it's trending" the same way X posts do
+  if (!xt.length) try {
+    const x = await (await fetch("https://trends.google.com/trending/rss?geo=KR", { signal: AbortSignal.timeout(15000) })).text();
+    for (const it of x.split("<item>").slice(1)) {
+      const tt = ((/<title>([\s\S]*?)<\/title>/.exec(it) || [])[1] || "").replace(/<!\[CDATA\[|\]\]>/g, "").trim(); if (!tt) continue;
+      xt.push(tt); xtexts[tt] = [...it.matchAll(/<ht:news_item_title>([\s\S]*?)<\/ht:news_item_title>/g)].map(m => m[1].replace(/<!\[CDATA\[|\]\]>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim()).slice(0, 4);
+    }
+    console.log(`google trends: ${xt.length} in Korea`);
+  } catch (e) { console.log("google trends failed:", e.message); }
   const titles = Object.values(vmeta).map(m => (m && m[0]) || "");
   const onSiteWord = w => { if (w.length < 2) return false; let n = 0; for (const t of titles) if (t.includes(w) && ++n >= 3) return true; return false; };
   const rel = xt.filter(n => { const w = n.replace(/^#/, "").replace(/_/g, " ").trim();
@@ -169,7 +179,7 @@ if (process.env.X_BEARER && process.env.YT_API_KEY) {
     xstate.seen[n] = NOW; xstate.n++;
     let q = n.replace(/^#/, "").replace(/_/g, " ");
     // the default rule: the most liked / retweeted video posts on the trend give the YouTube keywords (their hashtags)
-    if (XCFG.posts) try {
+    if (XCFG.posts && process.env.X_BEARER) try {
       const xr = await (await fetch("https://api.x.com/2/tweets/search/recent?" + new URLSearchParams({ query: `${n.startsWith("#") ? n : `"${q}"`} has:videos -is:retweet -is:reply`, max_results: String(Math.max(10, Math.min(100, XCFG.per_trend || 10))), sort_order: "relevancy", "tweet.fields": "public_metrics,entities,lang" }), { headers: { Authorization: `Bearer ${process.env.X_BEARER}` }, signal: AbortSignal.timeout(15000) })).json();
       const top = (xr.data || []).map(p => ({ p, sc: ((p.public_metrics || {}).like_count || 0) + 2 * ((p.public_metrics || {}).retweet_count || 0) })).sort((a, b) => b.sc - a.sc).slice(0, 3);
       const tags = {}; for (const { p, sc } of top) for (const h of ((p.entities || {}).hashtags || [])) { const t = h.tag.replace(/_/g, " "); if (t && !q.includes(t) && !POL.test(t)) tags[t] = (tags[t] || 0) + sc + 1; }
@@ -213,7 +223,7 @@ if (AK && Object.keys(xgot).length) try {
   const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST",
     headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
     body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 3000, thinking: { type: "disabled" },
-      system: `You write one short line telling international K-content fans why something is trending in Korea right now. For each key you get a Korean X (Twitter) trend, the text of its most liked posts and the titles of YouTube clips about it.
+      system: `You write one short line telling international K-content fans why something is trending in Korea right now. For each key you get a trend in Korea (from X or Google Trends), the text of its most liked X posts or the news headlines behind it (top_posts), and the titles of YouTube clips about it.
 Write what happened and why Koreans are reacting, in your own words (never copy a post), as plain facts from the material only: no guessing, no rumours, no opinions, no hype words, no hashtags, no emojis. Name people the way fans abroad know them. At most 90 characters each.
 Give it in Japanese ("ja", natural for Japanese fans, Korean names in katakana with a middle dot), English ("en") and Latin American Spanish ("es").
 Also a short story of 3-4 sentences (at most 320 characters) for fans who tap for more: who, what happened, how Korean viewers reacted, why it's fun — same rules, facts from the material only — as "sja", "sen", "ses".
