@@ -170,9 +170,14 @@ if (process.env.YT_API_KEY) {   // X trends when X_BEARER is set, otherwise Goog
     console.log(`google trends: ${xt.length} in Korea`);
   } catch (e) { console.log("google trends failed:", e.message); }
   const titles = Object.values(vmeta).map(m => (m && m[0]) || "");
-  const onSiteWord = w => { if (w.length < 2) return false; let n = 0; for (const t of titles) if (t.includes(w) && ++n >= 3) return true; return false; };
-  const rel = xt.filter(n => { const w = n.replace(/^#/, "").replace(/_/g, " ").trim();
-    return w && !POL.test(w) && !NEWSY.test(w) && (rank([w, ""]) || rankIn(JP_ARTISTS, [w, ""]) || onSiteWord(w)); });
+  const onSiteN = w => { if (w.length < 2) return 0; let n = 0; for (const t of titles) if (t.includes(w) && ++n >= 50) break; return n; };
+  // K-content first: a priority artist or a music show / awards / drama word, then words that are common in the site's titles
+  const KWORD = /뮤뱅|뮤직뱅크|음방|인가|엠카|쇼챔|음악중심|1위|컴백|comeback|\bmv\b|뮤비|teaser|티저|직캠|챌린지|드라마|예능|시상식|어워즈|awards|팬미팅|콘서트|아이돌/i;
+  const AD = /^#?[^\s]*(?:쁘아|뷰티|코스메틱|화장품|이벤트|할인|세일|증정)$/;
+  const rel = xt.map(n => { const w = n.replace(/^#/, "").replace(/_/g, " ").trim();
+    if (!w || POL.test(w) || NEWSY.test(w) || AD.test(n)) return null;
+    const sc = (rank([w, ""]) || rankIn(JP_ARTISTS, [w, ""]) ? 100 : 0) + (KWORD.test(w) ? 50 : 0) + Math.min(onSiteN(w), 50);
+    return sc >= 50 || onSiteN(w) >= 10 ? { n, sc } : null; }).filter(Boolean).sort((a, b) => b.sc - a.sc).map(x => x.n);
   const fresh = rel.filter(n => !xstate.seen[n]).slice(0, Math.max(0, Math.min(2, 15 - xstate.n)));
   console.log(`x trends: ${xt.length} in Korea, ${rel.length} about K-content (${rel.slice(0, 10).join(", ")}), searching ${fresh.join(", ") || "none"}`);
   for (const n of fresh) {
@@ -181,6 +186,7 @@ if (process.env.YT_API_KEY) {   // X trends when X_BEARER is set, otherwise Goog
     // the default rule: the most liked / retweeted video posts on the trend give the YouTube keywords (their hashtags)
     if (XCFG.posts && process.env.X_BEARER) try {
       const xr = await (await fetch("https://api.x.com/2/tweets/search/recent?" + new URLSearchParams({ query: `${n.startsWith("#") ? n : `"${q}"`} has:videos -is:retweet -is:reply`, max_results: String(Math.max(10, Math.min(100, XCFG.per_trend || 10))), sort_order: "relevancy", "tweet.fields": "public_metrics,entities,lang" }), { headers: { Authorization: `Bearer ${process.env.X_BEARER}` }, signal: AbortSignal.timeout(15000) })).json();
+      if (xr.errors || xr.status || xr.title) console.log(`  [${n}] x posts error:`, JSON.stringify(xr).slice(0, 200));
       const top = (xr.data || []).map(p => ({ p, sc: ((p.public_metrics || {}).like_count || 0) + 2 * ((p.public_metrics || {}).retweet_count || 0) })).sort((a, b) => b.sc - a.sc).slice(0, 3);
       const tags = {}; for (const { p, sc } of top) for (const h of ((p.entities || {}).hashtags || [])) { const t = h.tag.replace(/_/g, " "); if (t && !q.includes(t) && !POL.test(t)) tags[t] = (tags[t] || 0) + sc + 1; }
       const extra = Object.keys(tags).sort((a, b) => tags[b] - tags[a]).slice(0, 2);
