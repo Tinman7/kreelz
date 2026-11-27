@@ -2253,7 +2253,7 @@ const hotMix=l=>{ if(!PINS.size || !(state.cat==="all"||state.cat==="music") || 
   const S=l.filter(v=>PINS.has(v.id)).sort(by); let I=l.filter(v=>HOTSET.has(v.id)).sort(by); if(!S.length && !I.length) return l;
   if(REGION==="jp"){ const a=I.filter(v=>JPHOT.has(v.id)), o=I.filter(v=>!JPHOT.has(v.id)), m=[];   // /jp: the Japan-only hot clips (BTS in São Paulo) take turns with the others
     for(let k=0;k<a.length||k<o.length;k++){ if(k<a.length) m.push(a[k]); if(k<o.length) m.push(o[k]) } I=m }
-  const head=[]; for(let k=0; head.length<6 && (k<S.length||k<I.length); k++){ if(k<S.length) head.push(S[k]); if(head.length<6 && k<I.length) head.push(I[k]) }
+  const head=S.slice(0,6); for(let k=0; head.length<Math.max(6,S.length+2) && k<I.length; k++) head.push(I[k]);   // pinned shorts all lead (per David 2026-11-27), then the hot ones
   const used=new Set(head), hotRanks=new Set(S.concat(I).map(v=>PRIO[v.id]).filter(Boolean));
   const sc=v=>v.views/(Math.max(v.days,0)+1), seen=new Set(), others=[];
   for(const v of l.filter(v=>PRIO[v.id] && !hotRanks.has(PRIO[v.id]) && !PINS.has(v.id) && !HOTSET.has(v.id) && v.days>=0 && v.days<=7).sort((a,b)=>sc(b)-sc(a))){
