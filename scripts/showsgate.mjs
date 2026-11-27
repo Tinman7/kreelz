@@ -1,6 +1,6 @@
 // Shows tab clean-up (per David 2026-11-27: "케이팝 가수들이나 지금 화제가 되는 드라마의 유명한 배우들을 제외하고서는 그 쓸데없는
 // 엔터테인먼트 콘텐츠 다 없애버리고"): variety ("e") clips stay only when
-//   - a HYBE-label idol, TWICE or BLACKPINK (scripts/shows_stars.json) or a well-known actor (scripts/actors.mjs, scripts/shows_stars.json) is in it,
+//   - a HYBE-label idol, TWICE, BLACKPINK or another top idol group (shows_stars.json, hybe.mjs) or a well-known actor (scripts/actors.mjs, scripts/shows_stars.json) is in it,
 //   - or it has real subtitles (data/captions.json) or comes from a channel that subtitles for fans abroad (KBS WORLD TV …),
 //   - or it is a TVING Original (kept on purpose: TVING can't be watched outside Korea).
 // Pins, the front list, held clips and clips David sent (konbini ids) are never dropped.
@@ -8,10 +8,12 @@
 import fs from "node:fs";
 import zlib from "node:zlib";
 import { ACTORS, JP_ACTORS } from "./actors.mjs";
+import { ARTISTS, JP_ARTISTS, EXTRA_MALE } from "./hybe.mjs";
 
 let CFG = {}; try { CFG = JSON.parse(fs.readFileSync(new URL("./shows_stars.json", import.meta.url), "utf8")); } catch (e) {}
-// idols: every HYBE-label group + TWICE + BLACKPINK only (per David 2026-11-27); actors: scripts/actors.mjs + the file's list
-const RX = [...ACTORS, ...JP_ACTORS].map(a => a[2]).concat([...(CFG.idols || []), ...(CFG.actors || [])].map(s => new RegExp(s, "i")));
+// idols: every HYBE-label group + TWICE + BLACKPINK (the file) and the top idols the site already follows — Stray Kids, ATEEZ,
+// NCT, RIIZE, ... (scripts/hybe.mjs) (per David 2026-11-27); actors: scripts/actors.mjs + the file's list
+const RX = [...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE, ...ACTORS, ...JP_ACTORS].map(a => a[2]).concat([...(CFG.idols || []), ...(CFG.actors || [])].map(s => new RegExp(s, "i")));
 export const SUB_CH = /kbs world|arirang|kocowa|viki|netflix k-?content|tving global|mnet k-?pop|kbs kpop|1thek|dingo|studio choom/i;
 export const hasStar = text => RX.some(r => r.test(text));
 /** a variety clip worth keeping on the Shows tab? */
