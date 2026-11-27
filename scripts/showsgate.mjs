@@ -14,9 +14,16 @@ let CFG = {}; try { CFG = JSON.parse(fs.readFileSync(new URL("./shows_stars.json
 // idols: every HYBE-label group + TWICE + BLACKPINK (the file) and the top idols the site already follows — Stray Kids, ATEEZ,
 // NCT, RIIZE, ... (scripts/hybe.mjs) (per David 2026-11-27); actors: scripts/actors.mjs + the file's list
 const SM_OUT = new Set(CFG.sm_out || []);   // no SM Entertainment idols (per David 2026-11-27)
-const RX = [...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE].filter(a => !SM_OUT.has(a[0])).concat(ACTORS, JP_ACTORS).map(a => a[2]).concat([...(CFG.idols || []), ...(CFG.actors || [])].map(s => new RegExp(s, "i")));
+const R = l => l.map(x => typeof x === "string" ? new RegExp(x, "i") : x[2]);
+const IDOL = R([...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE].filter(a => !SM_OUT.has(a[0]))).concat(R(CFG.idols || []), R(CFG.actors || []));   // both editions
+const EN_ACT = R(ACTORS).concat(R(CFG.actors_en || []));   // English edition: actors popular in the West, Southeast Asia, Greater China
+const JP_ACT = R(JP_ACTORS).concat(R(CFG.actors_jp || []));   // Japan edition: actors popular in Japan
+const RX = IDOL.concat(EN_ACT, JP_ACT);
 export const SUB_CH = /kbs world|arirang|kocowa|viki|netflix k-?content|tving global|mnet k-?pop|kbs kpop|1thek|dingo|studio choom/i;
 export const hasStar = text => RX.some(r => r.test(text));
+/** which editions a Shows clip belongs to: {en, jp} (idols, current-drama actors, subtitles and TVING count on both) */
+export const showWhere = (text, other) => { if (other || IDOL.some(r => r.test(text))) return { en: true, jp: true };
+  return { en: EN_ACT.some(r => r.test(text)), jp: JP_ACT.some(r => r.test(text)) }; };
 /** a variety clip worth keeping on the Shows tab? */
 export const showOk = (title, chName, tags, opts = {}) =>
   hasStar(`${title || ""} ${chName || ""} ${Array.isArray(tags) ? tags.join(" ") : tags || ""}`) || SUB_CH.test(chName || "") || !!opts.captions || !!opts.tving;
@@ -35,12 +42,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     for (const k of ["pin", "hold"]) for (const id of ((W[k] || {}).ids || [])) keep.add(id);
     for (const id of (String(W.front || "").split("|")[1] || "").match(/.{11}/g) || []) keep.add(id); } catch (e) {}
   try { const K = JSON.parse(fs.readFileSync("scripts/konbini.json", "utf8")); for (const g of (K.groups || K)) for (const id of g.ids || []) keep.add(id); } catch (e) {}
-  const out = {}, drops = [];
+  const out = {}, drops = [], enx = [], jpx = [];
   for (const n of ["FEED", "SHORTS"]) {
     const s = str(n); let o = "";
     for (let i = 0; i + 16 <= s.length; i += 16) { const row = s.slice(i, i + 16), id = row.slice(0, 11);
       if (row[11] === "e" && !keep.has(id)) { const m = vm[id];
-        if (m && !showOk(m[0], m[2], m[5], { captions: cap[id] === 1, tving: TVO.has(id) })) { drops.push(id); continue; } }
+        if (m && !showOk(m[0], m[2], m[5], { captions: cap[id] === 1, tving: TVO.has(id) })) { drops.push(id); continue; }
+        if (m) { const w = showWhere(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`, cap[id] === 1 || TVO.has(id) || SUB_CH.test(m[2] || ""));
+          if (!w.en) enx.push(id); if (!w.jp) jpx.push(id); } }
       o += row; }
     out[n] = o;
   }
@@ -54,5 +63,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const v = W.v.filter(f), s2 = W.s.filter(f); liveDrop = W.v.length + W.s.length - v.length - s2.length;
       if (!DRY && liveDrop) { W.v = v; W.s = s2; fs.writeFileSync("live.js", "window.LIVE=" + JSON.stringify(W) + ";\n"); } } } catch (e) { console.log("live.js:", e.message); }
   console.log(`showsgate: live.js dropping ${liveDrop}`);
-  if (!DRY && drops.length) { for (const n of ["FEED", "SHORTS"]) h = h.replace(new RegExp(`const ${n} = "[^"]*"`), () => `const ${n} = "${out[n]}"`); fs.writeFileSync(site, h); }
+  console.log(`showsgate: kept only on the Japan edition ${enx.length}, only on the English edition ${jpx.length}`);
+  if (!DRY) { if (drops.length) for (const n of ["FEED", "SHORTS"]) h = h.replace(new RegExp(`const ${n} = "[^"]*"`), () => `const ${n} = "${out[n]}"`);
+    h = h.replace(/const PRIO_SHOW_ENX = "[^"]*";/, () => `const PRIO_SHOW_ENX = "${enx.join("")}";`).replace(/const PRIO_SHOW_JPX = "[^"]*";/, () => `const PRIO_SHOW_JPX = "${jpx.join("")}";`);
+    fs.writeFileSync(site, h); }
 }
