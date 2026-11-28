@@ -9,7 +9,7 @@ on:
     types: [completed]
   workflow_dispatch:
     inputs:
-      n: { description: "clips this run", required: false, default: "80" }
+      n: { description: "clips this run", required: false, default: "300" }
       max: { description: "channel names this run", required: false, default: "3000" }
 
 permissions:
@@ -36,7 +36,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          node scripts/vnotes.mjs --n=${{ inputs.n || '80' }}
+          node scripts/vnotes.mjs --n=${{ inputs.n || '300' }}
           node scripts/chnames.mjs --max=${{ inputs.max || '3000' }} || echo "channel names skipped"   # Korean channel names → English / Japanese (per David 2026-11-28)
       - name: Commit and publish
         env:

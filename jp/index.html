@@ -2437,7 +2437,7 @@ let VNOTES=null, vnLoad=null;
 const vnGet=()=> vnLoad=vnLoad||fetch("/data/vnotes.json").then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>{VNOTES=j||{};
   document.querySelectorAll("[data-ft]").forEach(el=>{ const id=el.dataset.ft; if(el.nextElementSibling&&el.nextElementSibling.dataset&&el.nextElementSibling.dataset.story) return; const h=ctxLine(id); if(h) el.insertAdjacentHTML("afterend",h) }) });
 setTimeout(vnGet, 2500);
-function showNote(sel, v){ const el=$(sel); el.hidden=true; if(!v||!(v.cat==="beauty"||v.cat==="mukbang")) return;
+function showNote(sel, v){ const el=$(sel); el.hidden=true; if(!v) return;   // every tab now (2026-11-28)
   const put=()=>{ const s=noteOf(v.id); el.textContent=s?"📝 "+s:""; el.hidden=!s };
   if(VNOTES) return put(); vnGet().then(put) }
 /* Beauty and K-Travel & Food: clips with subtitles in the viewer's language move up (per David 2026-11-27) — within the first 40,
