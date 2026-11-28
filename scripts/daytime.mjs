@@ -57,6 +57,10 @@ const inLive = new Set([...(old.v || []), ...(old.s || [])].map(x => x[0]));
 const ent = s => s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const cand = [];
 let feeds = 0, feedFail = 0;
+// ILLIT's '체포하겠어' challenge shorts with other idols (per David 2026-11-28: "공식 계정에 올라올 때마다 바로바로 업데이트"):
+// every upload of ILLIT's official channels that names the song goes in at once, whatever its views, and is held (see hold below)
+const ILLIT_CH = new Set((ARTISTS.find(a => a[0] === "ILLIT") || [, []])[1]), ARREST = /체포하겠어|under.?arrest|逮捕/i;
+const arrestIds = new Set();
 const list = [...chans.entries()];
 await Promise.all(Array.from({ length: 8 }, async () => {
   while (list.length) {
@@ -70,6 +74,9 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         const id = (e.match(/<yt:videoId>([\w-]{11})<\/yt:videoId>/) || [])[1]; if (!id || onSite.has(id) || inLive.has(id)) continue;
         const t = ent((e.match(/<title>([^<]*)<\/title>/) || [])[1] || ""), pub = (e.match(/<published>([^<]+)<\/published>/) || [])[1] || "";
         const views = +((e.match(/<media:statistics views="(\d+)"/) || [])[1] || 0), hrs = Math.max(1, (NOW - Date.parse(pub)) / 36e5);
+        if (t && pub && ILLIT_CH.has(ch) && ARREST.test(t) && hrs <= 14 * 24) {
+          arrestIds.add(id); cand.push({ id, ch, chName, cat: "m", t, pub, views, rate: Infinity, stage: true }); continue;
+        }
         if (!t || !pub || hrs > 48) continue;
         const stage = cat === "m" && (STAGE[ch] || [...ARTISTS, ...JP_ARTISTS].some(a => a[1].includes(ch)));
         if (!(stage ? views >= 15000 : views >= 80000 || views / hrs >= 4000)) continue;
@@ -299,11 +306,20 @@ for (const c of add) keep.set(c.id, [c.id, c.cat, c.views, kstDay(c.pub), rank([
 // hold (per David 2026-11-11): clips he asks for that were uploaded long ago stay in live.js until hold.until
 const TRENDSET = new Set((trend && trend.ids) || []);   // trending clips stay while they trend, whatever their upload day
 const HOLD = new Set(old.hold && old.hold.until >= kstDay(new Date().toISOString()) ? old.hold.ids || [] : []);
+const arrestNew = add.filter(c => arrestIds.has(c.id)).map(c => c.id);
+let hold = old.hold;
+if (arrestNew.length) {   // new '체포하겠어' challenge shorts stay at least 30 days
+  const until30 = kstDay(new Date(NOW + 30 * DAY).toISOString());
+  const base = HOLD.size ? old.hold : { until: until30, ids: [] };
+  hold = { until: base.until > until30 ? base.until : until30, ids: [...new Set([...(base.ids || []), ...arrestNew])] };
+  for (const id of arrestNew) HOLD.add(id);
+  console.log("체포하겠어 challenge (ILLIT official):", arrestNew.join(", "));
+}
 const all = [...keep.values()].filter(x => !onSite.has(x[0]) || x[10] !== 1)   // daytime finds the nightly took in are no longer needed here
   .filter(x => HOLD.has(x[0]) || TRENDSET.has(x[0]) || Date.now() - Date.parse(x[3]) < (x[10] === 1 ? 3 : 14) * DAY && !(x[10] === 1 && NEWSY.test(x[6])));
 const titles = new Set(all.map(x => x[6]));
 const trim = o => Object.fromEntries(Object.entries(o).filter(([k]) => titles.has(k)));
-const L = { ...old, ...(trend ? { trend } : {}), xtr: xstate, ctx, klocal: [...(old.v || []), ...(old.s || []), ...add.map(c => [c.id, c.cat, 0, 0, 0, 0, c.t, c.chName])].filter(x => x[1] === "m" && !isGlobal(`${x[6]} ${x[7]}`)).map(x => x[0]), built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
+const L = { ...old, ...(hold ? { hold } : {}), ...(trend ? { trend } : {}), xtr: xstate, ctx, klocal: [...(old.v || []), ...(old.s || []), ...add.map(c => [c.id, c.cat, 0, 0, 0, 0, c.t, c.chName])].filter(x => x[1] === "m" && !isGlobal(`${x[6]} ${x[7]}`)).map(x => x[0]), built: new Date().toISOString(), v: all.filter(x => !x[8]), s: all.filter(x => x[8]), ja: trim(tx.ja), en: trim(tx.en), es: trim(tx.es) };
 if (!DRY) fs.writeFileSync(OUT, "window.LIVE=" + JSON.stringify(L) + ";\n");
 console.log(add.slice(0, 15).map(c => `  ${c.stage ? "stage" : c.cat} ${shorts.has(c.id) ? "short" : "video"} ${c.views} (${Math.round(c.rate)}/h) ${c.chName}: ${c.t.slice(0, 70)}`).join("\n"));
 console.log(JSON.stringify({ channels: chans.size, feeds, feed_failed: feedFail, taking_off: cand.length, added: DRY ? 0 : add.length, would_add: add.length, shorts: add.filter(c => shorts.has(c.id)).length }));
