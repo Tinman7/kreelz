@@ -23,7 +23,12 @@ export const SUB_CH = /kbs world|arirang|kocowa|viki|netflix k-?content|tving gl
 export const hasStar = text => RX.some(r => r.test(text));
 /** artists never shown anywhere (per David 2026-11-28: RESCENE) */
 export const BLOCK = (CFG.block || []).length ? new RegExp((CFG.block || []).join("|"), "i") : null;
-export const blocked = text => !!BLOCK && BLOCK.test(text);
+/** negative, "reverse-viral" clips about people — controversies, feuds, bullying, hate comments, flaming — never on the site, however
+ *  many views or retweets (per David 2026-11-28). Drama / film scenes are not checked (their plots use these words). */
+export const NEG = /논란|불화|왕따|학폭|인성 ?(?:논란|문제|폭로|수준)|해체설|탈퇴설|열애설|자숙|구설|사과문|퇴출|비호감|무례|굴욕|망신|몰락|욕 ?먹(?:는|은|었|고)|악플|비판|비난|controvers|scandal|exposed|disrespect|backlash|炎上|不仲|物議|批判|叩かれ/i;
+export const NEG_OK = /논란 ?(?:종결|없이|방지)|흑역사|싸가지 \(feat|스캔들 의상|the ?scandal|cutest .?scandal/i;
+export const negative = text => NEG.test(text) && !NEG_OK.test(text);
+export const blocked = text => (!!BLOCK && BLOCK.test(text)) || negative(text);
 /** a K-pop clip of an idol known abroad (the site's lists, SM groups included — they are capped elsewhere) */
 const GLOBAL = R([...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE]).concat(R(CFG.idols || []));
 export const isGlobal = text => GLOBAL.some(r => r.test(text));
@@ -52,7 +57,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   for (const n of ["FEED", "SHORTS"]) {
     const s = str(n); let o = "";
     for (let i = 0; i + 16 <= s.length; i += 16) { const row = s.slice(i, i + 16), id = row.slice(0, 11);
-      { const m = vm[id]; if (m && !keep.has(id) && blocked(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`)) { drops.push(id); continue; } }
+      { const m = vm[id], c = row[11].toLowerCase(); if (m && !keep.has(id) && ((!!BLOCK && BLOCK.test(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`)) || (c !== "d" && c !== "f" && negative(m[0])))) { drops.push(id); continue; } }
       if (row[11].toLowerCase() === "e" && !keep.has(id)) { const m = vm[id];
         if (m && !showOk(m[0], m[2], m[5], { captions: cap[id] === 1, tving: TVO.has(id) })) { drops.push(id); continue; }
         if (m) { const w = showWhere(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`, cap[id] === 1 || TVO.has(id) || SUB_CH.test(m[2] || ""));
@@ -66,7 +71,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // live.js (clips found during the day): the same rule
   let liveDrop = 0;
   try { const src = fs.readFileSync("live.js", "utf8"), L = {}; new Function("window", src)(L); const W = L.LIVE;
-    if (W && Array.isArray(W.v)) { const f = x => !blocked(`${x[6]} ${x[7]}`) && (x[1] !== "e" || keep.has(x[0]) || showOk(x[6], x[7], "", { captions: cap[x[0]] === 1, tving: TVO.has(x[0]) }));
+    if (W && Array.isArray(W.v)) { const f = x => !(BLOCK && BLOCK.test(`${x[6]} ${x[7]}`)) && (x[1] === "d" || x[1] === "f" || !negative(x[6])) && (x[1] !== "e" || keep.has(x[0]) || showOk(x[6], x[7], "", { captions: cap[x[0]] === 1, tving: TVO.has(x[0]) }));
       const v = W.v.filter(f), s2 = W.s.filter(f); liveDrop = W.v.length + W.s.length - v.length - s2.length;
       if (!DRY && liveDrop) { W.v = v; W.s = s2; fs.writeFileSync("live.js", "window.LIVE=" + JSON.stringify(W) + ";\n"); } } } catch (e) { console.log("live.js:", e.message); }
   console.log(`showsgate: live.js dropping ${liveDrop}`);

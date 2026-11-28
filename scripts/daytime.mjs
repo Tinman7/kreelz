@@ -77,7 +77,7 @@ await Promise.all(Array.from({ length: 8 }, async () => {
         if (NEWSY.test(t)) continue;   // accident / crime / court-case clips are not what fans come for
         // from the busiest channels (not the stage / artist ones): Korean content only — a Korean title or a priority artist
         if (!stage && !/[가-힣]/.test(t) && !rank([t, ch]) && !rankIn(JP_ARTISTS, [t, ch])) continue;
-        const cat2 = gate(cat, t, chName, ""); if (!cat2 || blocked(`${t} ${chName}`) || (cat2 === "e" && !showOk(t, chName, ""))) continue;
+        const cat2 = gate(cat, t, chName, ""); if (!cat2 || (blocked(`${t} ${chName}`) && cat2 !== "d" && cat2 !== "f") || (cat2 === "e" && !showOk(t, chName, ""))) continue;
         cand.push({ id, ch, chName, cat: cat2, t, pub, views, rate: views / hrs, stage });
       }
     } catch (e) { feedFail++; }
