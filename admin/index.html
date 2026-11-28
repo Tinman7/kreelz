@@ -139,7 +139,7 @@ tfoot td{font-weight:800;border-bottom:0}
 
 <section id="denied" class="login card" hidden>
   <h1>접근 권한이 없습니다</h1>
-  <p>관리자 계정(kreelzkorea@gmail.com)으로만 볼 수 있습니다.</p>
+  <p>관리자로 등록된 이메일로만 볼 수 있습니다. 다른 이메일을 쓰려면 Supabase에서 setup/admins.sql로 등록하세요.</p>
   <button class="btn" id="out2" type="button">로그아웃</button>
 </section>
 
@@ -419,7 +419,8 @@ $("#out").addEventListener("click",logout); $("#out2").addEventListener("click",
 async function start(){
   const {data}=await sb.auth.getSession(); const u=data.session&&data.session.user;
   if(!u || u.is_anonymous){ show("#login"); return }
-  if((u.email||"").toLowerCase()!==ADMIN){ show("#denied"); return }
+  // admins: kreelzkorea@gmail.com + the emails in Supabase's admin_emails table (setup/admins.sql, per David 2026-11-28)
+  if((u.email||"").toLowerCase()!==ADMIN){ const r=await sb.rpc("am_i_admin"); if(r.error||r.data!==true){ show("#denied"); return } }
   show("#app"); load(); liveLoop();
 }
 sb.auth.onAuthStateChange((ev)=>{ if(ev==="SIGNED_IN") start() });
