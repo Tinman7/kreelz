@@ -1,5 +1,5 @@
 {
- "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group except NewJeans (per David: 뉴진스는 빼) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese. No SM Entertainment idols (per David 2026-11-27; 'sm_out' are taken out of the hybe.mjs lists here). MAMAMOO stays. Actors by edition (per David 2026-11-27): the English edition keeps actors popular in the West, Southeast Asia and Greater China (scripts/actors.mjs ACTORS + 'actors_en'); the Japan edition keeps actors popular in Japan (JP_ACTORS + 'actors_jp'); 'actors' (current hot dramas) count on both.",
+ "_note": "Star Shows tab (per David 2026-11-27): variety clips stay only with these idols — every HYBE-label group except NewJeans (per David: 뉴진스는 빼) plus TWICE, BLACKPINK and the other top idol groups (this list + scripts/hybe.mjs: Stray Kids, ATEEZ, aespa, NCT, RIIZE, ...) — or the well-known actors (scripts/actors.mjs + 'actors' below), subtitled clips, or TVING Originals. Regex, Korean|English|Japanese. No SM Entertainment idols (per David 2026-11-27; 'sm_out' are taken out of the hybe.mjs lists here). MAMAMOO stays. Actors by edition (per David 2026-11-27): the English edition keeps actors popular in the West, Southeast Asia and Greater China (scripts/actors.mjs ACTORS + 'actors_en'); the Japan edition keeps actors popular in Japan (JP_ACTORS + 'actors_jp'); 'actors' (current hot dramas) count on both. 'block': artists never shown anywhere on the site (per David 2026-11-28: RESCENE).",
  "idols": [
   "방탄소년단|\\bbts\\b|bangtan|防弾少年団|정국|jung ?kook|ジョングク|지민|\\bjimin\\b|ジミン|김태형|태형|taehyung|テテ|김석진|석진|\\bjin\\b(?=.*bts)|슈가|\\bsuga\\b|민윤기|제이홉|j-?hope|정호석|김남준|\\bRM\\b(?=.*bts)",
   "투모로우바이투게더|투바투|\\btxt\\b|tomorrow ?x ?together|연준|yeonjun|수빈(?=.*(?:투바투|txt))|범규|beomgyu|태현(?=.*(?:투바투|txt))|휴닝카이|hueningkai",
@@ -108,5 +108,8 @@
   "손예진|ソン・?イェジン",
   "김수현|キム・?スヒョン",
   "공유(?![가-힣])|コン・?ユ"
+ ],
+ "block": [
+  "리센느|리센드|rescene|リセンヌ"
  ]
 }

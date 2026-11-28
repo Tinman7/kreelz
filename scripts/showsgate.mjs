@@ -21,6 +21,12 @@ const JP_ACT = R(JP_ACTORS).concat(R(CFG.actors_jp || []));   // Japan edition: 
 const RX = IDOL.concat(EN_ACT, JP_ACT);
 export const SUB_CH = /kbs world|arirang|kocowa|viki|netflix k-?content|tving global|mnet k-?pop|kbs kpop|1thek|dingo|studio choom/i;
 export const hasStar = text => RX.some(r => r.test(text));
+/** artists never shown anywhere (per David 2026-11-28: RESCENE) */
+export const BLOCK = (CFG.block || []).length ? new RegExp((CFG.block || []).join("|"), "i") : null;
+export const blocked = text => !!BLOCK && BLOCK.test(text);
+/** a K-pop clip of an idol known abroad (the site's lists, SM groups included — they are capped elsewhere) */
+const GLOBAL = R([...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE]).concat(R(CFG.idols || []));
+export const isGlobal = text => GLOBAL.some(r => r.test(text));
 /** which editions a Shows clip belongs to: {en, jp} (idols, current-drama actors, subtitles and TVING count on both) */
 export const showWhere = (text, other) => { if (other || IDOL.some(r => r.test(text))) return { en: true, jp: true };
   return { en: EN_ACT.some(r => r.test(text)), jp: JP_ACT.some(r => r.test(text)) }; };
@@ -46,6 +52,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   for (const n of ["FEED", "SHORTS"]) {
     const s = str(n); let o = "";
     for (let i = 0; i + 16 <= s.length; i += 16) { const row = s.slice(i, i + 16), id = row.slice(0, 11);
+      { const m = vm[id]; if (m && !keep.has(id) && blocked(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`)) { drops.push(id); continue; } }
       if (row[11].toLowerCase() === "e" && !keep.has(id)) { const m = vm[id];
         if (m && !showOk(m[0], m[2], m[5], { captions: cap[id] === 1, tving: TVO.has(id) })) { drops.push(id); continue; }
         if (m) { const w = showWhere(`${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`, cap[id] === 1 || TVO.has(id) || SUB_CH.test(m[2] || ""));
@@ -59,7 +66,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // live.js (clips found during the day): the same rule
   let liveDrop = 0;
   try { const src = fs.readFileSync("live.js", "utf8"), L = {}; new Function("window", src)(L); const W = L.LIVE;
-    if (W && Array.isArray(W.v)) { const f = x => x[1] !== "e" || keep.has(x[0]) || showOk(x[6], x[7], "", { captions: cap[x[0]] === 1, tving: TVO.has(x[0]) });
+    if (W && Array.isArray(W.v)) { const f = x => !blocked(`${x[6]} ${x[7]}`) && (x[1] !== "e" || keep.has(x[0]) || showOk(x[6], x[7], "", { captions: cap[x[0]] === 1, tving: TVO.has(x[0]) }));
       const v = W.v.filter(f), s2 = W.s.filter(f); liveDrop = W.v.length + W.s.length - v.length - s2.length;
       if (!DRY && liveDrop) { W.v = v; W.s = s2; fs.writeFileSync("live.js", "window.LIVE=" + JSON.stringify(W) + ";\n"); } } } catch (e) { console.log("live.js:", e.message); }
   console.log(`showsgate: live.js dropping ${liveDrop}`);
