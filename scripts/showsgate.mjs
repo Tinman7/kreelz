@@ -27,7 +27,11 @@ export const BLOCK = (CFG.block || []).length ? new RegExp((CFG.block || []).joi
  *  many views or retweets (per David 2026-11-28). Drama / film scenes are not checked (their plots use these words). */
 export const NEG = /논란|불화|왕따|학폭|인성 ?(?:논란|문제|폭로|수준)|해체설|탈퇴설|열애설|자숙|구설|사과문|퇴출|비호감|무례|굴욕|망신|몰락|욕 ?먹(?:는|은|었|고)|악플|비판|비난|controvers|scandal|exposed|disrespect|backlash|炎上|不仲|物議|批判|叩かれ/i;
 export const NEG_OK = /논란 ?(?:종결|없이|방지)|흑역사|싸가지 \(feat|스캔들 의상|the ?scandal|cutest .?scandal/i;
-export const negative = text => NEG.test(text) && !NEG_OK.test(text);
+// playful variety jokes are fine (per David 2026-11-28: "장난스럽게 한 재미있는 예능은 논란거리가 아니니까"): a laughing title keeps
+// the mild words (굴욕, 망신, "빵 이름 논란ㅋㅋ"), never the hard ones
+const HARD = /학폭|왕따|인성 ?(?:논란|문제|폭로|수준)|불화|악플|열애설|해체설|탈퇴설|자숙|사과문|퇴출|비판|비난|scandal|controvers|backlash|disrespect|exposed|炎上|不仲|批判|叩かれ/i;
+const LAUGH = /ㅋㅋ|ㅎㅎ|😂|🤣|😆|😹|\blol\b|\blmao\b|笑|爆笑|www/i;
+export const negative = text => NEG.test(text) && !NEG_OK.test(text) && (HARD.test(text) || !LAUGH.test(text));
 export const blocked = text => (!!BLOCK && BLOCK.test(text)) || negative(text);
 /** a K-pop clip of an idol known abroad (the site's lists, SM groups included — they are capped elsewhere) */
 const GLOBAL = R([...ARTISTS, ...JP_ARTISTS, ...EXTRA_MALE]).concat(R(CFG.idols || []));
