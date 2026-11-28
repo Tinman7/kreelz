@@ -16,7 +16,8 @@ const REDO = new Set(); for (const [id, c] of Object.entries(notes)) if (c && (/
 const rows = [];
 for (const n of ["FEED", "SHORTS"]) { const s = (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || "";
   for (let i = 0; i + 16 <= s.length; i += 16) { const id = s.slice(i, i + 11), c = s[i + 11].toLowerCase(); if ((c === "b" || c === "k") && !(id in notes)) rows.push({ id, c, v: dec2(s.slice(i + 12, i + 14)) }); } }
-rows.sort((a, b) => (REDO.has(b.id) - REDO.has(a.id)) || b.v - a.v);   // the ones to write again first const pick = rows.slice(0, N);
+rows.sort((a, b) => (REDO.has(b.id) - REDO.has(a.id)) || b.v - a.v);   // the ones to write again first
+const pick = rows.slice(0, N);
 console.log(`vnotes: ${Object.keys(notes).length} done, ${rows.length} Beauty / Travel & Food clips left, doing ${pick.length}`);
 if (!KEY || !AK || !pick.length) process.exit(0);
 

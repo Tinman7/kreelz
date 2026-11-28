@@ -1811,6 +1811,13 @@ const YT_API_KEY = "";
 const TX_ENDPOINT = "";
 const TX_MM_EMAIL = "";
 const HANGUL = /[가-힣ㄱ-ㆎ]/;
+/* channel names: never in Korean on the English / Japanese / Spanish pages (per David 2026-11-28) — data/chnames.json has an
+   English and a Japanese name for each Korean channel name (scripts/chnames.mjs); until one is there the Latin part of the
+   name is shown ("루시 Lucy ASMR" → "Lucy ASMR"), or nothing */
+let CHN={}; fetch("/data/chnames.json").then(r=>r.ok?r.json():{}).catch(()=>({})).then(j=>{ CHN=j||{};
+  document.querySelectorAll("[data-fc]").forEach(el=>{ const m=meta[el.dataset.fc]; if(m) el.textContent=chN(m.ch) }) });
+function chN(n){ n=String(n||""); if(!HANGUL.test(n)) return n; const c=CHN[n]; if(c){ const x=c[state.lang==="ja"?"ja":"en"]||c.en; if(x&&!HANGUL.test(x)) return x }
+  const l=n.replace(/[가-힣ㄱ-ㆎ]+/g," ").replace(/[\[\]()（）【】|·•_\-~!?.,]+/g," ").replace(/\s+/g," ").trim(); return /[A-Za-z]{2}/.test(l)?l:"" }
 const TXCODE = {en:["en"],tl:["fil","tl","en"],th:["th","en"],id:["id","en"],es:["es","en"],ja:["ja","en"]};
 const GTCODE = {en:"en",tl:"tl",th:"th",id:"id",es:"es",ja:"ja"};
 const TX = {api: ("Translator" in self) ? self.Translator : null, cache:{}, q:[], pending:new Set(), active:0, tr:{}, mmOff:false};
@@ -2480,7 +2487,7 @@ function fcard(v){
   return `<a class="fv" data-cat="${v.cat}" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" data-fv="${v.id}">
     <span class="fth"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" data-alt="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy" onload="ssTh(this)" onerror="ssTh(this,1)"><em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}${jaBadge(v)}</span>
     <span class="ft${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>${ctxLine(v.id)}
-    <span class="fm"><span class="fch" data-fc="${v.id}">${m?esc(m.ch):"&nbsp;"}</span><span>${viewsLine(v)}</span></span>
+    <span class="fm"><span class="fch" data-fc="${v.id}">${m?esc(chN(m.ch)):"&nbsp;"}</span><span>${viewsLine(v)}</span></span>
   </a>`;
 }
 const PAGE=()=>mobile()?24:48;
@@ -2527,7 +2534,7 @@ function fillMeta(id){
   const m=meta[id]; if(!m) return;
   const shown=tx(m.t);
   document.querySelectorAll(`[data-ft="${CSS.escape(id)}"]`).forEach(el=>{el.textContent=shown;el.classList.remove("ld");el.title=shown!==m.t?m.t:""});
-  document.querySelectorAll(`[data-fc="${CSS.escape(id)}"]`).forEach(el=>{el.textContent=m.ch});
+  document.querySelectorAll(`[data-fc="${CSS.escape(id)}"]`).forEach(el=>{el.textContent=chN(m.ch)});
   if(typeof sp!=="undefined" && sp.open && sstate.list[spIdx] && sstate.list[spIdx].id===id) spInfo();
 }
 const tio = "IntersectionObserver" in window ? new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){tio.unobserve(e.target);const id=e.target.dataset.ft;if(!meta[id]){tq.push(id);pumpTitles()}}})},{rootMargin:"300px"}) : null;
@@ -2598,7 +2605,7 @@ $("#fgrid").addEventListener("click",e=>{
   if(!state.embeds) return;   // can't play inside this page: let the link open YouTube directly, one click
   e.preventDefault();
   const v=FV.find(x=>x.id===a.dataset.fv), m=meta[v.id]||{};
-  openSheet({cat:v.cat,title:m.t||"YouTube video",who:m.ch||"YouTube",feed:v,blurb:"",videos:[{p:"yt",id:v.id,label:m.t||"",ch:m.ch||""}]});
+  openSheet({cat:v.cat,title:m.t||"YouTube video",who:chN(m.ch)||"YouTube",feed:v,blurb:"",videos:[{p:"yt",id:v.id,label:m.t||"",ch:chN(m.ch)||""}]});
 });
 
 
@@ -2696,7 +2703,7 @@ function scard(v,k){
       <em class="fcat">${esc(flabel(v.cat))}</em>${v.ok?okIcon():""}${isNew(v)?newBadge():""}${jaBadge(v)}
       ${v.views>=0?`<span class="sviews"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg>${esc(nfmt(v.views))}</span>`:""}</span>
     <span class="ft st${m?"":" ld"}" data-ft="${v.id}">${m?esc(tx(m.t)):esc(t("loading"))}</span>${ctxLine(v.id)}
-    <span class="fch" data-fc="${v.id}">${m?esc(m.ch):"&nbsp;"}</span>
+    <span class="fch" data-fc="${v.id}">${m?esc(chN(m.ch)):"&nbsp;"}</span>
   </a>`;
 }
 const SPAGE=()=>12;
@@ -2925,7 +2932,7 @@ function spInfo(){
   { const c=ctxOf(v.id); $("#spCtx").textContent=c?"🔥 "+c:""; $("#spCtx").hidden=!c }
   showNote("#spNote", v);
   { const b=$("#spCC"); b.hidden=!state.embeds; b.disabled=false; b.textContent="CC · "+t(CAPSET.has(v.id)?"cc_on":"cc_auto"); b.dataset.id=v.id }
-  $("#spMeta").textContent=[m.ch, v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
+  $("#spMeta").textContent=[chN(m.ch), v.views>=0?t("views",{n:nfmt(v.views)}):""].filter(Boolean).join(" · ");
   renderSoc("#spSoc", v.id);
   $("#spOpen").href=v.tt?ttURL(v):`https://www.youtube.com/shorts/${v.id}`;
   $("#spOpen").innerHTML=`<svg class="sp-ico" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" class="f"/></svg><span class="lg">${esc(t("open_on",{p:v.nc?"NAVER Clip":v.tt?"TikTok":"YouTube"}))} ${arrow}</span><span class="sm">${v.nc?"NAVER":v.tt?"TikTok":"YouTube"}</span>`;
@@ -3012,7 +3019,7 @@ $("#spShare").addEventListener("click",async()=>{
 (function(){ let id=""; try{ id=new URLSearchParams(location.search).get("v")||"" }catch(e){} if(!/^[\w-]{11}$/.test(id)) return;
   let n=0; const go=async()=>{ if(!state.embeds){ if(++n<25) setTimeout(go,300); return }
     const v=FV.find(x=>x.id===id)||{id,cat:"all",views:-1,days:-1}; let m=meta[id]; if(!m){ try{ m=await ttMeta(id) }catch(e){} } m=m||{};
-    openSheet({cat:v.cat,title:m.t||"YouTube video",who:m.ch||"YouTube",feed:v,blurb:"",videos:[{p:"yt",id,label:m.t||"",ch:m.ch||""}]}) };
+    openSheet({cat:v.cat,title:m.t||"YouTube video",who:chN(m.ch)||"YouTube",feed:v,blurb:"",videos:[{p:"yt",id,label:m.t||"",ch:chN(m.ch)||""}]}) };
   setTimeout(go,300) })();
 /* Faster first play: once the page is idle, a hidden YouTube player loads once so its program files are in the
    browser cache before the first click (skipped on data saver / slow connections); hovering a video (desktop) also

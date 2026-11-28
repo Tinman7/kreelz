@@ -283,7 +283,8 @@ Rules:
 - Output ONLY a JSON object: {"<key>": "<Spanish title>", ...} with exactly the keys you were given.`;
 // new finds, and earlier daytime finds still without a good translation (a Japanese "translation" left in Korean is redone)
 for (const x of [...(old.v || []), ...(old.s || [])]) if (x[10] === 1 && tx.ja[x[6]] && /[가-힣]/.test(tx.ja[x[6]])) delete tx.ja[x[6]];
-const daytimeTitles = [...add.map(c => c.t), ...[...(old.v || []), ...(old.s || [])].filter(x => x[10] === 1).map(x => x[6])];
+// every title in live.js, not only the daytime finds: nothing stays in Korean on the English / Japanese pages (per David 2026-11-28)
+const daytimeTitles = [...add.map(c => c.t), ...[...(old.v || []), ...(old.s || [])].map(x => x[6])];
 const need = l => [...new Set(daytimeTitles.filter(t => !tx[l][t] && (l === "ja" ? !/[ぁ-んァ-ヶ]/.test(t) : /[가-힣]/.test(t))))];
 if (!DRY) {
   Object.assign(tx.ja, await claude(SYSTEM_JA, need("ja")));
