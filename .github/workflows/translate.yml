@@ -34,7 +34,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TX_MINUTES: ${{ inputs.minutes }}
-          TX_PAR: "10"
+          TX_PAR: "3"   # the Claude key allows 80k output tokens a minute (2026-11-28: 10 at once hit 429)
           TX_PASSES: ${{ inputs.passes }}
         run: |
           set -o pipefail
