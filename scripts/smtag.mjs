@@ -13,12 +13,17 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const site = process.argv[2] || "index.html"; let h = fs.readFileSync(site, "utf8");
   if (!/const PRIO_SM = "[^"]*";/.test(h)) { console.log("smtag: no PRIO_SM in", site); process.exit(0); }
   let vm = {}; try { vm = JSON.parse(zlib.gunzipSync(fs.readFileSync("data/vmeta.json.gz"))); } catch (e) {}
-  const ids = [], local = [];   // local: K-pop clips of acts not known abroad (per David 2026-11-28) — kept off the first 12 shorts
+  const ids = [], local = [];
+  // the first screen always holds one ILLIT, one BTS and one CORTIS clip (per David 2026-11-28, until he says otherwise)
+  const MUST = { illit: /아일릿|illit|アイリット|원희|wonhee|ウォンヒ|이로하|iroha/i, bts: /방탄소년단|\bbts\b|bangtan|防弾|정국|jung ?kook|지민|\bjimin\b|태형|taehyung|\bv\b(?= ?\(?bts)|슈가|\bsuga\b|제이홉|j-?hope|김남준|\bRM\b(?=.*bts)|석진|\bjin\b(?=.*bts)/i, cortis: /코르티스|cortis|コルティス/i };
+  const must = { illit: [], bts: [], cortis: [] };   // local: K-pop clips of acts not known abroad (per David 2026-11-28) — kept off the first 12 shorts
   for (const n of ["FEED", "SHORTS"]) { const s = (new RegExp(`const ${n} = "([^"]*)"`).exec(h) || [])[1] || "";
     for (let i = 0; i + 16 <= s.length; i += 16) { const id = s.slice(i, i + 11), m = vm[id]; if (s[i + 11].toLowerCase() !== "m" || !m) continue;
       const txt = `${m[0]} ${m[2]} ${(m[5] || []).join(" ")}`;
+      for (const k in MUST) if (MUST[k].test(txt) && must[k].length < 300) must[k].push(id);
       if (SM_CH.has(m[1]) || SM_RX.test(txt)) ids.push(id); else if (!isGlobal(txt)) local.push(id); } }
   h = h.replace(/const PRIO_SM = "[^"]*";/, () => `const PRIO_SM = "${[...new Set(ids)].join("")}";`)
-       .replace(/const PRIO_KLOCAL = "[^"]*";/, () => `const PRIO_KLOCAL = "${[...new Set(local)].join("")}";`);
+       .replace(/const PRIO_KLOCAL = "[^"]*";/, () => `const PRIO_KLOCAL = "${[...new Set(local)].join("")}";`)
+       .replace(/const PRIO_MUST = "[^"]*";/, () => `const PRIO_MUST = "${Object.entries(must).map(([k, v]) => k + ":" + v.join("")).join("|")}";`);
   fs.writeFileSync(site, h); console.log("smtag:", ids.length, "SM clips in Music,", local.length, "of acts not known abroad");
 }
