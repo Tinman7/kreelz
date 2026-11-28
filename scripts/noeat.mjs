@@ -19,6 +19,7 @@ export const EAT_CH = new Set([
   "당비 Dangbee EATING", "Captain-Q ASMR 캡틴큐", "Eddy ASMR 에디", "차니세끼", "꿀발견", "푸디라임", "유노-Yuno", "현오 HyunO",
   "또호 DDO_HO", "또솔 DDO_SOL", "팀브라더스", "sini시니", "푸디앨리", "잡솨", "한식푸우 Korean food", "준맛 jun taste", "밥주니",
   "봉길이 Bonggil", "VNM ASMR", "효닝 Hyoning", "김복순", "대평이 Daepyeong",
+  "맵하니Maphany", "뚱쁨로그",   // 시장 '털기' / 고도비만 먹방 (per David 2026-11-28)
   "Ssoyoung", "Hamzy", "Tzuyang", "Boki", "Heebab", "zach choi ASMR", "SAS-ASMR", "Bethany Gaskin", "Nikocado Avocado",
 ]);
 const norm = s => String(s || "").toLowerCase().replace(/\s+/g, "");
@@ -34,6 +35,9 @@ const EAT_CH_RE = /(mukbang|먹방|eating)\s*(asmr)?$|^(asmr|먹방)/i;   // cha
 
 // any food-tab clip whose title says mukbang, whatever the channel (per David 2026-11-02: "투어앤푸드에서 먹방 타이틀 다 빼")
 export const MUK_T = /먹방|モッパン|mukbang|mokbang|meokbang/i;
+// overeating in food-tab clips, travel vlogs included (per David 2026-11-28: "푸드앤트래블에서 과도하게 먹는 영상 제거"):
+// 爆食 / 食べまくる trips, 시장 털기, 배 터지는, N kg 찐, 1박9끼, 완뽕 도전, 무한리필, 식사량·식성 TV clips …
+export const OVEREAT = /爆食|食べ尽く|食べまく|食い倒れ|大食|食べ放題|限界まで.{0,6}食|食べて食べて|お腹いっぱい食べ|たくさん食べた|食べたいもの全部|何品食べ|배\s*터[지져질졌]|배터[지져질졌]|털기|털어\s*봤|다\s*털어\s*봤|섬멸|완뽕|완식\s*도전|\d+\s*(kg|킬로|キロ)\s*(찐|증가|쪘|増)|\+\s*\d+\s*kg|kg\s*増加|\d+\s*kg\s*[^|]{0,8}먹었|인생\s*최고\s*몸무게|\d+\s*박\s*\d+\s*끼|십\s*끼|먹다\s*지친|무한\s*리필|뷔페\s*(털|뿌|격파)|식사량|식성|한\s*끼에\s*[^|]{0,6}그릇|유명한\s*건\s*다\s*먹|다\s*먹고\s*(왔|도)|먹는\s*게\s*너무\s*많|고도\s*비만|먹고\s*먹고|24\s*hours?\s*eating|eating\s*only|\d+\s*(개|봉지|그릇|인분|접시)\s*(에|을|를|로)?\s*[^|]{0,12}(섬멸|흡입|클리어|해치|순삭)/i;
 export function eatBlocked(title, channel, cat) {
   const c = norm(channel);
   if (EAT_CHN.has(c)) return true;
@@ -41,6 +45,7 @@ export function eatBlocked(title, channel, cat) {
   if (KEEP_CH.has(c)) return false;
   if (cat && !/^(k|mukbang)$/i.test(cat)) return false;
   const t = String(title || "");
+  if (OVEREAT.test(t)) return true;
   return EAT_T.test(t) || (BAKU.test(t) && !TRIP.test(t)) || EAT_CH_RE.test(String(channel || "").trim());
 }
 
