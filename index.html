@@ -2415,9 +2415,10 @@ const focusUp=l=>{ if(!FOCUS.on || !FOCUS.set.size || !(state.cat==="all"||state
 /* why it's trending in Korea (per David 2026-11-27): one line under the title of the X-trend clips, written by Claude from the
    X trend, its top posts and the clip titles (scripts/daytime.mjs → live.js "ctx"), in the viewer's language */
 const CTX=(function(){ const c=(window.LIVE||{}).ctx; return c&&typeof c==="object"?c:{} })();
-const ctxOf=id=>{ const c=CTX[id]; if(!c) return ""; return c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||c.en||"" };
-const storyOf=id=>{ const c=CTX[id]; if(!c) return ""; return c[state.lang==="ja"?"sja":state.lang==="es"?"ses":"sen"]||c.sen||"" };
-const noteOf=id=>{ const c=VNOTES&&VNOTES[id]; return c?(c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||c.en||""):"" };
+// a line still in Korean (HANGUL) is not shown (per David 2026-11-28: English edition in English, /jp in Japanese)
+const ctxOf=id=>{ const c=CTX[id]; if(!c) return ""; const t=c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||(state.lang==="ja"?"":c.en)||""; return HANGUL.test(t)?"":t };
+const storyOf=id=>{ const c=CTX[id]; if(!c) return ""; const t=c[state.lang==="ja"?"sja":state.lang==="es"?"ses":"sen"]||(state.lang==="ja"?"":c.sen)||""; return HANGUL.test(t)?"":t };
+const noteOf=id=>{ const c=VNOTES&&VNOTES[id]; if(!c) return ""; const t=c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||(state.lang==="ja"?"":c.en)||""; return HANGUL.test(t)?"":t };
 /* per David 2026-11-27: a tappable line under the card title — 🔥 why it's trending / 📝 what's in it; tap → a small sheet with
    the title, that line and a 3–4 line story, and a play button (the card itself still opens the player) */
 const ctxLine=id=>{ const c=ctxOf(id); if(c) return `<span class="fctx" data-story="${id}" role="button">🔥 ${esc(c)} <b>›</b></span>`;
@@ -2428,7 +2429,7 @@ const vnGet=()=> vnLoad=vnLoad||fetch("/data/vnotes.json").then(r=>r.ok?r.json()
   document.querySelectorAll("[data-ft]").forEach(el=>{ const id=el.dataset.ft; if(el.nextElementSibling&&el.nextElementSibling.dataset&&el.nextElementSibling.dataset.story) return; const h=ctxLine(id); if(h) el.insertAdjacentHTML("afterend",h) }) });
 setTimeout(vnGet, 2500);
 function showNote(sel, v){ const el=$(sel); el.hidden=true; if(!v||!(v.cat==="beauty"||v.cat==="mukbang")) return;
-  const put=()=>{ const c=VNOTES&&VNOTES[v.id]; const s=c?(c[state.lang==="ja"?"ja":state.lang==="es"?"es":"en"]||c.en):""; el.textContent=s?"📝 "+s:""; el.hidden=!s };
+  const put=()=>{ const s=noteOf(v.id); el.textContent=s?"📝 "+s:""; el.hidden=!s };
   if(VNOTES) return put(); vnGet().then(put) }
 /* Beauty and K-Travel & Food: clips with subtitles in the viewer's language move up (per David 2026-11-27) — within the first 40,
    a captioned clip goes up to 8 places ahead, so the tab's own mix stays */

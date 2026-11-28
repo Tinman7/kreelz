@@ -230,7 +230,7 @@ if (AK && Object.keys(xgot).length) try {
     headers: { "x-api-key": AK, "anthropic-version": "2023-06-01", "content-type": "application/json" },
     body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 3000, thinking: { type: "disabled" },
       system: `You write one short line telling international K-content fans why something is trending in Korea right now. For each key you get a trend in Korea (from X or Google Trends), the text of its most liked X posts or the news headlines behind it (top_posts), and the titles of YouTube clips about it.
-Write what happened and why Koreans are reacting, in your own words (never copy a post), as plain facts from the material only: no guessing, no rumours, no opinions, no hype words, no hashtags, no emojis. Name people the way fans abroad know them. At most 90 characters each.
+Write what happened and why Koreans are reacting, in your own words (never copy a post), as plain facts from the material only: no guessing, no rumours, no opinions, no hype words, no hashtags, no emojis. Name people the way fans abroad know them. At most 90 characters each. Never write Korean script (Hangul) — romanize names in "en"/"es", katakana in "ja".
 Give it in Japanese ("ja", natural for Japanese fans, Korean names in katakana with a middle dot), English ("en") and Latin American Spanish ("es").
 Also a short story of 3-4 sentences (at most 320 characters) for fans who tap for more: who, what happened, how Korean viewers reacted, why it's fun — same rules, facts from the material only — as "sja", "sen", "ses".
 If the material does not show what happened, use "" for everything.
