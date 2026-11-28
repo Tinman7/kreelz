@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       passes:
-        description: "ja = Japanese only (kreelz.com/jp); all = Japanese, then en/tl/th/id/es"
+        description: "ja = Japanese only (kreelz.com/jp); ja,en,es = the approved three; all = Japanese, then en/tl/th/id/es"
         default: "ja"
         type: choice
-        options: [ja, all]
+        options: [ja, "ja,en,es", all]
       minutes:
         description: "translation time limit (minutes)"
         default: "170"
